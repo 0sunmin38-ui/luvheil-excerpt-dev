@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>v2 컬러 팔레트 선택</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Pretendard", -apple-system, sans-serif;
+  background: #F5F5F7;
+  padding: 40px 20px;
+  min-height: 100vh;
+}
+h1 {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #1C1C1E;
+}
+.subtitle {
+  text-align: center;
+  color: #636366;
+  font-size: 14px;
+  margin-bottom: 40px;
+}
+.palettes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.palette {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.palette-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.palette-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+.palette-name {
+  font-size: 16px;
+  font-weight: 700;
+}
+.palette-desc {
+  font-size: 12px;
+  color: #636366;
+  margin-top: 2px;
+}
+.colors {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.color-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.color-swatch {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+.color-info {
+  flex: 1;
+}
+.color-name {
+  font-size: 12px;
+  color: #636366;
+}
+.color-hex {
+  font-size: 11px;
+  font-family: monospace;
+  color: #AEAEB2;
+}
+
+/* 미니 프리뷰 */
+.preview {
+  background: #F5F5F7;
+  border-radius: 12px;
+  padding: 16px;
+}
+.preview-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.preview-brand {
+  font-size: 13px;
+  font-weight: 700;
+}
+.preview-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+}
+.preview-tabs {
+  display: flex;
+  gap: 4px;
+  background: #E5E5EA;
+  border-radius: 8px;
+  padding: 3px;
+  margin-bottom: 12px;
+}
+.preview-tab {
+  flex: 1;
+  text-align: center;
+  padding: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 6px;
+  color: #636366;
+}
+.preview-tab.active {
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.preview-section {
+  background: #fff;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 8px;
+}
+.preview-section-title {
+  font-size: 10px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.preview-section-icon {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+}
+.preview-chips {
+  display: flex;
+  gap: 4px;
+}
+.preview-chip {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 9px;
+  border: 1px solid;
+}
+
+/* 듀오 컬러 팔레트 */
+.palette.duo .palette-num {
+  background: linear-gradient(135deg, var(--p1) 50%, var(--p2) 50%);
+}
+.duo-swatches {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.duo-swatch {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.duo-swatch .swatch {
+  height: 48px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+.duo-swatch .label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #636366;
+}
+.duo-swatch .hex {
+  font-size: 10px;
+  font-family: monospace;
+  color: #AEAEB2;
+}
+.section-divider {
+  text-align: center;
+  padding: 40px 0 20px;
+  color: #636366;
+  font-size: 14px;
+  font-weight: 600;
+}
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  display: inline-block;
+  width: 60px;
+  height: 1px;
+  background: #E5E5EA;
+  vertical-align: middle;
+  margin: 0 16px;
+}
+/* Semantic colors */
+.preview-semantic {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #F0F0F2;
+}
+.semantic-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  color: #636366;
+}
+.semantic-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+/* Duo palette semantic swatches */
+.duo-semantic {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  margin-bottom: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #F0F0F2;
+}
+.duo-semantic-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.duo-semantic-item .swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+.duo-semantic-item .info {
+  font-size: 10px;
+}
+.duo-semantic-item .name {
+  font-weight: 600;
+  color: #636366;
+}
+.duo-semantic-item .hex {
+  font-family: monospace;
+  color: #AEAEB2;
+}
+</style>
+</head>
+<body>
+
+<h1>v2 컬러 팔레트</h1>
+<p class="subtitle">Primary 컬러 기준으로 전체 톤이 결정됩니다. 마음에 드는 것을 골라주세요!</p>
+
+<div class="palettes">
+
+  <!-- 1. 민트/그린 (더 그린 톤) -->
+  <div class="palette">
+    <div class="palette-header">
+      <div class="palette-num" style="background: #3DA583;">1</div>
+      <div>
+        <div class="palette-name">Mint / Green</div>
+        <div class="palette-desc">상쾌하고 현대적인, 집중을 돕는</div>
+      </div>
+    </div>
+    <div class="colors">
+      <div class="color-row">
+        <div class="color-swatch" style="background: #3DA583;"></div>
+        <div class="color-info"><div class="color-name">Primary</div><div class="color-hex">#3DA583</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #2E8B6A;"></div>
+        <div class="color-info"><div class="color-name">Primary Hover</div><div class="color-hex">#2E8B6A</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: rgba(61, 165, 131, 0.12);"></div>
+        <div class="color-info"><div class="color-name">Primary Muted</div><div class="color-hex">rgba(61, 165, 131, 0.12)</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #4A9B8E;"></div>
+        <div class="color-info"><div class="color-name">Success</div><div class="color-hex">#4A9B8E (Teal)</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #D4954A;"></div>
+        <div class="color-info"><div class="color-name">Warning</div><div class="color-hex">#D4954A</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #C75B58;"></div>
+        <div class="color-info"><div class="color-name">Danger</div><div class="color-hex">#C75B58</div></div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="preview-topbar">
+        <span class="preview-brand">채팅 발췌기</span>
+        <span class="preview-btn" style="background: #3DA583;">저장</span>
+      </div>
+      <div class="preview-tabs">
+        <div class="preview-tab active" style="color: #1C1C1E;">작성</div>
+        <div class="preview-tab">설정</div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-section-title">
+          <span class="preview-section-icon" style="background: rgba(61, 165, 131, 0.12); color: #3DA583;">●</span>
+          캐릭터
+        </div>
+        <div class="preview-chips">
+          <span class="preview-chip" style="background: rgba(61, 165, 131, 0.12); border-color: #3DA583; color: #3DA583;">버디</span>
+          <span class="preview-chip" style="background: #F5F5F7; border-color: #E5E5EA; color: #636366;">하일</span>
+        </div>
+        <div class="preview-semantic">
+          <div class="semantic-item"><span class="semantic-dot" style="background: #4A9B8E;"></span>Success</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #D4954A;"></span>Warning</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #C75B58;"></span>Danger</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 라벤더/바이올렛 (더 어두운 톤) -->
+  <div class="palette">
+    <div class="palette-header">
+      <div class="palette-num" style="background: #6D4ABA;">2</div>
+      <div>
+        <div class="palette-name">Lavender / Violet</div>
+        <div class="palette-desc">부드럽고 감성적인, 창작에 어울리는</div>
+      </div>
+    </div>
+    <div class="colors">
+      <div class="color-row">
+        <div class="color-swatch" style="background: #6D4ABA;"></div>
+        <div class="color-info"><div class="color-name">Primary</div><div class="color-hex">#6D4ABA</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #5A3A9E;"></div>
+        <div class="color-info"><div class="color-name">Primary Hover</div><div class="color-hex">#5A3A9E</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: rgba(109, 74, 186, 0.12);"></div>
+        <div class="color-info"><div class="color-name">Primary Muted</div><div class="color-hex">rgba(109, 74, 186, 0.12)</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #7BA97B;"></div>
+        <div class="color-info"><div class="color-name">Success</div><div class="color-hex">#7BA97B</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #D4954A;"></div>
+        <div class="color-info"><div class="color-name">Warning</div><div class="color-hex">#D4954A</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #C75B58;"></div>
+        <div class="color-info"><div class="color-name">Danger</div><div class="color-hex">#C75B58</div></div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="preview-topbar">
+        <span class="preview-brand">채팅 발췌기</span>
+        <span class="preview-btn" style="background: #6D4ABA;">저장</span>
+      </div>
+      <div class="preview-tabs">
+        <div class="preview-tab active" style="color: #1C1C1E;">작성</div>
+        <div class="preview-tab">설정</div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-section-title">
+          <span class="preview-section-icon" style="background: rgba(109, 74, 186, 0.12); color: #6D4ABA;">●</span>
+          캐릭터
+        </div>
+        <div class="preview-chips">
+          <span class="preview-chip" style="background: rgba(109, 74, 186, 0.12); border-color: #6D4ABA; color: #6D4ABA;">버디</span>
+          <span class="preview-chip" style="background: #F5F5F7; border-color: #E5E5EA; color: #636366;">하일</span>
+        </div>
+        <div class="preview-semantic">
+          <div class="semantic-item"><span class="semantic-dot" style="background: #7BA97B;"></span>Success</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #D4954A;"></span>Warning</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #C75B58;"></span>Danger</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 핑크코랄 -->
+  <div class="palette">
+    <div class="palette-header">
+      <div class="palette-num" style="background: #E8788A;">3</div>
+      <div>
+        <div class="palette-name">Pink Coral</div>
+        <div class="palette-desc">따뜻하고 친근한, 대화에 어울리는</div>
+      </div>
+    </div>
+    <div class="colors">
+      <div class="color-row">
+        <div class="color-swatch" style="background: #E8788A;"></div>
+        <div class="color-info"><div class="color-name">Primary</div><div class="color-hex">#E8788A</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #D65C70;"></div>
+        <div class="color-info"><div class="color-name">Primary Hover</div><div class="color-hex">#D65C70</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: rgba(232, 120, 138, 0.12);"></div>
+        <div class="color-info"><div class="color-name">Primary Muted</div><div class="color-hex">rgba(232, 120, 138, 0.12)</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #7BA97B;"></div>
+        <div class="color-info"><div class="color-name">Success</div><div class="color-hex">#7BA97B</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #D4954A;"></div>
+        <div class="color-info"><div class="color-name">Warning</div><div class="color-hex">#D4954A</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #8B4049;"></div>
+        <div class="color-info"><div class="color-name">Danger</div><div class="color-hex">#8B4049 (Burgundy)</div></div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="preview-topbar">
+        <span class="preview-brand">채팅 발췌기</span>
+        <span class="preview-btn" style="background: #E8788A;">저장</span>
+      </div>
+      <div class="preview-tabs">
+        <div class="preview-tab active" style="color: #1C1C1E;">작성</div>
+        <div class="preview-tab">설정</div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-section-title">
+          <span class="preview-section-icon" style="background: rgba(232, 120, 138, 0.12); color: #E8788A;">●</span>
+          캐릭터
+        </div>
+        <div class="preview-chips">
+          <span class="preview-chip" style="background: rgba(232, 120, 138, 0.12); border-color: #E8788A; color: #E8788A;">버디</span>
+          <span class="preview-chip" style="background: #F5F5F7; border-color: #E5E5EA; color: #636366;">하일</span>
+        </div>
+        <div class="preview-semantic">
+          <div class="semantic-item"><span class="semantic-dot" style="background: #7BA97B;"></span>Success</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #D4954A;"></span>Warning</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #8B4049;"></span>Danger</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 세이지/올리브 -->
+  <div class="palette">
+    <div class="palette-header">
+      <div class="palette-num" style="background: #6B8E6B;">4</div>
+      <div>
+        <div class="palette-name">Sage / Olive</div>
+        <div class="palette-desc">자연스럽고 편안한, 차분하게 집중하는</div>
+      </div>
+    </div>
+    <div class="colors">
+      <div class="color-row">
+        <div class="color-swatch" style="background: #6B8E6B;"></div>
+        <div class="color-info"><div class="color-name">Primary</div><div class="color-hex">#6B8E6B</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #5A7A5A;"></div>
+        <div class="color-info"><div class="color-name">Primary Hover</div><div class="color-hex">#5A7A5A</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: rgba(107, 142, 107, 0.12);"></div>
+        <div class="color-info"><div class="color-name">Primary Muted</div><div class="color-hex">rgba(107, 142, 107, 0.12)</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #4A9B8E;"></div>
+        <div class="color-info"><div class="color-name">Success</div><div class="color-hex">#4A9B8E (Teal)</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #D4954A;"></div>
+        <div class="color-info"><div class="color-name">Warning</div><div class="color-hex">#D4954A</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #C75B58;"></div>
+        <div class="color-info"><div class="color-name">Danger</div><div class="color-hex">#C75B58</div></div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="preview-topbar">
+        <span class="preview-brand">채팅 발췌기</span>
+        <span class="preview-btn" style="background: #6B8E6B;">저장</span>
+      </div>
+      <div class="preview-tabs">
+        <div class="preview-tab active" style="color: #1C1C1E;">작성</div>
+        <div class="preview-tab">설정</div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-section-title">
+          <span class="preview-section-icon" style="background: rgba(107, 142, 107, 0.12); color: #6B8E6B;">●</span>
+          캐릭터
+        </div>
+        <div class="preview-chips">
+          <span class="preview-chip" style="background: rgba(107, 142, 107, 0.12); border-color: #6B8E6B; color: #6B8E6B;">버디</span>
+          <span class="preview-chip" style="background: #F5F5F7; border-color: #E5E5EA; color: #636366;">하일</span>
+        </div>
+        <div class="preview-semantic">
+          <div class="semantic-item"><span class="semantic-dot" style="background: #4A9B8E;"></span>Success</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #D4954A;"></span>Warning</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #C75B58;"></span>Danger</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. 슬레이트/그레이 -->
+  <div class="palette">
+    <div class="palette-header">
+      <div class="palette-num" style="background: #64748B;">5</div>
+      <div>
+        <div class="palette-name">Slate / Neutral</div>
+        <div class="palette-desc">미니멀하고 깔끔한, 콘텐츠에 집중하는</div>
+      </div>
+    </div>
+    <div class="colors">
+      <div class="color-row">
+        <div class="color-swatch" style="background: #64748B;"></div>
+        <div class="color-info"><div class="color-name">Primary</div><div class="color-hex">#64748B</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #475569;"></div>
+        <div class="color-info"><div class="color-name">Primary Hover</div><div class="color-hex">#475569</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: rgba(100, 116, 139, 0.12);"></div>
+        <div class="color-info"><div class="color-name">Primary Muted</div><div class="color-hex">rgba(100, 116, 139, 0.12)</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #7BA97B;"></div>
+        <div class="color-info"><div class="color-name">Success</div><div class="color-hex">#7BA97B</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #D4954A;"></div>
+        <div class="color-info"><div class="color-name">Warning</div><div class="color-hex">#D4954A</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #C75B58;"></div>
+        <div class="color-info"><div class="color-name">Danger</div><div class="color-hex">#C75B58</div></div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="preview-topbar">
+        <span class="preview-brand">채팅 발췌기</span>
+        <span class="preview-btn" style="background: #64748B;">저장</span>
+      </div>
+      <div class="preview-tabs">
+        <div class="preview-tab active" style="color: #1C1C1E;">작성</div>
+        <div class="preview-tab">설정</div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-section-title">
+          <span class="preview-section-icon" style="background: rgba(100, 116, 139, 0.12); color: #64748B;">●</span>
+          캐릭터
+        </div>
+        <div class="preview-chips">
+          <span class="preview-chip" style="background: rgba(100, 116, 139, 0.12); border-color: #64748B; color: #64748B;">버디</span>
+          <span class="preview-chip" style="background: #F5F5F7; border-color: #E5E5EA; color: #636366;">하일</span>
+        </div>
+        <div class="preview-semantic">
+          <div class="semantic-item"><span class="semantic-dot" style="background: #7BA97B;"></span>Success</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #D4954A;"></span>Warning</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #C75B58;"></span>Danger</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. 앰버/골드 -->
+  <div class="palette">
+    <div class="palette-header">
+      <div class="palette-num" style="background: #D97706;">6</div>
+      <div>
+        <div class="palette-name">Amber / Gold</div>
+        <div class="palette-desc">고급스럽고 따뜻한, 클래식한 느낌</div>
+      </div>
+    </div>
+    <div class="colors">
+      <div class="color-row">
+        <div class="color-swatch" style="background: #D97706;"></div>
+        <div class="color-info"><div class="color-name">Primary</div><div class="color-hex">#D97706</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #B45309;"></div>
+        <div class="color-info"><div class="color-name">Primary Hover</div><div class="color-hex">#B45309</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: rgba(217, 119, 6, 0.12);"></div>
+        <div class="color-info"><div class="color-name">Primary Muted</div><div class="color-hex">rgba(217, 119, 6, 0.12)</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #7BA97B;"></div>
+        <div class="color-info"><div class="color-name">Success</div><div class="color-hex">#7BA97B</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #E86830;"></div>
+        <div class="color-info"><div class="color-name">Warning</div><div class="color-hex">#E86830 (Orange)</div></div>
+      </div>
+      <div class="color-row">
+        <div class="color-swatch" style="background: #C75B58;"></div>
+        <div class="color-info"><div class="color-name">Danger</div><div class="color-hex">#C75B58</div></div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="preview-topbar">
+        <span class="preview-brand">채팅 발췌기</span>
+        <span class="preview-btn" style="background: #D97706;">저장</span>
+      </div>
+      <div class="preview-tabs">
+        <div class="preview-tab active" style="color: #1C1C1E;">작성</div>
+        <div class="preview-tab">설정</div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-section-title">
+          <span class="preview-section-icon" style="background: rgba(217, 119, 6, 0.12); color: #D97706;">●</span>
+          캐릭터
+        </div>
+        <div class="preview-chips">
+          <span class="preview-chip" style="background: rgba(217, 119, 6, 0.12); border-color: #D97706; color: #D97706;">버디</span>
+          <span class="preview-chip" style="background: #F5F5F7; border-color: #E5E5EA; color: #636366;">하일</span>
+        </div>
+        <div class="preview-semantic">
+          <div class="semantic-item"><span class="semantic-dot" style="background: #7BA97B;"></span>Success</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #E86830;"></span>Warning</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #C75B58;"></span>Danger</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 듀오 컬러 섹션 -->
+<div class="section-divider">Duo Color Palettes</div>
+
+<div class="palettes">
+
+  <!-- 7. 맛챠 + 버터 옐로우 -->
+  <div class="palette duo" style="--p1: #8A9F7A; --p2: #F8E29D;">
+    <div class="palette-header">
+      <div class="palette-num">7</div>
+      <div>
+        <div class="palette-name">Matcha + Butter</div>
+        <div class="palette-desc">자연스럽고 따뜻한, 봄 감성</div>
+      </div>
+    </div>
+    <div class="duo-swatches">
+      <div class="duo-swatch">
+        <div class="swatch" style="background: #8A9F7A;"></div>
+        <div class="label">Primary (맛챠)</div>
+        <div class="hex">#8A9F7A</div>
+        <div class="swatch" style="background: #728563; height: 24px; margin-top: 4px;"></div>
+        <div class="hex">Hover #728563</div>
+      </div>
+      <div class="duo-swatch">
+        <div class="swatch" style="background: #F8E29D;"></div>
+        <div class="label">Secondary (버터)</div>
+        <div class="hex">#F8E29D</div>
+        <div class="swatch" style="background: #E5CF8A; height: 24px; margin-top: 4px;"></div>
+        <div class="hex">Hover #E5CF8A</div>
+      </div>
+    </div>
+    <div class="duo-semantic">
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #4A9B8E;"></div>
+        <div class="info"><div class="name">Success</div><div class="hex">#4A9B8E</div></div>
+      </div>
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #D4954A;"></div>
+        <div class="info"><div class="name">Warning</div><div class="hex">#D4954A</div></div>
+      </div>
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #C75B58;"></div>
+        <div class="info"><div class="name">Danger</div><div class="hex">#C75B58</div></div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="preview-topbar">
+        <span class="preview-brand">채팅 발췌기</span>
+        <span class="preview-btn" style="background: #8A9F7A;">저장</span>
+      </div>
+      <div class="preview-tabs">
+        <div class="preview-tab active" style="color: #1C1C1E;">작성</div>
+        <div class="preview-tab">설정</div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-section-title">
+          <span class="preview-section-icon" style="background: rgba(138, 159, 122, 0.15); color: #8A9F7A;">●</span>
+          캐릭터
+        </div>
+        <div class="preview-chips">
+          <span class="preview-chip" style="background: rgba(138, 159, 122, 0.15); border-color: #8A9F7A; color: #627052;">버디</span>
+          <span class="preview-chip" style="background: rgba(248, 226, 157, 0.25); border-color: #E8D28D; color: #9A8545;">하일</span>
+        </div>
+        <div class="preview-semantic">
+          <div class="semantic-item"><span class="semantic-dot" style="background: #4A9B8E;"></span>Success</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #D4954A;"></span>Warning</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #C75B58;"></span>Danger</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. 올드 코퍼 + 옐로우 -->
+  <div class="palette duo" style="--p1: #775537; --p2: #F8E29D;">
+    <div class="palette-header">
+      <div class="palette-num">8</div>
+      <div>
+        <div class="palette-name">Old Copper + Yellow</div>
+        <div class="palette-desc">빈티지하고 레트로한, 여름 해변</div>
+      </div>
+    </div>
+    <div class="duo-swatches">
+      <div class="duo-swatch">
+        <div class="swatch" style="background: #775537;"></div>
+        <div class="label">Primary (올드코퍼)</div>
+        <div class="hex">#775537</div>
+        <div class="swatch" style="background: #5E432B; height: 24px; margin-top: 4px;"></div>
+        <div class="hex">Hover #5E432B</div>
+      </div>
+      <div class="duo-swatch">
+        <div class="swatch" style="background: #F8E29D;"></div>
+        <div class="label">Secondary (버터)</div>
+        <div class="hex">#F8E29D</div>
+        <div class="swatch" style="background: #E5CF8A; height: 24px; margin-top: 4px;"></div>
+        <div class="hex">Hover #E5CF8A</div>
+      </div>
+    </div>
+    <div class="duo-semantic">
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #7BA97B;"></div>
+        <div class="info"><div class="name">Success</div><div class="hex">#7BA97B</div></div>
+      </div>
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #E86830;"></div>
+        <div class="info"><div class="name">Warning</div><div class="hex">#E86830</div></div>
+      </div>
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #C75B58;"></div>
+        <div class="info"><div class="name">Danger</div><div class="hex">#C75B58</div></div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="preview-topbar">
+        <span class="preview-brand">채팅 발췌기</span>
+        <span class="preview-btn" style="background: #775537;">저장</span>
+      </div>
+      <div class="preview-tabs">
+        <div class="preview-tab active" style="color: #1C1C1E;">작성</div>
+        <div class="preview-tab">설정</div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-section-title">
+          <span class="preview-section-icon" style="background: rgba(119, 85, 55, 0.12); color: #775537;">●</span>
+          캐릭터
+        </div>
+        <div class="preview-chips">
+          <span class="preview-chip" style="background: rgba(119, 85, 55, 0.12); border-color: #775537; color: #5E432B;">버디</span>
+          <span class="preview-chip" style="background: rgba(248, 226, 157, 0.30); border-color: #E8D28D; color: #9A8545;">하일</span>
+        </div>
+        <div class="preview-semantic">
+          <div class="semantic-item"><span class="semantic-dot" style="background: #7BA97B;"></span>Success</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #E86830;"></span>Warning</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #C75B58;"></span>Danger</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. 다크브라운 + 민트블루 -->
+  <div class="palette duo" style="--p1: #8B5A4A; --p2: #86ABCB;">
+    <div class="palette-header">
+      <div class="palette-num">9</div>
+      <div>
+        <div class="palette-name">Coffee + Sky</div>
+        <div class="palette-desc">대비가 있는, 세련된 조합</div>
+      </div>
+    </div>
+    <div class="duo-swatches">
+      <div class="duo-swatch">
+        <div class="swatch" style="background: #8B5A4A;"></div>
+        <div class="label">Primary (커피)</div>
+        <div class="hex">#8B5A4A</div>
+        <div class="swatch" style="background: #6F473A; height: 24px; margin-top: 4px;"></div>
+        <div class="hex">Hover #6F473A</div>
+      </div>
+      <div class="duo-swatch">
+        <div class="swatch" style="background: #86ABCB;"></div>
+        <div class="label">Secondary (스카이)</div>
+        <div class="hex">#86ABCB</div>
+        <div class="swatch" style="background: #6E96B8; height: 24px; margin-top: 4px;"></div>
+        <div class="hex">Hover #6E96B8</div>
+      </div>
+    </div>
+    <div class="duo-semantic">
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #7BA97B;"></div>
+        <div class="info"><div class="name">Success</div><div class="hex">#7BA97B</div></div>
+      </div>
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #D4954A;"></div>
+        <div class="info"><div class="name">Warning</div><div class="hex">#D4954A</div></div>
+      </div>
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #C75B58;"></div>
+        <div class="info"><div class="name">Danger</div><div class="hex">#C75B58</div></div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="preview-topbar">
+        <span class="preview-brand">채팅 발췌기</span>
+        <span class="preview-btn" style="background: #8B5A4A;">저장</span>
+      </div>
+      <div class="preview-tabs">
+        <div class="preview-tab active" style="color: #1C1C1E;">작성</div>
+        <div class="preview-tab">설정</div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-section-title">
+          <span class="preview-section-icon" style="background: rgba(139, 90, 74, 0.12); color: #8B5A4A;">●</span>
+          캐릭터
+        </div>
+        <div class="preview-chips">
+          <span class="preview-chip" style="background: rgba(139, 90, 74, 0.12); border-color: #8B5A4A; color: #6F473A;">버디</span>
+          <span class="preview-chip" style="background: rgba(134, 171, 203, 0.20); border-color: #86ABCB; color: #5A7A96;">하일</span>
+        </div>
+        <div class="preview-semantic">
+          <div class="semantic-item"><span class="semantic-dot" style="background: #7BA97B;"></span>Success</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #D4954A;"></span>Warning</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #C75B58;"></span>Danger</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. 핑크 + 브라운 -->
+  <div class="palette duo" style="--p1: #E5A2A0; --p2: #6B3C2E;">
+    <div class="palette-header">
+      <div class="palette-num">10</div>
+      <div>
+        <div class="palette-name">Rose + Cocoa</div>
+        <div class="palette-desc">로맨틱하고 고급스러운</div>
+      </div>
+    </div>
+    <div class="duo-swatches">
+      <div class="duo-swatch">
+        <div class="swatch" style="background: #E5A2A0;"></div>
+        <div class="label">Primary (로즈)</div>
+        <div class="hex">#E5A2A0</div>
+        <div class="swatch" style="background: #D4888A; height: 24px; margin-top: 4px;"></div>
+        <div class="hex">Hover #D4888A</div>
+      </div>
+      <div class="duo-swatch">
+        <div class="swatch" style="background: #6B3C2E;"></div>
+        <div class="label">Secondary (코코아)</div>
+        <div class="hex">#6B3C2E</div>
+        <div class="swatch" style="background: #522D22; height: 24px; margin-top: 4px;"></div>
+        <div class="hex">Hover #522D22</div>
+      </div>
+    </div>
+    <div class="duo-semantic">
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #7BA97B;"></div>
+        <div class="info"><div class="name">Success</div><div class="hex">#7BA97B</div></div>
+      </div>
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #D4954A;"></div>
+        <div class="info"><div class="name">Warning</div><div class="hex">#D4954A</div></div>
+      </div>
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #8B4049;"></div>
+        <div class="info"><div class="name">Danger</div><div class="hex">#8B4049</div></div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="preview-topbar">
+        <span class="preview-brand">채팅 발췌기</span>
+        <span class="preview-btn" style="background: #D4888A;">저장</span>
+      </div>
+      <div class="preview-tabs">
+        <div class="preview-tab active" style="color: #1C1C1E;">작성</div>
+        <div class="preview-tab">설정</div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-section-title">
+          <span class="preview-section-icon" style="background: rgba(229, 162, 160, 0.15); color: #E5A2A0;">●</span>
+          캐릭터
+        </div>
+        <div class="preview-chips">
+          <span class="preview-chip" style="background: rgba(229, 162, 160, 0.18); border-color: #E5A2A0; color: #B87876;">버디</span>
+          <span class="preview-chip" style="background: rgba(107, 60, 46, 0.12); border-color: #6B3C2E; color: #4A2A20;">하일</span>
+        </div>
+        <div class="preview-semantic">
+          <div class="semantic-item"><span class="semantic-dot" style="background: #7BA97B;"></span>Success</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #D4954A;"></span>Warning</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #8B4049;"></span>Danger</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. 스카이 + 버터 옐로우 -->
+  <div class="palette duo" style="--p1: #86ABCB; --p2: #E8D28D;">
+    <div class="palette-header">
+      <div class="palette-num">11</div>
+      <div>
+        <div class="palette-name">Sky + Butter</div>
+        <div class="palette-desc">밝고 청량한, 여름 오후</div>
+      </div>
+    </div>
+    <div class="duo-swatches">
+      <div class="duo-swatch">
+        <div class="swatch" style="background: #86ABCB;"></div>
+        <div class="label">Primary (스카이)</div>
+        <div class="hex">#86ABCB</div>
+        <div class="swatch" style="background: #6E96B8; height: 24px; margin-top: 4px;"></div>
+        <div class="hex">Hover #6E96B8</div>
+      </div>
+      <div class="duo-swatch">
+        <div class="swatch" style="background: #E8D28D;"></div>
+        <div class="label">Secondary (버터)</div>
+        <div class="hex">#E8D28D</div>
+        <div class="swatch" style="background: #D4BF7A; height: 24px; margin-top: 4px;"></div>
+        <div class="hex">Hover #D4BF7A</div>
+      </div>
+    </div>
+    <div class="duo-semantic">
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #7BA97B;"></div>
+        <div class="info"><div class="name">Success</div><div class="hex">#7BA97B</div></div>
+      </div>
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #D4954A;"></div>
+        <div class="info"><div class="name">Warning</div><div class="hex">#D4954A</div></div>
+      </div>
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #C75B58;"></div>
+        <div class="info"><div class="name">Danger</div><div class="hex">#C75B58</div></div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="preview-topbar">
+        <span class="preview-brand">채팅 발췌기</span>
+        <span class="preview-btn" style="background: #6E96B8;">저장</span>
+      </div>
+      <div class="preview-tabs">
+        <div class="preview-tab active" style="color: #1C1C1E;">작성</div>
+        <div class="preview-tab">설정</div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-section-title">
+          <span class="preview-section-icon" style="background: rgba(134, 171, 203, 0.15); color: #86ABCB;">●</span>
+          캐릭터
+        </div>
+        <div class="preview-chips">
+          <span class="preview-chip" style="background: rgba(134, 171, 203, 0.20); border-color: #86ABCB; color: #5A7A96;">버디</span>
+          <span class="preview-chip" style="background: rgba(232, 210, 141, 0.25); border-color: #D4C07D; color: #9A8545;">하일</span>
+        </div>
+        <div class="preview-semantic">
+          <div class="semantic-item"><span class="semantic-dot" style="background: #7BA97B;"></span>Success</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #D4954A;"></span>Warning</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #C75B58;"></span>Danger</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12. 크림슨 + 베이비블루 (Retro Café) -->
+  <div class="palette duo" style="--p1: #B01013; --p2: #A2B9D6;">
+    <div class="palette-header">
+      <div class="palette-num">12</div>
+      <div>
+        <div class="palette-name">Crimson + Baby Blue</div>
+        <div class="palette-desc">레트로 카페, 빈티지한 대비</div>
+      </div>
+    </div>
+    <div class="duo-swatches">
+      <div class="duo-swatch">
+        <div class="swatch" style="background: #B01013;"></div>
+        <div class="label">Primary (크림슨)</div>
+        <div class="hex">#B01013</div>
+        <div class="swatch" style="background: #8E0D0F; height: 24px; margin-top: 4px;"></div>
+        <div class="hex">Hover #8E0D0F</div>
+      </div>
+      <div class="duo-swatch">
+        <div class="swatch" style="background: #A2B9D6;"></div>
+        <div class="label">Secondary (베이비블루)</div>
+        <div class="hex">#A2B9D6</div>
+        <div class="swatch" style="background: #8AA5C4; height: 24px; margin-top: 4px;"></div>
+        <div class="hex">Hover #8AA5C4</div>
+      </div>
+    </div>
+    <div class="duo-semantic">
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #7BA97B;"></div>
+        <div class="info"><div class="name">Success</div><div class="hex">#7BA97B</div></div>
+      </div>
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #D4954A;"></div>
+        <div class="info"><div class="name">Warning</div><div class="hex">#D4954A</div></div>
+      </div>
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #8B4049;"></div>
+        <div class="info"><div class="name">Danger</div><div class="hex">#8B4049</div></div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="preview-topbar">
+        <span class="preview-brand">채팅 발췌기</span>
+        <span class="preview-btn" style="background: #B01013;">저장</span>
+      </div>
+      <div class="preview-tabs">
+        <div class="preview-tab active" style="color: #1C1C1E;">작성</div>
+        <div class="preview-tab">설정</div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-section-title">
+          <span class="preview-section-icon" style="background: rgba(176, 16, 19, 0.12); color: #B01013;">●</span>
+          캐릭터
+        </div>
+        <div class="preview-chips">
+          <span class="preview-chip" style="background: rgba(176, 16, 19, 0.12); border-color: #B01013; color: #8E0D0F;">버디</span>
+          <span class="preview-chip" style="background: rgba(162, 185, 214, 0.25); border-color: #A2B9D6; color: #6A8AAE;">하일</span>
+        </div>
+        <div class="preview-semantic">
+          <div class="semantic-item"><span class="semantic-dot" style="background: #7BA97B;"></span>Success</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #D4954A;"></span>Warning</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #8B4049;"></span>Danger</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 13. 민트 + 페어 (Fresh Apple) -->
+  <div class="palette duo" style="--p1: #84BF93; --p2: #F3EEB6;">
+    <div class="palette-header">
+      <div class="palette-num">13</div>
+      <div>
+        <div class="palette-name">Mint + Pear</div>
+        <div class="palette-desc">상쾌한 청사과, 시원한 여름</div>
+      </div>
+    </div>
+    <div class="duo-swatches">
+      <div class="duo-swatch">
+        <div class="swatch" style="background: #84BF93;"></div>
+        <div class="label">Primary (민트)</div>
+        <div class="hex">#84BF93</div>
+        <div class="swatch" style="background: #6AA87A; height: 24px; margin-top: 4px;"></div>
+        <div class="hex">Hover #6AA87A</div>
+      </div>
+      <div class="duo-swatch">
+        <div class="swatch" style="background: #F3EEB6;"></div>
+        <div class="label">Secondary (페어)</div>
+        <div class="hex">#F3EEB6</div>
+        <div class="swatch" style="background: #E5E0A3; height: 24px; margin-top: 4px;"></div>
+        <div class="hex">Hover #E5E0A3</div>
+      </div>
+    </div>
+    <div class="duo-semantic">
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #4A9B8E;"></div>
+        <div class="info"><div class="name">Success</div><div class="hex">#4A9B8E</div></div>
+      </div>
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #D4954A;"></div>
+        <div class="info"><div class="name">Warning</div><div class="hex">#D4954A</div></div>
+      </div>
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #C75B58;"></div>
+        <div class="info"><div class="name">Danger</div><div class="hex">#C75B58</div></div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="preview-topbar">
+        <span class="preview-brand">채팅 발췌기</span>
+        <span class="preview-btn" style="background: #6AA87A;">저장</span>
+      </div>
+      <div class="preview-tabs">
+        <div class="preview-tab active" style="color: #1C1C1E;">작성</div>
+        <div class="preview-tab">설정</div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-section-title">
+          <span class="preview-section-icon" style="background: rgba(132, 191, 147, 0.15); color: #84BF93;">●</span>
+          캐릭터
+        </div>
+        <div class="preview-chips">
+          <span class="preview-chip" style="background: rgba(132, 191, 147, 0.18); border-color: #84BF93; color: #5A9068;">버디</span>
+          <span class="preview-chip" style="background: rgba(243, 238, 182, 0.35); border-color: #E5E0A3; color: #9A9560;">하일</span>
+        </div>
+        <div class="preview-semantic">
+          <div class="semantic-item"><span class="semantic-dot" style="background: #4A9B8E;"></span>Success</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #D4954A;"></span>Warning</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #C75B58;"></span>Danger</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 14. 그레이프프룻 + 틸 (Summer Splash) -->
+  <div class="palette duo" style="--p1: #DD4350; --p2: #81BAC2;">
+    <div class="palette-header">
+      <div class="palette-num">14</div>
+      <div>
+        <div class="palette-name">Grapefruit + Teal</div>
+        <div class="palette-desc">청량한 여름, 시원한 대비</div>
+      </div>
+    </div>
+    <div class="duo-swatches">
+      <div class="duo-swatch">
+        <div class="swatch" style="background: #DD4350;"></div>
+        <div class="label">Primary (그레이프프룻)</div>
+        <div class="hex">#DD4350</div>
+        <div class="swatch" style="background: #C23541; height: 24px; margin-top: 4px;"></div>
+        <div class="hex">Hover #C23541</div>
+      </div>
+      <div class="duo-swatch">
+        <div class="swatch" style="background: #81BAC2;"></div>
+        <div class="label">Secondary (틸)</div>
+        <div class="hex">#81BAC2</div>
+        <div class="swatch" style="background: #6AA3AC; height: 24px; margin-top: 4px;"></div>
+        <div class="hex">Hover #6AA3AC</div>
+      </div>
+    </div>
+    <div class="duo-semantic">
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #7BA97B;"></div>
+        <div class="info"><div class="name">Success</div><div class="hex">#7BA97B</div></div>
+      </div>
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #D4954A;"></div>
+        <div class="info"><div class="name">Warning</div><div class="hex">#D4954A</div></div>
+      </div>
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #8B4049;"></div>
+        <div class="info"><div class="name">Danger</div><div class="hex">#8B4049</div></div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="preview-topbar">
+        <span class="preview-brand">채팅 발췌기</span>
+        <span class="preview-btn" style="background: #DD4350;">저장</span>
+      </div>
+      <div class="preview-tabs">
+        <div class="preview-tab active" style="color: #1C1C1E;">작성</div>
+        <div class="preview-tab">설정</div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-section-title">
+          <span class="preview-section-icon" style="background: rgba(221, 67, 80, 0.12); color: #DD4350;">●</span>
+          캐릭터
+        </div>
+        <div class="preview-chips">
+          <span class="preview-chip" style="background: rgba(221, 67, 80, 0.12); border-color: #DD4350; color: #B83540;">버디</span>
+          <span class="preview-chip" style="background: rgba(129, 186, 194, 0.20); border-color: #81BAC2; color: #5A8A92;">하일</span>
+        </div>
+        <div class="preview-semantic">
+          <div class="semantic-item"><span class="semantic-dot" style="background: #7BA97B;"></span>Success</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #D4954A;"></span>Warning</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #8B4049;"></span>Danger</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 15. 아말피 + 시트러스 (Amalfi Coast) -->
+  <div class="palette duo" style="--p1: #2E5AA7; --p2: #FFA62B;">
+    <div class="palette-header">
+      <div class="palette-num">15</div>
+      <div>
+        <div class="palette-name">Amalfi + Citrus</div>
+        <div class="palette-desc">지중해 감성, 선명한 대비</div>
+      </div>
+    </div>
+    <div class="duo-swatches">
+      <div class="duo-swatch">
+        <div class="swatch" style="background: #2E5AA7;"></div>
+        <div class="label">Primary (아말피)</div>
+        <div class="hex">#2E5AA7</div>
+        <div class="swatch" style="background: #234785; height: 24px; margin-top: 4px;"></div>
+        <div class="hex">Hover #234785</div>
+      </div>
+      <div class="duo-swatch">
+        <div class="swatch" style="background: #FFA62B;"></div>
+        <div class="label">Secondary (시트러스)</div>
+        <div class="hex">#FFA62B</div>
+        <div class="swatch" style="background: #E8941F; height: 24px; margin-top: 4px;"></div>
+        <div class="hex">Hover #E8941F</div>
+      </div>
+    </div>
+    <div class="duo-semantic">
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #7BA97B;"></div>
+        <div class="info"><div class="name">Success</div><div class="hex">#7BA97B</div></div>
+      </div>
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #E86830;"></div>
+        <div class="info"><div class="name">Warning</div><div class="hex">#E86830</div></div>
+      </div>
+      <div class="duo-semantic-item">
+        <div class="swatch" style="background: #C75B58;"></div>
+        <div class="info"><div class="name">Danger</div><div class="hex">#C75B58</div></div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="preview-topbar">
+        <span class="preview-brand">채팅 발췌기</span>
+        <span class="preview-btn" style="background: #2E5AA7;">저장</span>
+      </div>
+      <div class="preview-tabs">
+        <div class="preview-tab active" style="color: #1C1C1E;">작성</div>
+        <div class="preview-tab">설정</div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-section-title">
+          <span class="preview-section-icon" style="background: rgba(46, 90, 167, 0.12); color: #2E5AA7;">●</span>
+          캐릭터
+        </div>
+        <div class="preview-chips">
+          <span class="preview-chip" style="background: rgba(46, 90, 167, 0.12); border-color: #2E5AA7; color: #234785;">버디</span>
+          <span class="preview-chip" style="background: rgba(255, 166, 43, 0.20); border-color: #FFA62B; color: #B87518;">하일</span>
+        </div>
+        <div class="preview-semantic">
+          <div class="semantic-item"><span class="semantic-dot" style="background: #7BA97B;"></span>Success</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #E86830;"></span>Warning</div>
+          <div class="semantic-item"><span class="semantic-dot" style="background: #C75B58;"></span>Danger</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

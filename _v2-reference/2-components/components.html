@@ -1,0 +1,2720 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>v2 컴포넌트 리스트</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<style>
+:root {
+  /* ── 색상 ── */
+  --c-primary: #8A9F7A;
+  --c-primary-hover: #728563;
+  --c-primary-muted: rgba(138, 159, 122, 0.15);
+  --c-secondary: #F8E29D;
+  --c-secondary-hover: #E5CF8A;
+  --c-secondary-muted: rgba(248, 226, 157, 0.25);
+  --c-bg: #FFFFFF;                /* 앱 배경 (흰색) */
+  --c-surface: #FFFFFF;           /* 카드/컴포저 배경 */
+  --c-surface-raised: #FAFAFA;    /* 테이블 헤더 */
+  --c-surface-sunken: #F2F2F7;    /* 입력창 내부, 말풍선 배경 */
+  --c-surface-drop: #F8F8FA;      /* 드롭/추가 영역 배경 */
+  --c-surface-overlay: rgba(0, 0, 0, 0.5); /* 모달 딤드 */
+  --c-border: #E5E5EA;
+  --c-border-strong: #D1D1D6;
+  --c-divider: #EBEBF0;
+  --c-text: #1C1C1E;
+  --c-text-secondary: #636366;
+  --c-text-tertiary: #AEAEB2;
+  --c-text-inverse: #FFFFFF;
+  --c-success: #4A9B8E;           /* Teal */
+  --c-warning: #D4954A;
+  --c-danger: #C75B58;
+  --c-danger-bg: rgba(199, 91, 88, 0.1);
+
+  /* ── 둥글기 ── */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 24px;
+  --r-full: 9999px;
+
+  /* ── 간격 ── */
+  --sp-xs: 4px;
+  --sp-sm: 8px;
+  --sp-md: 12px;
+  --sp-lg: 16px;
+  --sp-xl: 24px;
+  --sp-2xl: 32px;
+
+  /* ── 글꼴 ── */
+  --fs-xs: 10px;
+  --fs-sm: 12px;
+  --fs-md: 14px;
+  --fs-lg: 16px;
+  --fs-xl: 18px;
+  --fw-normal: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+  --lh-body: 1.5;
+  --lh-tight: 1.25;
+
+  /* ── 그림자 ── */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --shadow-sheet: 0 -4px 24px rgba(0,0,0,0.08);
+
+  /* ── 전환 ── */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-fast: 0.15s;
+  --dur-normal: 0.25s;
+
+  /* ── 컨트롤 ── */
+  --ctl: 40px;
+  --ctl-sm: 32px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Pretendard", -apple-system, sans-serif;
+  background: var(--c-bg);
+  padding: 40px 20px 80px;
+  color: var(--c-text);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.container { max-width: 1100px; margin: 0 auto; }
+h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+.subtitle { color: var(--c-text-secondary); font-size: 14px; margin-bottom: 48px; }
+h2 {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--c-primary);
+  margin: 48px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--c-primary);
+}
+h2:first-of-type { margin-top: 0; }
+
+.comp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+.comp-card {
+  background: var(--c-surface);
+  border-radius: var(--r-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+}
+.comp-card h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.comp-card code {
+  font-family: "SF Mono", Monaco, monospace;
+  font-size: 11px;
+  background: var(--c-surface-sunken);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--c-text-secondary);
+}
+.comp-card .desc {
+  font-size: 12px;
+  color: var(--c-text-secondary);
+  margin: 8px 0 16px;
+}
+.comp-preview {
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  padding: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  min-height: 60px;
+}
+.comp-preview.col {
+  flex-direction: column;
+  align-items: stretch;
+}
+.comp-preview.start {
+  justify-content: flex-start;
+}
+.variants {
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--c-text-tertiary);
+}
+.specs {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--c-border);
+  font-size: 10px;
+  line-height: 1.6;
+  color: var(--c-text-secondary);
+}
+.specs dt {
+  font-weight: 600;
+  color: var(--c-text-tertiary);
+  display: inline;
+}
+.specs dt::after { content: ': '; }
+.specs dd {
+  display: inline;
+  margin: 0;
+  font-family: "SF Mono", Monaco, monospace;
+  color: var(--c-primary-hover);
+}
+.specs dd::after { content: '\A'; white-space: pre; }
+.badge {
+  display: inline-block;
+  padding: 2px 6px;
+  font-size: 9px;
+  font-weight: 700;
+  border-radius: 4px;
+}
+.badge-main { background: var(--c-primary-muted); color: var(--c-primary-hover); }
+.badge-new { background: var(--c-secondary); color: #7A6B2E; }
+.badge-suggest { background: var(--c-danger-bg); color: var(--c-danger); }
+
+/* ═══════════════════════════════════════════════════════════════
+   컴포넌트 스타일
+   ═══════════════════════════════════════════════════════════════ */
+
+/* 버튼 */
+.btn {
+  height: var(--ctl-sm);
+  padding: 0 var(--sp-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-xs);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-tight);
+  border-radius: var(--r-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn svg { width: 14px; height: 14px; }
+
+/* fill (진함) */
+.btn-fill { background: var(--c-primary); color: var(--c-text-inverse); }
+.btn-fill:hover { background: var(--c-primary-hover); }
+.btn-fill.is-danger { background: var(--c-danger); }
+.btn-fill.is-danger:hover { background: #B54A47; }
+.btn-fill.is-disabled { background: var(--c-border); color: var(--c-text-tertiary); pointer-events: none; }
+
+/* outline (테두리) */
+.btn-outline { background: transparent; border-color: var(--c-primary); color: var(--c-primary); }
+.btn-outline:hover { background: var(--c-primary-muted); }
+.btn-outline.is-danger { border-color: var(--c-danger); color: var(--c-danger); }
+.btn-outline.is-danger:hover { background: var(--c-danger-bg); }
+.btn-outline.is-disabled { border-color: var(--c-border); color: var(--c-text-tertiary); pointer-events: none; }
+
+/* quiet (조용) */
+.btn-quiet { background: var(--c-surface-sunken); color: var(--c-text-secondary); }
+.btn-quiet:hover { background: var(--c-border); }
+.btn-quiet.is-disabled { background: var(--c-surface-sunken); color: var(--c-text-tertiary); pointer-events: none; }
+
+/* 기존 호환 */
+.btn-primary { background: var(--c-primary); color: var(--c-text-inverse); }
+.btn-primary:hover { background: var(--c-primary-hover); }
+.btn-ghost { background: transparent; border-color: var(--c-primary); color: var(--c-primary); }
+.btn-ghost:hover { background: var(--c-primary-muted); }
+.btn-danger { background: var(--c-danger-bg); color: var(--c-danger); border-color: var(--c-danger); }
+.btn-danger:hover { background: rgba(199, 91, 88, 0.2); }
+.btn-danger-fill { background: var(--c-danger); color: var(--c-text-inverse); }
+.btn-danger-fill:hover { background: #B54A47; }
+.btn-drop {
+  width: 100%;
+  min-height: 60px;
+  border-radius: var(--r-sm);
+  background: var(--c-surface-drop);
+  color: var(--c-text-secondary);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-normal);
+  line-height: var(--lh-body);
+  border: 1px dashed var(--c-border-strong);
+}
+
+/* 아이콘 버튼 */
+.icb {
+  width: var(--ctl);
+  height: var(--ctl);
+  border-radius: var(--r-full);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  box-shadow: var(--shadow-md);
+  display: grid;
+  place-items: center;
+  color: var(--c-text);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.icb svg {
+  width: 19px;
+  height: 19px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.icb:hover { background: var(--c-surface-sunken); }
+.icb.is-on {
+  background: var(--c-primary-muted);
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+}
+.icb.is-primary {
+  background: var(--c-primary);
+  border-color: var(--c-primary);
+  color: var(--c-text-inverse);
+}
+.icb.is-primary:hover { background: var(--c-primary-hover); }
+.icb.is-ghost {
+  background: transparent;
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+}
+
+/* 입력 */
+.inp {
+  width: 100%;
+  height: 38px;
+  padding: 0 var(--sp-md);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+  color: var(--c-text);
+  outline: none;
+}
+.inp:focus { border-color: var(--c-primary); }
+.inp::placeholder { color: var(--c-text-tertiary); }
+
+/* 셀렉트 */
+.sel {
+  width: 100%;
+  height: 38px;
+  padding: 0 var(--sp-md);
+  padding-right: var(--sp-2xl, 32px);
+  background: var(--c-surface-sunken);
+  border: 1px solid transparent;
+  border-radius: var(--r-sm);
+  font-size: var(--fs-sm);
+  color: var(--c-text);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23636366' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: var(--sp-lg);
+}
+
+/* 칩 */
+.chip {
+  height: var(--ctl-sm);
+  padding: 0 var(--sp-md);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-full);
+  font-size: var(--fs-sm);
+  color: var(--c-text);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.chip:hover { background: var(--c-surface-sunken); }
+.chip.is-on {
+  background: var(--c-primary-muted);
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+}
+.chip-danger {
+  background: var(--c-danger-bg);
+  border-color: transparent;
+  color: var(--c-danger);
+}
+
+/* 탭 (pill) */
+.tabs {
+  display: flex;
+  gap: var(--sp-xs);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  padding: var(--sp-xs);
+  border-radius: var(--r-sm);
+}
+.tab {
+  flex: 1;
+  height: var(--ctl-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-normal);
+  line-height: 1;
+  color: var(--c-text-secondary);
+  border-radius: var(--sp-xs);
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tab.is-on {
+  background: var(--c-primary-muted);
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+  font-weight: var(--fw-medium);
+}
+
+/* 탭 (underline) */
+.tabs-line {
+  display: flex;
+  border-bottom: 1px solid var(--c-divider);
+}
+.tab-line {
+  flex: 1;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-tight);
+  color: var(--c-text-secondary);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+}
+.tab-line.is-on { color: var(--c-text); }
+.tab-line.is-on::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: var(--sp-lg);
+  right: var(--sp-lg);
+  height: 2px;
+  background: var(--c-primary);
+  border-radius: 1px 1px 0 0;
+}
+
+/* 세그먼트 */
+.seg {
+  display: flex;
+  gap: var(--sp-sm);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  padding: var(--sp-xs);
+  border-radius: var(--r-sm);
+}
+.seg button {
+  flex: 1;
+  height: 28px;
+  padding: 0 var(--sp-sm);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-normal);
+  color: var(--c-text-secondary);
+  border: 1px solid transparent;
+  border-radius: var(--sp-xs);
+  background: transparent;
+  cursor: pointer;
+}
+.seg button.is-on {
+  background: var(--c-primary-muted);
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+  font-weight: var(--fw-medium);
+}
+
+/* 토글 */
+.tgl {
+  width: 44px;
+  height: 26px;
+  flex: 0 0 44px;
+  border-radius: var(--r-full);
+  background: var(--c-border-strong);
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.16s;
+}
+.tgl::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--r-full);
+  background: var(--c-surface);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.16s;
+}
+.tgl.is-on { background: var(--c-primary); }
+.tgl.is-on::after { transform: translateX(18px); }
+
+/* 토글 (텍스트) */
+.tgl-text {
+  display: inline-flex;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-full);
+  padding: 2px;
+}
+.tgl-text.is-fill {
+  display: flex;
+  width: 100%;
+}
+.tgl-text button {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 24px;
+  padding: 0 var(--sp-sm);
+  border: none;
+  border-radius: var(--r-full);
+  background: transparent;
+  font-size: var(--fs-xs);
+  color: var(--c-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.tgl-text button.is-on {
+  background: var(--c-primary-muted);
+  border: 1px solid var(--c-primary);
+  color: var(--c-primary);
+}
+
+/* 스테퍼 */
+.step {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+}
+.step button {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-sm);
+  background: transparent;
+  border: none;
+  color: var(--c-text-secondary);
+  cursor: pointer;
+  font-size: var(--fs-lg);
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+.step button:hover { background: var(--c-surface-sunken); }
+/* 단위 없는 경우 */
+.step input {
+  width: 48px;
+  height: 28px;
+  text-align: center;
+  border: none;
+  background: var(--c-surface-sunken);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-sm);
+  padding: 0;
+  color: var(--c-text);
+}
+.step input:focus {
+  outline: none;
+  background: var(--c-surface);
+  box-shadow: 0 0 0 1px var(--c-primary);
+}
+/* 단위 있는 경우 */
+.step-val {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.step-val input {
+  width: 48px;
+  height: 28px;
+  text-align: left;
+  padding-left: 8px;
+  padding-right: 18px;
+  border: none;
+  background: var(--c-surface-sunken);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-sm);
+  color: var(--c-text);
+}
+.step-val input:focus {
+  outline: none;
+  background: var(--c-surface);
+  box-shadow: 0 0 0 1px var(--c-primary);
+}
+.step-val .unit {
+  position: absolute;
+  right: 6px;
+  font-size: var(--fs-xs);
+  color: var(--c-text-tertiary);
+  pointer-events: none;
+}
+
+/* 스테퍼 (수평: 라벨 왼쪽) */
+.steph {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.steph > .lab { margin: 0; flex: 0 0 auto; }
+.steph .step { flex: 0 0 104px; }
+
+/* 슬라이더 (수평) */
+.slideh {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+}
+.slideh .lab { margin: 0; flex: 0 0 auto; }
+.rng {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: 1;
+  height: var(--sp-xs);
+  margin: 0;
+  border-radius: 2px;
+  background: var(--c-border-strong);
+  cursor: pointer;
+}
+.rng::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: var(--sp-lg);
+  height: var(--sp-lg);
+  border-radius: 50%;
+  background: var(--c-primary);
+  border: 2px solid var(--c-surface);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+}
+/* 단위 없는 경우 */
+.slideh .val {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 28px;
+  padding: 0 var(--sp-xs);
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--c-text);
+  background: var(--c-surface-sunken);
+  border: none;
+  border-radius: var(--r-sm);
+}
+.slideh .val:focus {
+  outline: none;
+  background: var(--c-surface);
+  box-shadow: 0 0 0 1px var(--c-primary);
+}
+/* 단위 있는 경우 */
+.slideh-val {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+.slideh-val .val {
+  width: 40px;
+  height: 28px;
+  padding-left: 6px;
+  padding-right: 16px;
+  text-align: left;
+  font-size: var(--fs-sm);
+  color: var(--c-text);
+  background: var(--c-surface-sunken);
+  border: none;
+  border-radius: var(--r-sm);
+}
+.slideh-val .val:focus {
+  outline: none;
+  background: var(--c-surface);
+  box-shadow: 0 0 0 1px var(--c-primary);
+}
+.slideh-val .unit {
+  position: absolute;
+  right: 5px;
+  font-size: var(--fs-xs);
+  color: var(--c-text-tertiary);
+  pointer-events: none;
+}
+/* 단위 힌트 (독립 사용시) */
+.unit {
+  font-size: var(--fs-xs);
+  color: var(--c-text-tertiary);
+  margin-left: 2px;
+}
+
+/* 레이블 */
+.lab {
+  display: block;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--c-text-secondary);
+  margin-bottom: var(--sp-sm);
+}
+.lab-sub {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--c-text-tertiary);
+  font-weight: var(--fw-normal);
+  margin-top: 2px;
+}
+.hint {
+  font-size: var(--fs-xs);
+  color: var(--c-text-tertiary);
+  line-height: var(--lh-body);
+}
+
+/* 색상 필드 */
+.colorf {
+  display: flex;
+  gap: var(--sp-sm);
+  align-items: center;
+}
+.colorf .sw {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--c-border);
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+}
+.colorf .inp { flex: 1; height: 38px; }
+
+/* 캐릭터 칩 (.chip 확장 - 아바타 포함) */
+.char-chip {
+  height: var(--ctl-sm);
+  padding: 0 var(--sp-md) 0 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-full);
+  font-size: var(--fs-sm);
+  line-height: 1;
+  color: var(--c-text);
+  cursor: pointer;
+  transition: all var(--dur-fast);
+}
+.char-chip:hover { background: var(--c-surface-sunken); }
+.char-chip.is-on {
+  background: var(--c-primary-muted);
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+}
+.char-chip .avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--r-full);
+  background: var(--c-border);
+  flex-shrink: 0;
+}
+
+/* 캐릭터 카드 (목록용) */
+.char-card {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  padding: var(--sp-md);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+}
+.char-card .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-full);
+  background: var(--c-border);
+  flex-shrink: 0;
+}
+.char-card .info {
+  flex: 1;
+  min-width: 0;
+}
+.char-card .name {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+}
+.char-card .colors {
+  display: flex;
+  gap: var(--sp-xs);
+  margin-top: var(--sp-xs);
+}
+.char-card .color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--r-full);
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* 캐릭터 추가 카드 */
+.char-add {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  padding: var(--sp-md);
+  background: var(--c-surface-drop);
+  border: 1px dashed var(--c-border-strong);
+  border-radius: var(--r-md);
+  color: var(--c-text-tertiary);
+  font-size: var(--fs-sm);
+  line-height: 1;
+  cursor: pointer;
+  transition: all var(--dur-fast);
+}
+.char-add:hover {
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+  background: var(--c-primary-muted);
+}
+.char-add svg {
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  border-radius: var(--r-full);
+  background: var(--c-surface-sunken);
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  flex-shrink: 0;
+}
+.char-add:hover svg {
+  background: var(--c-primary-muted);
+}
+
+/* 테마 카드 */
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: var(--sp-sm);
+}
+.theme-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-sm);
+  background: var(--c-surface);
+  text-align: center;
+  cursor: pointer;
+  padding: 6px;
+  gap: 6px;
+}
+.theme-card .preview {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  background-color: #F5F5F5;
+  background-size: cover;
+  background-position: center;
+  border-radius: 4px;
+}
+/* 말풍선 미리보기 */
+.theme-card .bubble-preview {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 8px;
+  line-height: 1.3;
+  text-align: left;
+}
+/* 말풍선 꼬리 (좌/우) */
+.theme-card .bubble-preview.has-tail-left {
+  border-bottom-left-radius: 2px;
+}
+.theme-card .bubble-preview.has-tail-right {
+  border-bottom-right-radius: 2px;
+}
+/* 인용구 스타일 */
+.theme-card .bubble-preview.is-quote {
+  border-left: 2px solid currentColor;
+  border-radius: 0;
+  background: transparent !important;
+  padding-left: 8px;
+}
+/* 각본 스타일 */
+.theme-card .bubble-preview.is-script {
+  background: transparent !important;
+  border-radius: 0;
+  text-align: center;
+}
+.theme-card .bubble-preview.is-script::before {
+  content: '이름';
+  display: block;
+  font-size: 7px;
+  opacity: 0.7;
+  margin-bottom: 2px;
+}
+/* 없음 (텍스트만) */
+.theme-card .bubble-preview.is-none {
+  background: transparent !important;
+  border-radius: 0;
+}
+.theme-card .nm {
+  font-size: var(--fs-xs);
+  line-height: 1;
+  color: var(--c-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.theme-card.is-on { border-color: var(--c-primary); }
+/* 수정 버튼 */
+.theme-card .edit-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  border: none;
+  font-size: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* 추가 카드 */
+.theme-card.is-add {
+  border-style: dashed;
+  border-color: var(--c-border-strong);
+}
+.theme-card.is-add .preview {
+  background: var(--c-surface-drop);
+  color: var(--c-text-tertiary);
+  font-size: 24px;
+}
+
+/* 팝오버 (색상 선택) */
+.pop {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--sp-md);
+  width: 280px;
+}
+.pop-title {
+  font-size: var(--fs-xs);
+  color: var(--c-text-secondary);
+  margin-bottom: var(--sp-md);
+}
+.pop-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--sp-sm);
+  margin-bottom: var(--sp-md);
+}
+.pop-sw {
+  aspect-ratio: 1;
+  border-radius: var(--r-sm);
+  border: 1px solid rgba(0,0,0,0.1);
+  cursor: pointer;
+  position: relative;
+}
+.pop-sw.is-on {
+  box-shadow: 0 0 0 2px var(--c-surface) inset, 0 0 0 2px var(--c-primary);
+}
+/* 투명 컬러칩 */
+.pop-sw.is-transparent {
+  background: repeating-conic-gradient(#E5E5E5 0% 25%, #FFF 0% 50%) 50%/8px 8px;
+}
+/* 삭제 버튼 */
+.pop-sw .del {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--c-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.pop-sw .del svg {
+  width: 8px;
+  height: 8px;
+  stroke: #fff;
+  stroke-width: 2;
+}
+/* 추가 버튼 */
+.pop-add {
+  background: var(--c-surface-drop);
+  border: 1px dashed var(--c-border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--c-text-tertiary);
+}
+/* 팝오버 헤더 (뒤로가기) */
+.pop-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  margin-bottom: var(--sp-md);
+}
+.pop-back {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pop-back svg { width: 16px; height: 16px; stroke: var(--c-text-secondary); }
+.pop-sv {
+  width: 100%;
+  height: 100px;
+  border-radius: var(--r-sm);
+  margin-bottom: var(--sp-md);
+  background: linear-gradient(to right, #fff, #f00),
+              linear-gradient(to top, #000, transparent);
+  background-blend-mode: multiply;
+  position: relative;
+}
+.pop-sv i {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border-radius: var(--r-full);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.35);
+  transform: translate(-50%, -50%);
+  top: 20%;
+  left: 80%;
+}
+.pop-hue {
+  width: 100%;
+  height: var(--sp-md);
+  border-radius: var(--r-full);
+  margin-bottom: var(--sp-md);
+  background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+  position: relative;
+}
+.pop-hue i {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  width: 15px;
+  height: 15px;
+  border-radius: var(--r-full);
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  transform: translate(-50%, -50%);
+}
+.pop-foot {
+  display: flex;
+  gap: var(--sp-sm);
+  align-items: center;
+}
+.pop-cur {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--c-border);
+}
+.pop-apply {
+  height: 34px;
+  padding: 0 var(--sp-md);
+  border: none;
+  border-radius: var(--r-sm);
+  background: var(--c-primary);
+  color: var(--c-text-inverse);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  cursor: pointer;
+}
+
+/* 모달 */
+.modal-demo {
+  background: var(--c-surface);
+  border-radius: var(--r-lg);
+  padding: var(--sp-lg);
+  max-width: 300px;
+  box-shadow: var(--shadow-lg);
+}
+.modal-title { font-size: var(--fs-md); font-weight: var(--fw-bold); margin-bottom: var(--sp-xs); }
+.modal-sub { font-size: var(--fs-xs); color: var(--c-text-tertiary); margin-bottom: var(--sp-md); }
+.modal-foot { display: flex; gap: var(--sp-sm); }
+.modal-foot .btn { flex: 1; height: var(--ctl); font-size: var(--fs-sm); }
+
+/* 리셋 옵션 (체크박스 카드) */
+.reset-option {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  min-height: 48px;
+  padding: var(--sp-md);
+  background: var(--c-surface-sunken);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+}
+.reset-option.is-on {
+  background: var(--c-primary-muted);
+  border-color: var(--c-primary);
+}
+.reset-option input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  border: 1.5px solid var(--c-border-strong);
+  border-radius: 4px;
+  background: var(--c-surface);
+  cursor: pointer;
+  position: relative;
+}
+.reset-option input[type="checkbox"]:checked {
+  background: var(--c-primary);
+  border-color: var(--c-primary);
+}
+.reset-option input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 5px;
+  height: 9px;
+  border: solid var(--c-text-inverse);
+  border-width: 0 2px 2px 0;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.reset-option .info strong {
+  display: block;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+}
+.reset-option .info small {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--fs-xs);
+  color: var(--c-text-secondary);
+}
+
+/* 토스트 */
+.toast {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  padding: var(--sp-sm) var(--sp-lg);
+  background: rgba(28, 28, 30, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--c-text-inverse);
+  border-radius: var(--r-full);
+  font-size: var(--fs-sm);
+  box-shadow: var(--shadow-md);
+}
+
+/* 구분선 */
+.divider {
+  height: 1px;
+  background: var(--c-border);
+}
+
+/* 도구 줄 */
+.tool-line {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  flex-wrap: wrap;
+  padding: var(--sp-md) 0;
+  border-top: 1px solid var(--c-border);
+}
+.tool-line:first-child { border-top: none; }
+.tool-grp {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  min-width: 0;
+}
+.tool-grp > .lab { margin: 0; flex: 0 0 auto; white-space: nowrap; }
+.tool-sep {
+  width: 1px;
+  align-self: stretch;
+  background: var(--c-border);
+  margin: 0 var(--sp-xs);
+}
+
+/* 섹션 */
+.sec {
+  padding: var(--sp-md) 0;
+}
+.sec-title {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  margin: 0 0 var(--sp-md);
+}
+
+/* 편집 카드 */
+.editcard {
+  background: var(--c-surface-sunken);
+  border-radius: var(--r-lg);
+  padding: var(--sp-md);
+}
+
+/* 이미지 프리뷰 */
+.imgprev {
+  width: 100%;
+  background: var(--c-surface-sunken);
+  border-radius: var(--r-lg);
+  padding: var(--sp-md);
+  text-align: center;
+  overflow: hidden;
+}
+.imgprev img {
+  max-width: 100%;
+  border-radius: var(--r-sm);
+}
+
+/* 크롭 비율 버튼 */
+.crop-ratios {
+  display: flex;
+  gap: var(--sp-sm);
+}
+.crop-ratios button {
+  flex: 1;
+  padding: var(--sp-sm);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--c-text-secondary);
+  cursor: pointer;
+  text-align: center;
+}
+.crop-ratios button.is-on {
+  background: var(--c-primary-muted);
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+}
+.crop-ratios button small {
+  display: block;
+  font-size: 9px;
+  font-weight: var(--fw-normal);
+  opacity: 0.75;
+  margin-top: 1px;
+}
+
+/* 미니 버튼 (인풋 내부용) */
+.btn-mini {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-full);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--c-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-mini svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.btn-mini:hover {
+  background: var(--c-surface-sunken);
+}
+.btn-mini.is-on {
+  background: var(--c-primary-muted);
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+}
+
+/* 인풋 그룹 (버튼 + 입력 필드) */
+.inp-group {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-full);
+  padding: 5px var(--sp-sm);
+  position: relative;
+}
+.inp-group:focus-within {
+  border-color: var(--c-primary);
+}
+.inp-group .inp {
+  flex: 1;
+  min-width: 0;
+  height: 28px;
+  padding: 0 var(--sp-xs);
+  border: none;
+  background: transparent;
+}
+.inp-group .inp:focus {
+  border: none;
+  outline: none;
+}
+.inp-group .btn-mini {
+  flex: 0 0 auto;
+  border: none;
+  background: transparent;
+}
+.inp-group .btn-mini:hover {
+  background: var(--c-surface-sunken);
+}
+/* 선택됨 (icb is-on 스타일) */
+.inp-group .btn-mini.is-on {
+  background: var(--c-primary-muted);
+  border: 1px solid var(--c-primary);
+  color: var(--c-primary);
+}
+/* 전송 버튼 (icb is-primary 스타일) */
+.inp-group .btn-mini.is-send {
+  background: var(--c-primary);
+  border: 1px solid var(--c-primary);
+  color: var(--c-text-inverse);
+}
+.inp-group .btn-mini.is-send:hover {
+  background: var(--c-primary-hover);
+}
+
+/* 액션 메뉴 */
+.action-menu {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-lg);
+  padding: var(--sp-xs) 0;
+  min-width: 140px;
+  overflow: hidden;
+}
+.action-menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  padding: var(--sp-sm) var(--sp-md);
+  font-size: var(--fs-sm);
+  color: var(--c-text);
+  cursor: pointer;
+  transition: background 0.1s;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+.action-menu-item:hover {
+  background: var(--c-surface-sunken);
+}
+.action-menu-item.is-danger {
+  color: var(--c-danger);
+}
+.action-menu-item .icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+}
+.action-menu-divider {
+  height: 1px;
+  background: var(--c-divider);
+  margin: var(--sp-xs) 0;
+}
+
+/* 토글 (작은) */
+.tgl.tgl-sm {
+  width: 36px;
+  height: 20px;
+  flex: 0 0 36px;
+}
+.tgl.tgl-sm::after {
+  width: 14px;
+  height: 14px;
+  top: 3px;
+  left: 3px;
+}
+.tgl.tgl-sm.is-on::after {
+  transform: translateX(16px);
+}
+
+/* 토글 인라인 (라벨 + 토글 수평 배치) */
+.tgl-inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-sm);
+}
+.tgl-inline > .lab {
+  margin: 0;
+  flex: 1;
+}
+
+/* 필드 래퍼 */
+.field {
+  margin-bottom: var(--sp-md);
+}
+.field:last-child {
+  margin-bottom: 0;
+}
+
+/* 그리드 레이아웃 */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-md) 14px;
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-sm);
+}
+
+/* 비율 선택 탭 (crop-ratios 별칭) */
+.ratio-tabs {
+  display: flex;
+  gap: 6px;
+}
+.ratio-tabs button {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 4px;
+  border-radius: var(--r-sm);
+  background: var(--c-surface-sunken);
+  border: 1px solid transparent;
+  font-size: 11.5px;
+  font-weight: var(--fw-bold);
+  color: var(--c-text-secondary);
+  line-height: var(--lh-tight);
+  cursor: pointer;
+}
+.ratio-tabs button small {
+  display: block;
+  font-size: 9px;
+  font-weight: var(--fw-normal);
+  opacity: 0.75;
+  margin-top: 1px;
+}
+.ratio-tabs button.is-on {
+  background: var(--c-primary-muted);
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+}
+
+/* 꼬리 선택 (A/B/X 아이콘 버튼) */
+.tail-sel {
+  display: flex;
+  gap: var(--sp-sm);
+}
+.tail-sel button {
+  flex: 1;
+  height: 36px;
+  border-radius: var(--r-sm);
+  background: var(--c-surface-sunken);
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tail-sel button svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--c-text-secondary);
+  fill: none;
+}
+.tail-sel button.is-on {
+  background: var(--c-primary-muted);
+  border-color: var(--c-primary);
+}
+.tail-sel button.is-on svg {
+  stroke: var(--c-primary);
+}
+
+/* 위치 조절 그리드 (9방향) */
+.pos-control {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4px;
+  width: 80px;
+}
+.pos-control button {
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--c-border);
+  background: var(--c-surface);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 10px;
+  color: var(--c-text-tertiary);
+  display: grid;
+  place-items: center;
+}
+.pos-control button:hover {
+  background: var(--c-surface-sunken);
+}
+.pos-control button.is-on {
+  background: var(--c-primary-muted);
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+}
+
+/* 이미지 드롭 영역 */
+.bgimg-drop {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: var(--c-surface-drop);
+  border: 1px dashed var(--c-border-strong);
+  border-radius: var(--r-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-sm);
+  color: var(--c-text-secondary);
+  font-size: var(--fs-sm);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.bgimg-drop.has-img {
+  border-style: solid;
+}
+.bgimg-drop img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+}
+.bgimg-drop .drop-content {
+  text-align: center;
+  z-index: 1;
+}
+.bgimg-drop svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--c-text-tertiary);
+  fill: none;
+  stroke-width: 1.5;
+  margin-bottom: var(--sp-xs);
+}
+
+/* 캐릭터 칩 - 수정 버튼 */
+.char-chip .edit-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: var(--r-full);
+  background: var(--c-surface-sunken);
+  border: none;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  margin-left: var(--sp-xs);
+}
+.char-chip .edit-btn:hover {
+  background: var(--c-border);
+}
+.char-chip .edit-btn svg {
+  width: 12px;
+  height: 12px;
+  stroke: var(--c-text-secondary);
+  fill: none;
+  stroke-width: 2;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>v2 컴포넌트 리스트</h1>
+  <p class="subtitle">Main 브랜치 기반 + v2 추가 + 제안</p>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2>1. 버튼</h2>
+
+  <div class="comp-grid">
+    <!-- 버튼 - fill (진함) -->
+    <div class="comp-card">
+      <h4><code>.btn-fill</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">진한 배경의 주요 액션 버튼</p>
+      <div class="comp-preview">
+        <button class="btn btn-fill">저장</button>
+        <button class="btn btn-fill is-danger">삭제</button>
+        <button class="btn btn-fill is-disabled">비활성</button>
+      </div>
+      <div class="variants">modifier: .is-danger, .is-disabled</div>
+      <dl class="specs">
+        <dt>높이</dt><dd>--ctl-sm (32px)</dd>
+        <dt>패딩</dt><dd>0 --sp-md (12px)</dd>
+        <dt>글꼴</dt><dd>--fs-sm (12px) / --fw-medium (500)</dd>
+        <dt>둥글기</dt><dd>--r-sm (6px)</dd>
+        <dt>색</dt><dd>--c-primary → --c-text-inverse</dd>
+        <dt>색 (danger)</dt><dd>--c-danger → --c-text-inverse</dd>
+        <dt>색 (disabled)</dt><dd>--c-border → --c-text-tertiary</dd>
+      </dl>
+    </div>
+
+    <!-- 버튼 - outline (테두리) -->
+    <div class="comp-card">
+      <h4><code>.btn-outline</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">테두리만 있는 버튼</p>
+      <div class="comp-preview">
+        <button class="btn btn-outline">저장</button>
+        <button class="btn btn-outline is-danger">삭제</button>
+        <button class="btn btn-outline is-disabled">비활성</button>
+      </div>
+      <div class="variants">modifier: .is-danger, .is-disabled</div>
+      <dl class="specs">
+        <dt>색</dt><dd>투명 + border --c-primary → --c-primary</dd>
+        <dt>색 (danger)</dt><dd>투명 + border --c-danger → --c-danger</dd>
+        <dt>색 (disabled)</dt><dd>투명 + border --c-border → --c-text-tertiary</dd>
+      </dl>
+    </div>
+
+    <!-- 버튼 - quiet (조용) -->
+    <div class="comp-card">
+      <h4><code>.btn-quiet</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">존재감 낮은 취소/보조 버튼</p>
+      <div class="comp-preview">
+        <button class="btn btn-quiet">취소</button>
+        <button class="btn btn-quiet is-disabled">비활성</button>
+      </div>
+      <div class="variants">modifier: .is-disabled</div>
+      <dl class="specs">
+        <dt>색</dt><dd>--c-surface-sunken → --c-text-secondary</dd>
+        <dt>색 (disabled)</dt><dd>--c-surface-sunken → --c-text-tertiary</dd>
+      </dl>
+    </div>
+
+    <!-- 드롭 버튼 -->
+    <div class="comp-card">
+      <h4><code>.btn-drop</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">파일 드롭 영역</p>
+      <div class="comp-preview col">
+        <button class="btn-drop">이미지를 드래그하거나<br>클릭해서 선택</button>
+      </div>
+      <dl class="specs">
+        <dt>높이</dt><dd>min 60px</dd>
+        <dt>글꼴</dt><dd>--fs-xs (10px) / --lh-body (1.5)</dd>
+        <dt>둥글기</dt><dd>--r-sm (6px)</dd>
+        <dt>색</dt><dd>--c-surface-drop (#F8F8FA)</dd>
+        <dt>외곽선</dt><dd>1px dashed --c-border-strong</dd>
+        <dt>통일 적용</dt><dd>.btn-drop, .theme-card.is-add, .char-add</dd>
+      </dl>
+    </div>
+
+    <!-- 아이콘 버튼 -->
+    <div class="comp-card">
+      <h4><code>.icb</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">원형 아이콘 버튼 (플로팅, 그림자)</p>
+      <div class="comp-preview">
+        <button class="icb">
+          <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+        <button class="icb is-on">
+          <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+        </button>
+        <button class="icb is-primary">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <button class="icb is-ghost">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+      </div>
+      <div class="variants">variants: is-on, is-primary, is-ghost</div>
+      <dl class="specs">
+        <dt>크기</dt><dd>--ctl (40px)</dd>
+        <dt>둥글기</dt><dd>--r-full (원형)</dd>
+        <dt>외곽선</dt><dd>1px solid --c-border</dd>
+        <dt>그림자</dt><dd>--shadow-md</dd>
+        <dt>색 (기본)</dt><dd>--c-surface → --c-text</dd>
+        <dt>색 (is-on)</dt><dd>--c-primary-muted + border --c-primary</dd>
+        <dt>색 (is-primary)</dt><dd>--c-primary → --c-text-inverse</dd>
+        <dt>아이콘</dt><dd>19px</dd>
+      </dl>
+    </div>
+
+    <!-- 미니 버튼 -->
+    <div class="comp-card">
+      <h4><code>.btn-mini</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">인풋 내부용 작은 원형 버튼</p>
+      <div class="comp-preview">
+        <button class="btn-mini"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+        <button class="btn-mini"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        <button class="btn-mini"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none"/></svg></button>
+        <button class="btn-mini is-on"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none"/></svg></button>
+      </div>
+      <div class="variants">아이콘: 특수기호 → SVG / 이모지 → 실제 이모지</div>
+      <dl class="specs">
+        <dt>크기</dt><dd>28px (인풋 38px 내부 맞춤)</dd>
+        <dt>둥글기</dt><dd>--r-full (원형)</dd>
+        <dt>외곽선</dt><dd>1px solid --c-border</dd>
+        <dt>SVG 아이콘</dt><dd>14px / stroke-width: 1.8</dd>
+        <dt>이모지</dt><dd>12px / line-height: 1</dd>
+        <dt>색</dt><dd>--c-surface → --c-text-secondary</dd>
+        <dt>색 (is-on)</dt><dd>--c-primary-muted + border --c-primary</dd>
+      </dl>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2>2. 입력</h2>
+
+  <div class="comp-grid">
+    <!-- 텍스트 입력 -->
+    <div class="comp-card">
+      <h4><code>.inp</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">텍스트 입력 필드</p>
+      <div class="comp-preview col" style="gap: 12px;">
+        <div>
+          <span class="lab" style="margin-bottom:4px;">기본</span>
+          <input type="text" class="inp" placeholder="텍스트를 입력하세요">
+        </div>
+        <div>
+          <span class="lab" style="margin-bottom:4px;">포커스 (클릭해서 확인)</span>
+          <input type="text" class="inp" placeholder="포커스 상태">
+        </div>
+        <div>
+          <span class="lab" style="margin-bottom:4px;">입력됨</span>
+          <input type="text" class="inp" value="입력된 텍스트">
+        </div>
+      </div>
+      <div class="variants">상태: 기본 → focus → 입력됨</div>
+      <dl class="specs">
+        <dt>높이</dt><dd>38px</dd>
+        <dt>패딩</dt><dd>0 --sp-md (12px)</dd>
+        <dt>글꼴</dt><dd>--fs-sm (12px) / --lh-body (1.5)</dd>
+        <dt>둥글기</dt><dd>--r-sm (6px)</dd>
+        <dt>외곽선 (기본)</dt><dd>1px solid --c-border</dd>
+        <dt>외곽선 (focus)</dt><dd>--c-primary</dd>
+        <dt>색</dt><dd>--c-surface → --c-text</dd>
+        <dt>플레이스홀더</dt><dd>--c-text-tertiary</dd>
+      </dl>
+    </div>
+
+    <!-- 셀렉트 -->
+    <div class="comp-card">
+      <h4><code>.sel</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">드롭다운 선택</p>
+      <div class="comp-preview col">
+        <select class="sel">
+          <option>옵션을 선택하세요</option>
+          <option>옵션 1</option>
+          <option>옵션 2</option>
+        </select>
+      </div>
+      <dl class="specs">
+        <dt>높이</dt><dd>38px</dd>
+        <dt>패딩</dt><dd>0 --sp-md (12px)</dd>
+        <dt>글꼴</dt><dd>--fs-sm (12px)</dd>
+        <dt>둥글기</dt><dd>--r-sm (6px)</dd>
+        <dt>색</dt><dd>--c-surface-sunken → --c-text</dd>
+        <dt>화살표</dt><dd>--sp-lg (16px) SVG</dd>
+      </dl>
+    </div>
+
+    <!-- 스테퍼 -->
+    <div class="comp-card">
+      <h4><code>.step</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">숫자 증감 컨트롤</p>
+      <div class="comp-preview col" style="gap:12px;">
+        <div class="step">
+          <button>−</button>
+          <div class="step-val">
+            <input type="text" value="16">
+            <span class="unit">px</span>
+          </div>
+          <button>+</button>
+        </div>
+        <div class="step">
+          <button>−</button>
+          <div class="step-val">
+            <input type="text" value="45">
+            <span class="unit">°</span>
+          </div>
+          <button>+</button>
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>버튼 크기</dt><dd>28px</dd>
+        <dt>입력 너비</dt><dd>48px</dd>
+        <dt>배치 순서</dt><dd>− [인풋+단위] +</dd>
+        <dt>값+단위</dt><dd>.step-val (인풋 안에 단위 고정)</dd>
+      </dl>
+    </div>
+
+    <!-- 슬라이더 -->
+    <div class="comp-card">
+      <h4><code>.slideh</code> + <code>.rng</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">수평 슬라이더</p>
+      <div class="comp-preview col" style="gap:12px;">
+        <div class="slideh">
+          <span class="lab" style="margin:0;">불투명도</span>
+          <input type="range" class="rng" min="0" max="100" value="75">
+          <div class="slideh-val">
+            <input type="text" class="val" value="75">
+            <span class="unit">%</span>
+          </div>
+        </div>
+        <div class="slideh">
+          <span class="lab" style="margin:0;">둥글기</span>
+          <input type="range" class="rng" min="0" max="50" value="12">
+          <div class="slideh-val">
+            <input type="text" class="val" value="12">
+            <span class="unit">px</span>
+          </div>
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>트랙</dt><dd>flex: 1 / 높이 4px / --c-border-strong</dd>
+        <dt>썸</dt><dd>16px / --c-primary + border --c-surface</dd>
+        <dt>값+단위</dt><dd>.slideh-val (인풋 안에 단위 고정)</dd>
+        <dt>간격</dt><dd>--sp-md (12px)</dd>
+      </dl>
+    </div>
+
+    <!-- 토글 -->
+    <div class="comp-card">
+      <h4><code>.tgl</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">ON/OFF 스위치</p>
+      <div class="comp-preview col" style="gap: 12px;">
+        <div>
+          <span class="lab" style="margin-bottom:4px;">기본</span>
+          <div style="display:flex;gap:8px;">
+            <div class="tgl"></div>
+            <div class="tgl is-on"></div>
+          </div>
+        </div>
+        <div>
+          <span class="lab" style="margin-bottom:4px;">작은 (.tgl-sm)</span>
+          <div style="display:flex;gap:8px;">
+            <div class="tgl tgl-sm"></div>
+            <div class="tgl tgl-sm is-on"></div>
+          </div>
+        </div>
+      </div>
+      <div class="variants">variants: is-on, .tgl-sm (작은 크기)</div>
+      <dl class="specs">
+        <dt>크기 (기본)</dt><dd>44px × 26px</dd>
+        <dt>크기 (tgl-sm)</dt><dd>36px × 20px</dd>
+        <dt>둥글기</dt><dd>--r-full (pill)</dd>
+        <dt>색 (off)</dt><dd>--c-border-strong</dd>
+        <dt>색 (on)</dt><dd>--c-primary</dd>
+        <dt>핸들 크기 (기본)</dt><dd>20px</dd>
+        <dt>핸들 크기 (sm)</dt><dd>14px</dd>
+        <dt>핸들 색</dt><dd>--c-surface</dd>
+        <dt>그림자</dt><dd>--shadow-sm</dd>
+      </dl>
+    </div>
+
+    <!-- 토글 텍스트 -->
+    <div class="comp-card">
+      <h4><code>.tgl-text</code> <span class="badge badge-new">NEW</span></h4>
+      <p class="desc">텍스트 선택 토글</p>
+      <div class="comp-preview col" style="gap: 12px;">
+        <div>
+          <span class="lab" style="margin-bottom:4px;">컴팩트 (기본)</span>
+          <div class="tgl-text">
+            <button class="is-on">좌</button>
+            <button>우</button>
+          </div>
+        </div>
+        <div>
+          <span class="lab" style="margin-bottom:4px;">채우기 (.is-fill)</span>
+          <div class="tgl-text is-fill">
+            <button class="is-on">좌측</button>
+            <button>우측</button>
+          </div>
+        </div>
+      </div>
+      <div class="variants">variants: is-fill (너비 100% 채우기)</div>
+      <dl class="specs">
+        <dt>컨테이너</dt><dd>inline-flex / --c-surface + border / --r-full / padding 2px</dd>
+        <dt>컨테이너 (is-fill)</dt><dd>flex / width 100%</dd>
+        <dt>버튼</dt><dd>flex: 1 1 0 / 높이 24px / 패딩 0 8px</dd>
+        <dt>버튼 글꼴</dt><dd>--fs-xs (10px)</dd>
+        <dt>버튼 색 (off)</dt><dd>투명 → --c-text-secondary</dd>
+        <dt>버튼 색 (on)</dt><dd>--c-primary-muted + border --c-primary → --c-primary</dd>
+      </dl>
+    </div>
+
+    <!-- 색상 필드 -->
+    <div class="comp-card">
+      <h4><code>.colorf</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">색상 선택 (스와치 + HEX)</p>
+      <div class="comp-preview col">
+        <div class="colorf">
+          <div class="sw" style="background: #8A9F7A;"></div>
+          <input type="text" class="inp" value="#8A9F7A" style="flex:1;">
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>스와치 크기</dt><dd>38px</dd>
+        <dt>스와치 둥글기</dt><dd>--r-sm (6px)</dd>
+        <dt>스와치 외곽선</dt><dd>1px solid --c-border</dd>
+        <dt>입력</dt><dd>.inp 스타일 상속</dd>
+        <dt>간격</dt><dd>--sp-sm (8px)</dd>
+      </dl>
+    </div>
+
+    <!-- 인풋 그룹 -->
+    <div class="comp-card">
+      <h4><code>.inp-group</code> <span class="badge badge-new">NEW</span></h4>
+      <p class="desc">입력 필드 + 좌우 버튼 조합</p>
+      <div class="comp-preview col" style="gap: 12px;">
+        <div>
+          <span class="lab" style="margin-bottom:4px;">1. 기본 상태</span>
+          <div class="inp-group">
+            <button class="btn-mini"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none"/></svg></button>
+            <input type="text" class="inp" placeholder="텍스트를 입력하세요">
+            <button class="btn-mini"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+          </div>
+        </div>
+        <div>
+          <span class="lab" style="margin-bottom:4px;">2. 톱니 눌렀을 때 (설정 패널 열림)</span>
+          <div class="inp-group">
+            <button class="btn-mini is-on"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none"/></svg></button>
+            <input type="text" class="inp" placeholder="텍스트를 입력하세요">
+            <button class="btn-mini"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+          </div>
+        </div>
+        <div>
+          <span class="lab" style="margin-bottom:4px;">3. 인풋 포커스 (클릭해서 확인)</span>
+          <div class="inp-group">
+            <button class="btn-mini"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none"/></svg></button>
+            <input type="text" class="inp" placeholder="포커스 시 외곽선 변경">
+            <button class="btn-mini"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+          </div>
+        </div>
+        <div>
+          <span class="lab" style="margin-bottom:4px;">4. 입력됨 → 전송 버튼</span>
+          <div class="inp-group">
+            <button class="btn-mini"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none"/></svg></button>
+            <input type="text" class="inp" value="입력된 텍스트">
+            <button class="btn-mini is-send"><svg viewBox="0 0 24 24"><path d="M9 10l-5 5 5 5"/><path d="M20 4v7a4 4 0 01-4 4H4"/></svg></button>
+          </div>
+        </div>
+        <div>
+          <span class="lab" style="margin-bottom:4px;">5. + 눌렀을 때 (액션 메뉴 열림)</span>
+          <div style="position: relative;">
+            <div class="inp-group">
+              <button class="btn-mini"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none"/></svg></button>
+              <input type="text" class="inp" placeholder="텍스트를 입력하세요">
+              <button class="btn-mini is-on"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+            </div>
+            <div class="action-menu" style="position: absolute; top: 100%; right: 0; margin-top: 4px;">
+              <button class="action-menu-item"><span class="icon">📝</span> 텍스트</button>
+              <button class="action-menu-item"><span class="icon">🖼️</span> 이미지</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="variants">상태: 기본 → 톱니 활성 → 인풋 포커스 → 입력됨(전송) → + 활성(메뉴)</div>
+      <dl class="specs">
+        <dt>패딩</dt><dd>5px --sp-sm (8px)</dd>
+        <dt>둥글기</dt><dd>--r-full (pill)</dd>
+        <dt>외곽선</dt><dd>1px solid --c-border → focus: --c-primary</dd>
+        <dt>톱니 활성</dt><dd>.is-on → --c-primary-muted</dd>
+        <dt>전송 버튼</dt><dd>.is-send → --c-primary 배경</dd>
+        <dt>+ 활성</dt><dd>.is-on + X 아이콘 + .action-menu 팝업</dd>
+      </dl>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2>3. 선택</h2>
+
+  <div class="comp-grid">
+    <!-- 칩 -->
+    <div class="comp-card">
+      <h4><code>.chip</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">선택/필터 칩</p>
+      <div class="comp-preview">
+        <span class="chip">기본</span>
+        <span class="chip is-on">선택됨</span>
+        <span class="chip chip-danger">삭제</span>
+      </div>
+      <div class="variants">variants: is-on, danger</div>
+      <dl class="specs">
+        <dt>높이</dt><dd>--ctl-sm (32px)</dd>
+        <dt>패딩</dt><dd>0 --sp-md (12px)</dd>
+        <dt>글꼴</dt><dd>--fs-sm (12px)</dd>
+        <dt>둥글기</dt><dd>--r-full (pill)</dd>
+        <dt>외곽선</dt><dd>1px solid --c-border</dd>
+        <dt>색</dt><dd>--c-surface → --c-text</dd>
+        <dt>색 (is-on)</dt><dd>--c-primary-muted + border --c-primary</dd>
+        <dt>색 (danger)</dt><dd>--c-danger-bg → --c-danger</dd>
+      </dl>
+    </div>
+
+    <!-- 캐릭터 칩 -->
+    <div class="comp-card">
+      <h4><code>.char-chip</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">.chip 확장 - 아바타 포함 (수정 버튼 옵션)</p>
+      <div class="comp-preview col" style="gap: 12px;">
+        <div>
+          <span class="lab" style="margin-bottom:4px;">기본</span>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <button class="char-chip">
+              <span class="avatar" style="background:#FF6B9D;"></span>
+              <span>버디</span>
+            </button>
+            <button class="char-chip is-on">
+              <span class="avatar" style="background:#4ECDC4;"></span>
+              <span>하일</span>
+            </button>
+          </div>
+        </div>
+        <div>
+          <span class="lab" style="margin-bottom:4px;">수정 버튼 포함 (.edit-btn)</span>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <button class="char-chip is-on" style="padding-right:4px;">
+              <span class="avatar" style="background:#FF6B9D;"></span>
+              <span>앨리스</span>
+              <span class="edit-btn"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="19" r="1.5" fill="currentColor"/></svg></span>
+            </button>
+            <button class="char-chip" style="padding-right:4px;">
+              <span class="avatar" style="background:#4ECDC4;"></span>
+              <span>밥</span>
+              <span class="edit-btn"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="19" r="1.5" fill="currentColor"/></svg></span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="variants">variants: is-on (선택됨), .edit-btn (수정 버튼)</div>
+      <dl class="specs">
+        <dt>높이</dt><dd>--ctl-sm (32px)</dd>
+        <dt>패딩</dt><dd>0 --sp-md (12px) 0 4px</dd>
+        <dt>패딩 (edit-btn)</dt><dd>0 4px 0 4px</dd>
+        <dt>둥글기</dt><dd>--r-full (pill)</dd>
+        <dt>글꼴</dt><dd>--fs-sm (12px)</dd>
+        <dt>외곽선</dt><dd>1px solid --c-border</dd>
+        <dt>색</dt><dd>--c-surface → --c-text</dd>
+        <dt>색 (is-on)</dt><dd>--c-primary-muted + border --c-primary</dd>
+        <dt>아바타</dt><dd>24px / --r-full</dd>
+        <dt>수정 버튼</dt><dd>22px / --c-surface-sunken / SVG 세로점 아이콘</dd>
+        <dt>간격</dt><dd>--sp-sm (8px)</dd>
+      </dl>
+    </div>
+
+    <!-- 캐릭터 카드 -->
+    <div class="comp-card">
+      <h4><code>.char-card</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">캐릭터 목록용 카드</p>
+      <div class="comp-preview col">
+        <div class="char-card">
+          <div class="avatar"></div>
+          <div class="info">
+            <div class="name">버디</div>
+            <div class="colors">
+              <span class="color-dot" style="background: #E4F6E4;"></span>
+              <span class="color-dot" style="background: #1C1C1E;"></span>
+            </div>
+          </div>
+          <button class="btn-mini">📝</button>
+        </div>
+        <div class="char-card">
+          <div class="avatar"></div>
+          <div class="info">
+            <div class="name">하일</div>
+            <div class="colors">
+              <span class="color-dot" style="background: #FFF3CD;"></span>
+              <span class="color-dot" style="background: #1C1C1E;"></span>
+            </div>
+          </div>
+          <button class="btn-mini">📝</button>
+        </div>
+        <!-- 추가 카드 -->
+        <button class="char-add">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          <span>캐릭터 추가</span>
+        </button>
+      </div>
+
+      <dl class="specs">
+        <dt>패딩</dt><dd>--sp-md (12px)</dd>
+        <dt>둥글기</dt><dd>--r-md (12px)</dd>
+        <dt>색</dt><dd>--c-surface + border --c-border</dd>
+        <dt>아바타</dt><dd>40px / --r-full</dd>
+        <dt>이름 글꼴</dt><dd>--fs-sm (12px) / --fw-medium</dd>
+        <dt>색상 도트</dt><dd>12px / --r-full</dd>
+        <dt>간격</dt><dd>--sp-md (12px)</dd>
+        <dt>추가 카드</dt><dd>.char-add / 흰색 배경 + dashed border</dd>
+        <dt>수정 버튼</dt><dd>.btn-mini + 📝</dd>
+      </dl>
+    </div>
+
+    <!-- 리셋 옵션 -->
+    <div class="comp-card">
+      <h4><code>.reset-option</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">체크박스 카드</p>
+      <div class="comp-preview col">
+        <label class="reset-option">
+          <input type="checkbox">
+          <div class="info">
+            <strong>캐릭터</strong>
+            <small>등록된 모든 캐릭터 삭제</small>
+          </div>
+        </label>
+        <label class="reset-option is-on">
+          <input type="checkbox" checked>
+          <div class="info">
+            <strong>테마</strong>
+            <small>저장된 테마 초기화</small>
+          </div>
+        </label>
+      </div>
+      <dl class="specs">
+        <dt>높이</dt><dd>min 48px</dd>
+        <dt>패딩</dt><dd>--sp-md (12px)</dd>
+        <dt>둥글기</dt><dd>--r-sm (6px)</dd>
+        <dt>외곽선</dt><dd>1px solid --c-border</dd>
+        <dt>색</dt><dd>--c-surface-sunken</dd>
+        <dt>색 (is-on)</dt><dd>--c-primary-muted + border --c-primary</dd>
+        <dt>제목 글꼴</dt><dd>--fs-sm (12px) / --fw-medium (500)</dd>
+        <dt>설명 글꼴</dt><dd>--fs-xs (10px) / --c-text-secondary</dd>
+        <dt>체크박스</dt><dd>18px / accent --c-primary</dd>
+        <dt>간격</dt><dd>--sp-md (12px)</dd>
+      </dl>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2>4. 탭 & 세그먼트</h2>
+
+  <div class="comp-grid">
+    <!-- 탭 (pill) -->
+    <div class="comp-card">
+      <h4><code>.tabs</code> + <code>.tab</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">필 스타일 탭 (도구 전환)</p>
+      <div class="comp-preview col">
+        <div class="tabs">
+          <button class="tab is-on">서식</button>
+          <button class="tab">여백</button>
+          <button class="tab">색</button>
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>컨테이너 패딩</dt><dd>--sp-xs (4px)</dd>
+        <dt>컨테이너 색</dt><dd>--c-surface + border --c-border</dd>
+        <dt>컨테이너 둥글기</dt><dd>--r-sm (8px)</dd>
+        <dt>탭 높이</dt><dd>--ctl-sm (32px)</dd>
+        <dt>탭 글꼴</dt><dd>--fs-sm (12px) / --fw-normal (400)</dd>
+        <dt>탭 색</dt><dd>투명 → --c-text-secondary</dd>
+        <dt>탭 둥글기</dt><dd>--sp-xs (4px)</dd>
+        <dt>탭 색 (is-on)</dt><dd>--c-primary-muted + border --c-primary / --fw-medium</dd>
+        <dt>간격</dt><dd>--sp-xs (4px)</dd>
+      </dl>
+    </div>
+
+    <!-- 탭 (underline) -->
+    <div class="comp-card">
+      <h4><code>.tabs-line</code> + <code>.tab-line</code> <span class="badge badge-new">NEW</span></h4>
+      <p class="desc">언더라인 스타일 탭 (메인 전환)</p>
+      <div class="comp-preview col">
+        <div class="tabs-line">
+          <button class="tab-line is-on">작성</button>
+          <button class="tab-line">설정</button>
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>컨테이너</dt><dd>border-bottom 1px --c-divider</dd>
+        <dt>탭 높이</dt><dd>44px</dd>
+        <dt>탭 글꼴</dt><dd>--fs-md (14px) / --fw-medium (500)</dd>
+        <dt>탭 색</dt><dd>--c-text-secondary</dd>
+        <dt>탭 색 (is-on)</dt><dd>--c-text</dd>
+        <dt>인디케이터</dt><dd>height 2px / --c-primary / 좌우 --sp-lg 여백</dd>
+      </dl>
+    </div>
+
+    <!-- 세그먼트 -->
+    <div class="comp-card">
+      <h4><code>.seg</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">단일 선택 그룹</p>
+      <div class="comp-preview col">
+        <div class="seg">
+          <button class="is-on">왼쪽</button>
+          <button>가운데</button>
+          <button>오른쪽</button>
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>컨테이너 패딩</dt><dd>--sp-xs (4px)</dd>
+        <dt>컨테이너 색</dt><dd>--c-surface + border --c-border</dd>
+        <dt>컨테이너 둥글기</dt><dd>--r-sm (8px)</dd>
+        <dt>버튼 높이</dt><dd>28px</dd>
+        <dt>버튼 패딩</dt><dd>0 --sp-sm (8px)</dd>
+        <dt>버튼 글꼴</dt><dd>--fs-xs (10px) / --fw-normal (400)</dd>
+        <dt>버튼 색</dt><dd>투명 → --c-text-secondary</dd>
+        <dt>버튼 둥글기</dt><dd>--sp-xs (4px)</dd>
+        <dt>버튼 색 (is-on)</dt><dd>--c-primary-muted + border --c-primary / --fw-medium</dd>
+        <dt>간격</dt><dd>--sp-sm (8px)</dd>
+      </dl>
+    </div>
+
+    <!-- 크롭 비율 -->
+    <div class="comp-card">
+      <h4><code>.crop-ratios</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">비율 선택 버튼</p>
+      <div class="comp-preview col">
+        <div class="crop-ratios">
+          <button class="is-on">자유<small>free</small></button>
+          <button>1:1<small>정사각</small></button>
+          <button>4:5<small>세로</small></button>
+          <button>16:9<small>가로</small></button>
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>버튼 패딩</dt><dd>--sp-sm (8px)</dd>
+        <dt>버튼 외곽선</dt><dd>1px solid --c-border</dd>
+        <dt>버튼 둥글기</dt><dd>--r-sm (6px)</dd>
+        <dt>버튼 글꼴</dt><dd>--fs-sm (12px) / --fw-bold (700)</dd>
+        <dt>버튼 색</dt><dd>--c-surface → --c-text-secondary</dd>
+        <dt>버튼 색 (is-on)</dt><dd>--c-primary-muted + border --c-primary</dd>
+        <dt>서브 글꼴</dt><dd>9px / --fw-normal (400)</dd>
+        <dt>간격</dt><dd>--sp-sm (8px)</dd>
+      </dl>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2>5. 팝업 & 모달</h2>
+
+  <div class="comp-grid">
+    <!-- 색상 팝오버 - 1단계 (프리셋) -->
+    <div class="comp-card">
+      <h4><code>.pop</code> 1단계: 프리셋</h4>
+      <p class="desc">처음 열었을 때 - 컬러칩 + 추가/직접고르기</p>
+      <div class="comp-preview col">
+        <div class="pop" style="position:relative;">
+          <div class="pop-title">최근 사용 색상</div>
+          <div class="pop-grid">
+            <div class="pop-sw is-transparent is-on"><span class="del"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12"/></svg></span></div>
+            <div class="pop-sw" style="background:#1C1C1E;"><span class="del"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12"/></svg></span></div>
+            <div class="pop-sw" style="background:#E5E5EA;"><span class="del"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12"/></svg></span></div>
+            <div class="pop-sw" style="background:#FFFFFF;"><span class="del"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12"/></svg></span></div>
+            <div class="pop-sw" style="background:#8A9F7A;"><span class="del"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12"/></svg></span></div>
+            <div class="pop-sw" style="background:#F8E29D;"><span class="del"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12"/></svg></span></div>
+            <div class="pop-sw" style="background:#C75B58;"><span class="del"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12"/></svg></span></div>
+            <div class="pop-sw" style="background:#FFD60A;"><span class="del"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12"/></svg></span></div>
+            <div class="pop-sw" style="background:#FF9500;"><span class="del"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12"/></svg></span></div>
+            <div class="pop-sw" style="background:#FF3B30;"><span class="del"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12"/></svg></span></div>
+            <div class="pop-sw" style="background:#AF52DE;"><span class="del"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12"/></svg></span></div>
+            <div class="pop-sw pop-add">+</div>
+          </div>
+          <button class="btn btn-outline" style="width:100%;margin-top:4px;">직접 고르기</button>
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>너비</dt><dd>280px</dd>
+        <dt>스와치 그리드</dt><dd>6열 / gap --sp-sm</dd>
+        <dt>순서</dt><dd>투명 → 흑백 → 색상</dd>
+        <dt>삭제 버튼</dt><dd>.del SVG (항상 표시)</dd>
+        <dt>추가 버튼</dt><dd>.pop-add (점선)</dd>
+        <dt>직접 고르기</dt><dd>.btn-outline 100%</dd>
+      </dl>
+    </div>
+
+    <!-- 색상 팝오버 - 2단계 (팔레트) -->
+    <div class="comp-card">
+      <h4><code>.pop</code> 2단계: 팔레트</h4>
+      <p class="desc">직접 고르기 클릭 후 - 풀 컬러피커</p>
+      <div class="comp-preview col">
+        <div class="pop" style="position:relative;">
+          <div class="pop-header">
+            <button class="pop-back">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <span style="font-size:12px;color:var(--c-text);">색상 선택</span>
+          </div>
+          <div class="pop-sv"><i></i></div>
+          <div class="pop-hue"><i></i></div>
+          <div class="pop-foot">
+            <div class="pop-cur" style="background:#8A9F7A;"></div>
+            <input type="text" class="inp" value="#8A9F7A" style="flex:1;height:34px;font-size:12px;">
+            <button class="pop-apply">적용</button>
+          </div>
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>뒤로가기</dt><dd>.pop-back (← 화살표)</dd>
+        <dt>SV 높이</dt><dd>100px</dd>
+        <dt>Hue 높이</dt><dd>--sp-md (12px)</dd>
+        <dt>현재 색상</dt><dd>34px × 34px</dd>
+        <dt>HEX 입력</dt><dd>flex: 1</dd>
+        <dt>적용 버튼</dt><dd>.pop-apply (primary)</dd>
+      </dl>
+    </div>
+
+    <!-- 모달 -->
+    <div class="comp-card">
+      <h4><code>.modal</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">다이얼로그 창</p>
+      <div class="comp-preview col">
+        <div class="modal-demo">
+          <div class="modal-title">삭제하시겠습니까?</div>
+          <div class="modal-sub">이 작업은 되돌릴 수 없습니다</div>
+          <div class="modal-foot">
+            <button class="btn btn-quiet">취소</button>
+            <button class="btn btn-fill is-danger">삭제</button>
+          </div>
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>최대 너비</dt><dd>300px</dd>
+        <dt>패딩</dt><dd>--sp-lg (16px)</dd>
+        <dt>둥글기</dt><dd>--r-lg (14px)</dd>
+        <dt>그림자</dt><dd>--shadow-lg</dd>
+        <dt>색</dt><dd>--c-surface</dd>
+        <dt>제목 글꼴</dt><dd>--fs-md (14px) / --fw-bold (700)</dd>
+        <dt>설명 글꼴</dt><dd>--fs-xs (10px) / --c-text-tertiary</dd>
+        <dt>버튼 높이</dt><dd>--ctl (40px)</dd>
+        <dt>버튼 글꼴</dt><dd>--fs-sm (12px)</dd>
+        <dt>버튼 간격</dt><dd>--sp-sm (8px)</dd>
+        <dt>버튼 조합</dt><dd>quiet + fill / outline + fill</dd>
+      </dl>
+    </div>
+
+    <!-- 모달 버튼 조합 예시 -->
+    <div class="comp-card">
+      <h4><code>.modal</code> 버튼 조합</h4>
+      <p class="desc">상황별 버튼 사용 예시</p>
+      <div class="comp-preview col" style="gap:16px;">
+        <!-- 위험 액션 -->
+        <div class="modal-demo">
+          <div class="modal-title" style="font-size:11px;color:var(--c-text-tertiary);">위험 액션</div>
+          <div class="modal-foot">
+            <button class="btn btn-quiet">취소</button>
+            <button class="btn btn-fill is-danger">삭제</button>
+          </div>
+        </div>
+        <!-- 일반 액션 - fill -->
+        <div class="modal-demo">
+          <div class="modal-title" style="font-size:11px;color:var(--c-text-tertiary);">일반 액션 (fill)</div>
+          <div class="modal-foot">
+            <button class="btn btn-quiet">취소</button>
+            <button class="btn btn-fill">저장</button>
+          </div>
+        </div>
+        <!-- 일반 액션 - outline -->
+        <div class="modal-demo">
+          <div class="modal-title" style="font-size:11px;color:var(--c-text-tertiary);">일반 액션 (outline)</div>
+          <div class="modal-foot">
+            <button class="btn btn-outline">취소</button>
+            <button class="btn btn-fill">저장</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 토스트 -->
+    <div class="comp-card">
+      <h4><code>.toast</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">알림 메시지</p>
+      <div class="comp-preview">
+        <div class="toast">✓ 저장되었습니다</div>
+      </div>
+      <dl class="specs">
+        <dt>패딩</dt><dd>--sp-sm (8px) --sp-lg (16px)</dd>
+        <dt>둥글기</dt><dd>--r-full (pill)</dd>
+        <dt>그림자</dt><dd>--shadow-md</dd>
+        <dt>글꼴</dt><dd>--fs-sm (12px)</dd>
+        <dt>색</dt><dd>rgba(28,28,30,0.8) + blur(12px) → --c-text-inverse</dd>
+        <dt>간격</dt><dd>--sp-sm (8px)</dd>
+      </dl>
+    </div>
+
+    <!-- 액션 메뉴 -->
+    <div class="comp-card">
+      <h4><code>.action-menu</code> <span class="badge badge-new">NEW</span></h4>
+      <p class="desc">(+) 버튼 등에서 펼쳐지는 드롭다운</p>
+      <div class="comp-preview col">
+        <div class="action-menu">
+          <button class="action-menu-item"><span class="icon">📝</span> 텍스트 추가</button>
+          <button class="action-menu-item"><span class="icon">🖼️</span> 이미지 추가</button>
+          <div class="action-menu-divider"></div>
+          <button class="action-menu-item"><span class="icon">📋</span> 붙여넣기</button>
+          <button class="action-menu-item is-danger"><span class="icon">🗑️</span> 삭제</button>
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>최소 너비</dt><dd>140px</dd>
+        <dt>패딩</dt><dd>--sp-xs (4px) 0</dd>
+        <dt>둥글기</dt><dd>--r-md (10px)</dd>
+        <dt>외곽선</dt><dd>1px solid --c-border</dd>
+        <dt>그림자</dt><dd>--shadow-lg</dd>
+        <dt>아이템 패딩</dt><dd>--sp-sm (8px) --sp-md (12px)</dd>
+        <dt>아이템 글꼴</dt><dd>--fs-sm (12px)</dd>
+        <dt>아이템 hover</dt><dd>--c-surface-sunken</dd>
+        <dt>아이템 danger</dt><dd>--c-danger</dd>
+        <dt>구분선</dt><dd>1px --c-divider</dd>
+      </dl>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2>6. 레이아웃 & 그룹</h2>
+
+  <div class="comp-grid">
+    <!-- 레이블 -->
+    <div class="comp-card">
+      <h4><code>.lab</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">입력 필드 레이블</p>
+      <div class="comp-preview col" style="align-items:flex-start;">
+        <label class="lab">배경색<span class="lab-sub">선택사항</span></label>
+        <span class="hint">PNG 또는 JPG 파일만 가능합니다</span>
+      </div>
+      <div class="variants">variants: lab-sub, hint</div>
+      <dl class="specs">
+        <dt>lab 글꼴</dt><dd>--fs-xs (10px) / --fw-medium (500)</dd>
+        <dt>lab 색</dt><dd>--c-text-secondary</dd>
+        <dt>lab 하단 여백</dt><dd>--sp-sm (8px)</dd>
+        <dt>lab-sub 글꼴</dt><dd>--fs-xs (10px) / --fw-normal</dd>
+        <dt>lab-sub 색</dt><dd>--c-text-tertiary</dd>
+        <dt>hint 글꼴</dt><dd>--fs-xs (10px) / --lh-body (1.5)</dd>
+        <dt>hint 색</dt><dd>--c-text-tertiary</dd>
+      </dl>
+    </div>
+
+    <!-- 토글 인라인 -->
+    <div class="comp-card">
+      <h4><code>.tgl-inline</code> <span class="badge badge-new">NEW</span></h4>
+      <p class="desc">라벨 + 토글 수평 배치 패턴</p>
+      <div class="comp-preview col" style="gap:12px;">
+        <div class="tgl-inline">
+          <span class="lab">대사 묶기</span>
+          <div class="tgl tgl-sm is-on"></div>
+        </div>
+        <div class="tgl-inline">
+          <span class="lab">그림자</span>
+          <div class="tgl tgl-sm"></div>
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>배치</dt><dd>flex / space-between</dd>
+        <dt>간격</dt><dd>--sp-sm (8px)</dd>
+        <dt>라벨</dt><dd>margin: 0 / flex: 1</dd>
+        <dt>토글</dt><dd>.tgl 또는 .tgl-sm</dd>
+      </dl>
+    </div>
+
+    <!-- 필드 래퍼 -->
+    <div class="comp-card">
+      <h4><code>.field</code> <span class="badge badge-new">NEW</span></h4>
+      <p class="desc">폼 필드 래퍼 (하단 여백)</p>
+      <div class="comp-preview col">
+        <div class="field">
+          <label class="lab">이름</label>
+          <input class="inp" placeholder="입력하세요">
+        </div>
+        <div class="field">
+          <label class="lab">옵션</label>
+          <select class="sel"><option>선택</option></select>
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>하단 여백</dt><dd>--sp-md (12px)</dd>
+        <dt>마지막 .field</dt><dd>margin-bottom: 0</dd>
+      </dl>
+    </div>
+
+    <!-- 그리드 레이아웃 -->
+    <div class="comp-card">
+      <h4><code>.grid-2</code> + <code>.grid-4</code> <span class="badge badge-new">NEW</span></h4>
+      <p class="desc">2열 / 4열 그리드 레이아웃</p>
+      <div class="comp-preview col" style="gap:16px;">
+        <div>
+          <span class="lab" style="margin-bottom:4px;">.grid-2</span>
+          <div class="grid-2">
+            <div class="field"><label class="lab">좌측</label><input class="inp" value="값1"></div>
+            <div class="field"><label class="lab">우측</label><input class="inp" value="값2"></div>
+          </div>
+        </div>
+        <div>
+          <span class="lab" style="margin-bottom:4px;">.grid-4</span>
+          <div class="grid-4">
+            <div style="background:var(--c-surface-sunken);padding:8px;border-radius:4px;text-align:center;font-size:10px;">1</div>
+            <div style="background:var(--c-surface-sunken);padding:8px;border-radius:4px;text-align:center;font-size:10px;">2</div>
+            <div style="background:var(--c-surface-sunken);padding:8px;border-radius:4px;text-align:center;font-size:10px;">3</div>
+            <div style="background:var(--c-surface-sunken);padding:8px;border-radius:4px;text-align:center;font-size:10px;">4</div>
+          </div>
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>grid-2 열</dt><dd>1fr 1fr</dd>
+        <dt>grid-2 간격</dt><dd>--sp-md (12px) 14px</dd>
+        <dt>grid-4 열</dt><dd>repeat(4, 1fr)</dd>
+        <dt>grid-4 간격</dt><dd>--sp-sm (8px)</dd>
+      </dl>
+    </div>
+
+    <!-- 비율 탭 -->
+    <div class="comp-card">
+      <h4><code>.ratio-tabs</code> <span class="badge badge-new">NEW</span></h4>
+      <p class="desc">비율 선택 (힌트 포함) - .crop-ratios 별칭</p>
+      <div class="comp-preview col">
+        <div class="ratio-tabs">
+          <button>1:1<small>정사각</small></button>
+          <button>4:5<small>인스타</small></button>
+          <button>3:4<small>세로</small></button>
+          <button class="is-on">9:16<small>스토리</small></button>
+          <button>16:9<small>와이드</small></button>
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>버튼 패딩</dt><dd>7px 4px</dd>
+        <dt>버튼 배경</dt><dd>--c-surface-sunken</dd>
+        <dt>버튼 글꼴</dt><dd>11.5px / --fw-bold</dd>
+        <dt>힌트 글꼴</dt><dd>9px / --fw-normal / opacity 0.75</dd>
+        <dt>간격</dt><dd>6px</dd>
+        <dt>색 (is-on)</dt><dd>--c-primary-muted + border --c-primary</dd>
+      </dl>
+    </div>
+
+    <!-- 꼬리 선택 -->
+    <div class="comp-card">
+      <h4><code>.tail-sel</code> <span class="badge badge-new">NEW</span></h4>
+      <p class="desc">아이콘 버튼 선택 (A/B/X 패턴)</p>
+      <div class="comp-preview col">
+        <div class="tail-sel">
+          <button class="is-on" title="카카오"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M4 20c2-6 8-10 16-10"/></svg></button>
+          <button title="iMessage"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M6 18c0-8 12-8 12-8"/></svg></button>
+          <button title="없음"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>버튼 높이</dt><dd>36px</dd>
+        <dt>버튼 배경</dt><dd>--c-surface-sunken</dd>
+        <dt>아이콘 크기</dt><dd>20px</dd>
+        <dt>아이콘 색</dt><dd>--c-text-secondary</dd>
+        <dt>간격</dt><dd>--sp-sm (8px)</dd>
+        <dt>색 (is-on)</dt><dd>--c-primary-muted + border --c-primary / 아이콘 --c-primary</dd>
+      </dl>
+    </div>
+
+    <!-- 위치 조절 그리드 -->
+    <div class="comp-card">
+      <h4><code>.pos-control</code> <span class="badge badge-new">NEW</span></h4>
+      <p class="desc">9방향 위치 선택 그리드</p>
+      <div class="comp-preview">
+        <div class="pos-control">
+          <button>↖</button><button>↑</button><button>↗</button>
+          <button>←</button><button class="is-on">●</button><button>→</button>
+          <button>↙</button><button>↓</button><button>↘</button>
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>너비</dt><dd>80px</dd>
+        <dt>그리드</dt><dd>3×3 / gap 4px</dd>
+        <dt>버튼 크기</dt><dd>24px</dd>
+        <dt>버튼 색</dt><dd>--c-surface + border --c-border</dd>
+        <dt>버튼 글꼴</dt><dd>10px / --c-text-tertiary</dd>
+        <dt>색 (is-on)</dt><dd>--c-primary-muted + border --c-primary</dd>
+      </dl>
+    </div>
+
+    <!-- 이미지 드롭 영역 -->
+    <div class="comp-card">
+      <h4><code>.bgimg-drop</code> <span class="badge badge-new">NEW</span></h4>
+      <p class="desc">이미지 드롭/선택 영역</p>
+      <div class="comp-preview col">
+        <div class="bgimg-drop" style="aspect-ratio:16/9;">
+          <div class="drop-content">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+            <div>이미지를 선택하세요</div>
+            <div style="font-size:var(--fs-xs);color:var(--c-text-tertiary);">클릭하거나 드래그</div>
+          </div>
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>비율</dt><dd>aspect-ratio: 4/3 (기본)</dd>
+        <dt>배경</dt><dd>--c-surface-drop</dd>
+        <dt>테두리</dt><dd>1px dashed --c-border-strong</dd>
+        <dt>둥글기</dt><dd>--r-sm (6px)</dd>
+        <dt>아이콘</dt><dd>24px / --c-text-tertiary</dd>
+        <dt>텍스트</dt><dd>--fs-sm (12px) / --c-text-secondary</dd>
+        <dt>이미지 있을 때</dt><dd>.has-img → border-style: solid</dd>
+      </dl>
+    </div>
+
+    <!-- 도구 줄 -->
+    <div class="comp-card">
+      <h4><code>.tool-line</code> + <code>.tool-grp</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">도구 설정 줄</p>
+      <div class="comp-preview col">
+        <div class="tool-line" style="border:none;padding:10px 0;">
+          <div class="tool-grp">
+            <span class="lab" style="margin:0;">정렬</span>
+            <div class="seg" style="gap:4px;padding:3px;">
+              <button class="is-on" style="width:28px;height:28px;padding:0;">◀</button>
+              <button style="width:28px;height:28px;padding:0;">▶</button>
+            </div>
+          </div>
+          <div class="tool-sep" style="height:28px;"></div>
+          <div class="tool-grp">
+            <span class="lab" style="margin:0;">크기</span>
+            <div class="step">
+              <button>−</button>
+              <input type="text" value="14" style="width:40px;">
+              <button>+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>tool-line 패딩</dt><dd>--sp-md (12px) 0</dd>
+        <dt>tool-line 상단 외곽선</dt><dd>1px solid --c-border</dd>
+        <dt>tool-grp 간격</dt><dd>--sp-sm (8px)</dd>
+        <dt>tool-sep 너비</dt><dd>1px</dd>
+        <dt>tool-sep 색</dt><dd>--c-border</dd>
+        <dt>tool-sep 마진</dt><dd>0 --sp-xs (4px)</dd>
+        <dt>그룹 간 간격</dt><dd>--sp-md (12px)</dd>
+      </dl>
+    </div>
+
+    <!-- 테마 그리드 -->
+    <div class="comp-card">
+      <h4><code>.theme-grid</code> + <code>.theme-card</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">테마 프리셋 선택 (말풍선 스타일 + 배경 미리보기)</p>
+      <div class="comp-preview col">
+        <div class="theme-grid">
+          <!-- 말풍선 (좌측 꼬리) -->
+          <div class="theme-card is-on">
+            <button class="edit-btn">📝</button>
+            <div class="preview" style="background:#E8F0E8;">
+              <div class="bubble-preview has-tail-left" style="background:#fff;color:#1C1C1E;">대화문</div>
+            </div>
+            <div class="nm">말풍선</div>
+          </div>
+          <!-- 인용구 -->
+          <div class="theme-card">
+            <button class="edit-btn">📝</button>
+            <div class="preview" style="background:#F5F5F5;">
+              <div class="bubble-preview is-quote" style="color:#666;">인용문</div>
+            </div>
+            <div class="nm">인용구</div>
+          </div>
+          <!-- 각본 -->
+          <div class="theme-card">
+            <button class="edit-btn">📝</button>
+            <div class="preview" style="background:#FFFEF5;">
+              <div class="bubble-preview is-script" style="color:#333;">대사</div>
+            </div>
+            <div class="nm">각본</div>
+          </div>
+          <!-- 없음 -->
+          <div class="theme-card">
+            <button class="edit-btn">📝</button>
+            <div class="preview" style="background:#fff;">
+              <div class="bubble-preview is-none" style="color:#1C1C1E;">텍스트</div>
+            </div>
+            <div class="nm">없음</div>
+          </div>
+          <!-- 이미지 배경 -->
+          <div class="theme-card">
+            <button class="edit-btn">📝</button>
+            <div class="preview" style="background:linear-gradient(135deg,#FFE4CC,#FFF5E6);">
+              <div class="bubble-preview has-tail-left" style="background:rgba(255,255,255,0.9);color:#333;">대화문</div>
+            </div>
+            <div class="nm">따뜻한</div>
+          </div>
+          <!-- 추가 카드 -->
+          <div class="theme-card is-add">
+            <div class="preview">+</div>
+            <div class="nm">추가</div>
+          </div>
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>그리드 열</dt><dd>auto-fill minmax(80px, 1fr)</dd>
+        <dt>그리드 간격</dt><dd>--sp-sm (8px)</dd>
+        <dt>카드 외곽선</dt><dd>1px solid --c-border</dd>
+        <dt>카드 둥글기</dt><dd>--r-sm (6px)</dd>
+        <dt>카드 (is-on)</dt><dd>border --c-primary</dd>
+        <dt>수정 버튼</dt><dd>.edit-btn 📝 (항상 표시)</dd>
+        <dt>추가 카드</dt><dd>.is-add (점선 테두리)</dd>
+        <dt>말풍선 스타일</dt><dd>.bubble-preview + .has-tail-left/right, .is-quote, .is-script, .is-none</dd>
+      </dl>
+    </div>
+
+    <!-- 편집 카드 (보류) -->
+    <div class="comp-card" style="opacity:0.5;">
+      <h4><code>.editcard</code> <span class="badge" style="background:#999;">보류</span></h4>
+      <p class="desc">필요시 추가 예정 (제목+설정그룹 / 이미지편집 형태)</p>
+    </div>
+
+    <!-- 구분선 -->
+    <div class="comp-card">
+      <h4><code>.divider</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">영역 구분선</p>
+      <div class="comp-preview col">
+        <span style="font-size:12px;color:var(--c-text-secondary);">위 내용</span>
+        <div class="divider" style="margin:12px 0;"></div>
+        <span style="font-size:12px;color:var(--c-text-secondary);">아래 내용</span>
+      </div>
+      <dl class="specs">
+        <dt>높이</dt><dd>1px</dd>
+        <dt>색</dt><dd>--c-border</dd>
+      </dl>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2>7. 미리보기</h2>
+
+  <div class="comp-grid">
+    <!-- 이미지 프리뷰 -->
+    <div class="comp-card">
+      <h4><code>.imgprev</code> <span class="badge badge-main">MAIN</span></h4>
+      <p class="desc">이미지 미리보기 영역</p>
+      <div class="comp-preview col">
+        <div class="imgprev">
+          <div style="width:100%;height:80px;background:var(--c-border);border-radius:var(--r-sm);display:grid;place-items:center;color:var(--c-text-tertiary);font-size:12px;">이미지 미리보기</div>
+        </div>
+      </div>
+      <dl class="specs">
+        <dt>패딩</dt><dd>--sp-md (12px)</dd>
+        <dt>둥글기</dt><dd>--r-lg (14px)</dd>
+        <dt>색</dt><dd>--c-surface-sunken</dd>
+        <dt>이미지 둥글기</dt><dd>--r-sm (6px)</dd>
+      </dl>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

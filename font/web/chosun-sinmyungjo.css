@@ -1,0 +1,2 @@
+/* Chosun Sinmyungjo — chat.html 저장 임베드용. @font-face당 url()은 하나만 둔다. */
+@font-face{font-family:'Chosun Sinmyungjo';font-style:normal;font-weight:400;font-display:swap;src:url('./ChosunSinmyungjo-400.woff2') format('woff2');}

@@ -1,0 +1,1700 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>최종 컴포넌트 쇼케이스</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   디자인 토큰 (index.html 에서 가져옴)
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  --c-primary:#8A9F7A;
+  --c-primary-hover:#728563;
+  --c-primary-muted:rgba(138,159,122,0.15);
+  --c-danger:#C75B58;
+  --c-danger-bg:rgba(199,91,88,0.1);
+  --c-surface:#FFFFFF;
+  --c-surface-sunken:#F2F2F7;
+  --c-surface-drop:#F8F8FA;
+  --c-border:#E5E5EA;
+  --c-border-strong:#D1D1D6;
+  --c-divider:#EBEBF0;
+  --c-text:#1C1C1E;
+  --c-text-secondary:#636366;
+  --c-text-tertiary:#AEAEB2;
+  --c-text-inverse:#FFFFFF;
+  --sp-xs:4px; --sp-sm:8px; --sp-md:12px; --sp-lg:16px;
+  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-full:9999px;
+  --fs-xs:10px; --fs-sm:12px; --fs-md:14px;
+  --fw-normal:400; --fw-medium:500; --fw-bold:700;
+  --shadow-sm:0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md:0 4px 12px rgba(0,0,0,0.08);
+  --ctl:40px; --ctl-sm:32px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   레이아웃
+   ═══════════════════════════════════════════════════════════════ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Pretendard", -apple-system, sans-serif;
+  background: #F5F5F7; padding: 40px 20px 80px;
+  color: var(--c-text); font-size: 14px; line-height: 1.5;
+}
+.container { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+.subtitle { color: var(--c-text-secondary); font-size: 14px; margin-bottom: 32px; }
+h2 {
+  font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--c-primary); margin: 48px 0 16px; padding-bottom: 8px;
+  border-bottom: 2px solid var(--c-primary);
+}
+h2:first-of-type { margin-top: 0; }
+.comp-card {
+  background: #fff; border-radius: 12px;
+  padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  margin-bottom: 16px;
+}
+.comp-card h3 {
+  font-size: 13px; font-weight: 600; margin-bottom: 4px;
+  display: flex; align-items: center; gap: 8px;
+}
+.comp-card h3 code {
+  background: var(--c-surface-sunken); padding: 2px 6px; border-radius: 4px;
+  font-size: 11px; color: var(--c-primary);
+}
+.comp-card .desc { font-size: 12px; color: var(--c-text-secondary); margin-bottom: 12px; }
+.comp-preview {
+  background: #FAFAFA; border: 1px solid var(--c-border); border-radius: 8px;
+  padding: 16px; min-height: 50px;
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+}
+.comp-preview.col { flex-direction: column; align-items: stretch; }
+.state-label {
+  display: inline-block; font-size: 9px; color: var(--c-text-tertiary);
+  text-transform: uppercase; letter-spacing: 0.05em; margin-right: 4px;
+}
+.state-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+.state-row:last-child { margin-bottom: 0; }
+.comp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   컴포넌트 스타일
+   ═══════════════════════════════════════════════════════════════ */
+
+/* 아이콘 버튼 .icb */
+.icb {
+  width: var(--ctl); height: var(--ctl); flex: 0 0 var(--ctl);
+  border-radius: var(--r-full);
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  box-shadow: var(--shadow-md);
+  display: grid; place-items: center;
+  color: var(--c-text); font-size: 14px; cursor: pointer; transition: all .15s;
+}
+.icb:hover { background: var(--c-surface-sunken); }
+.icb.is-on { background: var(--c-primary-muted); border-color: var(--c-primary); color: var(--c-primary); }
+.icb.is-primary { background: var(--c-primary); border-color: var(--c-primary); color: var(--c-text-inverse); }
+.icb.is-ghost { background: transparent; border-color: var(--c-primary); color: var(--c-primary); }
+.icb:disabled, .icb.is-disabled { opacity: 0.5; cursor: default; pointer-events: none; }
+.icb svg { width: 19px; height: 19px; stroke: currentColor; fill: none; stroke-width: 1.7; }
+
+/* 버튼 .btn */
+.btn {
+  height: var(--ctl-sm); padding: 0 var(--sp-md); border-radius: var(--r-sm);
+  font-size: var(--fs-sm); font-weight: var(--fw-medium); line-height: 1;
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-xs);
+  border: 1px solid transparent; cursor: pointer; transition: all .15s;
+}
+.btn-fill { background: var(--c-primary); color: var(--c-text-inverse); }
+.btn-fill:hover { background: var(--c-primary-hover); }
+.btn-outline { background: transparent; border-color: var(--c-primary); color: var(--c-primary); }
+.btn-outline:hover { background: var(--c-primary-muted); }
+.btn-quiet { background: var(--c-surface-sunken); color: var(--c-text-secondary); }
+.btn-quiet:hover { background: var(--c-border); }
+.btn-danger { background: var(--c-danger-bg); border: 1px solid var(--c-danger); color: var(--c-danger); }
+.btn-danger:hover { background: rgba(199,91,88,0.2); }
+.btn-danger.btn-fill { background: var(--c-danger); color: var(--c-text-inverse); border-color: var(--c-danger); }
+.btn-danger.btn-fill:hover { background: #B54A47; }
+.btn:disabled, .btn.is-disabled { opacity: 0.5; pointer-events: none; cursor: default; }
+
+/* 칩 .chip */
+.chip {
+  height: var(--ctl-sm); padding: 0 var(--sp-md); border-radius: var(--r-full);
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  font-size: var(--fs-sm); color: var(--c-text);
+  display: inline-flex; align-items: center; gap: var(--sp-sm);
+  cursor: pointer; transition: all .15s;
+}
+.chip:hover { background: var(--c-surface-sunken); }
+.chip.is-on { background: var(--c-primary-muted); border-color: var(--c-primary); color: var(--c-primary); }
+.chip-danger { background: var(--c-danger-bg); border-color: transparent; color: var(--c-danger); }
+
+/* 세그먼트 .seg */
+.seg {
+  display: flex; gap: var(--sp-xs);
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  padding: var(--sp-xs); border-radius: var(--r-sm);
+}
+.seg button {
+  flex: 1; min-width: 0; padding: 6px 4px;
+  font-size: 11px; font-weight: var(--fw-bold); line-height: 1.2;
+  color: var(--c-text-secondary); border: 1px solid transparent;
+  border-radius: var(--sp-xs); background: transparent; cursor: pointer;
+}
+.seg button small { display: block; font-size: 9px; font-weight: var(--fw-normal); opacity: 0.7; margin-bottom: 2px; }
+.seg button.is-on {
+  background: var(--c-primary-muted); border-color: var(--c-primary);
+  color: var(--c-primary); font-weight: var(--fw-bold);
+}
+
+/* 탭 .tabs + .tab */
+.tabs {
+  display: flex; gap: var(--sp-xs);
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  padding: var(--sp-xs); border-radius: var(--r-sm);
+}
+.tab {
+  flex: 1; height: var(--ctl-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: var(--fs-sm); font-weight: var(--fw-normal); line-height: 1;
+  color: var(--c-text-secondary); border-radius: var(--sp-xs);
+  border: 1px solid transparent; background: transparent; cursor: pointer;
+}
+.tab.is-on {
+  background: var(--c-primary-muted); border-color: var(--c-primary);
+  color: var(--c-primary); font-weight: var(--fw-medium);
+}
+
+/* 탭 라인 */
+.tabs-line { display: flex; border-bottom: 1px solid var(--c-divider); position: relative; }
+.tab-line {
+  flex: 1; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: var(--fs-sm); font-weight: var(--fw-medium);
+  color: var(--c-text-secondary); border: none; background: transparent; cursor: pointer;
+  position: relative;
+}
+.tab-line.is-on { color: var(--c-text); }
+.tab-line.is-on::after {
+  content: ''; position: absolute; bottom: 0; left: var(--sp-lg); right: var(--sp-lg);
+  height: 2px; background: var(--c-primary); border-radius: 1px 1px 0 0;
+}
+
+/* 토글 .tgl */
+.tgl {
+  width: 44px; height: 26px; flex: 0 0 44px;
+  border-radius: var(--r-full); background: var(--c-border-strong);
+  position: relative; cursor: pointer; transition: background-color .16s;
+}
+.tgl::after {
+  content: ""; position: absolute; top: 3px; left: 3px;
+  width: 20px; height: 20px; border-radius: var(--r-full);
+  background: var(--c-surface); box-shadow: var(--shadow-sm);
+  transition: transform .16s;
+}
+.tgl.is-on { background: var(--c-primary); }
+.tgl.is-on::after { transform: translateX(18px); }
+/* 토글 작은 버전 */
+.tgl.tgl-sm { width: 36px; height: 20px; flex: 0 0 36px; }
+.tgl.tgl-sm::after { width: 14px; height: 14px; top: 3px; left: 3px; }
+.tgl.tgl-sm.is-on::after { transform: translateX(16px); }
+
+/* 색상 필드 .colorf */
+.colorf { display: flex; gap: var(--sp-sm); align-items: center; }
+.colorf .sw {
+  width: 38px; height: 38px; flex: 0 0 38px;
+  border-radius: var(--r-sm); border: 1px solid var(--c-border);
+  cursor: pointer;
+}
+.colorf .inp { flex: 1; height: 38px; }
+
+/* 입력 .inp */
+.inp {
+  width: 100%; height: 38px; padding: 0 var(--sp-md);
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: var(--r-sm); font-size: var(--fs-sm); color: var(--c-text);
+}
+.inp:focus { border-color: var(--c-primary); outline: none; }
+
+/* 셀렉트 .sel */
+.sel {
+  width: 100%; height: 38px; padding: 0 var(--sp-md); padding-right: 32px;
+  background: var(--c-surface-sunken); border: 1px solid transparent;
+  border-radius: var(--r-sm); font-size: var(--fs-sm); color: var(--c-text);
+  cursor: pointer; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23636366' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center; background-size: 16px;
+}
+
+/* 슬라이더 .rng + .slideh */
+.slideh { display: flex; align-items: center; gap: var(--sp-md); }
+.slideh .lab { margin: 0; flex: 0 0 auto; font-size: var(--fs-xs); color: var(--c-text-secondary); }
+.rng {
+  -webkit-appearance: none; appearance: none;
+  flex: 1; height: var(--sp-xs); margin: 0;
+  border-radius: 2px; background: var(--c-border-strong); cursor: pointer;
+}
+.rng::-webkit-slider-thumb {
+  -webkit-appearance: none; width: var(--sp-lg); height: var(--sp-lg);
+  border-radius: 50%; background: var(--c-primary);
+  border: 2px solid var(--c-surface); box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+}
+.slideh .val {
+  flex: 0 0 40px; height: 28px; padding: 0 var(--sp-xs);
+  text-align: center; font-size: var(--fs-sm); color: var(--c-text);
+  background: var(--c-surface-sunken); border: none; border-radius: var(--r-sm);
+}
+/* 슬라이더 단위 표시 */
+.slideh-val { position: relative; display: flex; align-items: center; flex: 0 0 auto; }
+.slideh-val .val {
+  width: 40px; height: 28px; padding-left: 6px; padding-right: 16px;
+  text-align: left; font-size: var(--fs-sm); color: var(--c-text);
+  background: var(--c-surface-sunken); border: none; border-radius: var(--r-sm);
+}
+.slideh-val .unit {
+  position: absolute; right: 5px; font-size: var(--fs-xs);
+  color: var(--c-text-tertiary); pointer-events: none;
+}
+
+/* 스테퍼 .step */
+.step { display: flex; align-items: center; gap: 6px; }
+.step button {
+  width: 28px; height: 28px; border-radius: var(--r-sm);
+  color: var(--c-text-secondary); background: var(--c-surface-sunken);
+  border: none; display: grid; place-items: center; font-size: 15px; cursor: pointer;
+}
+.step button:hover { background: var(--c-border); }
+.step input {
+  width: 48px; height: 28px; text-align: center;
+  background: var(--c-surface-sunken); border: none; border-radius: var(--r-sm);
+  font-size: var(--fs-sm); color: var(--c-text);
+}
+/* 단위 스테퍼 .step-val */
+.step-val { position: relative; display: flex; align-items: center; }
+.step-val input {
+  width: 48px; height: 28px; text-align: left; padding-left: 8px; padding-right: 18px;
+  border: none; background: var(--c-surface-sunken); border-radius: var(--r-sm);
+  font-size: var(--fs-sm); color: var(--c-text);
+}
+.step-val .unit {
+  position: absolute; right: 6px; font-size: var(--fs-xs);
+  color: var(--c-text-tertiary); pointer-events: none;
+}
+
+/* 캐릭터 칩 .char-chip */
+.char-chip {
+  height: var(--ctl-sm); padding: 0 var(--sp-md) 0 4px;
+  display: inline-flex; align-items: center; gap: var(--sp-sm);
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: var(--r-full); font-size: var(--fs-sm); line-height: 1;
+  color: var(--c-text); cursor: pointer; transition: all .15s;
+}
+.char-chip:hover { background: var(--c-surface-sunken); }
+.char-chip .avatar {
+  width: 24px; height: 24px; border-radius: var(--r-full);
+  background: var(--c-border); flex-shrink: 0; overflow: hidden;
+  display: grid; place-items: center; font-size: 10px; color: #fff;
+}
+.char-chip.is-on { background: var(--c-primary-muted); border-color: var(--c-primary); color: var(--c-primary); }
+/* 수정 버튼 포함 시 */
+.char-chip.has-edit { padding-right: 4px; }
+.char-chip .edit-btn {
+  width: 22px; height: 22px; border-radius: var(--r-full);
+  background: var(--c-surface-sunken); border: none;
+  display: grid; place-items: center; cursor: pointer; margin-left: var(--sp-xs);
+}
+.char-chip .edit-btn:hover { background: var(--c-border); }
+.char-chip .edit-btn svg {
+  width: 12px; height: 12px; stroke: var(--c-text-secondary); fill: none; stroke-width: 2;
+}
+
+/* 캐릭터 카드 .char-card */
+.char-card {
+  display: flex; align-items: center; gap: var(--sp-md); padding: var(--sp-md);
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: var(--r-md); position: relative;
+}
+.char-card .avatar {
+  width: 40px; height: 40px; border-radius: var(--r-full);
+  background: var(--c-border); flex-shrink: 0; overflow: hidden;
+  display: grid; place-items: center; font-size: 14px; color: #fff;
+}
+.char-card .info { flex: 1; min-width: 0; }
+.char-card .name { font-size: var(--fs-sm); font-weight: var(--fw-medium); }
+.char-card .colors { display: flex; gap: var(--sp-xs); margin-top: var(--sp-xs); }
+.char-card .color-dot { width: 12px; height: 12px; border-radius: var(--r-full); border: 1px solid rgba(0,0,0,0.1); }
+.char-card .edit-btn {
+  position: absolute; top: 8px; right: 8px; width: 24px; height: 24px;
+  border-radius: 50%; background: var(--c-surface-sunken); border: 1px solid var(--c-border);
+  display: grid; place-items: center; cursor: pointer;
+}
+.char-card .edit-btn:hover { background: var(--c-border); }
+.char-card .edit-btn svg {
+  width: 12px; height: 12px; stroke: var(--c-text-secondary); fill: none; stroke-width: 2;
+}
+
+/* 캐릭터 추가 .char-add */
+.char-add {
+  display: flex; align-items: center; gap: var(--sp-md); padding: var(--sp-md);
+  background: var(--c-surface-drop); border: 1px dashed var(--c-border-strong);
+  border-radius: var(--r-md); color: var(--c-text-tertiary);
+  font-size: var(--fs-sm); line-height: 1; cursor: pointer; transition: all .15s;
+}
+.char-add:hover { border-color: var(--c-primary); color: var(--c-primary); background: var(--c-primary-muted); }
+.char-add .icon {
+  width: 40px; height: 40px; border-radius: var(--r-full);
+  background: var(--c-surface-sunken); display: grid; place-items: center; flex-shrink: 0;
+}
+.char-add:hover .icon { background: var(--c-primary-muted); }
+
+/* 테마 카드 .theme-card */
+.theme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: var(--sp-sm); }
+.theme-card {
+  position: relative; display: flex; flex-direction: column;
+  border: 1px solid var(--c-border); border-radius: var(--r-sm);
+  background: var(--c-surface); text-align: center; cursor: pointer;
+  padding: 6px; gap: 6px;
+}
+.theme-card .preview {
+  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+  padding: 6px; background-size: cover; background-position: center; border-radius: 4px;
+}
+/* 말풍선 미리보기 */
+.theme-card .bubble-preview {
+  width: 100%; padding: 6px 8px; border-radius: 8px;
+  font-size: 8px; line-height: 1.3; text-align: left;
+}
+/* 말풍선 꼬리 */
+.theme-card .bubble-preview.has-tail-left { border-bottom-left-radius: 2px; }
+.theme-card .bubble-preview.has-tail-right { border-bottom-right-radius: 2px; }
+/* 인용구 스타일 */
+.theme-card .bubble-preview.is-quote {
+  border-left: 2px solid currentColor; border-radius: 0;
+  background: transparent !important; padding-left: 8px;
+}
+/* 각본 스타일 */
+.theme-card .bubble-preview.is-script {
+  background: transparent !important; border-radius: 0; text-align: center;
+}
+.theme-card .bubble-preview.is-script::before {
+  content: '이름'; display: block; font-size: 7px; opacity: 0.7; margin-bottom: 2px;
+}
+/* 없음 (텍스트만) */
+.theme-card .bubble-preview.is-none {
+  background: transparent !important; border-radius: 0;
+}
+.theme-card .nm {
+  font-size: var(--fs-xs); line-height: 1; color: var(--c-text-secondary);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.theme-card.is-on { border-color: var(--c-primary); }
+.theme-card .edit-btn {
+  position: absolute; top: 6px; right: 6px; width: 20px; height: 20px;
+  border-radius: 50%; background: rgba(255,255,255,0.9); border: none;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.theme-card .edit-btn svg {
+  width: 10px; height: 10px; stroke: var(--c-text-secondary); fill: none; stroke-width: 2;
+}
+.theme-card.is-add { border-style: dashed; border-color: var(--c-border-strong); }
+.theme-card.is-add .preview { background: var(--c-surface-drop); color: var(--c-text-tertiary); font-size: 24px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   복합 컴포넌트
+   ═══════════════════════════════════════════════════════════════ */
+
+/* 액션 메뉴 */
+.action-menu {
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: var(--r-md); box-shadow: var(--shadow-md);
+  padding: var(--sp-xs) 0; min-width: 140px; overflow: hidden;
+}
+.action-menu-item {
+  display: flex; align-items: center; gap: var(--sp-sm);
+  padding: var(--sp-sm) var(--sp-md); font-size: var(--fs-sm); color: var(--c-text);
+  cursor: pointer; transition: background .1s;
+  border: none; background: none; width: 100%; text-align: left;
+}
+.action-menu-item:hover { background: var(--c-surface-sunken); }
+.action-menu-item.is-danger { color: #C75B58; }
+.action-menu-item .icon { font-size: 16px; width: 20px; text-align: center; }
+.action-menu-divider { height: 1px; background: var(--c-divider); margin: var(--sp-xs) 0; }
+
+/* 컴포저 인풋 그룹 */
+.inp-group {
+  display: flex; align-items: flex-end; gap: var(--sp-sm);
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: var(--r-full); padding: 8px 12px;
+}
+.inp-group:focus-within { border-color: var(--c-primary); }
+.composer-ta {
+  flex: 1; min-width: 0; border: 0; background: none; padding: 0; outline: none;
+  font-size: var(--fs-sm); line-height: 24px; color: var(--c-text);
+  min-height: 24px; cursor: text;
+}
+.composer-ta:empty::before {
+  content: attr(data-placeholder); color: var(--c-text-tertiary); pointer-events: none;
+}
+.btn-mini {
+  width: 28px; height: 28px; border-radius: var(--r-full);
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  display: grid; place-items: center; cursor: pointer;
+}
+.btn-mini svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+.btn-mini.is-on { background: var(--c-primary-muted); border-color: var(--c-primary); color: var(--c-primary); }
+.btn-mini.is-send { background: var(--c-primary); border-color: var(--c-primary); color: #fff; }
+
+/* 설정 콘텐츠 */
+.settings-content { padding: var(--sp-md); }
+.settings-list { display: flex; flex-direction: column; gap: var(--sp-sm); }
+
+/* 편집 헤더 */
+.edit-header {
+  display: flex; align-items: center; gap: var(--sp-sm);
+  padding: var(--sp-md); border-bottom: 1px solid var(--c-divider);
+}
+.edit-header .back-btn {
+  width: 28px; height: 28px; border-radius: var(--r-sm);
+  background: var(--c-surface-sunken); border: none;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.edit-header .back-btn svg { width: 16px; height: 16px; stroke: var(--c-text); fill: none; stroke-width: 2; }
+.edit-header .edit-title { font-size: var(--fs-sm); font-weight: var(--fw-bold); }
+
+/* 라벨 */
+.lab { display: block; font-size: var(--fs-xs); font-weight: var(--fw-medium); color: var(--c-text-secondary); margin-bottom: var(--sp-sm); }
+
+/* 비율 탭 */
+.ratio-tabs { display: flex; gap: 6px; }
+.ratio-tabs button {
+  flex: 1; min-width: 0; padding: 6px 4px; border-radius: var(--r-sm);
+  background: var(--c-surface-sunken); border: 1px solid transparent;
+  font-size: 11px; font-weight: var(--fw-bold); color: var(--c-text-secondary);
+  cursor: pointer; line-height: 1.2;
+}
+.ratio-tabs button small { display: block; font-size: 9px; font-weight: var(--fw-normal); opacity: 0.7; margin-bottom: 2px; }
+.ratio-tabs button.is-on { background: var(--c-primary-muted); border-color: var(--c-primary); color: var(--c-primary); }
+
+/* 꼬리 선택 */
+.tail-sel { display: flex; gap: var(--sp-sm); }
+.tail-sel button {
+  flex: 1; height: 36px; border-radius: var(--r-sm);
+  background: var(--c-surface-sunken); border: 1px solid transparent;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.tail-sel button svg { width: 20px; height: 20px; stroke: var(--c-text-secondary); fill: none; stroke-width: 1.5; }
+.tail-sel button.is-on { background: var(--c-primary-muted); border-color: var(--c-primary); }
+.tail-sel button.is-on svg { stroke: var(--c-primary); }
+
+/* 배경 이미지 드롭 */
+.bgimg-drop {
+  width: 100%; aspect-ratio: 4/3; background: var(--c-surface-drop);
+  border: 1px dashed var(--c-border-strong); border-radius: var(--r-sm);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: var(--sp-sm); color: var(--c-text-secondary); font-size: var(--fs-sm); cursor: pointer;
+}
+.bgimg-drop svg { width: 24px; height: 24px; stroke: var(--c-text-tertiary); fill: none; stroke-width: 1.5; }
+
+/* 컬러 피커 팝오버 */
+.pop {
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: var(--r-lg); box-shadow: var(--shadow-md); padding: 14px; width: 280px;
+}
+.pop-title { font-size: var(--fs-xs); color: var(--c-text-secondary); margin-bottom: 10px; }
+.pop-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 7px; margin-bottom: 12px; }
+.pop-sw { aspect-ratio: 1; border-radius: 7px; border: 1px solid rgba(0,0,0,0.1); cursor: pointer; position: relative; }
+.pop-sw:hover { transform: scale(1.1); }
+.pop-sw .del {
+  position: absolute;
+  top: -4px; right: -4px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--c-danger);
+  border: 1px solid var(--c-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.pop-sw .del svg { width: 8px; height: 8px; stroke: #fff; stroke-width: 2; fill: none; }
+
+/* 캐릭터 편집 팝오버 */
+.char-edit-pop {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-md);
+  padding: var(--sp-md);
+  width: 200px;
+}
+.tgl-inline { display: flex; align-items: center; justify-content: space-between; }
+.tgl-inline .lab { margin: 0; }
+
+/* 아바타 버튼 (프로필 이미지 편집) */
+.av-btn {
+  width: 56px; height: 56px;
+  flex: 0 0 56px;
+  border-radius: var(--r-full);
+  background: var(--c-surface-drop);
+  border: 1px dashed var(--c-border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--c-text-tertiary);
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+.av-btn.has-img { border-style: solid; }
+.av-btn img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+
+/* 모달 */
+.modal-panel {
+  background: var(--c-surface); border-radius: 20px; width: min(420px, 100%);
+  max-height: 88dvh; overflow-y: auto; padding: 18px; box-shadow: var(--shadow-md);
+}
+.modal-title { font-size: 15px; font-weight: 700; margin: 0 0 4px; }
+.modal-sub { font-size: var(--fs-xs); color: var(--c-text-tertiary); margin: 0 0 14px; }
+.modal-foot { display: flex; gap: 8px; margin-top: 16px; }
+.modal-foot .btn { flex: 1; height: 42px; font-size: 13px; }
+
+/* 리셋 옵션 */
+.reset-list { display: grid; gap: 8px; margin-top: 16px; }
+.reset-option {
+  display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 10px 12px;
+  background: var(--c-surface-sunken); border: 1px solid var(--c-border);
+  border-radius: var(--r-sm); cursor: pointer;
+}
+.reset-option:has(input:checked) { background: var(--c-primary-muted); border-color: var(--c-primary); }
+.reset-option input { width: 18px; height: 18px; flex: 0 0 18px; accent-color: var(--c-primary); }
+.reset-option strong { display: block; font-size: 12px; font-weight: 600; color: var(--c-text); }
+.reset-option small { display: block; margin-top: 2px; font-size: 10px; color: var(--c-text-secondary); line-height: 1.35; }
+.reset-option.is-off { opacity: 0.45; cursor: default; }
+
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>최종 컴포넌트 쇼케이스</h1>
+<p class="subtitle">index.html v2 스타일 적용 후 각 컴포넌트의 최종 모습</p>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>아이콘 버튼 (.icb)</h2>
+
+<div class="comp-card">
+  <h3><code>.icb</code></h3>
+  <p class="desc">40px 원형 버튼 (box-shadow 적용)</p>
+  <div class="comp-preview">
+    <div class="state-row">
+      <span class="state-label">기본</span>
+      <button class="icb">+</button>
+      <span class="state-label">is-on</span>
+      <button class="icb is-on">✓</button>
+      <span class="state-label">is-primary</span>
+      <button class="icb is-primary">+</button>
+      <span class="state-label">is-ghost</span>
+      <button class="icb is-ghost">+</button>
+      <span class="state-label">disabled</span>
+      <button class="icb" disabled>+</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>버튼 (.btn)</h2>
+
+<div class="comp-card">
+  <h3><code>.btn</code></h3>
+  <p class="desc">32px 높이, disabled = opacity 0.5 (원색 유지)</p>
+  <div class="comp-preview col">
+    <div class="state-row">
+      <span class="state-label">btn-fill</span>
+      <button class="btn btn-fill">확인</button>
+      <button class="btn btn-fill" disabled>disabled</button>
+    </div>
+    <div class="state-row">
+      <span class="state-label">btn-outline</span>
+      <button class="btn btn-outline">취소</button>
+      <button class="btn btn-outline" disabled>disabled</button>
+    </div>
+    <div class="state-row">
+      <span class="state-label">btn-quiet</span>
+      <button class="btn btn-quiet">조용</button>
+      <button class="btn btn-quiet" disabled>disabled</button>
+    </div>
+    <div class="state-row">
+      <span class="state-label">btn-danger</span>
+      <button class="btn btn-danger">삭제</button>
+      <button class="btn btn-danger" disabled>disabled</button>
+    </div>
+    <div class="state-row">
+      <span class="state-label">btn-danger btn-fill</span>
+      <button class="btn btn-danger btn-fill">삭제</button>
+      <button class="btn btn-danger btn-fill" disabled>disabled</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>칩 (.chip)</h2>
+
+<div class="comp-card">
+  <h3><code>.chip</code></h3>
+  <p class="desc">32px 알약 형태 (흰 배경 + 테두리)</p>
+  <div class="comp-preview">
+    <span class="chip">기본</span>
+    <span class="chip is-on">is-on</span>
+    <span class="chip chip-danger">chip-danger</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>세그먼트 / 탭</h2>
+
+<div class="comp-grid">
+  <div class="comp-card">
+    <h3><code>.seg</code></h3>
+    <p class="desc">28px 높이, 흰 배경 + 테두리 컨테이너</p>
+    <div class="comp-preview col">
+      <div class="seg">
+        <button class="is-on">서식</button>
+        <button>여백</button>
+        <button>색</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="comp-card">
+    <h3><code>.tabs</code> + <code>.tab</code></h3>
+    <p class="desc">32px 높이, 필 스타일</p>
+    <div class="comp-preview col">
+      <div class="tabs">
+        <button class="tab is-on">서식</button>
+        <button class="tab">여백</button>
+        <button class="tab">색</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="comp-card">
+  <h3><code>.tabs-line</code> + <code>.tab-line</code></h3>
+  <p class="desc">44px 높이, 밑줄 인디케이터</p>
+  <div class="comp-preview col" style="padding:0; overflow:hidden;">
+    <div class="tabs-line">
+      <button class="tab-line is-on">작성</button>
+      <button class="tab-line">설정</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>토글 (.tgl)</h2>
+
+<div class="comp-card">
+  <h3><code>.tgl</code></h3>
+  <p class="desc">44×26px 스위치</p>
+  <div class="comp-preview">
+    <span class="state-label">OFF</span>
+    <div class="tgl"></div>
+    <span class="state-label">ON</span>
+    <div class="tgl is-on"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>입력 (.inp / .sel)</h2>
+
+<div class="comp-grid">
+  <div class="comp-card">
+    <h3><code>.inp</code></h3>
+    <p class="desc">38px 높이 텍스트 입력</p>
+    <div class="comp-preview col">
+      <input class="inp" placeholder="텍스트 입력">
+    </div>
+  </div>
+
+  <div class="comp-card">
+    <h3><code>.sel</code></h3>
+    <p class="desc">38px 높이 셀렉트</p>
+    <div class="comp-preview col">
+      <select class="sel">
+        <option>옵션 선택</option>
+        <option>옵션 1</option>
+        <option>옵션 2</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>슬라이더 (.slideh + .rng)</h2>
+
+<div class="comp-card">
+  <h3><code>.slideh</code> + <code>.rng</code></h3>
+  <p class="desc">라벨 + 슬라이더 + 값 표시</p>
+  <div class="comp-preview col" style="gap:16px;">
+    <!-- 기본 -->
+    <div class="slideh">
+      <span class="lab">불투명도</span>
+      <input type="range" class="rng" value="80">
+      <input type="text" class="val" value="80">
+    </div>
+    <!-- 단위 포함 -->
+    <div class="slideh">
+      <span class="lab">둥글기</span>
+      <input type="range" class="rng" value="12">
+      <div class="slideh-val">
+        <input type="text" class="val" value="12">
+        <span class="unit">px</span>
+      </div>
+    </div>
+    <!-- 단위 포함 -->
+    <div class="slideh">
+      <span class="lab">회전</span>
+      <input type="range" class="rng" value="45" min="0" max="360">
+      <div class="slideh-val">
+        <input type="text" class="val" value="45">
+        <span class="unit">°</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>스테퍼 (.step / .step-val)</h2>
+
+<div class="comp-card">
+  <h3><code>.step</code> / <code>.step-val</code></h3>
+  <p class="desc">28px 높이 스테퍼 (단위 표시 포함)</p>
+  <div class="comp-preview col" style="gap:12px;">
+    <div style="display:flex;gap:24px;align-items:center;">
+      <div class="step">
+        <button>−</button>
+        <input type="text" value="12">
+        <button>+</button>
+      </div>
+      <span class="state-label">기본</span>
+    </div>
+    <div style="display:flex;gap:24px;align-items:center;">
+      <div class="step">
+        <button>−</button>
+        <div class="step-val">
+          <input type="text" value="16">
+          <span class="unit">px</span>
+        </div>
+        <button>+</button>
+      </div>
+      <span class="state-label">단위 포함</span>
+    </div>
+    <div style="display:flex;gap:24px;align-items:center;">
+      <div class="step">
+        <button>−</button>
+        <div class="step-val">
+          <input type="text" value="45">
+          <span class="unit">°</span>
+        </div>
+        <button>+</button>
+      </div>
+      <span class="state-label">각도</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>캐릭터 칩 (.char-chip)</h2>
+
+<div class="comp-card">
+  <h3><code>.char-chip</code></h3>
+  <p class="desc">아바타 + 이름 칩 (32px), 수정 버튼 옵션</p>
+  <div class="comp-preview col" style="gap:12px;">
+    <!-- 기본 -->
+    <div>
+      <span class="state-label" style="display:block;margin-bottom:6px;">기본</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="char-chip">
+          <span class="avatar" style="background:#FF6B9D;"></span>
+          <span>버디</span>
+        </button>
+        <button class="char-chip is-on">
+          <span class="avatar" style="background:#4ECDC4;"></span>
+          <span>하일</span>
+        </button>
+      </div>
+    </div>
+    <!-- 수정 버튼 포함 -->
+    <div>
+      <span class="state-label" style="display:block;margin-bottom:6px;">수정 버튼 포함 (.edit-btn)</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="char-chip has-edit is-on">
+          <span class="avatar" style="background:#FF6B9D;"></span>
+          <span>앨리스</span>
+          <span class="edit-btn">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none"/></svg>
+          </span>
+        </button>
+        <button class="char-chip has-edit">
+          <span class="avatar" style="background:#4ECDC4;"></span>
+          <span>밥</span>
+          <span class="edit-btn">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none"/></svg>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>캐릭터 카드 / 추가 (.char-card / .char-add)</h2>
+
+<div class="comp-card">
+  <h3><code>.char-card</code> / <code>.char-add</code></h3>
+  <p class="desc">목록용 카드 (수정 버튼 포함) + 추가 버튼</p>
+  <div class="comp-preview col" style="max-width:320px; gap:8px;">
+    <div class="char-card">
+      <span class="avatar" style="background:#8A9F7A;">A</span>
+      <div class="info">
+        <div class="name">앨리스</div>
+        <div class="colors">
+          <span class="color-dot" style="background:#E4F6E4;"></span>
+          <span class="color-dot" style="background:#1C1C1E;"></span>
+        </div>
+      </div>
+      <button class="edit-btn"><svg viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></button>
+    </div>
+    <div class="char-card">
+      <span class="avatar" style="background:#5E8C5E;">B</span>
+      <div class="info">
+        <div class="name">밥</div>
+        <div class="colors">
+          <span class="color-dot" style="background:#F5E6D3;"></span>
+          <span class="color-dot" style="background:#333;"></span>
+        </div>
+      </div>
+      <button class="edit-btn"><svg viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></button>
+    </div>
+    <div class="char-add">
+      <span class="icon">+</span>
+      <span>캐릭터 추가</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>테마 카드 (.theme-card)</h2>
+
+<div class="comp-card">
+  <h3><code>.theme-grid</code> + <code>.theme-card</code></h3>
+  <p class="desc">말풍선 형태별 미리보기: 전체 배경 + 말풍선 배경 + 글자 색</p>
+  <div class="comp-preview col">
+    <div class="theme-grid" style="max-width:500px;">
+      <!-- 말풍선 (좌측 꼬리) -->
+      <div class="theme-card is-on">
+        <button class="edit-btn"><svg viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></button>
+        <div class="preview" style="background:#E8F0E8;">
+          <div class="bubble-preview has-tail-left" style="background:#fff;color:#1C1C1E;">대화문</div>
+        </div>
+        <div class="nm">말풍선</div>
+      </div>
+      <!-- 인용구 -->
+      <div class="theme-card">
+        <button class="edit-btn"><svg viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></button>
+        <div class="preview" style="background:#F5F5F5;">
+          <div class="bubble-preview is-quote" style="color:#666;">인용문</div>
+        </div>
+        <div class="nm">인용구</div>
+      </div>
+      <!-- 각본 -->
+      <div class="theme-card">
+        <button class="edit-btn"><svg viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></button>
+        <div class="preview" style="background:#FFFEF5;">
+          <div class="bubble-preview is-script" style="color:#333;">대사</div>
+        </div>
+        <div class="nm">각본</div>
+      </div>
+      <!-- 없음 -->
+      <div class="theme-card">
+        <button class="edit-btn"><svg viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></button>
+        <div class="preview" style="background:#fff;">
+          <div class="bubble-preview is-none" style="color:#1C1C1E;">텍스트</div>
+        </div>
+        <div class="nm">없음</div>
+      </div>
+      <!-- 이미지 배경 -->
+      <div class="theme-card">
+        <button class="edit-btn"><svg viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></button>
+        <div class="preview" style="background:linear-gradient(135deg,#FFE4CC,#FFF5E6);">
+          <div class="bubble-preview has-tail-left" style="background:rgba(255,255,255,0.9);color:#333;">대화문</div>
+        </div>
+        <div class="nm">따뜻한</div>
+      </div>
+      <!-- 추가 카드 -->
+      <div class="theme-card is-add">
+        <div class="preview">+</div>
+        <div class="nm">추가</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2 style="margin-top:64px;border-top:3px solid var(--c-primary);padding-top:32px;">복합 컴포넌트</h2>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>액션 메뉴 (.action-menu)</h2>
+
+<div class="comp-card">
+  <h3><code>.action-menu</code> (SVG)</h3>
+  <p class="desc">+ 버튼 눌렀을 때 나오는 삽입 메뉴</p>
+  <div class="comp-preview" style="justify-content:center;">
+    <div class="action-menu" style="position:relative;">
+      <button class="action-menu-item"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></span> 이미지</button>
+      <button class="action-menu-item"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7"/></svg></span> HTML</button>
+      <button class="action-menu-item"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span> 음악</button>
+      <div class="action-menu-divider"></div>
+      <button class="action-menu-item"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><path d="M5 12h14"/></svg></span> 가로선</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>컴포저 (.inp-group)</h2>
+
+<div class="comp-card">
+  <h3><code>.inp-group</code></h3>
+  <p class="desc">v2 작성 입력창 (설정 버튼 + 텍스트영역 + 추가/전송 버튼)</p>
+  <div class="comp-preview col" style="gap:16px;max-width:400px;">
+    <!-- 1. 기본 상태 -->
+    <div>
+      <span class="state-label" style="display:block;margin-bottom:6px;">1. 기본 상태</span>
+      <div class="inp-group">
+        <button class="btn-mini"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none"/></svg></button>
+        <div class="composer-ta" data-placeholder="문단을 기준으로 블록이 구분됩니다."></div>
+        <button class="btn-mini"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+      </div>
+    </div>
+    <!-- 2. 설정 버튼 활성화 -->
+    <div>
+      <span class="state-label" style="display:block;margin-bottom:6px;">2. 설정 버튼 활성화 (is-on)</span>
+      <div class="inp-group">
+        <button class="btn-mini is-on"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none"/></svg></button>
+        <div class="composer-ta" data-placeholder="문단을 기준으로 블록이 구분됩니다."></div>
+        <button class="btn-mini"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+      </div>
+    </div>
+    <!-- 3. 인풋 포커스 -->
+    <div>
+      <span class="state-label" style="display:block;margin-bottom:6px;">3. 인풋 포커스</span>
+      <div class="inp-group" style="border-color:var(--c-primary);">
+        <button class="btn-mini"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none"/></svg></button>
+        <div class="composer-ta" data-placeholder="문단을 기준으로 블록이 구분됩니다."></div>
+        <button class="btn-mini"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+      </div>
+    </div>
+    <!-- 4. 입력됨 → 전송 버튼 -->
+    <div>
+      <span class="state-label" style="display:block;margin-bottom:6px;">4. 입력됨 → 전송 버튼 (is-send)</span>
+      <div class="inp-group">
+        <button class="btn-mini"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none"/></svg></button>
+        <div class="composer-ta">안녕하세요, 반갑습니다!</div>
+        <button class="btn-mini is-send"><svg viewBox="0 0 24 24"><path d="M9 10l-5 5 5 5"/><path d="M20 4v7a4 4 0 01-4 4H4"/></svg></button>
+      </div>
+    </div>
+    <!-- 5. + 버튼 활성화 (X 아이콘으로 변경) -->
+    <div>
+      <span class="state-label" style="display:block;margin-bottom:6px;">5. + 버튼 활성화 (is-on, X 아이콘)</span>
+      <div class="inp-group">
+        <button class="btn-mini"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none"/></svg></button>
+        <div class="composer-ta" data-placeholder="문단을 기준으로 블록이 구분됩니다."></div>
+        <button class="btn-mini is-on"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>설정 패널 (열린 상태)</h2>
+
+<div class="comp-card">
+  <h3><code>.tabs-line</code> + <code>.settings-content</code></h3>
+  <p class="desc">설정 패널 - 캐릭터 탭 선택됨 (상단에 inp-group, 설정 버튼 is-on)</p>
+  <div class="comp-preview col" style="padding:0;overflow:hidden;max-width:400px;">
+    <!-- 상단 inp-group (설정 버튼 is-on) -->
+    <div style="padding:var(--sp-md);border-bottom:1px solid var(--c-divider);">
+      <div class="inp-group">
+        <button class="btn-mini is-on"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none"/></svg></button>
+        <div class="composer-ta" data-placeholder="문단을 기준으로 블록이 구분됩니다."></div>
+        <button class="btn-mini"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+      </div>
+    </div>
+    <!-- 탭 라인 -->
+    <div class="tabs-line">
+      <button class="tab-line is-on">캐릭터</button>
+      <button class="tab-line">테마</button>
+    </div>
+    <!-- 설정 콘텐츠 -->
+    <div class="settings-content" style="max-height:none;padding:var(--sp-md);">
+      <div class="settings-list">
+        <div class="char-card">
+          <span class="avatar" style="background:#FF6B9D;">A</span>
+          <div class="info">
+            <div class="name">앨리스</div>
+            <div class="colors">
+              <span class="color-dot" style="background:#FFE4E4;"></span>
+              <span class="color-dot" style="background:#1C1C1E;"></span>
+            </div>
+          </div>
+          <button class="edit-btn"><svg viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></button>
+        </div>
+        <div class="char-card">
+          <span class="avatar" style="background:#4ECDC4;">B</span>
+          <div class="info">
+            <div class="name">밥</div>
+            <div class="colors">
+              <span class="color-dot" style="background:#E4F6F6;"></span>
+              <span class="color-dot" style="background:#333;"></span>
+            </div>
+          </div>
+          <button class="edit-btn"><svg viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></button>
+        </div>
+        <div class="char-add">
+          <span class="icon">+</span>
+          <span>캐릭터 추가</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>캐릭터 수정 모드</h2>
+
+<div class="comp-card">
+  <h3><code>.edit-header</code> + 수정 폼</h3>
+  <p class="desc">캐릭터 편집 화면: < 편집 [복사] [삭제] [저장] - SVG 28px</p>
+  <div class="comp-preview col" style="padding:0;overflow:hidden;max-width:400px;">
+    <!-- 편집 헤더: SVG 28px 버튼 -->
+    <div class="edit-header">
+      <button class="back-btn">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="edit-title">편집</span>
+      <div style="flex:1;"></div>
+      <button class="btn btn-outline" style="height:28px;width:28px;padding:0;" title="복사"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      <button class="btn btn-danger" style="height:28px;width:28px;padding:0;" title="삭제"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+      <button class="btn btn-fill" style="height:28px;width:28px;padding:0;" title="저장"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M20 6L9 17l-5-5"/></svg></button>
+    </div>
+    <!-- 편집 폼 -->
+    <div style="padding:var(--sp-md);">
+      <!-- [사진] 이름 배치 - 수정 아이콘 포함 -->
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:16px;">
+        <div style="position:relative;width:48px;height:48px;flex-shrink:0;cursor:pointer;">
+          <div style="width:48px;height:48px;border-radius:50%;background:#FF6B9D;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;">A</div>
+          <div style="position:absolute;bottom:-2px;right:-2px;width:20px;height:20px;border-radius:50%;background:var(--c-surface);border:1px solid var(--c-border);display:flex;align-items:center;justify-content:center;">
+            <svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:var(--c-text-secondary);fill:none;stroke-width:2;"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+          </div>
+        </div>
+        <div style="flex:1;">
+          <span class="lab">이름</span>
+          <input class="inp" value="앨리스">
+        </div>
+      </div>
+      <!-- 토글 먼저 -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <span class="lab" style="margin:0;">말풍선 색상 개별 설정</span>
+        <div class="tgl tgl-sm is-on"></div>
+      </div>
+      <!-- 색상 설정 -->
+      <div class="comp-grid" style="gap:12px;">
+        <div>
+          <span class="lab">배경색</span>
+          <div style="display:flex;gap:8px;">
+            <div style="width:38px;height:38px;border-radius:8px;background:#FFE4E4;border:1px solid var(--c-border);cursor:pointer;flex-shrink:0;"></div>
+            <input class="inp" value="#FFE4E4" style="flex:1;">
+          </div>
+        </div>
+        <div>
+          <span class="lab">글자색</span>
+          <div style="display:flex;gap:8px;">
+            <div style="width:38px;height:38px;border-radius:8px;background:#1C1C1E;border:1px solid var(--c-border);cursor:pointer;flex-shrink:0;"></div>
+            <input class="inp" value="#1C1C1E" style="flex:1;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>설정 패널 - 테마 탭</h2>
+
+<div class="comp-card">
+  <h3><code>.theme-grid</code> + 내보내기/가져오기</h3>
+  <p class="desc">테마 프리셋 선택 (상단에 내보내기/가져오기 버튼)</p>
+  <div class="comp-preview col" style="padding:0;overflow:hidden;max-width:400px;">
+    <!-- 탭 라인 -->
+    <div class="tabs-line">
+      <button class="tab-line">캐릭터</button>
+      <button class="tab-line is-on">테마</button>
+    </div>
+    <!-- 내보내기/가져오기 버튼 (이모지 + 텍스트, 우측 정렬) -->
+    <div style="display:flex;gap:6px;padding:var(--sp-sm) var(--sp-md) 0;justify-content:flex-end;">
+      <button class="btn btn-quiet" style="height:28px;padding:0 10px;font-size:11px;">📤 내보내기</button>
+      <button class="btn btn-quiet" style="height:28px;padding:0 10px;font-size:11px;">📥 가져오기</button>
+    </div>
+    <!-- 테마 그리드 -->
+    <div style="padding:var(--sp-md);">
+      <div class="theme-grid">
+        <div class="theme-card is-on">
+          <button class="edit-btn"><svg viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></button>
+          <div class="preview" style="background:#E8F0E8;">
+            <div class="bubble-preview has-tail-left" style="background:#fff;color:#1C1C1E;">대화</div>
+          </div>
+          <div class="nm">기본</div>
+        </div>
+        <div class="theme-card">
+          <button class="edit-btn"><svg viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></button>
+          <div class="preview" style="background:#F5F5F5;">
+            <div class="bubble-preview is-quote" style="color:#666;">인용</div>
+          </div>
+          <div class="nm">인용구</div>
+        </div>
+        <div class="theme-card">
+          <button class="edit-btn"><svg viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></button>
+          <div class="preview" style="background:#FFFEF5;">
+            <div class="bubble-preview is-script" style="color:#333;">대사</div>
+          </div>
+          <div class="nm">각본</div>
+        </div>
+        <div class="theme-card is-add">
+          <div class="preview">+</div>
+          <div class="nm">추가</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>테마 수정 모드</h2>
+
+<div class="comp-card">
+  <h3>테마 편집 화면</h3>
+  <p class="desc">< 편집 [초기화] [복사] [삭제] [저장] - SVG 28px</p>
+  <div class="comp-preview col" style="padding:0;overflow:hidden;max-width:400px;">
+    <!-- 편집 헤더: SVG 28px 버튼 -->
+    <div class="edit-header">
+      <button class="back-btn">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="edit-title">편집</span>
+      <div style="flex:1;"></div>
+      <button class="btn btn-outline" style="height:28px;width:28px;padding:0;" title="초기화"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></button>
+      <button class="btn btn-outline" style="height:28px;width:28px;padding:0;" title="복사"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      <button class="btn btn-danger" style="height:28px;width:28px;padding:0;" title="삭제"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+      <button class="btn btn-fill" style="height:28px;width:28px;padding:0;" title="저장"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M20 6L9 17l-5-5"/></svg></button>
+    </div>
+    <!-- 편집 폼 -->
+    <div style="padding:var(--sp-md);">
+      <div style="margin-bottom:16px;">
+        <span class="lab">이름</span>
+        <input class="inp" value="기본 말풍선">
+      </div>
+      <div style="margin-bottom:16px;">
+        <span class="lab">말풍선 형태</span>
+        <div class="ratio-tabs">
+          <button class="is-on">말풍선</button>
+          <button>인용구</button>
+          <button>각본</button>
+          <button>없음</button>
+        </div>
+      </div>
+      <div style="margin-bottom:16px;">
+        <span class="lab">꼬리 위치</span>
+        <div class="tail-sel">
+          <button class="is-on">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16v12H8l-4 4V4z"/></svg>
+          </button>
+          <button>
+            <svg viewBox="0 0 24 24"><path d="M20 4H4v12h12l4 4V4z"/></svg>
+          </button>
+          <button>
+            <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="12" rx="2"/></svg>
+          </button>
+        </div>
+      </div>
+      <div style="margin-bottom:16px;">
+        <span class="lab">배경 이미지</span>
+        <div class="bgimg-drop">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          <span>이미지 업로드</span>
+        </div>
+      </div>
+      <div class="comp-grid" style="gap:12px;">
+        <div>
+          <span class="lab">배경 색</span>
+          <div style="display:flex;gap:8px;">
+            <div class="color-swatch" style="width:38px;height:38px;border-radius:8px;background:#E8F0E8;border:1px solid var(--c-border);cursor:pointer;"></div>
+            <input class="inp" value="#E8F0E8" style="flex:1;">
+          </div>
+        </div>
+        <div>
+          <span class="lab">말풍선 색</span>
+          <div style="display:flex;gap:8px;">
+            <div class="color-swatch" style="width:38px;height:38px;border-radius:8px;background:#FFFFFF;border:1px solid var(--c-border);cursor:pointer;"></div>
+            <input class="inp" value="#FFFFFF" style="flex:1;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>컬러 피커 (.pop)</h2>
+
+<div class="comp-grid">
+  <div class="comp-card">
+    <h3><code>.pop</code> 1단계: 프리셋</h3>
+    <p class="desc">기본 프리셋(삭제 불가) + 사용자 추가 색상(삭제 버튼 표시)</p>
+    <div class="comp-preview" style="justify-content:center;">
+      <div class="pop" style="position:relative;">
+        <div class="pop-title">색상 선택</div>
+        <div class="pop-grid">
+          <!-- 기본 프리셋 (삭제 버튼 없음) -->
+          <div class="pop-sw" style="background:repeating-conic-gradient(#E5E5E5 0% 25%, #FFF 0% 50%) 50%/8px 8px;"></div>
+          <div class="pop-sw" style="background:#1C1C1E;"></div>
+          <div class="pop-sw" style="background:#636366;"></div>
+          <div class="pop-sw" style="background:#AEAEB2;"></div>
+          <div class="pop-sw" style="background:#E5E5EA;"></div>
+          <div class="pop-sw" style="background:#FFFFFF;"></div>
+          <!-- 사용자 추가 색상 (삭제 버튼 표시) -->
+          <div class="pop-sw" style="background:#FF6B6B;"><span class="del"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></span></div>
+          <div class="pop-sw" style="background:#FEE500;"><span class="del"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></span></div>
+          <div class="pop-sw" style="background:#4ECDC4;"><span class="del"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></span></div>
+          <div class="pop-sw" style="background:#45B7D1;"><span class="del"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></span></div>
+          <div class="pop-sw" style="background:#96CEB4;"><span class="del"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></span></div>
+          <div class="pop-sw" style="background:var(--c-surface-drop);border:1px dashed var(--c-border-strong);display:flex;align-items:center;justify-content:center;color:var(--c-text-tertiary);font-size:14px;">+</div>
+        </div>
+        <button class="btn btn-outline" style="width:100%;margin-top:4px;">직접 선택하기</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="comp-card">
+    <h3><code>.pop</code> 2단계: 팔레트</h3>
+    <p class="desc">직접 고르기 클릭 후 - 풀 컬러피커</p>
+    <div class="comp-preview" style="justify-content:center;">
+      <div class="pop" style="position:relative;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+          <button style="width:24px;height:24px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+            <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--c-text-secondary);fill:none;stroke-width:2;"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <span style="font-size:12px;color:var(--c-text);">색상 선택</span>
+        </div>
+        <!-- SV 영역 -->
+        <div style="width:100%;height:100px;border-radius:8px;margin-bottom:12px;background:linear-gradient(to right, #fff, #f00),linear-gradient(to top, #000, transparent);background-blend-mode:multiply;position:relative;">
+          <i style="position:absolute;width:13px;height:13px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.35);transform:translate(-50%,-50%);top:20%;left:80%;"></i>
+        </div>
+        <!-- Hue 바 -->
+        <div style="width:100%;height:12px;border-radius:9999px;margin-bottom:12px;background:linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);position:relative;">
+          <i style="position:absolute;top:50%;left:0%;width:15px;height:15px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.4);transform:translate(-50%,-50%);"></i>
+        </div>
+        <!-- 현재 색 + HEX + 적용 -->
+        <div style="display:flex;gap:8px;align-items:center;">
+          <div style="width:34px;height:34px;border-radius:8px;background:#8A9F7A;border:1px solid var(--c-border);"></div>
+          <input class="inp" value="#8A9F7A" style="flex:1;height:34px;font-size:12px;">
+          <button class="btn btn-fill" style="height:34px;padding:0 12px;font-size:12px;">적용</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>모달 (.modal)</h2>
+
+<div class="comp-card">
+  <h3><code>.modal</code> + <code>.modal-panel</code></h3>
+  <p class="desc">확인/취소 다이얼로그</p>
+  <div class="comp-preview" style="justify-content:center;background:rgba(20,20,24,0.15);min-height:200px;">
+    <div class="modal-panel">
+      <h3 class="modal-title">정말 삭제하시겠습니까?</h3>
+      <p class="modal-sub">이 작업은 되돌릴 수 없습니다.</p>
+      <div class="modal-foot">
+        <button class="btn btn-quiet">취소</button>
+        <button class="btn btn-danger btn-fill">삭제</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="comp-card">
+  <h3>선택 모달</h3>
+  <p class="desc">초기화 옵션 선택</p>
+  <div class="comp-preview" style="justify-content:center;background:rgba(20,20,24,0.15);min-height:280px;">
+    <div class="modal-panel">
+      <h3 class="modal-title">불러오기</h3>
+      <p class="modal-sub">어떤 항목을 불러올까요?</p>
+      <div class="reset-list">
+        <label class="reset-option">
+          <input type="checkbox" checked>
+          <div>
+            <strong>캐릭터</strong>
+            <small>앨리스, 밥 외 2명</small>
+          </div>
+        </label>
+        <label class="reset-option">
+          <input type="checkbox">
+          <div>
+            <strong>테마</strong>
+            <small>기본 말풍선, 인용구 외 1개</small>
+          </div>
+        </label>
+        <label class="reset-option is-off">
+          <input type="checkbox" disabled>
+          <div>
+            <strong>설정</strong>
+            <small>파일에 없음</small>
+          </div>
+        </label>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-quiet">취소</button>
+        <button class="btn btn-fill">불러오기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>캐릭터 칩 팝오버 (.char-edit-pop)</h2>
+
+<div class="comp-card">
+  <h3><code>.char-edit-pop</code></h3>
+  <p class="desc">대사 섹션에서 캐릭터 칩 클릭 시 나타나는 팝오버</p>
+  <div class="comp-preview" style="justify-content:center;">
+    <div class="char-edit-pop" style="position:relative;">
+      <div style="margin-bottom:var(--sp-md);">
+        <span class="lab">위치</span>
+        <div class="seg">
+          <button class="is-on">좌</button>
+          <button>우</button>
+        </div>
+      </div>
+      <div class="tgl-inline">
+        <span class="lab">개별 말풍선 설정</span>
+        <div class="tgl tgl-sm"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="comp-card">
+  <h3><code>.char-edit-pop</code> - 개별 말풍선 ON</h3>
+  <p class="desc">개별 말풍선 설정 토글 활성화 시</p>
+  <div class="comp-preview" style="justify-content:center;">
+    <div class="char-edit-pop" style="position:relative;">
+      <div style="margin-bottom:var(--sp-md);">
+        <span class="lab">위치</span>
+        <div class="seg">
+          <button class="is-on">좌</button>
+          <button>우</button>
+        </div>
+      </div>
+      <div class="tgl-inline" style="margin-bottom:var(--sp-md);">
+        <span class="lab">개별 말풍선 설정</span>
+        <div class="tgl tgl-sm is-on"></div>
+      </div>
+      <!-- 개별 말풍선 옵션 -->
+      <div style="display:flex;flex-direction:column;gap:var(--sp-md);">
+        <div>
+          <span class="lab">말풍선</span>
+          <div style="display:flex;gap:var(--sp-sm);align-items:center;">
+            <div style="width:32px;height:32px;flex:0 0 32px;border-radius:var(--r-sm);background:#FF6B9D;border:1px solid var(--c-border);cursor:pointer;"></div>
+            <input class="inp" value="#FF6B9D" style="flex:1;height:32px;font-size:11px;">
+          </div>
+        </div>
+        <div>
+          <span class="lab">글자</span>
+          <div style="display:flex;gap:var(--sp-sm);align-items:center;">
+            <div style="width:32px;height:32px;flex:0 0 32px;border-radius:var(--r-sm);background:#FFFFFF;border:1px solid var(--c-border);cursor:pointer;"></div>
+            <input class="inp" value="#FFFFFF" style="flex:1;height:32px;font-size:11px;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>프로필 이미지 편집 모달</h2>
+
+<div class="comp-card">
+  <h3>캐릭터 이미지 편집 모달</h3>
+  <p class="desc">캐릭터 수정 > 프로필 이미지 클릭 시</p>
+  <div class="comp-preview" style="justify-content:center;background:rgba(20,20,24,0.15);min-height:360px;">
+    <div class="modal-panel">
+      <h3 class="modal-title">캐릭터 이미지</h3>
+      <p class="modal-sub">정사각형으로 잘라 넣습니다. 끌어서 위치를 맞추세요.</p>
+      <!-- 크롭 영역 + 내부 버튼 -->
+      <div style="width:100%;aspect-ratio:1;background:var(--c-surface-sunken);border:1px solid var(--c-border);border-radius:var(--r-md);margin-bottom:var(--sp-md);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+        <div style="width:80%;height:80%;background:linear-gradient(135deg,#FF6B9D,#FF8E6B);"></div>
+        <!-- 하단 버튼 (삭제 / 변경) -->
+        <div style="position:absolute;bottom:var(--sp-md);right:var(--sp-md);display:flex;gap:var(--sp-sm);">
+          <button class="btn btn-danger" style="height:28px;width:28px;padding:0;" title="삭제"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+          <button class="btn btn-outline" style="height:28px;width:28px;padding:0;" title="변경"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></button>
+        </div>
+      </div>
+      <!-- 확대 슬라이더 -->
+      <div class="slideh" style="margin-bottom:var(--sp-md);">
+        <span class="lab">확대</span>
+        <input type="range" class="rng" value="1" min="1" max="3" step="0.1">
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-quiet">취소</button>
+        <button class="btn btn-fill">적용</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>테마 내보내기 모달</h2>
+
+<div class="comp-card">
+  <h3>테마 탭 > 내보내기 모달</h3>
+  <p class="desc">테마 탭에서 📤 내보내기 버튼 클릭 시</p>
+  <div class="comp-preview" style="justify-content:center;background:rgba(20,20,24,0.15);min-height:240px;">
+    <div class="modal-panel">
+      <h3 class="modal-title">내보내기</h3>
+      <p class="modal-sub">어떤 항목을 내보낼까요?</p>
+      <div class="reset-list">
+        <label class="reset-option">
+          <input type="checkbox" checked>
+          <div>
+            <strong>캐릭터</strong>
+            <small>앨리스, 밥 외 2명</small>
+          </div>
+        </label>
+        <label class="reset-option">
+          <input type="checkbox" checked>
+          <div>
+            <strong>테마</strong>
+            <small>기본 말풍선, 인용구 외 1개</small>
+          </div>
+        </label>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-quiet">취소</button>
+        <button class="btn btn-fill">저장</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>저장 확인 모달</h2>
+
+<div class="comp-card">
+  <h3>편집 중 이동 시 저장 확인</h3>
+  <p class="desc">테마/캐릭터 편집 중 다른 화면으로 이동 시</p>
+  <div class="comp-preview" style="justify-content:center;background:rgba(20,20,24,0.15);min-height:180px;">
+    <div class="modal-panel">
+      <h3 class="modal-title">변경 사항 저장</h3>
+      <p class="modal-sub">캐릭터 변경 사항을 저장하지 않고 나가시겠습니까?</p>
+      <div class="modal-foot">
+        <button class="btn btn-danger">나가기</button>
+        <button class="btn btn-fill">저장</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2>블록 편집 패널</h2>
+
+<div class="comp-card">
+  <h3>이미지 블록 편집</h3>
+  <p class="desc">스테이지에서 이미지 블록 선택 시</p>
+  <div class="comp-preview col" style="padding:0;max-width:400px;">
+    <!-- 헤더: 네비게이션 + 액션 -->
+    <div class="edit-header">
+      <button class="back-btn"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <button class="back-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
+      <div style="flex:1;"></div>
+      <button class="btn btn-outline" style="height:28px;width:28px;padding:0;" title="복제"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      <button class="btn btn-danger" style="height:28px;width:28px;padding:0;" title="삭제"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+      <button class="btn btn-fill" style="height:28px;width:28px;padding:0;" title="저장"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M20 6L9 17l-5-5"/></svg></button>
+    </div>
+    <!-- 콘텐츠 -->
+    <div style="padding:var(--sp-md);">
+      <span class="lab">이미지 추가</span>
+      <!-- 둥글게 토글 (우측 정렬) -->
+      <div style="display:flex;justify-content:flex-end;align-items:center;gap:var(--sp-xs);margin-bottom:var(--sp-md);">
+        <span style="font-size:var(--fs-xs);color:var(--c-text-secondary);">둥글게</span>
+        <div class="tgl tgl-sm is-on"></div>
+      </div>
+      <!-- 비율 -->
+      <div style="margin-bottom:var(--sp-md);">
+        <span class="lab">비율</span>
+        <div class="seg">
+          <button><small>스토리</small>9:16</button>
+          <button><small>세로</small>3:4</button>
+          <button class="is-on"><small>정사각</small>1:1</button>
+          <button><small>가로</small>4:3</button>
+          <button><small>와이드</small>16:9</button>
+        </div>
+      </div>
+      <!-- 이미지 선택 영역 -->
+      <div style="margin-bottom:var(--sp-md);">
+        <div class="bgimg-drop" style="aspect-ratio:1;position:relative;">
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg,#E8F0E8,#D4E4CB);"></div>
+          <!-- 하단 버튼 -->
+          <div style="position:absolute;bottom:var(--sp-sm);right:var(--sp-sm);display:flex;gap:var(--sp-xs);z-index:1;">
+            <button class="btn btn-danger" style="height:28px;width:28px;padding:0;"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+            <button class="btn btn-outline" style="height:28px;width:28px;padding:0;"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <!-- 확대 슬라이더 -->
+      <div class="slideh">
+        <span class="lab">확대</span>
+        <input type="range" class="rng" value="100">
+        <div class="slideh-val">
+          <input type="text" class="val" value="100">
+          <span class="unit">%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="comp-card">
+  <h3>HTML 블록 편집</h3>
+  <p class="desc">스테이지에서 HTML 블록 선택 시 - 컴포저 입력 상태</p>
+  <div class="comp-preview col" style="padding:0;max-width:400px;">
+    <!-- 헤더 -->
+    <div class="edit-header">
+      <button class="back-btn"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <button class="back-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
+      <div style="flex:1;"></div>
+      <button class="btn btn-outline" style="height:28px;width:28px;padding:0;" title="복제"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      <button class="btn btn-danger" style="height:28px;width:28px;padding:0;" title="삭제"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+      <button class="btn btn-fill" style="height:28px;width:28px;padding:0;" title="저장"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M20 6L9 17l-5-5"/></svg></button>
+    </div>
+    <!-- 컴포저 (입력됨 + 전송 버튼) -->
+    <div style="padding:var(--sp-md);">
+      <div class="inp-group">
+        <button class="btn-mini"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none"/></svg></button>
+        <div class="composer-ta" style="font-family:monospace;font-size:11px;">&lt;div class="custom"&gt;HTML 코드&lt;/div&gt;</div>
+        <button class="btn-mini is-send"><svg viewBox="0 0 24 24"><path d="M9 10l-5 5 5 5"/><path d="M20 4v7a4 4 0 01-4 4H4"/></svg></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="comp-card">
+  <h3>음악 블록 편집</h3>
+  <p class="desc">스테이지에서 음악 블록 선택 시</p>
+  <div class="comp-preview col" style="padding:0;max-width:400px;">
+    <!-- 헤더 -->
+    <div class="edit-header">
+      <button class="back-btn"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <button class="back-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
+      <div style="flex:1;"></div>
+      <button class="btn btn-outline" style="height:28px;width:28px;padding:0;" title="복제"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      <button class="btn btn-danger" style="height:28px;width:28px;padding:0;" title="삭제"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+      <button class="btn btn-fill" style="height:28px;width:28px;padding:0;" title="저장"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M20 6L9 17l-5-5"/></svg></button>
+    </div>
+    <!-- 버전 탭 -->
+    <div class="tabs-line">
+      <button class="tab-line is-on">VER1</button>
+      <button class="tab-line">VER2</button>
+    </div>
+    <!-- 앨범 + 정보 -->
+    <div style="padding:var(--sp-md);">
+      <div style="display:flex;gap:var(--sp-md);margin-bottom:var(--sp-lg);">
+        <!-- 앨범 커버 -->
+        <div class="bgimg-drop" style="width:80px;height:80px;aspect-ratio:1;flex-shrink:0;border-radius:var(--r-sm);">
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:var(--r-sm);"></div>
+          <svg viewBox="0 0 24 24" style="position:relative;z-index:1;"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        </div>
+        <!-- 노래 정보 -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:var(--sp-sm);">
+          <input class="inp" placeholder="노래 제목" value="Blinding Lights">
+          <input class="inp" placeholder="가수" value="The Weeknd">
+        </div>
+      </div>
+      <!-- 상세 섹션 -->
+      <div style="border-top:1px solid var(--c-divider);padding-top:var(--sp-md);">
+        <!-- 글꼴 -->
+        <div style="margin-bottom:var(--sp-md);">
+          <span class="lab">글꼴</span>
+          <select class="sel">
+            <option>Pretendard</option>
+            <option>Noto Sans KR</option>
+          </select>
+        </div>
+        <!-- 색상 그리드 -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-md);margin-bottom:var(--sp-md);">
+          <div>
+            <span class="lab">글자 색</span>
+            <div class="colorf">
+              <div class="sw" style="background:#FFFFFF;"></div>
+              <input class="inp" value="#FFFFFF">
+            </div>
+          </div>
+          <div>
+            <span class="lab">배경 색</span>
+            <div class="colorf">
+              <div class="sw" style="background:#1C1C1E;"></div>
+              <input class="inp" value="#1C1C1E">
+            </div>
+          </div>
+          <div>
+            <span class="lab">북마크 색</span>
+            <div class="colorf">
+              <div class="sw" style="background:#8A9F7A;"></div>
+              <input class="inp" value="#8A9F7A">
+            </div>
+          </div>
+          <div>
+            <span class="lab">진행바 색</span>
+            <div class="colorf">
+              <div class="sw" style="background:#8A9F7A;"></div>
+              <input class="inp" value="#8A9F7A">
+            </div>
+          </div>
+        </div>
+        <!-- 슬라이더들 -->
+        <div style="display:flex;flex-direction:column;gap:var(--sp-md);">
+          <div class="slideh">
+            <span class="lab" style="flex:0 0 70px;">카드 불투명도</span>
+            <input type="range" class="rng" value="80">
+            <div class="slideh-val"><input type="text" class="val" value="80"><span class="unit">%</span></div>
+          </div>
+          <div class="slideh">
+            <span class="lab" style="flex:0 0 70px;">카드 흐림</span>
+            <input type="range" class="rng" value="0">
+            <div class="slideh-val"><input type="text" class="val" value="0"><span class="unit">px</span></div>
+          </div>
+          <div class="slideh">
+            <span class="lab" style="flex:0 0 70px;">크기</span>
+            <input type="range" class="rng" value="100">
+            <div class="slideh-val"><input type="text" class="val" value="100"><span class="unit">%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

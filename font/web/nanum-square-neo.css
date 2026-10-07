@@ -1,0 +1,17 @@
+/* 나눔스퀘어 네오 (NanumSquare Neo) — 네이버, SIL Open Font License 1.1.
+   https://hangeul.naver.com/font/nanum
+
+   네이버가 주는 css 를 그대로 쓰지 않는 이유는 마루 부리와 같다 [maru-buri.css] —
+   굵기마다 이름이 다르고(NanumSquareNeoBold …), 한 @font-face 에 eot·woff·ttf 가
+   함께 적혀 있다. 게다가 그 css 는 woff2 를 아예 가리키지 않는다.
+   같은 CDN 에 굵기별 woff2 가 올라와 있으므로 그것만 골라 한 이름으로 묶는다. */
+@font-face{font-family:'NanumSquare Neo';font-style:normal;font-weight:300;font-display:swap;
+  src:url('https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-aLt.woff2') format('woff2');}
+@font-face{font-family:'NanumSquare Neo';font-style:normal;font-weight:400;font-display:swap;
+  src:url('https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.woff2') format('woff2');}
+@font-face{font-family:'NanumSquare Neo';font-style:normal;font-weight:700;font-display:swap;
+  src:url('https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.woff2') format('woff2');}
+@font-face{font-family:'NanumSquare Neo';font-style:normal;font-weight:800;font-display:swap;
+  src:url('https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-dEb.woff2') format('woff2');}
+@font-face{font-family:'NanumSquare Neo';font-style:normal;font-weight:900;font-display:swap;
+  src:url('https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-eHv.woff2') format('woff2');}

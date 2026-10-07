@@ -1,0 +1,11 @@
+/* 갈무리 (Galmuri) — SIL OFL 1.1, (c) 2019–2025 Lee Minseo.
+   폰트 파일은 jsDelivr에서 그대로 받는다. 로컬 사본이 필요 없고 CORS도 열려 있어
+   chat.html의 이미지 저장 임베드가 그대로 동작한다.
+
+   배포판 galmuri.css를 직접 쓰지 않고 이 파일을 따로 두는 이유:
+   원본은 한 @font-face 안에 local() + woff2 + ttf를 함께 적는데, 저장 임베드 코드가
+   블록 안의 url()을 전부 인라인해서 5MB짜리 ttf까지 같이 박히기 때문이다. woff2 하나만 남긴다. */
+@font-face{font-family:'Galmuri11';font-style:normal;font-weight:400;font-display:swap;
+  src:url('https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/Galmuri11.woff2') format('woff2');}
+@font-face{font-family:'Galmuri11';font-style:normal;font-weight:700;font-display:swap;
+  src:url('https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/Galmuri11-Bold.woff2') format('woff2');}

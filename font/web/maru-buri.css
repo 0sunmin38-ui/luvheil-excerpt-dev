@@ -1,0 +1,21 @@
+/* 마루 부리 (MaruBuri) — 네이버, SIL Open Font License 1.1.
+   https://hangeul.naver.com/font/maru-buri
+
+   네이버가 주는 css 를 그대로 쓰지 않고 이 파일을 따로 두는 이유가 둘이다.
+   ① 원본은 굵기마다 «다른 글꼴 이름» 을 준다(MaruBuriLight · MaruBuriBold …).
+      그러면 이 앱의 굵기 눈금이 아예 안 걸린다 — 한 이름에 font-weight 로 묶어 다시 적는다.
+   ② 원본은 한 @font-face 안에 eot·woff2·woff·ttf 를 함께 적는다. 이미지 저장 임베드가
+      블록 안의 url() 을 전부 인라인하므로 ttf 까지 통째로 박힌다 — woff2 하나만 남긴다.
+      [galmuri.css 와 같은 이유]
+
+   파일은 네이버 CDN 에서 그대로 받는다(Access-Control-Allow-Origin: *). */
+@font-face{font-family:'MaruBuri';font-style:normal;font-weight:200;font-display:swap;
+  src:url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-ExtraLight.woff2') format('woff2');}
+@font-face{font-family:'MaruBuri';font-style:normal;font-weight:300;font-display:swap;
+  src:url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Light.woff2') format('woff2');}
+@font-face{font-family:'MaruBuri';font-style:normal;font-weight:400;font-display:swap;
+  src:url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff2') format('woff2');}
+@font-face{font-family:'MaruBuri';font-style:normal;font-weight:600;font-display:swap;
+  src:url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-SemiBold.woff2') format('woff2');}
+@font-face{font-family:'MaruBuri';font-style:normal;font-weight:700;font-display:swap;
+  src:url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.woff2') format('woff2');}

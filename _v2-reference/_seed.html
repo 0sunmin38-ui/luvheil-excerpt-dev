@@ -1,0 +1,177 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>예시 채우기</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<style>
+ body{margin:0;padding:26px;font:14px/1.7 Pretendard,-apple-system,system-ui,sans-serif;
+      background:#f4f4f5;color:#18181b;max-width:700px}
+ h1{font-size:17px;margin:0 0 6px} h2{font-size:13px;margin:20px 0 6px;color:#3f3f46}
+ p{color:#52525b;margin:0 0 14px}
+ button{font:inherit;font-weight:700;padding:11px 16px;border-radius:9px;border:1px solid #18181b;
+        background:#18181b;color:#fff;cursor:pointer;margin:0 8px 8px 0}
+ button.q{background:#fff;color:#18181b} button.d{background:#fff;color:#b91c1c;border-color:#b91c1c}
+ pre{background:#fff;border:1px solid #e4e4e7;border-radius:9px;padding:12px;
+     font:11.5px/1.6 ui-monospace,Menlo,monospace;white-space:pre-wrap;margin:14px 0 0}
+ ul{margin:0 0 14px;padding-left:20px;color:#52525b} li{margin:2px 0}
+ code{background:#e9e9ec;padding:1px 5px;border-radius:4px;font-size:12px}
+</style>
+
+<h1>예시 채우기</h1>
+<p>지금까지 손본 것들을 한 화면에서 다 볼 수 있는 표본입니다.</p>
+
+<h2>담기는 것</h2>
+<ul>
+  <li><b>짧은 말풍선</b> — <code>ㅇㅇ</code> <code>ㅋㅋ</code> 처럼 폭이 글자에 딱 맞는 경우</li>
+  <li><b>두 줄 · 세 줄</b> — 줄바꿈 자리와 어긋남 누적</li>
+  <li><b>직접 넣은 줄바꿈</b> — <code>&lt;br&gt;</code> 을 또 박는지</li>
+  <li><b>끊을 곳 없는 덩어리</b> — <code>ㅋ</code> 도배 · 긴 어절 · URL (글자 단위 줄바꿈 확인)</li>
+  <li><b>연속 발화</b> — 같은 사람 3연속. 꼬리·프로필이 어느 장에 붙는지</li>
+  <li><b>글자 꾸미기</b> — 굵게 · 기울임 · 취소선 · 밑줄 · 형광 · 색 · 위첨자 · 아래첨자</li>
+  <li><b>문단 블록</b> — 어절 단위가 유지되는지 (말풍선과 대조)</li>
+  <li><b>글자 크기</b> — 조각 단위(<code>[+]…[/+]</code>) · 블록 단위 · 둘을 겹친 경우</li>
+  <li><b>굵기</b> — 테마 굵기 · 블록 볼드 · 인라인 <code>**굵게**</code></li>
+  <li><b>음악 카드</b> — 기본·납작 두 배치 · 앨범 커버 있음/없음</li>
+  <li><b>구분선 · 서명</b></li>
+</ul>
+<p><b>꼬리 모양·자리, 프로필, 이름, 대사설정(말풍선/인용/없음)</b> 은 블록이 아니라 테마 값이라
+   앱의 <b>설정 &gt; 테마</b> 에서 바꿔 가며 보시면 됩니다. 같은 예시로 전부 비교됩니다.</p>
+
+<button id="add">예시 덧붙이기</button>
+<button id="only" class="q">예시만 보기 (기존 블록은 치워 둠)</button>
+<button id="undo" class="d">치워 둔 것 되돌리기</button>
+<pre id="log">준비됨</pre>
+
+<script>
+const KEY='chat-excerpt/v1', STASH='chat-excerpt/stash';
+const uid=()=>Math.random().toString(36).slice(2,9);
+const log=m=>document.getElementById('log').textContent=m;
+
+function read(){
+  let d=null; try{ d=JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){}
+  if(!d||typeof d!=='object') d={v:5};
+  if(!Array.isArray(d.blocks)) d.blocks=[];
+  if(!Array.isArray(d.characters)) d.characters=[];
+  return d;
+}
+
+/* 앨범 커버 자리를 보이려고 만드는 더미 그림 — 진짜 파일 없이도 확인할 수 있다 */
+const COVER = (() => {
+  const c = document.createElement('canvas'); c.width = c.height = 96;
+  const g = c.getContext('2d');
+  const lg = g.createLinearGradient(0, 0, 96, 96);
+  lg.addColorStop(0, '#7B1E22'); lg.addColorStop(1, '#2B1416');
+  g.fillStyle = lg; g.fillRect(0, 0, 96, 96);
+  g.fillStyle = '#E8C36B'; g.beginPath(); g.arc(48, 48, 26, 0, 7); g.fill();
+  g.fillStyle = '#2B1416'; g.beginPath(); g.arc(48, 48, 7, 0, 7); g.fill();
+  return c.toDataURL('image/png');
+})();
+
+function build(d){
+  const mk=(name,isMe)=>{ const c={id:uid(),name,avatar:'',useCustomBubble:false,
+    bubbleBg:'#6C7A89',bubbleFg:'#FFFFFF',isMe}; d.characters.push(c); return c; };
+  const me=d.characters.find(c=>c.isMe)||mk('나',true);
+  const ot=d.characters.find(c=>!c.isMe)||mk('상대',false);
+
+  const out=[];
+  const B=(text,who,extra)=>out.push(Object.assign(
+    {id:uid(),type:'text',text,asBubble:true,speakerId:(who==='나'?me:ot).id},extra||{}));
+  const P=(text,extra)=>out.push(Object.assign({id:uid(),type:'text',text,asBubble:false},extra||{}));
+  const L=t=>P(t,{align:'center',bold:true,color:'#909096'});
+  const HR=()=>out.push({id:uid(),type:'divider'});
+
+  L('── 짧은 말풍선 ──');
+  B('한 줄','상대'); B('ㅇㅇ','나'); B('세 글자','상대'); B('ㅋㅋ','나');
+
+  HR(); L('── 두 줄 · 세 줄 ──');
+  B('두 줄로 넘어가는 말풍선입니다 여기서 줄이 바뀝니다','상대');
+  B('두 줄로 넘어가는 내 말풍선입니다 여기서 줄이 바뀝니다','나');
+  B('세 줄까지 가는 긴 문장을 넣어 봅니다 이렇게 하면 줄바꿈이 두 번 일어나서 어긋남이 쌓이는지도 볼 수 있습니다','상대');
+
+  HR(); L('── 직접 넣은 줄바꿈 ──');
+  B('여러 줄을\n손으로 넣은\n경우','상대');
+
+  HR(); L('── 끊을 곳 없는 덩어리 (글자 단위 줄바꿈) ──');
+  B('ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ','나');
+  B('가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하','상대');
+  B('https://example.com/very/long/path/that/must/wrap/somewhere','나');
+
+  HR(); L('── 연속 발화 (꼬리·프로필이 어디 붙는지) ──');
+  B('첫 번째','상대'); B('두 번째','상대'); B('세 번째 — 여기 꼬리가 붙는다','상대');
+  B('나도 두 개','나'); B('연달아 말해 봅니다','나');
+
+  HR(); L('── 글자 크기 : 조각 단위 ──');
+  B('평범한 말에 [+]큰 낱말[/+] 과 [-]작은 낱말[/-] 이 섞임','상대');
+  B('[+]앞이 크고[/+] 뒤는 보통','나');
+  B('[-]전체가 작은 말[-]'.replace('[-]전체가 작은 말[-]','[-]전체가 작은 말[/-]'),'상대');
+
+  HR(); L('── 글자 크기 : 블록 단위 ──');
+  B('블록을 작게 지정','상대',{sizeLv:-1});
+  B('블록은 기본','나');
+  B('블록을 크게 지정','상대',{sizeLv:1});
+  B('블록 크게 + 그 안에 [+]더 큰 조각[/+]','나',{sizeLv:1});
+
+  HR(); L('── 굵기 (테마 굵기 · 볼드 500) ──');
+  B('보통 굵기 문장','상대');
+  B('블록 전체 볼드','나',{bold:true});
+  B('문장 안에 **인라인 굵게** 섞기','상대');
+
+  HR(); L('── 글자 꾸미기 ──');
+  B('**굵게** *기울임* ~~취소선~~ ++밑줄++','상대');
+  B('==형광== 그리고 [#D55F61]붉은 글자[/] 입니다','나');
+  B('각주[^]1[/^] 와 아래첨자[_]2[/_] 도 됩니다','상대');
+
+  HR(); L('── 문단 블록 (어절 단위 유지) ──');
+  P('문단은 여태처럼 어절 단위로 끊겨야 합니다 말풍선과 견주어 보세요');
+  P('문단에도 [+]크게[/+] 와 [-]작게[/-] 가 됩니다');
+  P('가운데 정렬 문단',{align:'center'});
+  P('오른쪽 정렬 문단',{align:'right'});
+
+  HR(); L('── 음악 카드 · 기본 배치 ──');
+  out.push({id:uid(),type:'music',title:'노래 제목',artist:'가수 이름',scale:80,progress:64});
+  out.push({id:uid(),type:'music',title:'커버 있음',artist:'가수 이름',scale:80,progress:40,cover:COVER});
+
+  HR(); L('── 음악 카드 · 납작 배치 ──');
+  out.push({id:uid(),type:'music',layout:'flat',title:'노래 제목',artist:'가수 이름',scale:90,progress:64});
+  out.push({id:uid(),type:'music',layout:'flat',title:'커버 있음',artist:'가수 이름',scale:90,progress:80,cover:COVER});
+
+  out.push({id:uid(),type:'footer',charName:'캐릭터 이름',maker:'만든이'});
+  return out;
+}
+
+function apply(mode){
+  const d=read();
+  const made=build(d);
+  if(mode==='only'){
+    const keep=d.blocks;
+    if(keep.length){ try{ localStorage.setItem(STASH, JSON.stringify(keep)); }catch(e){} }
+    d.blocks=made;
+    localStorage.setItem(KEY, JSON.stringify(d));
+    return '예시 '+made.length+'개로 바꿨습니다. 원래 블록 '+keep.length+'개는 치워 뒀습니다 — 되돌리기로 복구됩니다.';
+  }
+  const foot=d.blocks.filter(b=>b.type==='footer');
+  const rest=d.blocks.filter(b=>b.type!=='footer');
+  d.blocks=rest.concat(made.filter(b=>b.type!=='footer'), foot.length?foot:made.filter(b=>b.type==='footer'));
+  localStorage.setItem(KEY, JSON.stringify(d));
+  return '예시 '+made.length+'개를 뒤에 덧붙였습니다 (전체 '+d.blocks.length+'개).';
+}
+
+document.getElementById('add').onclick=()=>{
+  try{ log(apply('add')+'\n앱으로 이동합니다…'); setTimeout(()=>location.href='index.html',800); }
+  catch(e){ log('실패: '+e); }
+};
+document.getElementById('only').onclick=()=>{
+  try{ log(apply('only')+'\n앱으로 이동합니다…'); setTimeout(()=>location.href='index.html',800); }
+  catch(e){ log('실패: '+e); }
+};
+document.getElementById('undo').onclick=()=>{
+  try{
+    const s=localStorage.getItem(STASH);
+    if(!s){ log('치워 둔 블록이 없습니다.'); return; }
+    const d=read(); d.blocks=JSON.parse(s);
+    localStorage.setItem(KEY, JSON.stringify(d));
+    localStorage.removeItem(STASH);
+    log('원래 블록 '+d.blocks.length+'개로 되돌렸습니다.\n앱으로 이동합니다…');
+    setTimeout(()=>location.href='index.html',800);
+  }catch(e){ log('실패: '+e); }
+};
+</script>

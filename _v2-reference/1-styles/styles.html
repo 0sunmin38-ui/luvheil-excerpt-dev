@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>v2 디자인 토큰</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Pretendard", -apple-system, sans-serif;
+  background: #F2F2F7;
+  padding: 40px 20px 80px;
+  color: #1C1C1E;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.container { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+.subtitle { color: #636366; font-size: 14px; margin-bottom: 48px; }
+h2 {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8A9F7A;
+  margin: 48px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #8A9F7A;
+}
+h2:first-of-type { margin-top: 0; }
+
+/* 테이블 */
+table {
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+  border-collapse: collapse;
+  margin-bottom: 16px;
+}
+th, td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #EBEBF0;
+  vertical-align: middle;
+}
+th {
+  background: #FAFAFA;
+  font-size: 11px;
+  font-weight: 600;
+  color: #636366;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+tr:last-child td { border-bottom: none; }
+code {
+  font-family: "SF Mono", Monaco, Consolas, monospace;
+  font-size: 12px;
+  background: #F2F2F7;
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: #636366;
+}
+.swatch {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.06);
+  flex-shrink: 0;
+}
+.color-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.color-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.color-name {
+  font-weight: 600;
+  font-size: 13px;
+}
+.color-hex {
+  font-family: monospace;
+  font-size: 11px;
+  color: #AEAEB2;
+}
+.note {
+  font-size: 12px;
+  color: #636366;
+  background: #FAFAFA;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+.visual-bar {
+  height: 8px;
+  background: linear-gradient(90deg, #8A9F7A, #F8E29D);
+  border-radius: 4px;
+}
+.radius-demo {
+  width: 48px;
+  height: 48px;
+  background: #8A9F7A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+}
+.shadow-demo {
+  width: 80px;
+  height: 48px;
+  background: #fff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #636366;
+}
+.typo-sample {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.typo-main {
+  color: #1C1C1E;
+}
+.border-demo {
+  width: 80px;
+  height: 36px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #636366;
+  border-radius: 6px;
+}
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+}
+.badge-primary { background: rgba(138, 159, 122, 0.15); color: #627052; }
+.badge-secondary { background: rgba(248, 226, 157, 0.3); color: #9A8545; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>v2 디자인 토큰</h1>
+  <p class="subtitle">채팅 발췌기 v2의 모든 디자인 변수 정리</p>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2>1. 색상 (Color)</h2>
+
+  <h3 style="font-size: 12px; color: #636366; margin: 16px 0 12px;">Primary & Secondary</h3>
+  <table>
+    <tr>
+      <th style="width: 180px;">변수</th>
+      <th>색상</th>
+      <th style="width: 200px;">용도</th>
+    </tr>
+    <tr>
+      <td><code>--c-primary</code></td>
+      <td>
+        <div class="color-row">
+          <div class="swatch" style="background: #8A9F7A;"></div>
+          <div class="color-info">
+            <span class="color-name">Matcha</span>
+            <span class="color-hex">#8A9F7A</span>
+          </div>
+        </div>
+      </td>
+      <td>메인 버튼, 강조</td>
+    </tr>
+    <tr>
+      <td><code>--c-primary-hover</code></td>
+      <td>
+        <div class="color-row">
+          <div class="swatch" style="background: #728563;"></div>
+          <div class="color-info">
+            <span class="color-name">Matcha Dark</span>
+            <span class="color-hex">#728563</span>
+          </div>
+        </div>
+      </td>
+      <td>호버 상태</td>
+    </tr>
+    <tr>
+      <td><code>--c-primary-muted</code></td>
+      <td>
+        <div class="color-row">
+          <div class="swatch" style="background: rgba(138, 159, 122, 0.15);"></div>
+          <div class="color-info">
+            <span class="color-name">Matcha Light</span>
+            <span class="color-hex">rgba(138, 159, 122, 0.15)</span>
+          </div>
+        </div>
+      </td>
+      <td>배경, 선택 상태</td>
+    </tr>
+    <tr>
+      <td><code>--c-secondary</code></td>
+      <td>
+        <div class="color-row">
+          <div class="swatch" style="background: #F8E29D;"></div>
+          <div class="color-info">
+            <span class="color-name">Butter</span>
+            <span class="color-hex">#F8E29D</span>
+          </div>
+        </div>
+      </td>
+      <td>보조 강조, 구분</td>
+    </tr>
+    <tr>
+      <td><code>--c-secondary-hover</code></td>
+      <td>
+        <div class="color-row">
+          <div class="swatch" style="background: #E5CF8A;"></div>
+          <div class="color-info">
+            <span class="color-name">Butter Dark</span>
+            <span class="color-hex">#E5CF8A</span>
+          </div>
+        </div>
+      </td>
+      <td>호버 상태</td>
+    </tr>
+    <tr>
+      <td><code>--c-secondary-muted</code></td>
+      <td>
+        <div class="color-row">
+          <div class="swatch" style="background: rgba(248, 226, 157, 0.25);"></div>
+          <div class="color-info">
+            <span class="color-name">Butter Light</span>
+            <span class="color-hex">rgba(248, 226, 157, 0.25)</span>
+          </div>
+        </div>
+      </td>
+      <td>배경, 선택 상태</td>
+    </tr>
+  </table>
+
+  <h3 style="font-size: 12px; color: #636366; margin: 24px 0 12px;">Surface (배경)</h3>
+  <table>
+    <tr>
+      <th style="width: 180px;">변수</th>
+      <th>색상</th>
+      <th style="width: 200px;">용도</th>
+    </tr>
+    <tr>
+      <td><code>--c-surface</code></td>
+      <td>
+        <div class="color-row">
+          <div class="swatch" style="background: #FFFFFF; border: 1px solid #E5E5EA;"></div>
+          <div class="color-info">
+            <span class="color-name">White</span>
+            <span class="color-hex">#FFFFFF</span>
+          </div>
+        </div>
+      </td>
+      <td>카드, 시트, 모달</td>
+    </tr>
+    <tr>
+      <td><code>--c-surface-raised</code></td>
+      <td>
+        <div class="color-row">
+          <div class="swatch" style="background: #FAFAFA;"></div>
+          <div class="color-info">
+            <span class="color-name">Off White</span>
+            <span class="color-hex">#FAFAFA</span>
+          </div>
+        </div>
+      </td>
+      <td>테이블 헤더</td>
+    </tr>
+    <tr>
+      <td><code>--c-surface-sunken</code></td>
+      <td>
+        <div class="color-row">
+          <div class="swatch" style="background: #F2F2F7;"></div>
+          <div class="color-info">
+            <span class="color-name">Gray 50</span>
+            <span class="color-hex">#F2F2F7</span>
+          </div>
+        </div>
+      </td>
+      <td>앱 배경, 입력창 배경</td>
+    </tr>
+    <tr>
+      <td><code>--c-surface-overlay</code></td>
+      <td>
+        <div class="color-row">
+          <div class="swatch" style="background: rgba(0, 0, 0, 0.5);"></div>
+          <div class="color-info">
+            <span class="color-name">Overlay</span>
+            <span class="color-hex">rgba(0, 0, 0, 0.5)</span>
+          </div>
+        </div>
+      </td>
+      <td>모달 딤드 배경</td>
+    </tr>
+  </table>
+
+  <h3 style="font-size: 12px; color: #636366; margin: 24px 0 12px;">Text (글자)</h3>
+  <table>
+    <tr>
+      <th style="width: 180px;">변수</th>
+      <th>색상</th>
+      <th style="width: 200px;">용도</th>
+    </tr>
+    <tr>
+      <td><code>--c-text</code></td>
+      <td>
+        <div class="color-row">
+          <div class="swatch" style="background: #1C1C1E;"></div>
+          <div class="color-info">
+            <span class="color-name">Black</span>
+            <span class="color-hex">#1C1C1E</span>
+          </div>
+        </div>
+      </td>
+      <td>본문, 제목</td>
+    </tr>
+    <tr>
+      <td><code>--c-text-secondary</code></td>
+      <td>
+        <div class="color-row">
+          <div class="swatch" style="background: #636366;"></div>
+          <div class="color-info">
+            <span class="color-name">Gray 600</span>
+            <span class="color-hex">#636366</span>
+          </div>
+        </div>
+      </td>
+      <td>보조 텍스트, 레이블</td>
+    </tr>
+    <tr>
+      <td><code>--c-text-tertiary</code></td>
+      <td>
+        <div class="color-row">
+          <div class="swatch" style="background: #AEAEB2;"></div>
+          <div class="color-info">
+            <span class="color-name">Gray 400</span>
+            <span class="color-hex">#AEAEB2</span>
+          </div>
+        </div>
+      </td>
+      <td>힌트, 플레이스홀더</td>
+    </tr>
+    <tr>
+      <td><code>--c-text-inverse</code></td>
+      <td>
+        <div class="color-row">
+          <div class="swatch" style="background: #FFFFFF; border: 1px solid #E5E5EA;"></div>
+          <div class="color-info">
+            <span class="color-name">White</span>
+            <span class="color-hex">#FFFFFF</span>
+          </div>
+        </div>
+      </td>
+      <td>어두운 배경 위 텍스트</td>
+    </tr>
+  </table>
+
+  <h3 style="font-size: 12px; color: #636366; margin: 24px 0 12px;">Semantic (의미)</h3>
+  <table>
+    <tr>
+      <th style="width: 180px;">변수</th>
+      <th>색상</th>
+      <th style="width: 200px;">용도</th>
+    </tr>
+    <tr>
+      <td><code>--c-success</code></td>
+      <td>
+        <div class="color-row">
+          <div class="swatch" style="background: #4A9B8E;"></div>
+          <div class="color-info">
+            <span class="color-name">Teal</span>
+            <span class="color-hex">#4A9B8E</span>
+          </div>
+        </div>
+      </td>
+      <td>성공, 완료</td>
+    </tr>
+    <tr>
+      <td><code>--c-warning</code></td>
+      <td>
+        <div class="color-row">
+          <div class="swatch" style="background: #D4954A;"></div>
+          <div class="color-info">
+            <span class="color-name">Amber</span>
+            <span class="color-hex">#D4954A</span>
+          </div>
+        </div>
+      </td>
+      <td>경고, 주의</td>
+    </tr>
+    <tr>
+      <td><code>--c-danger</code></td>
+      <td>
+        <div class="color-row">
+          <div class="swatch" style="background: #C75B58;"></div>
+          <div class="color-info">
+            <span class="color-name">Terracotta</span>
+            <span class="color-hex">#C75B58</span>
+          </div>
+        </div>
+      </td>
+      <td>오류, 삭제</td>
+    </tr>
+  </table>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2>2. 글자 (Typography)</h2>
+
+  <h3 style="font-size: 12px; color: #636366; margin: 16px 0 12px;">Font Family</h3>
+  <table>
+    <tr>
+      <th style="width: 180px;">변수</th>
+      <th>값</th>
+    </tr>
+    <tr>
+      <td><code>--font-base</code></td>
+      <td style="font-family: Pretendard, sans-serif;">
+        "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif
+      </td>
+    </tr>
+  </table>
+
+  <h3 style="font-size: 12px; color: #636366; margin: 24px 0 12px;">Font Size</h3>
+  <table>
+    <tr>
+      <th style="width: 180px;">변수</th>
+      <th style="width: 80px;">값</th>
+      <th>샘플</th>
+      <th style="width: 200px;">용도</th>
+    </tr>
+    <tr>
+      <td><code>--fs-xs</code></td>
+      <td>10px</td>
+      <td><span style="font-size: 10px;">채팅 발췌기 ABC 123</span></td>
+      <td>힌트, 레이블, 캡션</td>
+    </tr>
+    <tr>
+      <td><code>--fs-sm</code></td>
+      <td>12px</td>
+      <td><span style="font-size: 12px;">채팅 발췌기 ABC 123</span></td>
+      <td>보조 텍스트, 레이블</td>
+    </tr>
+    <tr>
+      <td><code>--fs-md</code></td>
+      <td>14px</td>
+      <td><span style="font-size: 14px;">채팅 발췌기 ABC 123</span></td>
+      <td>본문 (기본)</td>
+    </tr>
+    <tr>
+      <td><code>--fs-lg</code></td>
+      <td>16px</td>
+      <td><span style="font-size: 16px;">채팅 발췌기 ABC 123</span></td>
+      <td>소제목, 강조</td>
+    </tr>
+    <tr>
+      <td><code>--fs-xl</code></td>
+      <td>18px</td>
+      <td><span style="font-size: 18px;">채팅 발췌기 ABC 123</span></td>
+      <td>제목</td>
+    </tr>
+  </table>
+
+  <h3 style="font-size: 12px; color: #636366; margin: 24px 0 12px;">Font Weight</h3>
+  <table>
+    <tr>
+      <th style="width: 180px;">변수</th>
+      <th style="width: 80px;">값</th>
+      <th>샘플</th>
+      <th style="width: 200px;">용도</th>
+    </tr>
+    <tr>
+      <td><code>--fw-normal</code></td>
+      <td>400</td>
+      <td><span style="font-weight: 400; font-size: 16px;">채팅 발췌기 Regular</span></td>
+      <td>본문</td>
+    </tr>
+    <tr>
+      <td><code>--fw-medium</code></td>
+      <td>500</td>
+      <td><span style="font-weight: 500; font-size: 16px;">채팅 발췌기 Medium</span></td>
+      <td>버튼, 탭, 레이블</td>
+    </tr>
+    <tr>
+      <td><code>--fw-bold</code></td>
+      <td>700</td>
+      <td><span style="font-weight: 700; font-size: 16px;">채팅 발췌기 Bold</span></td>
+      <td>제목, 강조</td>
+    </tr>
+  </table>
+
+  <h3 style="font-size: 12px; color: #636366; margin: 24px 0 12px;">Line Height</h3>
+  <table>
+    <tr>
+      <th style="width: 180px;">변수</th>
+      <th style="width: 80px;">값</th>
+      <th>샘플</th>
+      <th style="width: 200px;">용도</th>
+    </tr>
+    <tr>
+      <td><code>--lh-body</code></td>
+      <td>1.5</td>
+      <td><span style="line-height: 1.5; display: inline-block; max-width: 200px;">본문 텍스트는 이렇게 여러 줄로 작성했을 때 읽기 좋은 간격이 필요합니다.</span></td>
+      <td>본문, 설명</td>
+    </tr>
+    <tr>
+      <td><code>--lh-tight</code></td>
+      <td>1.25</td>
+      <td><span style="line-height: 1.25; display: inline-block; max-width: 200px;">제목이나 버튼처럼 짧은 텍스트는 촘촘하게 배치합니다.</span></td>
+      <td>제목, 버튼, 탭</td>
+    </tr>
+  </table>
+
+  <h3 style="font-size: 12px; color: #636366; margin: 24px 0 12px;">Typography 조합 예시</h3>
+  <table>
+    <tr>
+      <th>용도</th>
+      <th>크기</th>
+      <th>굵기</th>
+      <th>색상</th>
+      <th>샘플</th>
+    </tr>
+    <tr>
+      <td>페이지 제목</td>
+      <td>18px</td>
+      <td>700</td>
+      <td>--c-text</td>
+      <td><span style="font-size: 18px; font-weight: 700; color: #1C1C1E;">채팅 발췌기</span></td>
+    </tr>
+    <tr>
+      <td>섹션 제목</td>
+      <td>12px</td>
+      <td>700</td>
+      <td>--c-text</td>
+      <td><span style="font-size: 12px; font-weight: 700; color: #1C1C1E;">캐릭터</span></td>
+    </tr>
+    <tr>
+      <td>본문</td>
+      <td>14px</td>
+      <td>400</td>
+      <td>--c-text</td>
+      <td><span style="font-size: 14px; font-weight: 400; color: #1C1C1E;">대화를 입력하세요</span></td>
+    </tr>
+    <tr>
+      <td>버튼</td>
+      <td>14px</td>
+      <td>500</td>
+      <td>--c-text-inverse</td>
+      <td><span style="font-size: 14px; font-weight: 500; color: #1C1C1E;">저장하기</span></td>
+    </tr>
+    <tr>
+      <td>레이블</td>
+      <td>12px</td>
+      <td>500</td>
+      <td>--c-text-secondary</td>
+      <td><span style="font-size: 12px; font-weight: 500; color: #636366;">배경색</span></td>
+    </tr>
+    <tr>
+      <td>힌트</td>
+      <td>10px</td>
+      <td>400</td>
+      <td>--c-text-tertiary</td>
+      <td><span style="font-size: 10px; font-weight: 400; color: #AEAEB2;">선택사항</span></td>
+    </tr>
+  </table>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2>3. 둥글기 (Border Radius)</h2>
+
+  <table>
+    <tr>
+      <th style="width: 180px;">변수</th>
+      <th style="width: 80px;">값</th>
+      <th>미리보기</th>
+      <th style="width: 200px;">용도</th>
+    </tr>
+    <tr>
+      <td><code>--r-sm</code></td>
+      <td>6px</td>
+      <td><div class="radius-demo" style="border-radius: 6px;">6</div></td>
+      <td>아이콘 배경, 작은 요소</td>
+    </tr>
+    <tr>
+      <td><code>--r-md</code></td>
+      <td>10px</td>
+      <td><div class="radius-demo" style="border-radius: 10px;">10</div></td>
+      <td>버튼, 입력창</td>
+    </tr>
+    <tr>
+      <td><code>--r-lg</code></td>
+      <td>14px</td>
+      <td><div class="radius-demo" style="border-radius: 14px;">14</div></td>
+      <td>카드, 섹션</td>
+    </tr>
+    <tr>
+      <td><code>--r-xl</code></td>
+      <td>20px</td>
+      <td><div class="radius-demo" style="border-radius: 20px;">20</div></td>
+      <td>시트, 모달</td>
+    </tr>
+    <tr>
+      <td><code>--r-full</code></td>
+      <td>9999px</td>
+      <td><div class="radius-demo" style="border-radius: 9999px; width: 48px;">∞</div></td>
+      <td>칩, 필, 아바타</td>
+    </tr>
+  </table>
+
+  <div class="note">
+    <strong>참고:</strong> 컴포넌트 성격에 따라 Mixed 방식 적용 예정<br>
+    • 카드/시트: 둥글게 (r-lg, r-xl)<br>
+    • 버튼/입력: 적당히 (r-md)<br>
+    • 칩/태그: 필 (r-full)
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2>4. 간격 (Spacing)</h2>
+
+  <table>
+    <tr>
+      <th style="width: 180px;">변수</th>
+      <th style="width: 80px;">값</th>
+      <th>시각화</th>
+      <th style="width: 200px;">용도</th>
+    </tr>
+    <tr>
+      <td><code>--sp-xs</code></td>
+      <td>4px</td>
+      <td><div class="visual-bar" style="width: 4px;"></div></td>
+      <td>아이콘 내부, 미세 조정</td>
+    </tr>
+    <tr>
+      <td><code>--sp-sm</code></td>
+      <td>8px</td>
+      <td><div class="visual-bar" style="width: 8px;"></div></td>
+      <td>요소 간 좁은 간격</td>
+    </tr>
+    <tr>
+      <td><code>--sp-md</code></td>
+      <td>12px</td>
+      <td><div class="visual-bar" style="width: 12px;"></div></td>
+      <td>기본 간격</td>
+    </tr>
+    <tr>
+      <td><code>--sp-lg</code></td>
+      <td>16px</td>
+      <td><div class="visual-bar" style="width: 16px;"></div></td>
+      <td>섹션 내부 패딩</td>
+    </tr>
+    <tr>
+      <td><code>--sp-xl</code></td>
+      <td>24px</td>
+      <td><div class="visual-bar" style="width: 24px;"></div></td>
+      <td>섹션 간 간격</td>
+    </tr>
+    <tr>
+      <td><code>--sp-2xl</code></td>
+      <td>32px</td>
+      <td><div class="visual-bar" style="width: 32px;"></div></td>
+      <td>큰 영역 간격</td>
+    </tr>
+  </table>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2>5. 그림자 (Shadow)</h2>
+
+  <table>
+    <tr>
+      <th style="width: 180px;">변수</th>
+      <th>값</th>
+      <th>미리보기</th>
+      <th style="width: 200px;">용도</th>
+    </tr>
+    <tr>
+      <td><code>--shadow-sm</code></td>
+      <td>0 1px 2px rgba(0,0,0,0.05)</td>
+      <td><div class="shadow-demo" style="box-shadow: 0 1px 2px rgba(0,0,0,0.05);">SM</div></td>
+      <td>서브탭 활성</td>
+    </tr>
+    <tr>
+      <td><code>--shadow-md</code></td>
+      <td>0 4px 12px rgba(0,0,0,0.08)</td>
+      <td><div class="shadow-demo" style="box-shadow: 0 4px 12px rgba(0,0,0,0.08);">MD</div></td>
+      <td>카드, 드롭다운</td>
+    </tr>
+    <tr>
+      <td><code>--shadow-lg</code></td>
+      <td>0 8px 24px rgba(0,0,0,0.12)</td>
+      <td><div class="shadow-demo" style="box-shadow: 0 8px 24px rgba(0,0,0,0.12);">LG</div></td>
+      <td>캔버스, 모달</td>
+    </tr>
+    <tr>
+      <td><code>--shadow-sheet</code></td>
+      <td>0 -4px 24px rgba(0,0,0,0.08)</td>
+      <td><div class="shadow-demo" style="box-shadow: 0 -4px 24px rgba(0,0,0,0.08);">Sheet</div></td>
+      <td>바텀 시트</td>
+    </tr>
+  </table>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2>6. 외곽선 (Border)</h2>
+
+  <table>
+    <tr>
+      <th style="width: 180px;">변수</th>
+      <th>색상</th>
+      <th>미리보기</th>
+      <th style="width: 200px;">용도</th>
+    </tr>
+    <tr>
+      <td><code>--c-border</code></td>
+      <td>
+        <div class="color-row">
+          <div class="swatch" style="background: #E5E5EA;"></div>
+          <span class="color-hex">#E5E5EA</span>
+        </div>
+      </td>
+      <td><div class="border-demo" style="border: 1px solid #E5E5EA;">1px</div></td>
+      <td>기본 테두리</td>
+    </tr>
+    <tr>
+      <td><code>--c-border-strong</code></td>
+      <td>
+        <div class="color-row">
+          <div class="swatch" style="background: #D1D1D6;"></div>
+          <span class="color-hex">#D1D1D6</span>
+        </div>
+      </td>
+      <td><div class="border-demo" style="border: 1px solid #D1D1D6;">1px</div></td>
+      <td>강조 테두리, 호버</td>
+    </tr>
+    <tr>
+      <td><code>--c-divider</code></td>
+      <td>
+        <div class="color-row">
+          <div class="swatch" style="background: #EBEBF0;"></div>
+          <span class="color-hex">#EBEBF0</span>
+        </div>
+      </td>
+      <td><div class="border-demo" style="border-bottom: 1px solid #EBEBF0; border-radius: 0;">1px</div></td>
+      <td>구분선</td>
+    </tr>
+  </table>
+
+  <div class="note">
+    <strong>테두리 두께:</strong> 기본 1px 사용
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2>7. 전환 (Transition)</h2>
+
+  <table>
+    <tr>
+      <th style="width: 180px;">변수</th>
+      <th>값</th>
+      <th style="width: 200px;">용도</th>
+    </tr>
+    <tr>
+      <td><code>--ease-out</code></td>
+      <td>cubic-bezier(0.22, 0.61, 0.36, 1)</td>
+      <td>부드러운 감속</td>
+    </tr>
+    <tr>
+      <td><code>--dur-fast</code></td>
+      <td>0.15s</td>
+      <td>호버, 작은 변화</td>
+    </tr>
+    <tr>
+      <td><code>--dur-normal</code></td>
+      <td>0.25s</td>
+      <td>시트 열기, 탭 전환</td>
+    </tr>
+  </table>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2>8. 레이아웃 (Layout)</h2>
+
+  <table>
+    <tr>
+      <th style="width: 180px;">변수</th>
+      <th style="width: 80px;">값</th>
+      <th style="width: 200px;">용도</th>
+    </tr>
+    <tr>
+      <td><code>--topbar-h</code></td>
+      <td>52px</td>
+      <td>상단바 높이</td>
+    </tr>
+    <tr>
+      <td><code>--tab-h</code></td>
+      <td>44px</td>
+      <td>탭 높이</td>
+    </tr>
+    <tr>
+      <td><code>--sheet-max-h</code></td>
+      <td>70vh</td>
+      <td>시트 최대 높이</td>
+    </tr>
+  </table>
+
+</div>
+
+</body>
+</html>

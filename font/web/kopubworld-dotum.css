@@ -1,0 +1,4 @@
+/* KoPubWorld Dotum — chat.html 저장 임베드용. @font-face당 url()은 하나만 둔다. */
+@font-face{font-family:'KoPubWorld Dotum';font-style:normal;font-weight:400;font-display:swap;src:url('./KoPubDotum-400.woff2') format('woff2');}
+@font-face{font-family:'KoPubWorld Dotum';font-style:normal;font-weight:700;font-display:swap;src:url('./KoPubDotum-700.woff2') format('woff2');}
+@font-face{font-family:'KoPubWorld Dotum';font-style:normal;font-weight:800;font-display:swap;src:url('./KoPubDotum-800.woff2') format('woff2');}
