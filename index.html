@@ -7914,17 +7914,33 @@ function buildTextEditor(host, block) {
   divider.hidden = !block.asBubble;
   host.appendChild(divider);
 
-  /* ═══ 서식 컨트롤 (tool-line 구조: 글꼴|정렬, 서식|크기, 색|주석) ═══ */
+  /* ═══ 서식 컨트롤 (tool-line 구조: 글꼴|크기, 정렬|색, 서식|주석) ═══ */
   const fmtSection = el('div', 'fmt-section');
   fmtSection.style.cssText = 'padding:var(--sp-md);display:flex;flex-direction:column;gap:var(--sp-sm);';
 
-  /* 1행: 글꼴 | 정렬 */
+  /* 1행: 글꼴 | 크기 */
   const line1 = el('div', 'tool-line');
   const fontGrp = el('div', 'tool-grp');
   fontGrp.appendChild(el('span', 'lab', '글꼴'));
   fontGrp.appendChild(fontSelect(block.font || g.font, v => {
     block.font = v; save(); render();
   }));
+  const sizeGrp = el('div', 'tool-grp');
+  sizeGrp.appendChild(el('span', 'lab', '크기'));
+  const curSizeLv = block.sizeLv ?? 0;
+  SIZE_LV_UI.forEach(([lv, label, cls]) => {
+    const btn = el('button', 'icb' + (curSizeLv === lv ? ' is-on' : ''));
+    btn.style.boxShadow = 'none';
+    btn.innerHTML = `<span class="szA ${cls}">${cls === 's' ? 'a' : 'A'}</span>`;
+    btn.title = label;
+    btn.onclick = () => { block.sizeLv = lv; save(); render(); };
+    sizeGrp.appendChild(btn);
+  });
+  line1.append(fontGrp, el('div', 'tool-sep'), sizeGrp);
+  fmtSection.appendChild(line1);
+
+  /* 2행: 정렬 | 색 */
+  const line2 = el('div', 'tool-line');
   const alignGrp = el('div', 'tool-grp');
   alignGrp.appendChild(el('span', 'lab', '정렬'));
   const alignKeys = Object.keys(ALIGN_ICON);
@@ -7938,38 +7954,6 @@ function buildTextEditor(host, block) {
     btn.onclick = () => { block.align = k; save(); render(); };
     alignGrp.appendChild(btn);
   });
-  line1.append(fontGrp, el('div', 'tool-sep'), alignGrp);
-  fmtSection.appendChild(line1);
-
-  /* 2행: 서식 | 크기 */
-  const line2 = el('div', 'tool-line');
-  const styleGrp = el('div', 'tool-grp');
-  styleGrp.appendChild(el('span', 'lab', '서식'));
-  [['B', 'bold', '굵게'], ['I', 'italic', '기울임'], ['U', 'underline', '밑줄'], ['S', 'strike', '취소선']].forEach(([label, key, title]) => {
-    const btn = el('button', 'icb');
-    btn.style.boxShadow = 'none';
-    const st = key === 'italic' ? 'font-style:italic' : key === 'underline' ? 'text-decoration:underline' : key === 'strike' ? 'text-decoration:line-through' : 'font-weight:700';
-    btn.innerHTML = `<b style="${st}">${label}</b>`;
-    btn.title = title;
-    btn.onclick = () => { formatSelection(() => applyRich(key)); };
-    styleGrp.appendChild(btn);
-  });
-  const sizeGrp = el('div', 'tool-grp');
-  sizeGrp.appendChild(el('span', 'lab', '크기'));
-  const curSizeLv = block.sizeLv ?? 0;
-  SIZE_LV_UI.forEach(([lv, label, cls]) => {
-    const btn = el('button', 'icb' + (curSizeLv === lv ? ' is-on' : ''));
-    btn.style.boxShadow = 'none';
-    btn.innerHTML = `<span class="szA ${cls}">${cls === 's' ? 'a' : 'A'}</span>`;
-    btn.title = label;
-    btn.onclick = () => { block.sizeLv = lv; save(); render(); };
-    sizeGrp.appendChild(btn);
-  });
-  line2.append(styleGrp, el('div', 'tool-sep'), sizeGrp);
-  fmtSection.appendChild(line2);
-
-  /* 3행: 색 | 주석 */
-  const line3 = el('div', 'tool-line');
   const colorGrp = el('div', 'tool-grp');
   colorGrp.appendChild(el('span', 'lab', '색'));
   const colorA = colorBtn('A', S.colors.text, '글자 색', v => {
@@ -8004,6 +7988,22 @@ function buildTextEditor(host, block) {
   }, true);
   colorH.style.boxShadow = 'none';
   colorGrp.appendChild(colorH);
+  line2.append(alignGrp, el('div', 'tool-sep'), colorGrp);
+  fmtSection.appendChild(line2);
+
+  /* 3행: 서식 | 주석 */
+  const line3 = el('div', 'tool-line');
+  const styleGrp = el('div', 'tool-grp');
+  styleGrp.appendChild(el('span', 'lab', '서식'));
+  [['B', 'bold', '굵게'], ['I', 'italic', '기울임'], ['U', 'underline', '밑줄'], ['S', 'strike', '취소선']].forEach(([label, key, title]) => {
+    const btn = el('button', 'icb');
+    btn.style.boxShadow = 'none';
+    const st = key === 'italic' ? 'font-style:italic' : key === 'underline' ? 'text-decoration:underline' : key === 'strike' ? 'text-decoration:line-through' : 'font-weight:700';
+    btn.innerHTML = `<b style="${st}">${label}</b>`;
+    btn.title = title;
+    btn.onclick = () => { formatSelection(() => applyRich(key)); };
+    styleGrp.appendChild(btn);
+  });
   const annotGrp = el('div', 'tool-grp');
   annotGrp.appendChild(el('span', 'lab', '주석'));
   [['윗주석', 'sup', 0], ['아랫주석', 'sub', 1]].forEach(([title, tag, idx]) => {
@@ -8018,7 +8018,7 @@ function buildTextEditor(host, block) {
     };
     annotGrp.appendChild(btn);
   });
-  line3.append(colorGrp, el('div', 'tool-sep'), annotGrp);
+  line3.append(styleGrp, el('div', 'tool-sep'), annotGrp);
   fmtSection.appendChild(line3);
 
   host.appendChild(fmtSection);
