@@ -815,6 +815,8 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   display:block; column-count:var(--cv-cols,1); column-gap:var(--cv-colgap,24px);
 }
 .canvas.has-cols > .cv-head{column-span:all;margin-bottom:var(--cv-gap,10px)}
+/* 서명은 단에 안 든다 — 바닥을 가로질러 통째로 눕는다 */
+.canvas.has-cols > .blk.is-footer{column-span:all;margin-top:auto}
 /* 한 블록이 단 경계에서 두 동강 나면 말풍선이 위아래로 잘린다 — 통째로 다음 단에 넘긴다 */
 .canvas.has-cols > .blk{margin-bottom:var(--cv-gap,10px);break-inside:avoid}
 .canvas.has-cols > .blk:last-child{margin-bottom:0}
@@ -920,28 +922,25 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
    · 사진은 글과 «위쪽» 에서 맞춘다. 가운데로 두면 여러 줄일 때 사진이 글 한복판까지
      내려와, 누가 말하는지가 아니라 글의 중간을 가리키는 것처럼 보인다.
    · 인용 바는 사진보다 짧으면 안 된다 — 한 줄짜리에서 사진 옆에 토막처럼 남는다.
-     사진 높이를 최소 길이로 주고(--av-size), 글은 그 안에서 가운데에 앉힌다. */
+     사진 높이를 최소 길이로 주고(--av-size), 글은 사진과 상단 정렬한다. */
 .blk-bubble.q-row.q-av .bub.as-quote{
   min-height:var(--av-size,28px);
-  display:flex; flex-direction:column; justify-content:center;
+  display:flex; flex-direction:column; justify-content:flex-start;
 }
-/* 이름까지 켜면 격자로 바꾼다. 이름은 여태처럼 «대사 위» 에 두되, 사진은 이름이 아니라
-   «대사» 와 윗변을 맞춰야 한다. 열 하나에 이름과 대사를 쌓고 사진을 옆에 세우는 flex 로는
-   둘을 동시에 못 한다 — 사진이 열 맨 위, 곧 이름 옆에 붙어 버린다.
-   그래서 이름은 둘째 칸 첫 줄, 사진과 대사는 둘째 줄에 나란히 놓는다.
+/* 이름까지 켜면 격자로 바꾼다. 사진은 이름과 상단 정렬되고, 대사는 이름 아래에 온다.
    (이름은 이때만 열이 아니라 «행» 의 자식이다 — 렌더가 그리로 붙인다.) */
 .blk-bubble.q-row.q-named{
   display:grid; grid-template-columns:auto minmax(0,78%) 1fr;
-  column-gap:8px; row-gap:5px;
+  column-gap:8px; row-gap:5px; align-items:start;
 }
 .blk-bubble.q-row.q-named > .who{grid-area:1 / 2 / 2 / 3}
-.blk-bubble.q-row.q-named > .av {grid-area:2 / 1 / 3 / 2}
+.blk-bubble.q-row.q-named > .av {grid-area:1 / 1 / 3 / 2}
 .blk-bubble.q-row.q-named > .col{grid-area:2 / 2 / 3 / 3}
 /* 격자는 flex 가 아니라 row-reverse 가 안 먹는다 — 우측 인용은 칸 차례를 손으로 뒤집는다.
    글 칸은 내용만큼만 차지하다 78% 에서 멈추고, 남는 자리(1fr)가 나머지를 먹는다.
    그 남는 자리를 맨 앞으로 보내면 사진과 글이 통째로 오른쪽 끝으로 붙는다. */
 .blk-bubble.q-row.q-named.is-me{grid-template-columns:1fr minmax(0,78%) auto}
-.blk-bubble.q-row.q-named.is-me > .av {grid-area:2 / 3 / 3 / 4}
+.blk-bubble.q-row.q-named.is-me > .av {grid-area:1 / 3 / 3 / 4}
 /* 폭 한계는 격자 칸이 이미 쥐고 있다 — 그 안에서 78% 를 다시 잡으면 61% 로 좁아진다 */
 .blk-bubble.q-row.q-named > .col{max-width:100%}
 /* 굵기는 렌더가 대사와 같은 값으로 넣는다. 색도 대사 글자색을 그대로 쓰되
@@ -1053,9 +1052,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
   background-size:12px;background-position:center;background-repeat:no-repeat;
 }
-/* 이전 bulk-row (하단) — 더 이상 사용하지 않지만 호환성을 위해 유지 */
-.bulk-row{display:none}
-
 /* 장 구분선 — 여기서 잘려 다음 장이 시작된다는 표시. 미리보기에만 있고 저장 전에 걷어낸다.
    [주의] 반드시 «.canvas > » 를 붙여 적는다. 캔버스가 모든 자식에 position:relative 를
    걸기 때문이다 — 그냥 .pagemark 로 적으면 그 규칙에 밀려 absolute 가 안 먹고, 이 선이
@@ -1096,6 +1092,8 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 /* 작성창은 flex:0 0 auto 라 줄지 않는다. 긴 글을 열면 작성창이 시트를 다 먹고
    서식 도구가 몇 px 만 남는다. 이 단계에서는 작성창 높이도 함께 묶는다. */
 .sheet.is-format #ta{max-height:14dvh}
+/* 블록 수정 패널 열림 시 전송 버튼 숨김 — 패널 안 저장 버튼 사용 */
+.sheet.is-format #btnAdd{display:none}
 .sheet-body{transition:max-height .26s cubic-bezier(.22,.61,.36,1)}
 @media (prefers-reduced-motion:reduce){ .sheet,.sheet-body{transition:none} }
 /* 최소화 — 손잡이만 남기고 접는다. 미리보기를 넓게 보려고 아래로 끌어 내린 상태다.
@@ -1178,10 +1176,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   .nav-row{
     position:fixed;left:12px;right:66px;bottom:calc(var(--sheet-h,80px) + 10px);
     z-index:34;padding:0;pointer-events:none
-  }
-  .bulk-row{
-    position:fixed;left:12px;right:66px;bottom:calc(var(--sheet-h,80px) + 10px);
-    z-index:34;padding:0
   }
   .nav-row .insert-bar{pointer-events:auto}
 
@@ -1427,6 +1421,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .field{margin-bottom:var(--sp-md)}
 .field:last-child{margin-bottom:0}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-md) 14px}
+.grid-2-sm{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px}
 
 /* ═══════════════════════════════════════════════════════════════
    v2 컴포넌트: 캐릭터/테마 카드
@@ -1713,6 +1708,8 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .tgl-text.is-fill{display:flex;width:100%}
 .tgl-text button{flex:1 1 0;min-width:0;height:24px;padding:0 var(--sp-sm);border:none;border-radius:var(--r-full);background:transparent;font-size:var(--fs-xs);color:var(--c-text-secondary);cursor:pointer;transition:all .15s;white-space:nowrap}
 .tgl-text button.is-on{background:var(--c-primary-muted);border:1px solid var(--c-primary);color:var(--c-primary)}
+.tgl-text button:disabled{opacity:0.4;cursor:not-allowed}
+.tgl-text.is-disabled{opacity:0.5}
 .tgl-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
 
 /* 스테퍼 .step (v2) */
@@ -1855,6 +1852,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 .row{display:flex;align-items:center;gap:12px}
 .row-between{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px}
+.grid2-sm{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px}
 .stack{display:flex;flex-direction:column;gap:11px}
 .divider{height:1px;background:var(--c-border);margin:11px 0}
 /* 도구·편집 카드 안의 구획 나눔.
@@ -2355,9 +2353,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
       <div class="sheet-head" id="sheetHead">
         <!-- 작성창 바깥이지만 바로 위에 붙는 한 칸. NAV 이거나 선택 삭제 막대이거나 — 자리는 하나다. -->
         <!-- v2: insertBar 제거됨 - actionMenu로 대체 -->
-        <div class="nav-slot" id="navSlot">
-          <div class="bulk-row" id="bulkRow" hidden></div>
-        </div>
+        <div class="nav-slot" id="navSlot"></div>
         <!-- v2: 인풋 그룹 (설정 버튼 + 입력창 + 추가/전송 버튼) -->
         <div id="composerRow" style="padding: 0 var(--pad);">
           <div id="composerInput" style="position: relative;">
@@ -2455,7 +2451,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
               <div class="tgl tgl-sm" id="charBubbleToggleV2"></div>
             </div>
             <div id="charBubbleOptsV2" style="display:none;margin-top:var(--sp-md);padding:0 var(--sp-md)">
-              <div class="grid-2">
+              <div class="grid-2-sm">
                 <div class="field">
                   <label class="lab">배경색</label>
                   <div class="colorf">
@@ -2648,10 +2644,11 @@ const DEF_THEME = () => ({
 /* [원본 builtinThemes · builtinThemesV2] 함께 딸려 오는 테마.
    색만 담던 자리였는데 이제 «완성된 한 벌» 을 담는다 — 말풍선 꼴·꼬리·모서리·프로필 표시에
    글자 서식(글꼴·크기·행간·자간)과 화면머리까지. 골라서 바로 쓸 수 있는 것이 기본값의 몫이다.
-   [주의] 이름이 곧 열쇠다 [presetOf] — 이름을 바꿔 쓰면 더 이상 기본 테마가 아니고
-   '기본값으로 되돌리기' 단추도 사라진다. */
+   [참고] presetId가 열쇠다 — 이름을 바꿔도 presetId로 프리셋을 추적하므로
+   '기본값으로 되돌리기' 단추가 그대로 유지된다. */
 const PRESET_THEMES = [
   {
+    presetId: 'simple-grey',
     name: 'simple grey',
     bg: '#EDEDEE', fg: '#424448', bubbleBg: '#424448', bubbleFg: '#FFFFFF',
     myBubbleBg: '#8A8F98', myBubbleFg: '#424448', highlight: '#E4E4E6',
@@ -2662,6 +2659,7 @@ const PRESET_THEMES = [
     fmt: { align: 'justify', weight: 400, font: 'KoPubWorld Dotum', size: 13, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'center' }
   },
   {
+    presetId: 'simple-black',
     name: 'simple black',
     bg: '#26262B', fg: '#EAEAEE', bubbleBg: '#37373E', bubbleFg: '#EAEAEE',
     myBubbleBg: '#4A4A55', myBubbleFg: '#FFFFFF', highlight: '#4A4A55',
@@ -2672,6 +2670,7 @@ const PRESET_THEMES = [
     fmt: { align: 'justify', weight: 400, font: 'Pretendard', size: 13, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'center' }
   },
   {
+    presetId: 'ebook',
     name: 'ebook',
     bg: '#FFFFFF', fg: '#1C1C1E', bubbleBg: '#E9E9EB', bubbleFg: '#1C1C1E',
     myBubbleBg: '#E9E9EB', myBubbleFg: '#1C1C1E', highlight: '#CFE5FF',
@@ -2682,6 +2681,7 @@ const PRESET_THEMES = [
     fmt: { align: 'justify', weight: 400, font: 'Chosun Sinmyungjo', size: 13, lineHeight: 1.7, letterSpacing: -0.008, blockGap: 20, vAlign: 'top' }
   },
   {
+    presetId: 'newspaper',
     name: 'newspaper',
     /* 색은 «갓 스캔한 지면» 이다 — 흰 종이에 순검정 잉크. 누런 종이도 대 봤는데
        (#EAE7DE · #1C1A17) 그쪽은 «오래 묵은 신문» 이고, 이쪽은 «지금 찍혀 나온 신문» 이다.
@@ -2709,6 +2709,7 @@ const PRESET_THEMES = [
     fmt: { align: 'justify', weight: 400, font: 'Bookk Myungjo', size: 13, lineHeight: 1.5, letterSpacing: -0.008, blockGap: 20, vAlign: 'top', columns: 2 }
   },
   {
+    presetId: 'kakao',
     name: '카카오',
     bg: '#B2C7D9', fg: '#424448', bubbleBg: '#FFFFFF', bubbleFg: '#3A3A3A',
     myBubbleBg: '#FEE500', myBubbleFg: '#3A2E00', highlight: '#FFE38A',
@@ -2719,6 +2720,7 @@ const PRESET_THEMES = [
     fmt: { align: 'left', weight: 400, font: 'Pretendard', size: 13.5, lineHeight: 1.5, letterSpacing: -0.008, blockGap: 22, vAlign: 'top' }
   },
   {
+    presetId: 'imessage-light',
     name: 'iMessage-light',
     bg: '#FFFFFF', fg: '#1C1C1E', bubbleBg: '#E9E9EB', bubbleFg: '#1C1C1E',
     myBubbleBg: '#0B84FE', myBubbleFg: '#FFFFFF', highlight: '#CFE5FF',
@@ -2729,6 +2731,7 @@ const PRESET_THEMES = [
     fmt: { align: 'left', weight: 400, font: 'Pretendard', size: 12.5, lineHeight: 1.7, letterSpacing: -0.008, blockGap: 20, vAlign: 'top' }
   },
   {
+    presetId: 'imessage-dark',
     name: 'iMessage-dark',
     bg: '#26262B', fg: '#EAEAEE', bubbleBg: '#37373E', bubbleFg: '#EAEAEE',
     myBubbleBg: '#0B84FE', myBubbleFg: '#FFFFFF', highlight: '#4A4A55',
@@ -2741,6 +2744,7 @@ const PRESET_THEMES = [
   /* 프레임을 두르는 두 벌 [FRAMES]. 여느 테마가 «색과 말풍선» 을 정한다면 이 둘은 «어떤 창에
      담기는가» 까지 정한다 — 그래서 화면머리를 안 쓴다(창이 이미 제 머리를 가졌다). */
   {
+    presetId: 'cyworld',
     name: '미니홈피',
     frame: 'cyworld',
     bg: '#FFFFFF', fg: '#3B3B3B', bubbleBg: '#EAF6F9', bubbleFg: '#2E3A3E',
@@ -2752,6 +2756,7 @@ const PRESET_THEMES = [
     fmt: { align: 'left', weight: 400, font: 'KoPubWorld Dotum', size: 12.5, lineHeight: 1.65, letterSpacing: -0.008, blockGap: 14, vAlign: 'top' }
   },
   {
+    presetId: 'buddy',
     name: '버디버디',
     frame: 'buddy',
     bg: '#FFFFFF', fg: '#1B1B1B', bubbleBg: '#EFEFEA', bubbleFg: '#1B1B1B',
@@ -2770,8 +2775,8 @@ const PRESET_THEMES = [
     fmt: { align: 'left', weight: 400, font: 'Galmuri11', size: 11, lineHeight: 1.7, letterSpacing: 0, blockGap: 8, vAlign: 'top' }
   },
 ];
-/* 기본으로 딸려 오는 테마인가. 이름으로 찾는다 — 이름을 바꿔 쓰면 더 이상 기본 테마가 아니다. */
-const presetOf = t => t && PRESET_THEMES.find(p => p.name === t.name);
+/* 기본으로 딸려 오는 테마인가. presetId로 찾는다 — 이름을 바꿔도 프리셋 연결이 유지된다. */
+const presetOf = t => t && PRESET_THEMES.find(p => p.presetId === t.presetId);
 /* 기본 테마가 목록에 서는 «자리» 는 PRESET_THEMES 가 정한다.
    저장된 목록은 제 순서를 그대로 들고 있어(예전 판에서 쓰던 것 · 설정 들여오기로 받은 것),
    코드에서 차례를 바꿔도 이미 쓰던 사람 화면은 꿈쩍하지 않는다 — 여기서 한 번 맞춘다.
@@ -2780,10 +2785,10 @@ const presetOf = t => t && PRESET_THEMES.find(p => p.name === t.name);
     이 정렬이 사람이 잡아 둔 차례를 흐트러뜨릴 일도 없다.) */
 function sortThemesByPreset() {
   if (!Array.isArray(S.themes) || !S.themes.length) return;
-  const rank = new Map(PRESET_THEMES.map((p, i) => [p.name, i]));
+  const rank = new Map(PRESET_THEMES.map((p, i) => [p.presetId, i]));
   const preset = [], mine = [];
-  S.themes.forEach(t => (t && rank.has(t.name) ? preset : mine).push(t));
-  preset.sort((a, b) => rank.get(a.name) - rank.get(b.name));
+  S.themes.forEach(t => (t && rank.has(t.presetId) ? preset : mine).push(t));
+  preset.sort((a, b) => rank.get(a.presetId) - rank.get(b.presetId));
   S.themes = preset.concat(mine);
 }
 /* 그 테마를 처음 상태로 되돌린 사본. id 는 지켜야 블록·활성 테마가 안 끊긴다. */
@@ -2915,7 +2920,19 @@ function histApply(json) {
     /* 되돌린 판에 없는 블록을 고르고 있으면 편집 대상을 놓는다 */
     if (!S.blocks.some(x => x.id === S.ui.selectedBlockId)) S.ui.selectedBlockId = null;
     S.ui.themeDraft = null; S.ui.charDraft = null;
-    try { localStorage.setItem(KEY, json); } catch (_) { }
+    try {
+      localStorage.setItem(KEY, json);
+      _quotaWarned = false;
+    } catch (e) {
+      diag('histApply:error', { name: e && e.name ? e.name : 'unknown' });
+      console.error('실행취소/재실행 저장 실패', e);
+      if (!_quotaWarned) {
+        _quotaWarned = true;
+        setTimeout(() => {
+          if (typeof toast === 'function') toast('저장 공간이 가득 찼습니다 · 이미지를 줄이거나 블록을 지워주세요');
+        }, 0);
+      }
+    }
     render();
     const b = selBlock();
     if (b && HAS_TEXT.includes(b.type)) { $('#ta').value = blockSource(b); autoGrow(); }
@@ -2949,7 +2966,39 @@ function histRedo() {
   toast('다시 실행했습니다');
 }
 
+/* 상태 무결성 검증 — save() 전에 참조 깨짐 방지 (9-5) */
+function validateState() {
+  /* 1. 테마가 없으면 기본 테마 복원 */
+  if (!S.themes.length) {
+    S.themes = PRESET_THEMES.map(p => Object.assign(DEF_THEME(), JSON.parse(JSON.stringify(p))));
+  }
+  /* 2. activeThemeId 검증: 존재하지 않으면 첫 번째 테마로 */
+  if (!S.themes.some(t => t.id === S.activeThemeId)) {
+    S.activeThemeId = S.themes[0].id;
+  }
+  /* 3. selectedBlockId 검증: 존재하지 않으면 해제 */
+  if (S.ui.selectedBlockId && !S.blocks.some(b => b.id === S.ui.selectedBlockId)) {
+    S.ui.selectedBlockId = null;
+  }
+  /* 4. speakerId 참조 무결성: 삭제된 캐릭터 참조 제거 */
+  const charIds = new Set(S.characters.map(c => c.id));
+  S.blocks.forEach(b => {
+    if (b.speakerId && !charIds.has(b.speakerId)) b.speakerId = null;
+  });
+  /* 5. editingThemeId 검증: 존재하지 않으면 해제 */
+  if (S.ui.editingThemeId && !S.themes.some(t => t.id === S.ui.editingThemeId)) {
+    S.ui.editingThemeId = null;
+    S.ui.themeDraft = null;
+  }
+  /* 6. editingCharId 검증: 존재하지 않으면 해제 */
+  if (S.ui.editingCharId && !charIds.has(S.ui.editingCharId)) {
+    S.ui.editingCharId = null;
+    S.ui.charDraft = null;
+  }
+}
+
 const save = () => {
+  validateState();
   pinFooter();
   histRecord();
   syncHistBtns();
@@ -3155,6 +3204,14 @@ function load() {
       if (t.myAvatar == null) t.myAvatar = on;
     }
     delete t.showMine; delete t.showMyAvatar;
+  });
+  /* presetId가 없는 기존 테마에 name으로 매칭하여 presetId를 설정한다.
+     이름을 바꿔도 프리셋 연결이 유지되도록 하기 위한 마이그레이션이다. */
+  S.themes.forEach(t => {
+    if (!t.presetId) {
+      const p = PRESET_THEMES.find(p => p.name === t.name);
+      if (p) t.presetId = p.presetId;
+    }
   });
 }
 /* 테마를 고치는 동안에는 저장소가 아니라 초안을 돌려준다 — 캔버스가 곧 미리보기가 된다.
@@ -4216,10 +4273,24 @@ function closeActionMenu() {
 /* 설정 패널만 닫기 (내부용) */
 function closeSettingsPanel() {
   const panel = $('#settingsPanel');
-  if (panel && panel.classList.contains('is-open')) {
+  if (!panel || !panel.classList.contains('is-open')) return;
+
+  /* 테마/캐릭터 수정 중이면 확인 모달 표시 */
+  const doClose = () => {
     toggleSettingsPanel(false);
     setSnap(null);
-  }
+    /* 탭 UI 초기화 — 다음에 열 때 캐릭터 목록으로 */
+    resetSettingsTabUI();
+    /* 패널 닫으면 stage도 composer로 (tools → composer) */
+    if (S.ui.stage === 'tools') {
+      S.ui.stage = 'composer';
+      S.ui.deskPane = 'dock';
+    }
+  };
+
+  if (confirmDiscardThemeDraft(doClose)) return;
+  if (confirmDiscardCharDraft(doClose)) return;
+  doClose();
 }
 
 /* 블록 편집 해제 (내부용) */
@@ -4272,9 +4343,10 @@ function initComposerV2() {
     }
     /* 다른 UI 모두 닫기 */
     closeAllOverlays('menu');
-    /* 도구 패널 열려 있으면 닫기 */
+    /* 도구 패널 열려 있으면 닫기 — 테마/캐릭터 수정 중이면 확인 */
     if (S.ui.stage === 'tools') {
-      if (confirmDiscardThemeDraft(() => {})) return;
+      if (confirmDiscardThemeDraft(() => { closeToolsToComposer(); })) return;
+      if (confirmDiscardCharDraft(() => { closeToolsToComposer(); })) return;
       closeToolsToComposer();
     }
     /* 액션 메뉴 토글 */
@@ -4292,10 +4364,22 @@ function initComposerV2() {
   });
 
   /* 입력창 포커스 시 — 모든 오버레이 닫기 (입력 모드로 전환)
-     단, 도구 패널(tools) 이나 블록 편집(format) 중에는 닫지 않는다 —
-     그 안에서 render() 를 부르면 컴포저가 포커스를 다시 받아 편집기가 닫히는 것을 막는다. */
+     블록 편집(format) 중에는 닫지 않는다 — 서식 패널 안에서 render() 를 부르면
+     컴포저가 포커스를 다시 받아 편집기가 닫히는 것을 막는다.
+     설정 패널(tools)은 닫는다 — 사용자가 입력창 클릭 시 상호 배타 UX.
+     테마/캐릭터 수정 중이면 저장 확인 모달을 표시한다. */
   $('#ta').addEventListener('focus', () => {
-    if (S.ui.stage === 'tools' || S.ui.stage === 'format') return;
+    if (S.ui.stage === 'format') return;
+    /* 테마 또는 캐릭터 수정 중이면 확인 모달 표시 */
+    if (S.ui.stage === 'tools') {
+      const doClose = () => {
+        S.ui.panel = 'compact';
+        resetSettingsTabUI();
+        setStage('composer');
+      };
+      if (confirmDiscardThemeDraft(doClose)) return;
+      if (confirmDiscardCharDraft(doClose)) return;
+    }
     closeAllOverlays();
   });
 
@@ -4315,8 +4399,7 @@ function initComposerV2() {
           startNew('music');
           break;
         case 'divider':
-          S.blocks.push({ id: uid(), type: 'divider' });
-          save(); render();
+          startNew('divider');
           break;
       }
     });
@@ -4690,6 +4773,8 @@ function renderCanvas() {
         signEl.style.textAlign = th.signAlign || 'right';
         signEl.style.fontSize = (f.size * 0.85) + 'px';
         signEl.style.color = th.fg;
+        if (th.signBold) signEl.style.fontWeight = 'bold';
+        if (th.signItalic) signEl.style.fontStyle = 'italic';
         signWrap.appendChild(signEl);
         cv.appendChild(signWrap);
       }
@@ -4823,7 +4908,24 @@ function renderBlock(b, th, f, prev, next) {
     + (picked ? ' picked' : ''));
   wrap.dataset.id = b.id;
 
-  if (b.type === 'divider') { wrap.appendChild(el('div', 'blk-divider')); return wrap; }
+  if (b.type === 'divider') {
+    const d = el('div', 'blk-divider');
+    const st = b.dividerStyle || 'solid';
+    if (st === 'solid') {
+      d.style.cssText = 'height:1px;background:currentColor;opacity:0.18;';
+    } else if (st === 'double') {
+      d.style.cssText = 'height:4px;border-top:1px solid currentColor;border-bottom:1px solid currentColor;background:transparent;opacity:0.18;';
+    } else if (st === 'dash') {
+      d.style.cssText = 'height:0;border-top:1px dashed currentColor;background:transparent;opacity:0.18;';
+    } else {
+      /* star, wave — 텍스트 */
+      const sym = st === 'star' ? '✦ ✦ ✦' : st === 'wave' ? '〰〰〰' : '───';
+      d.style.cssText = 'text-align:center;opacity:0.4;font-size:14px;letter-spacing:4px;';
+      d.textContent = sym;
+    }
+    wrap.appendChild(d);
+    return wrap;
+  }
   if (b.type === 'image') {
     const d = el('div', 'blk-image');
     d.style.margin = (b.margin || 0) + 'px 0';
@@ -4920,13 +5022,13 @@ function renderBlock(b, th, f, prev, next) {
     }
 
     /* 얼굴을 말풍선의 어느 높이에 세울지.
-       · 말풍선 + 꼬리 위   → 위쪽 (꼬리와 눈높이)
-       · 말풍선 + 꼬리 아래 → 아래쪽
-       · 꼬리 없음          → 이름이 있으면 위쪽, 없으면 가운데
-       · 인용·없음          → 늘 가운데 (덩어리로 묶여도 그 장의 가운데) */
-    row.classList.add(doc ? (quoteAv ? 'av-top' : 'av-mid')
-      : (bs === 'bubble' && th.showTail) ? (tTop ? 'av-top' : 'av-bottom')
-        : (nameEl ? 'av-top' : 'av-mid'));
+       · 말풍선            → 늘 위쪽 (말풍선 기준 상단 정렬)
+       · 인용 + 아바타      → 위쪽
+       · 각본              → 가운데
+       · 없음              → 가운데 */
+    row.classList.add(bs === 'bubble' ? 'av-top'
+      : quoteAv ? 'av-top'
+        : 'av-mid');
 
     if (hasTail) row.classList.add('has-tail-row', ...(tTop ? ['tail-top'] : []));
     const bub = el('div', 'bub'
@@ -4961,6 +5063,11 @@ function renderBlock(b, th, f, prev, next) {
       nameEl.style.fontWeight = b.bold ? boldW() : textW();
     }
     style(bub);
+    /* 말풍선 그림자 — 테마 설정에서 켜면 말풍선에 그림자를 입힌다.
+       인용·각본·없음은 배경이 없어 그림자도 없다. */
+    if (bs === 'bubble' && th.bubbleShadow) {
+      bub.style.boxShadow = '0 .2em .55em rgba(60,60,67,.09)';
+    }
     /* 인용은 세로선을 세우고 그 옆에 글을 흘리는 꼴이다. 글 정렬을 따라 반대쪽으로 밀면
        선과 글이 떨어져 인용으로 안 읽힌다 — 늘 선이 선 쪽에 붙인다.
        좌측은 왼쪽, 우측[sided]은 거울상이라 오른쪽이다. */
@@ -5892,6 +5999,7 @@ function setStage(st, keepNav) {
   const closesTools = st !== 'tools' && !isWide();
   /* 나가는 길이면 먼저 묻는다 — 답을 받고 나서 같은 자리로 다시 온다 */
   if (closesTools && confirmDiscardThemeDraft(() => setStage(st, keepNav))) return;
+  if (closesTools && confirmDiscardCharDraft(() => setStage(st, keepNav))) return;
   S.ui.newKind = null;
   /* NAV 는 그 안에서 벌어진 일일 때만 열려 있는다. 자리를 옮기는 것은 NAV 밖의 일이다 —
      칩을 눌러 들어온 길은 그 핸들러가 다시 열어 준다. NAV 단추가 스스로 자리를 옮기는
@@ -5904,7 +6012,12 @@ function setStage(st, keepNav) {
   S.ui.deskPane = st === 'tools' ? 'tools' : 'dock';
   if (st === 'tools' && document.activeElement && document.activeElement.blur) document.activeElement.blur();
   S.ui.panel = (st === 'tools' || st === 'format') ? 'full' : (S.ui.panel || 'compact');
-  if (closesTools) { S.ui.editingCharacterId = null; S.ui.charDraft = null; S.ui.editingThemeId = null; S.ui.themeDraft = null; }
+  if (closesTools) {
+    S.ui.editingCharacterId = null; S.ui.charDraft = null;
+    S.ui.editingThemeId = null; S.ui.themeDraft = null; S.ui.canvasSnapshot = null;
+    /* 탭 UI 초기화 — 다음에 열 때 캐릭터 목록으로 */
+    resetSettingsTabUI();
+  }
   /* 블록 편집은 서식 단계에서만 산다. 어느 경로로 빠져나가든 작성창을 비운다. */
   if (st !== 'format' && S.ui.selectedBlockId) endEdit();
   if (st === 'composer') { S.ui.insertMode = null; }
@@ -5917,15 +6030,22 @@ function themeDraftDirty() {
   const d = S.ui.themeDraft;
   if (!d || d.id !== S.ui.editingThemeId) return false;
   const src = S.themes.find(x => x.id === d.id);
-  return !!src && JSON.stringify(d) !== JSON.stringify(src);
+  const themeDirty = !!src && JSON.stringify(d) !== JSON.stringify(src);
+  /* 캔버스 변경도 테마 수정으로 간주 */
+  const snap = S.ui.canvasSnapshot;
+  const canvasDirty = !!snap && JSON.stringify(S.canvas) !== JSON.stringify(snap);
+  return themeDirty || canvasDirty;
 }
 /* 캐릭터 초안이 저장소의 원본과 다른가 */
 function charDraftDirty() {
   const d = S.ui.charDraft;
-  if (!d || d.id !== S.ui.editingCharacterId) return false;
+  /* __for 로 비교 — 새 캐릭터는 id가 UID이고 editingCharacterId가 'new'라서 d.id 로 비교하면 항상 false */
+  if (!d || (d.__for ?? d.id) !== S.ui.editingCharacterId) return false;
   if (S.ui.editingCharacterId === 'new') return !!(d.name || d.avatar || d.bubbleBg || d.bubbleFg);
+  /* __for 필드는 비교에서 제외 */
   const src = S.characters.find(x => x.id === d.id);
-  return !!src && JSON.stringify(d) !== JSON.stringify(src);
+  const dClean = { ...d }; delete dClean.__for;
+  return !!src && JSON.stringify(dClean) !== JSON.stringify(src);
 }
 /* 캐릭터 초안을 저장소에 반영 */
 function commitCharDraft() {
@@ -6005,12 +6125,20 @@ function confirmDiscardThemeDraft(onDiscard) {
     closeModal();
     commitThemeDraft();
     S.ui.editingThemeId = null;
+    S.ui.canvasSnapshot = null; /* 캔버스 변경 확정 */
+    save(); /* 캔버스도 저장 */
     onDiscard();
     toast('테마를 저장했습니다');
   };
   const close = el('button', 'btn btn-danger', '버리고 나가기');
   close.onclick = () => {
     closeModal();
+    /* 캔버스를 스냅샷으로 복원 */
+    if (S.ui.canvasSnapshot) {
+      Object.assign(S.canvas, S.ui.canvasSnapshot);
+      S.ui.canvasSnapshot = null;
+      save();
+    }
     S.ui.editingThemeId = null;
     S.ui.themeDraft = null;
     onDiscard();
@@ -6020,12 +6148,15 @@ function confirmDiscardThemeDraft(onDiscard) {
   return true;
 }
 function closeToolsToComposer() {
-  if (confirmDiscardThemeDraft(() => {
+  const doClose = () => {
     S.ui.panel = 'compact';
+    /* 탭 UI 초기화 — 다음에 열 때 캐릭터 목록으로 */
+    resetSettingsTabUI();
     setStage('composer');
-  })) return;
-  S.ui.panel = 'compact';
-  setStage('composer');
+  };
+  if (confirmDiscardThemeDraft(doClose)) return;
+  if (confirmDiscardCharDraft(doClose)) return;
+  doClose();
 }
 function syncDesktopFloatNav() {
   const root = document.documentElement;
@@ -6121,33 +6252,8 @@ function renderComposer() {
 function renderComposerHint(b, deck) {
   const box = $('#composerHint');
   box.innerHTML = '';
-  box.hidden = !!deck;
-  if (deck) return;
-  const txt = el('span', 'txt');
-  if (b) {
-    /* 블록 값과 글 속 마커를 함께 센다 — 둘 다 «이 블록만 따로» 인 것은 마찬가지다 */
-    const own = BLOCK_OWN.filter(k => b[k] != null && b[k] !== false && b[k] !== 0)
-      .map(k => BLOCK_OWN_NAME[k])
-      .concat(HAS_TEXT.includes(b.type || 'text') ? inlineOwn(b.text) : []);
-    txt.textContent = own.length
-      ? '이 블록만 따로 지정 — ' + [...new Set(own)].join(' · ')
-      : '고른 블록 하나만 고칩니다 · 도구 › 서식 설정은 전체 기본값입니다';
-    box.appendChild(txt);
-    if (own.length) {
-      const clr = el('button', 'btn btn-quiet', '전체 설정 따르기');
-      clr.onclick = () => {
-        BLOCK_OWN.forEach(k => { delete b[k]; });
-        /* 글 속 마커도 함께 푼다 — 안 그러면 블록 색은 풀리는데 글 일부에 준 색만 남아
-           «눌렀는데 색이 그대로» 가 된다. 작성창에도 곧바로 비친다. */
-        if (HAS_TEXT.includes(b.type || 'text')) { b.text = stripInline(b.text); syncComposer(b); }
-        save(); render(); toast('이 블록도 전체 설정을 따릅니다');
-      };
-      box.appendChild(clr);
-    }
-    return;
-  }
-  /* v2: 블록 저장 힌트 제거 — 선택된 블록이 없으면 힌트 영역 비움 */
-  box.hidden = true;
+  /* v2: 블록 편집 중이거나 deck 있으면 힌트 영역 숨김 */
+  box.hidden = !!deck || !!b;
 }
 
 /* 편집 상태를 벗어날 때는 작성창을 반드시 비운다.
@@ -6271,7 +6377,10 @@ function commit() {
   /* 문단마다 전체 localStorage를 다시 쓰지 않고 대량 붙여넣기도 한 번만 저장한다. */
   diag('blocks:created', { total: S.blocks.length });
   save(); diag('save:done', { blocks: S.blocks.length });
-  ta.value = ''; autoGrow();
+  /* contenteditable 초기화 — .value 는 input 전용이라 innerHTML 로 비운다 */
+  try { ta.replaceChildren(); } catch (_) { ta.innerHTML = ''; }
+  autoGrow();
+  syncBtnAddState();          /* 버튼 상태를 (+)로 복원 */
   backToDefault();            /* 올렸으면 끝난 일이다 — HTML 을 적던 중이어도 기본으로 */
 }
 
@@ -6368,6 +6477,10 @@ function renderFormat() {
       /* HTML도 이미지·음악과 마찬가지로 패널에서 편집한다 — newKind 는 확정 시점까지 유지 */
       buildHtmlEditor(host, null);
       wrap.appendChild(host);
+    } else if (S.ui.newKind === 'divider') {
+      /* 구분선 종류 선택 패널 */
+      buildDividerEditor(host, null);
+      wrap.appendChild(host);
     }
     return;
   }
@@ -6401,6 +6514,13 @@ function renderFormat() {
   if (b && b.type === 'html') {
     const host = el('div', 'sec');
     buildHtmlEditor(host, b);
+    wrap.appendChild(host);
+    return;
+  }
+  /* 구분선 편집기 */
+  if (b && b.type === 'divider') {
+    const host = el('div', 'sec');
+    buildDividerEditor(host, b);
     wrap.appendChild(host);
     return;
   }
@@ -6969,7 +7089,8 @@ function openResetModal() {
     '선택한 항목만 기본 상태로 되돌립니다. 선택하지 않은 항목은 그대로 유지됩니다.',
     [
       ['characters', '캐릭터 프리셋', '저장한 캐릭터와 프로필 이미지를 삭제합니다.'],
-      ['themes', '테마 프리셋', `기본 테마 ${PRESET_THEMES.length}종으로 복원하고 사용자 테마를 삭제합니다.`],
+      ['themes', '테마 프리셋', `기본 테마 ${PRESET_THEMES.length}종으로 복원하고 사용자 테마 · 캔버스 설정을 삭제합니다.`],
+      ['colors', '색', '색 팔레트와 최근 쓴 색을 삭제합니다.'],
       /* 유일하게 «지우지 않는» 항목이다 — 브라우저가 들고 있던 예전 판만 버린다.
          고친 것이 화면에 안 나올 때 쓰는 자리라, 초기화를 찾아 들어온 손이 여기서 만난다. */
       ['cache', '앱 캐시', '브라우저가 들고 있던 예전 판을 버리고 새로 받습니다. 작성한 내용은 지워지지 않습니다.']
@@ -6987,7 +7108,17 @@ function openResetModal() {
       S.themes = PRESET_THEMES.map(preset => Object.assign(DEF_THEME(), JSON.parse(JSON.stringify(preset))));
       S.activeThemeId = S.themes[0].id;
       S.ui.themeDraft = null; S.ui.editingThemeId = null;
+      /* 캔버스도 테마와 한 묶음 — 함께 초기화 */
+      Object.assign(S.canvas, { mode: 'ratio', ratio: '9:16', width: 560, mt: 40, mb: 40, ml: 40, mr: 40, marginDetail: false });
+      S.ui.canvasSnapshot = null;
       reset.push('테마 프리셋');
+    }
+    if (selected.has('colors')) {
+      userPalette = [];
+      hiddenPalette = [];
+      savePalette();
+      Object.assign(S.colors, { text: '#D55F61', highlight: '#FFE79A', recent: [] });
+      reset.push('색');
     }
     S.ui.selectedBlockId = null; S.ui.newKind = null; S.ui.newSrc = '';
     S.ui.insertMode = null; S.ui.navOpen = false; S.ui.bulk = false; S.ui.picked = new Set();
@@ -7164,7 +7295,10 @@ function cropField(src, ratio) {
 const FOOTER_SEP = ' · ';
 function footerText(b) {
   const parts = [b.charName, b.maker].map(x => (x || '').trim()).filter(Boolean);
-  if (parts.length) return parts.join(FOOTER_SEP);
+  if (parts.length) {
+    const sep = b.sep === '|' ? ' | ' : ' · ';
+    return parts.join(sep);
+  }
   return b.text || '';        /* 한 줄로만 적던 시절의 저장본 */
 }
 
@@ -7196,6 +7330,23 @@ function buildEditHeader(host, block, onConfirm) {
   hdr.appendChild(spacer);
 
   if (!isNew) {
+    /* 원복 — 이 블록만 따로 지정된 설정을 전체 설정으로 되돌림 */
+    const hasOwn = () => {
+      const own = BLOCK_OWN.filter(k => block[k] != null && block[k] !== false && block[k] !== 0);
+      const inl = HAS_TEXT.includes(block.type || 'text') ? inlineOwn(block.text) : [];
+      return own.length > 0 || inl.length > 0;
+    };
+    if (hasOwn()) {
+      const btnReset = el('button', 'btn btn-outline', '↺');
+      btnReset.style.cssText = 'height:28px;width:28px;padding:0;font-size:16px;';
+      btnReset.title = '전체 설정 따르기';
+      btnReset.onclick = () => {
+        BLOCK_OWN.forEach(k => { delete block[k]; });
+        if (HAS_TEXT.includes(block.type || 'text')) { block.text = stripInline(block.text); syncComposer(block); }
+        save(); render(); toast('이 블록도 전체 설정을 따릅니다');
+      };
+      hdr.appendChild(btnReset);
+    }
     /* 복사 — 기존 블록만 */
     const btnCopy = el('button', 'btn btn-outline');
     btnCopy.style.cssText = 'height:28px;width:28px;padding:0;';
@@ -7242,7 +7393,7 @@ function buildEditHeader(host, block, onConfirm) {
    그만두려면 위 [×] 로 블록에서 손을 떼면 되고, 지우려면 아래 [블록 삭제] 다. */
 function buildFooterEditor(host, block) {
   /* 통일된 헤더 */
-  buildEditHeader(host, block, () => setStage('composer'));
+  buildEditHeader(host, block, () => backToDefault());
 
   /* 예전 한 줄짜리 서명은 '제작자' 로 옮겨 놓고 시작한다 — 지우고 다시 쓰게 하지 않는다 */
   if (!block.charName && !block.maker && block.text) { block.maker = block.text; block.text = ''; }
@@ -7250,6 +7401,8 @@ function buildFooterEditor(host, block) {
   const wrap = el('div');
   wrap.style.cssText = 'padding:var(--sp-md);';
   const body = el('div', 'stack');
+
+  /* 캐릭터 / 제작자 입력 */
   const mk = (label, key, ph) => {
     const w = el('div');
     w.appendChild(el('span', 'lab', label));
@@ -7258,7 +7411,43 @@ function buildFooterEditor(host, block) {
     w.appendChild(i);
     return w;
   };
-  body.append(mk('캐릭터', 'charName', '예) 홍길동'), mk('제작자', 'maker', '예) @아이디'));
+  body.append(mk('캐릭터', 'charName', '예) 해이'), mk('제작자', 'maker', '예) luvheil'));
+
+  /* 정렬 + 구분자 */
+  const optGrid = el('div', 'grid2');
+  optGrid.style.marginTop = 'var(--sp-md)';
+  /* 정렬 */
+  const alignField = el('div', 'field');
+  alignField.appendChild(el('label', 'lab', '정렬'));
+  alignField.appendChild(segment([['left', '좌'], ['center', '중앙'], ['right', '우']],
+    block.align || 'right', v => { block.align = v; save(); renderCanvas(); }));
+  optGrid.appendChild(alignField);
+  /* 구분자 */
+  const sepField = el('div', 'field');
+  sepField.appendChild(el('label', 'lab', '구분'));
+  sepField.appendChild(segment([['·', '·'], ['|', '|']],
+    block.sep || '·', v => { block.sep = v; save(); renderCanvas(); }));
+  optGrid.appendChild(sepField);
+  body.appendChild(optGrid);
+
+  /* 서식: 볼드 / 이탤릭 */
+  const fmtRow = el('div', 'fmt-row');
+  fmtRow.style.marginTop = 'var(--sp-md)';
+  const mkFmt = (label, key, icon) => {
+    const btn = el('button', 'icb' + (block[key] ? ' is-on' : ''));
+    btn.innerHTML = icon;
+    btn.title = label;
+    btn.onclick = () => {
+      block[key] = !block[key];
+      btn.classList.toggle('is-on', block[key]);
+      save(); renderCanvas();
+    };
+    return btn;
+  };
+  fmtRow.appendChild(mkFmt('볼드', 'bold', '<b>B</b>'));
+  fmtRow.appendChild(mkFmt('이탤릭', 'italic', '<i>I</i>'));
+  body.appendChild(fmtRow);
+
   wrap.appendChild(body);
   host.appendChild(wrap);
 }
@@ -7267,7 +7456,7 @@ function buildFooterEditor(host, block) {
    그만두려면 위 [×] 로 블록에서 손을 떼고, 지우려면 아래 [블록 삭제] 다. */
 function buildMusicEditor(host, block) {
   /* 통일된 헤더 추가 — 음악은 적는 대로 반영되므로 저장 버튼은 '확인(닫기)' 역할 */
-  buildEditHeader(host, block, () => setStage('composer'));
+  buildEditHeader(host, block, () => backToDefault());
 
   /* ── 버전 탭: VER1(기본) / VER2(납작) ─────────────────────────── */
   const tabs = el('div', 'tabs-line');
@@ -7341,20 +7530,18 @@ function buildMusicEditor(host, block) {
      첫 줄은 «카드가 말하는 것»(제목·가수·재생 단추)과 그 옆의 북마크, 둘째 줄은 진행바.
      카드 배경만 홀로 맨 뒤에 두어 바로 아래 불투명도와 한 덩어리로
      읽히게 한다 — 그 둘이 실제로 «카드가 보이는 색» 하나를 만든다 [musicNode]. */
-  const cg = el('div', 'grid2');
-  /* 제목·가수와 재생 단추는 한 칸으로 묶는다 — 둘은 «카드가 말하는 것» 이라 색이 갈리면
-     카드가 두 덩어리로 쪼개져 보인다. 진행바·북마크는 그대로 따로 둔다: 진행바는 «지나간
-     만큼» 을 가리키는 표시라 오히려 글자와 달라야 읽히고, 북마크는 색으로 강조하는 자리다.
-     저장하는 값은 예전 그대로 둘이다 [textColor · btnColor] — 서로 다른 색을 담고 있는
-     예전 저장본도 그대로 그려지고, 여기서 한 번 고르면 그때 둘이 같아진다. */
-  cg.appendChild(colorField('제목·가수·단추 색', block.textColor || block.btnColor || block.tint || th.fg,
+  /* 색상 — 2열 배치: 글자색/진행바 색, 배경 색/북마크 색 */
+  const cg = el('div', 'grid2-sm');
+  /* 1행: 글자색 (제목·가수·단추), 진행바 색 */
+  cg.appendChild(colorField('글자 색', block.textColor || block.btnColor || block.tint || th.fg,
     v => { block.textColor = v; block.btnColor = v; save(); renderCanvas(); }));
-  cg.appendChild(colorField('북마크 색', block.heartColor || th.fg,
-    v => { block.heartColor = v; save(); renderCanvas(); }));
   cg.appendChild(colorField('진행바 색', block.barColor || block.tint || th.fg,
     v => { block.barColor = v; save(); renderCanvas(); }));
-  cg.appendChild(colorField('카드 배경', block.card || MU_CARD,
+  /* 2행: 배경 색, 북마크 색 */
+  cg.appendChild(colorField('배경 색', block.card || MU_CARD,
     v => { block.card = v; save(); renderCanvas(); }));
+  cg.appendChild(colorField('북마크 색', block.heartColor || th.fg,
+    v => { block.heartColor = v; save(); renderCanvas(); }));
   body.appendChild(cg);
 
   /* 카드가 얼마나 비치는가 — 0 이면 아예 없는 것과 같고, 100 이면 꽉 찬 단색이다.
@@ -7554,6 +7741,96 @@ function buildHtmlEditor(host, block) {
   _confirm = isNew ? doConfirm : null;
 }
 
+/* 구분선 블록 편집 — 종류 선택 + 미리보기 */
+const DIVIDER_STYLES = [
+  { key: 'solid', label: '실선', symbol: '───' },
+  { key: 'star', label: '별', symbol: '✦ ✦ ✦' },
+  { key: 'wave', label: '물결', symbol: '〰〰' },
+  { key: 'double', label: '이중', symbol: '══' },
+  { key: 'dash', label: '대시', symbol: '- - -' }
+];
+function buildDividerEditor(host, block) {
+  const isNew = !block;
+  const draft = { style: block?.dividerStyle || 'solid' };
+
+  /* 통일된 헤더 — doConfirm은 아래에서 정의 */
+  buildEditHeader(host, block, () => doConfirm());
+
+  const wrap = el('div');
+  wrap.style.cssText = 'padding:var(--sp-md);';
+
+  /* 구분선 종류 레이블 */
+  const lab = el('span', 'lab', '구분선 종류');
+  wrap.appendChild(lab);
+
+  /* segment 버튼들 */
+  const seg = el('div', 'seg');
+  seg.style.marginBottom = 'var(--sp-lg)';
+  DIVIDER_STYLES.forEach(ds => {
+    const btn = el('button', draft.style === ds.key ? 'is-on' : '');
+    btn.innerHTML = `<small>${ds.label}</small>${ds.symbol}`;
+    btn.onclick = () => {
+      draft.style = ds.key;
+      seg.querySelectorAll('button').forEach(b => b.classList.remove('is-on'));
+      btn.classList.add('is-on');
+      updatePreview();
+      if (!isNew) {
+        block.dividerStyle = ds.key;
+        save(); renderCanvas();
+      }
+    };
+    seg.appendChild(btn);
+  });
+  wrap.appendChild(seg);
+
+  /* 미리보기 */
+  const preview = el('div');
+  preview.style.cssText = 'background:var(--c-surface-sunken);border-radius:var(--r-sm);padding:var(--sp-lg) var(--sp-md);margin-bottom:var(--sp-md);';
+  const previewInner = el('div');
+  preview.appendChild(previewInner);
+  wrap.appendChild(preview);
+
+  const updatePreview = () => {
+    const st = draft.style;
+    if (st === 'solid') {
+      previewInner.style.cssText = 'height:1px;background:currentColor;opacity:0.18;';
+      previewInner.textContent = '';
+    } else if (st === 'double') {
+      previewInner.style.cssText = 'height:4px;border-top:1px solid currentColor;border-bottom:1px solid currentColor;background:transparent;opacity:0.18;';
+      previewInner.textContent = '';
+    } else if (st === 'dash') {
+      previewInner.style.cssText = 'height:0;border-top:1px dashed currentColor;background:transparent;opacity:0.18;';
+      previewInner.textContent = '';
+    } else {
+      /* star, wave — 텍스트 */
+      const sym = DIVIDER_STYLES.find(d => d.key === st)?.symbol || '───';
+      previewInner.style.cssText = 'text-align:center;opacity:0.4;font-size:14px;letter-spacing:4px;';
+      previewInner.textContent = sym;
+    }
+  };
+  updatePreview();
+
+  host.appendChild(wrap);
+
+  /* 저장/확인 */
+  const doConfirm = () => {
+    if (isNew) {
+      const newBlock = {
+        id: uid(),
+        type: 'divider',
+        dividerStyle: draft.style
+      };
+      S.blocks.push(newBlock);
+      S.ui.selectedBlockId = newBlock.id;
+      save();
+      toast('구분선을 추가했습니다');
+    }
+    backToDefault();
+  };
+
+  _confirm = isNew ? doConfirm : null;
+}
+
 /* 텍스트 블록 편집 — v2 구조: 헤더 + 입력란 + 대사/서술 탭 + 캐릭터 + 서식 */
 function buildTextEditor(host, block) {
   const g = fmtStore();
@@ -7577,6 +7854,7 @@ function buildTextEditor(host, block) {
     tabNarr.classList.toggle('is-on', !isSpeech);
     indicator.style.left = isSpeech ? '0' : '50%';
     charSection.hidden = !isSpeech;
+    divider.hidden = !isSpeech;
   };
   tabSpeech.onclick = () => { block.asBubble = true; syncTabs(true); save(); renderCanvas(); };
   tabNarr.onclick = () => { block.asBubble = false; block.speakerId = null; syncTabs(false); save(); renderCanvas(); };
@@ -7585,48 +7863,56 @@ function buildTextEditor(host, block) {
 
   /* ═══ 캐릭터 선택 (대사일 때만 표시) ═══ */
   const charSection = el('div', 'char-section');
-  charSection.style.cssText = 'padding:var(--sp-md) var(--sp-md) var(--sp-sm);';
+  charSection.style.cssText = 'padding:var(--sp-md) var(--sp-md) var(--sp-sm);display:flex;flex-direction:column;gap:var(--sp-sm);';
   charSection.hidden = !block.asBubble;
 
-  const charRow = el('div');
-  charRow.style.cssText = 'display:flex;align-items:center;gap:var(--sp-md);';
-
-  /* 캐릭터 칩들 */
-  const chipWrap = el('div', 'av-row');
-  chipWrap.style.flex = '1';
-  S.characters.forEach(c => {
-    const chip = el('button', 'av-chip' + (block.speakerId === c.id ? ' is-on' : ''));
-    if (c.avatar) { const i = el('img'); i.src = c.avatar; chip.appendChild(i); }
-    else chip.innerHTML = initialSvg(c.name);
-    chip.title = c.name;
-    chip.onclick = () => { block.speakerId = block.speakerId === c.id ? null : c.id; save(); render(); };
-    chipWrap.appendChild(chip);
-  });
-  const addChip = el('button', 'av-chip is-add');
-  addChip.innerHTML = PLUS_SVG;
-  addChip.title = '캐릭터 추가';
-  addChip.onclick = () => { S.ui.tool = 'character'; S.ui.editingCharacterId = 'new'; S.ui.charDraft = null; setStage('tools'); };
-  chipWrap.appendChild(addChip);
-  charRow.appendChild(chipWrap);
-
-  /* 좌/우 위치 선택 */
+  /* 1행: 위치 토글 (오른쪽 정렬) */
   const spk = S.characters.find(c => c.id === block.speakerId);
-  const sideWrap = el('div', 'tool-grp');
-  sideWrap.style.marginLeft = 'auto';
-  sideWrap.appendChild(el('span', 'lab', '위치'));
-  const sideSeg = segment([['left', '좌'], ['right', '우']], spk ? spk.position : 'left', v => {
-    if (!spk) return;
-    spk.position = v; save(); render();
+  const posRow = el('div', 'tool-grp');
+  posRow.style.cssText = 'justify-content:flex-end;';
+  if (!spk) posRow.style.opacity = '0.5';
+  posRow.appendChild(el('span', 'lab', '위치'));
+  const sideTgl = el('div', 'tgl-text' + (!spk ? ' is-disabled' : ''));
+  const curPos = spk ? spk.position : 'left';
+  [['left', '좌'], ['right', '우']].forEach(([val, label]) => {
+    const btn = el('button', val === curPos ? 'is-on' : '', label);
+    btn.disabled = !spk;
+    btn.onclick = () => {
+      if (!spk) return;
+      spk.position = val; save(); render();
+    };
+    sideTgl.appendChild(btn);
   });
-  if (!spk) sideSeg.querySelectorAll('button').forEach(x => { x.disabled = true; });
-  sideWrap.appendChild(sideSeg);
-  charRow.appendChild(sideWrap);
+  posRow.appendChild(sideTgl);
+  charSection.appendChild(posRow);
 
-  charSection.appendChild(charRow);
+  /* 2행: 캐릭터 칩들 (char-chip 스타일 — 아바타 + 이름) */
+  const chipRow = el('div');
+  chipRow.style.cssText = 'display:flex;flex-wrap:wrap;gap:var(--sp-sm);';
+  S.characters.forEach(c => {
+    const chip = el('button', 'char-chip' + (block.speakerId === c.id ? ' is-on' : ''));
+    const av = el('span', 'avatar');
+    if (c.avatar) { const i = el('img'); i.src = c.avatar; av.appendChild(i); }
+    else { av.innerHTML = initialSvg(c.name); av.style.cssText = 'display:grid;place-items:center;background:var(--slate);color:#fff;font-size:11px;'; }
+    chip.appendChild(av);
+    chip.appendChild(el('span', '', c.name || '이름'));
+    chip.onclick = () => { block.speakerId = block.speakerId === c.id ? null : c.id; save(); render(); };
+    chipRow.appendChild(chip);
+  });
+  const addChip = el('button', 'char-chip');
+  addChip.style.cssText = 'border-style:dashed;border-color:var(--c-primary);color:var(--c-primary);padding-left:var(--sp-sm);';
+  addChip.innerHTML = PLUS_SVG + '<span>추가</span>';
+  addChip.querySelector('svg').style.cssText = 'width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;';
+  addChip.onclick = () => { S.ui.tool = 'character'; S.ui.editingCharacterId = 'new'; S.ui.charDraft = null; setStage('tools'); };
+  chipRow.appendChild(addChip);
+  charSection.appendChild(chipRow);
+
   host.appendChild(charSection);
 
-  /* ═══ 구분선 ═══ */
-  host.appendChild(el('div', 'divider'));
+  /* ═══ 구분선 (대사일 때만 표시) ═══ */
+  const divider = el('div', 'divider');
+  divider.hidden = !block.asBubble;
+  host.appendChild(divider);
 
   /* ═══ 서식 컨트롤 (tool-line 구조: 글꼴|정렬, 서식|크기, 색|주석) ═══ */
   const fmtSection = el('div', 'fmt-section');
@@ -7665,7 +7951,7 @@ function buildTextEditor(host, block) {
     const st = key === 'italic' ? 'font-style:italic' : key === 'underline' ? 'text-decoration:underline' : key === 'strike' ? 'text-decoration:line-through' : 'font-weight:700';
     btn.innerHTML = `<b style="${st}">${label}</b>`;
     btn.title = title;
-    btn.onclick = () => { formatSelection(() => applyInline(key)); save(); renderCanvas(); };
+    btn.onclick = () => { formatSelection(() => applyRich(key)); };
     styleGrp.appendChild(btn);
   });
   const sizeGrp = el('div', 'tool-grp');
@@ -8182,7 +8468,7 @@ function charEditor() {
   box.appendChild(el('div', 'divider'));
   box.appendChild(toggleRow('말풍선 추가 설정', '', c.useCustomBubble,
     v => { c.useCustomBubble = v; colors.hidden = !v; sync(); }));
-  const colors = el('div', 'grid2'); colors.hidden = !c.useCustomBubble; colors.style.marginTop = '12px';
+  const colors = el('div', 'grid2-sm'); colors.hidden = !c.useCustomBubble; colors.style.marginTop = '12px';
   colors.appendChild(colorField('말풍선 배경', c.bubbleBg, v => { c.bubbleBg = v; sync(); }));
   colors.appendChild(colorField('말풍선 글자', c.bubbleFg, v => { c.bubbleFg = v; sync(); }));
   box.appendChild(colors);
@@ -8520,9 +8806,20 @@ function switchSettingsTab(tabIndex) {
   /* 확인 없이 바로 전환 */
   S.ui.editingThemeId = null;
   S.ui.themeDraft = null;
+  S.ui.canvasSnapshot = null; /* 캔버스 스냅샷도 정리 */
   S.ui.editingCharacterId = null;
   S.ui.charDraft = null;
   doSwitch();
+}
+
+/* 설정 패널 탭 UI를 캐릭터 목록으로 초기화 (슬라이더 + 탭버튼 + 인디케이터) */
+function resetSettingsTabUI() {
+  const tabs = document.querySelectorAll('.tabs-line .tab-line');
+  const indicator = $('#tabIndicator');
+  const slider = $('#tabSlider');
+  if (slider) slider.dataset.active = '0';
+  if (tabs.length) tabs.forEach((t, i) => t.classList.toggle('is-on', i === 0));
+  if (indicator) { indicator.style.left = '0'; indicator.style.width = '50%'; }
 }
 
 /* 캐릭터 목록 렌더링 */
@@ -8681,8 +8978,7 @@ function saveCharEditV2() {
   toast('저장되었습니다');
 
   /* 목록으로 돌아가기 */
-  const slider = $('#tabSlider');
-  if (slider) slider.dataset.active = '0';
+  resetSettingsTabUI();
   renderCharListV2();
   renderCanvas();
 }
@@ -8701,8 +8997,7 @@ function deleteCharEditV2() {
       save();
       toast('삭제되었습니다');
 
-      const slider = $('#tabSlider');
-      if (slider) slider.dataset.active = '0';
+      resetSettingsTabUI();
       renderCharListV2();
       renderCanvas();
     }
@@ -8773,6 +9068,23 @@ function renderThemeGridV2() {
   };
   add.innerHTML = '<div class="preview">+</div><div class="nm">추가</div>';
   container.appendChild(add);
+
+  /* 내보내기/가져오기 버튼 — 상단, 우측 정렬 */
+  const parent = container.parentElement;
+  const existingIoRow = parent.querySelector('.io-row');
+  if (existingIoRow) existingIoRow.remove();
+  const ioRow = el('div', 'io-row');
+  ioRow.style.cssText = 'display:flex;gap:6px;padding:var(--sp-sm) var(--sp-md);justify-content:flex-end';
+  const expBtn = el('button', 'btn btn-quiet');
+  expBtn.style.cssText = 'height:28px;padding:0 10px;font-size:11px';
+  expBtn.textContent = '📤 내보내기';
+  expBtn.onclick = () => openExportModal();
+  const impBtn = el('button', 'btn btn-quiet');
+  impBtn.style.cssText = 'height:28px;padding:0 10px;font-size:11px';
+  impBtn.textContent = '📥 가져오기';
+  impBtn.onclick = () => $('#settingsPick').click();
+  ioRow.append(expBtn, impBtn);
+  parent.insertBefore(ioRow, container);
 }
 
 /* 테마 편집 열기 */
@@ -8789,6 +9101,8 @@ function openThemeEditV2(themeId) {
   /* 초안 생성/로드 */
   if (!S.ui.themeDraft || S.ui.themeDraft.id !== themeId) {
     S.ui.themeDraft = JSON.parse(JSON.stringify(src));
+    /* 캔버스 스냅샷 — 테마 편집 중 캔버스 변경 감지용 */
+    S.ui.canvasSnapshot = JSON.parse(JSON.stringify(S.canvas));
   }
 
   /* 뷰 3으로 슬라이드 */
@@ -8824,6 +9138,7 @@ function syncThemeEditFormV2() {
     const goBack = () => {
       S.ui.editingThemeId = null;
       S.ui.themeDraft = null;
+      S.ui.canvasSnapshot = null;
       const slider = $('#tabSlider');
       if (slider) slider.dataset.active = '2';
       renderThemeGridV2();
@@ -9066,29 +9381,29 @@ function syncThemeEditFormV2() {
     nf.appendChild(ni);
     optWrap.appendChild(nf);
 
-    /* 프로필 사진 — 아이메시지만 */
+    /* 프로필 사진 + 배경색 — 아이메시지만 (메시지2는 배경색 옵션 없음) */
     if (hdKind === 'imessage') {
       optWrap.appendChild(themeAvatarField(t, {}));
-    }
 
-    /* 배경색 */
-    const auto = mixHex(t.bg, t.fg, .055 / HD_BAND_A);
-    const cur = (t.headerBg || '').trim();
-    const bgField = el('div', 'field');
-    bgField.style.marginTop = 'var(--sp-md)';
-    const bgHead = el('div', 'tgl-inline');
-    bgHead.appendChild(el('label', 'lab', '배경색'));
-    const rs = el('button', 'btn btn-quiet btn-sm', '↺');
-    rs.title = '자동으로 되돌리기';
-    rs.disabled = !cur;
-    rs.style.cssText = 'width:24px;height:24px;padding:0;margin-left:auto';
-    rs.onclick = () => { t.headerBg = ''; rerender(); };
-    bgHead.appendChild(rs);
-    bgField.appendChild(bgHead);
-    const cf = colorField('', cur || auto, v => { t.headerBg = v; rs.disabled = false; up(); });
-    cf.style.marginTop = '6px';
-    bgField.appendChild(cf);
-    optWrap.appendChild(bgField);
+      /* 배경색 */
+      const auto = mixHex(t.bg, t.fg, .055 / HD_BAND_A);
+      const cur = (t.headerBg || '').trim();
+      const bgField = el('div', 'field');
+      bgField.style.marginTop = 'var(--sp-md)';
+      const bgHead = el('div', 'tgl-inline');
+      bgHead.appendChild(el('label', 'lab', '배경색'));
+      const rs = el('button', 'btn btn-quiet btn-sm', '↺');
+      rs.title = '자동으로 되돌리기';
+      rs.disabled = !cur;
+      rs.style.cssText = 'width:24px;height:24px;padding:0;margin-left:auto';
+      rs.onclick = () => { t.headerBg = ''; rerender(); };
+      bgHead.appendChild(rs);
+      bgField.appendChild(bgHead);
+      const cf = colorField('', cur || auto, v => { t.headerBg = v; rs.disabled = false; up(); });
+      cf.style.marginTop = '6px';
+      bgField.appendChild(cf);
+      optWrap.appendChild(bgField);
+    }
   }
 
   if (hasOpts) frameBody.appendChild(optWrap);
@@ -9191,10 +9506,10 @@ function syncThemeEditFormV2() {
     };
     return stepH(lab, c[key] ?? 16, 0, 80, 2, sync);
   };
-  marginGrid.appendChild(mkMargin('위', 'marginTop', 'marginBottom'));
-  marginGrid.appendChild(mkMargin('아래', 'marginBottom', 'marginTop'));
-  marginGrid.appendChild(mkMargin('좌', 'marginLeft', 'marginRight'));
-  marginGrid.appendChild(mkMargin('우', 'marginRight', 'marginLeft'));
+  marginGrid.appendChild(mkMargin('위', 'mt', 'mb'));
+  marginGrid.appendChild(mkMargin('아래', 'mb', 'mt'));
+  marginGrid.appendChild(mkMargin('좌', 'ml', 'mr'));
+  marginGrid.appendChild(mkMargin('우', 'mr', 'ml'));
   canvasBody.appendChild(marginGrid);
 
   /* 세로 정렬 — 페이지 분할 모드에서 내용을 위에 붙일지 가운데에 둘지 */
@@ -9204,7 +9519,7 @@ function syncThemeEditFormV2() {
     vAlignField.appendChild(el('label', 'lab', '세로 정렬'));
     if (!t.fmt) t.fmt = Object.assign({}, S.format);
     vAlignField.appendChild(segment([['top', '위'], ['center', '가운데']], t.fmt.vAlign || 'center',
-      v => { t.fmt.vAlign = v; up(); }));
+      v => { t.fmt.vAlign = v; rerender(); }));
     canvasBody.appendChild(vAlignField);
   }
 
@@ -9259,7 +9574,7 @@ function syncThemeEditFormV2() {
   const styleSeg = el('div', 'seg');
   [['bubble', '말풍선'], ['quote', '인용'], ['script', '각본'], ['plain', '없음']].forEach(([v, l]) => {
     const b = el('button', (t.bubbleStyle || 'bubble') === v ? 'is-on' : '', l);
-    b.onclick = () => { t.bubbleStyle = v; rerender(); };
+    b.onclick = () => { t.bubbleStyle = v; if (v === 'quote' || v === 'script') t.groupRuns = false; rerender(); };
     styleSeg.appendChild(b);
   });
   styleField.appendChild(styleSeg);
@@ -9374,9 +9689,9 @@ function syncThemeEditFormV2() {
     return row;
   };
   extraGrid.appendChild(mkTgl('라운드 프로필', t.roundAvatar, v => { t.roundAvatar = v; rerender(); }));
-  extraGrid.appendChild(mkTgl('그림자', t.bubbleShadow, v => { t.bubbleShadow = v; up(); }));
-  extraGrid.appendChild(mkTgl('좌측 프로필', t.showAvatar, v => { t.showAvatar = v; up(); }));
-  extraGrid.appendChild(mkTgl('좌측 이름', t.showName, v => { t.showName = v; up(); }));
+  if (isBubble) extraGrid.appendChild(mkTgl('그림자', t.bubbleShadow, v => { t.bubbleShadow = v; rerender(); }));
+  extraGrid.appendChild(mkTgl('좌측 프로필', t.showAvatar, v => { t.showAvatar = v; rerender(); }));
+  extraGrid.appendChild(mkTgl('좌측 이름', t.showName, v => { t.showName = v; rerender(); }));
   extraGrid.appendChild(mkTgl('우측 프로필', !!t.myAvatar, v => { t.myAvatar = v; rerender(); }));
   extraGrid.appendChild(mkTgl('우측 이름', !!t.myName, v => { t.myName = v; rerender(); }));
   bubbleBody.appendChild(extraGrid);
@@ -9434,7 +9749,7 @@ function syncThemeEditFormV2() {
     const cf = el('div', 'field');
     cf.appendChild(el('label', 'lab', '캐릭터'));
     const ci = el('input', 'inp');
-    ci.placeholder = '예) 세븐';
+    ci.placeholder = '예) 해이';
     ci.value = t.signChar || '';
     ci.oninput = () => { t.signChar = ci.value; up(); };
     cf.appendChild(ci);
@@ -9442,12 +9757,63 @@ function syncThemeEditFormV2() {
     const mf = el('div', 'field');
     mf.appendChild(el('label', 'lab', '제작자'));
     const mi = el('input', 'inp');
-    mi.placeholder = '예) @moko';
+    mi.placeholder = '예) luvheil';
     mi.value = t.signMaker || '';
     mi.oninput = () => { t.signMaker = mi.value; up(); };
     mf.appendChild(mi);
     signGrid.appendChild(mf);
     signBody.appendChild(signGrid);
+
+    /* 정렬 — segment 스타일 */
+    const alignField = el('div', 'field');
+    alignField.style.marginTop = 'var(--sp-md)';
+    alignField.appendChild(el('label', 'lab', '정렬'));
+    alignField.appendChild(segment([['left', '좌'], ['center', '중앙'], ['right', '우']],
+      t.signAlign || 'right', v => { t.signAlign = v; rerender(); }));
+    signBody.appendChild(alignField);
+
+    /* 구분·서식 — 같은 줄에 icb 버튼 스타일로, 자동 배분 */
+    const fmtLine = el('div', 'tool-line');
+    fmtLine.style.cssText = 'margin-top:var(--sp-md);justify-content:space-evenly;';
+
+    /* 구분 */
+    const sepGrp = el('div', 'tool-grp');
+    sepGrp.appendChild(el('span', 'tool-lab', '구분'));
+    const sepBtns = el('div', 'tool-grp');
+    sepBtns.style.gap = '6px';
+    const mkSepBtn = (val) => {
+      const btn = el('button', 'icb' + ((t.signSep || '·') === val ? ' is-on' : ''));
+      btn.style.boxShadow = 'none';
+      btn.textContent = val;
+      btn.title = val;
+      btn.onclick = () => { t.signSep = val; rerender(); };
+      return btn;
+    };
+    sepBtns.appendChild(mkSepBtn('·'));
+    sepBtns.appendChild(mkSepBtn('|'));
+    sepGrp.appendChild(sepBtns);
+    fmtLine.appendChild(sepGrp);
+    fmtLine.appendChild(el('div', 'tool-sep'));
+
+    /* 서식 */
+    const fmtGrp = el('div', 'tool-grp');
+    fmtGrp.appendChild(el('span', 'tool-lab', '서식'));
+    const fmtBtns = el('div', 'tool-grp');
+    fmtBtns.style.gap = '6px';
+    const mkSignFmt = (label, key, icon) => {
+      const btn = el('button', 'icb' + (t[key] ? ' is-on' : ''));
+      btn.style.boxShadow = 'none';
+      btn.innerHTML = icon;
+      btn.title = label;
+      btn.onclick = () => { t[key] = !t[key]; rerender(); };
+      return btn;
+    };
+    fmtBtns.appendChild(mkSignFmt('볼드', 'signBold', '<b style="font-weight:700">B</b>'));
+    fmtBtns.appendChild(mkSignFmt('이탤릭', 'signItalic', '<b style="font-style:italic">I</b>'));
+    fmtGrp.appendChild(fmtBtns);
+    fmtLine.appendChild(fmtGrp);
+
+    signBody.appendChild(fmtLine);
   }
   signSection.appendChild(signBody);
   body.appendChild(signSection);
@@ -9467,6 +9833,7 @@ function saveThemeEditV2() {
 
   S.ui.editingThemeId = null;
   S.ui.themeDraft = null;
+  S.ui.canvasSnapshot = null; /* 캔버스 변경 확정 */
   save();
   toast('저장되었습니다');
 
@@ -9528,8 +9895,7 @@ function initSettingsPanelV2() {
   if (btnCharBack) {
     btnCharBack.onclick = () => {
       const goBack = () => {
-        const slider = $('#tabSlider');
-        if (slider) slider.dataset.active = '0';
+        resetSettingsTabUI();
         renderCharListV2();
       };
       /* 저장하지 않은 수정이 있으면 확인 */
@@ -10141,7 +10507,7 @@ function themeEditor() {
     const charField = el('div', 'field');
     charField.appendChild(el('label', 'lab', '캐릭터'));
     const charInp = el('input', 'inp');
-    charInp.placeholder = '예) 세븐';
+    charInp.placeholder = '예) 해이';
     charInp.value = t.signChar || '';
     charInp.oninput = () => { t.signChar = charInp.value; up(); };
     charField.appendChild(charInp);
@@ -10150,7 +10516,7 @@ function themeEditor() {
     const makerField = el('div', 'field');
     makerField.appendChild(el('label', 'lab', '제작자'));
     const makerInp = el('input', 'inp');
-    makerInp.placeholder = '예) @moko';
+    makerInp.placeholder = '예) luvheil';
     makerInp.value = t.signMaker || '';
     makerInp.oninput = () => { t.signMaker = makerInp.value; up(); };
     makerField.appendChild(makerInp);
@@ -10248,7 +10614,7 @@ function themeEditor() {
      메시지1 은 그 색이 지금 화면의 띠 색 그대로라, 골라도 화면이 안 뛴다.
      ↺ 는 골라 둔 색을 지워 «자동» 으로 되돌린다 — 메시지1 은 옅은 자동 띠로,
      메시지2 는 원래대로 띠 없이 캔버스 배경 위에 선다. */
-  if (hdKind === 'imessage' || hdKind === 'kakao') {
+  if (hdKind === 'imessage') {
     const auto = mixHex(t.bg, t.fg, .055 / HD_BAND_A);
     const cur = (t.headerBg || '').trim();
     const bgW = el('div');
@@ -10305,7 +10671,7 @@ function themeEditor() {
   /* 발화자 블록의 겉모습 — 넷 중 하나. 말풍선만 배경이 있어, 나머지 셋은 꼬리·둥글기가
      의미 없다. «각본» 은 이름과 말이 한 줄에 오는 꼴이다 [.s-row]. */
   st2.appendChild(segment([['bubble', '말풍선'], ['quote', '인용구'], ['script', '각본'], ['plain', '없음']],
-    t.bubbleStyle || 'bubble', v => { t.bubbleStyle = v; render(); }));
+    t.bubbleStyle || 'bubble', v => { t.bubbleStyle = v; if (v === 'quote' || v === 'script') t.groupRuns = false; render(); }));
   const isBubble = (t.bubbleStyle || 'bubble') === 'bubble';
   if (isBubble) st2.appendChild(toggleRow('말꼬리 추가', '', t.showTail, v => { t.showTail = v; render(); }));
   if (isBubble && t.showTail) {
@@ -10328,10 +10694,13 @@ function themeEditor() {
     pos.appendChild(segment(TAIL_POS, tailPos(t), v => { t.tailPos = v; render(); }));
     st2.appendChild(pos);
   }
-  /* 연속 발화 묶기 — 이름·이미지·꼬리·간격이 한꺼번에 달라지므로 한 자리에서 켜고 끈다 */
-  st2.appendChild(toggleRow('대사 연속 묶기',
-    '',
-    t.groupRuns !== false, v => { t.groupRuns = v; render(); }));
+  /* 연속 발화 묶기 — 이름·이미지·꼬리·간격이 한꺼번에 달라지므로 한 자리에서 켜고 끈다.
+     말풍선일 때만 의미가 있다 — 인용/각본/없음은 묶을 것이 없다. */
+  if (isBubble) {
+    st2.appendChild(toggleRow('대사 연속 묶기',
+      '',
+      t.groupRuns !== false, v => { t.groupRuns = v; render(); }));
+  }
   /* 켜고 끄는 값이 아니라 늘 있는 값이라 토글을 빼고 스테퍼만 둔다.
      캔버스 여백과 같은 꺾쇠로 네 귀를 따로 잡을 수 있다. */
   const brWrap = el('div');
@@ -10396,8 +10765,8 @@ function themeEditor() {
   const rp = toggleRow('라운드 프로필', '', t.roundAvatar, v => { t.roundAvatar = v; render(); });
   rp.style.gridColumn = '1 / -1';
   st1.appendChild(rp);
-  st1.appendChild(toggleRow('좌측 인물 이름', '', t.showName, v => { t.showName = v; up(); }));
-  st1.appendChild(toggleRow('좌측 인물 이미지', '', t.showAvatar, v => { t.showAvatar = v; up(); }));
+  st1.appendChild(toggleRow('좌측 인물 이름', '', t.showName, v => { t.showName = v; render(); }));
+  st1.appendChild(toggleRow('좌측 인물 이미지', '', t.showAvatar, v => { t.showAvatar = v; render(); }));
   st1.appendChild(toggleRow('우측 인물 이름', '', !!t.myName, v => { t.myName = v; render(); }));
   st1.appendChild(toggleRow('우측 인물 이미지', '', !!t.myAvatar, v => { t.myAvatar = v; render(); }));
   box.appendChild(st1);
@@ -11758,15 +12127,14 @@ const SETTINGS_TYPE = 'chat-excerpt/settings';
    (글자 서식은 테마 안에 산다[t.fmt] — 전역 기본값도 테마와 한 갈래로 묶는다.) */
 const SETTINGS_PARTS = [
   ['characters', '캐릭터', '저장한 캐릭터와 프로필 이미지'],
-  ['themes', '테마', '테마 목록과 글자 서식'],
-  ['canvas', '캔버스', '판형 · 비율 · 크기 · 여백'],
+  ['themes', '테마', '테마 목록 · 글자 서식 · 캔버스 설정'],
   ['colors', '색', '색 팔레트와 최근 쓴 색']
 ];
 /* 파일 안에 그 갈래가 실제로 들어 있는가 — 불러오기 모달이 고를 수 있는 것만 켜 준다 */
 function settingsHas(d, key) {
   if (key === 'characters') return Array.isArray(d.characters);
-  if (key === 'themes') return Array.isArray(d.themes) && d.themes.length > 0;
-  if (key === 'canvas') return !!d.canvas && typeof d.canvas === 'object';
+  /* 테마와 캔버스는 한 묶음 — 둘 중 하나라도 있으면 테마로 친다 */
+  if (key === 'themes') return (Array.isArray(d.themes) && d.themes.length > 0) || (!!d.canvas && typeof d.canvas === 'object');
   if (key === 'colors') return Array.isArray(d.palette) || (!!d.colors && typeof d.colors === 'object');
   return false;
 }
@@ -11785,8 +12153,8 @@ function exportSettings(picked) {
   if (picked.has('characters')) data.characters = S.characters;
   if (picked.has('themes')) {
     data.themes = S.themes; data.activeThemeId = S.activeThemeId; data.format = S.format;
+    data.canvas = S.canvas; /* 캔버스는 테마와 한 묶음 */
   }
-  if (picked.has('canvas')) data.canvas = S.canvas;
   if (picked.has('colors')) {
     data.palette = userPalette; data.paletteHidden = hiddenPalette; data.colors = S.colors;
   }
@@ -11797,10 +12165,10 @@ function exportSettings(picked) {
 }
 
 /* 불러오는 방식 — 지금 것을 두고 뒤에 «더할지», 지금 것 «대신» 넣을지.
-   캐릭터·테마·색은 목록이라 더할 수 있지만, 캔버스는 값 한 벌이라 더할 것이 없다. */
+   캐릭터·테마·색은 목록이라 더할 수 있지만, 캔버스는 테마와 함께 들어온다. */
 const IMPORT_MODES = [['merge', '기존에 더하기'], ['replace', '덮어쓰기']];
 const IMPORT_NOTE = {
-  merge: '캐릭터 · 테마 · 색은 지금 것을 그대로 두고 뒤에 더합니다. 캔버스는 값이 한 벌뿐이라 늘 덮어씁니다.',
+  merge: '캐릭터 · 테마 · 색은 지금 것을 그대로 두고 뒤에 더합니다. 캔버스는 테마와 함께 덮어씁니다.',
   replace: '고른 항목을 지금 것 «대신» 넣습니다. 지금 캐릭터와 테마는 사라집니다.'
 };
 function openImportModal(d) {
@@ -11889,11 +12257,8 @@ function applySettings(d, picked, mode) {
     /* 전역 서식은 테마와 한 갈래다 — 테마를 안 받으면 이것도 안 받는다.
        더하기에서는 손대지 않는다(지금 쓰던 기본값을 지킨다). */
     if (!merge && d.format && typeof d.format === 'object') Object.assign(S.format, d.format);
-  }
-  /* 캔버스는 값 한 벌이라 더할 것이 없다 — 고르면 늘 덮어쓴다 */
-  if (picked.has('canvas') && d.canvas && typeof d.canvas === 'object') {
-    Object.assign(S.canvas, d.canvas);
-    done.push(partName('canvas'));
+    /* 캔버스도 테마와 한 묶음 — 테마 고르면 캔버스도 함께 덮어쓴다 */
+    if (d.canvas && typeof d.canvas === 'object') Object.assign(S.canvas, d.canvas);
   }
   /* 들여온 캐릭터가 사라진 발화자를 가리키지 않게 정리한다 */
   const ids = new Set(S.characters.map(c => c.id));
