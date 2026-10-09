@@ -866,6 +866,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .blk-bubble.av-top{align-items:flex-start}
 .blk-bubble.av-mid{align-items:center}
 .blk-bubble.av-bottom{align-items:flex-end}
+.blk-bubble.av-lift .av{margin-bottom:6px}
 .blk-bubble.is-me{flex-direction:row-reverse}
 .blk-bubble .av{
   width:var(--av-size,28px);height:var(--av-size,28px);flex:0 0 var(--av-size,28px);
@@ -2799,7 +2800,7 @@ const PRESET_THEMES = [
     header: 'ebook', headerTitle: '작품명',
     signShow: true, signChar: '해이', signMaker: '@luvheil',
     groupRuns: false, brLink: true,
-    fmt: { align: 'justify', weight: 400, font: 'Noto Sans KR', size: 17, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'top' },
+    fmt: { align: 'justify', weight: 400, font: 'Noto Sans KR', size: 17, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'center' },
     canvas: { mode: 'ratio', ratio: '1:1', width: 560, mt: 30, mb: 30, ml: 50, mr: 50, marginDetail: false }
   },
   {
@@ -2813,7 +2814,7 @@ const PRESET_THEMES = [
     header: 'ebook', headerTitle: '작품명',
     signShow: true, signChar: '해이', signMaker: '@luvheil',
     groupRuns: false, brLink: true,
-    fmt: { align: 'justify', weight: 400, font: 'Noto Sans KR', size: 17, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'top' },
+    fmt: { align: 'justify', weight: 400, font: 'Noto Sans KR', size: 17, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'center' },
     canvas: { mode: 'ratio', ratio: '1:1', width: 560, mt: 30, mb: 30, ml: 50, mr: 50, marginDetail: false }
   },
   {
@@ -2827,7 +2828,7 @@ const PRESET_THEMES = [
     header: 'kakao', headerTitle: '작품명',
     signShow: true, signChar: '해이', signMaker: '@luvheil',
     groupRuns: false, brLink: true,
-    fmt: { align: 'justify', weight: 400, font: 'Bookk Myungjo', size: 16, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'top', columns: 2, columnGap: 20 },
+    fmt: { align: 'justify', weight: 400, font: 'Bookk Myungjo', size: 12, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'top', columns: 2, columnGap: 20 },
     canvas: { mode: 'ratio', ratio: '4:3', width: 560, mt: 20, mb: 20, ml: 40, mr: 40, marginDetail: false }
   },
   /* ═══ 프레임 테마 ═══════════════════════════════════════════
@@ -2845,7 +2846,7 @@ const PRESET_THEMES = [
     header: 'none', headerTitle: '대화상대', frameMood: '#mood',
     signShow: true, signChar: '해이', signMaker: '@luvheil',
     groupRuns: true, brLink: true,
-    fmt: { align: 'justify', weight: 400, font: 'KoPubWorld Dotum', size: 14, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 10, vAlign: 'center' },
+    fmt: { align: 'justify', weight: 400, font: 'KoPubWorld Dotum', size: 13, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 10, vAlign: 'center' },
     canvas: { mode: 'ratio', ratio: '9:16', width: 560, mt: 20, mb: 20, ml: 30, mr: 30, marginDetail: false }
   },
   {
@@ -5166,17 +5167,19 @@ function renderBlock(b, th, f, prev, next) {
 
     /* 얼굴을 말풍선의 어느 높이에 세울지.
        · 말풍선 modern 단독  → 아래쪽 (말풍선 기준 하단 정렬)
-       · 말풍선 modern 연속  → 가운데 (마지막 말풍선과 중간 맞춤)
+       · 말풍선 modern 연속  → 아래쪽 + 살짝 위로 (.av-lift)
        · 말풍선 (그 외)     → 위쪽 (말풍선 기준 상단 정렬)
        · 인용 + 아바타      → 위쪽
        · 각본              → 가운데
        · 없음              → 가운데 */
     const singleBubble = !cont && !more;
+    const isModernMulti = bs === 'bubble' && preset.isCorner && !singleBubble;
     row.classList.add(
-      bs === 'bubble' && preset.isCorner ? (singleBubble ? 'av-bottom' : 'av-mid')
+      bs === 'bubble' && preset.isCorner ? 'av-bottom'
         : bs === 'bubble' ? 'av-top'
           : quoteAv ? 'av-top'
             : 'av-mid');
+    if (isModernMulti) row.classList.add('av-lift');
 
     if (hasTail) row.classList.add('has-tail-row', ...(tTop ? ['tail-top'] : []));
     /* 모서리 스타일(modern)인지 여부 — corner 는 SVG 대신 border-radius 로 표현 */
@@ -9877,7 +9880,7 @@ function syncThemeEditFormV2() {
     /* 말풍선 스타일 프리셋 — Plain / Modern / iMessage / Kakaotalk */
     const presetField = el('div', 'field');
     presetField.style.marginTop = 'var(--sp-md)';
-    presetField.appendChild(el('label', 'lab', '말풍선 스타일'));
+    presetField.appendChild(el('label', 'lab', '말풍선'));
     const presetOpts = Object.keys(BUBBLE_STYLES).map(k => [k, BUBBLE_STYLES[k].label]);
     const currentPreset = resolvePreset(t);
     presetField.appendChild(segment(presetOpts, currentPreset, v => {
