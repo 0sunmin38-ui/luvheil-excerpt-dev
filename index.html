@@ -513,7 +513,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
    몫은 캔버스가 잘라 낸다(overflow:hidden). */
 .hd-imessage{
   background:var(--hd-band,transparent);
-  box-shadow:0 .2em .55em rgba(60,60,67,.09);
+  box-shadow:0 .2em .55em var(--hd-shadow,rgba(60,60,67,.09));
 }
 /* 구분선은 띠의 끝이다 — 좌우 안쪽 여백을 되물려 가장자리까지 긋는다.
    그늘이 경계를 함께 지으므로 선은 머리카락처럼 가늘어도 된다. */
@@ -545,11 +545,11 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
    그때는 아이메시지와 같은 그늘로 끝을 짓는다: 밑줄이 없어 그늘마저 없으면
    띠가 뚝 끊긴 것처럼 보인다. */
 .hd-kakao{background:var(--hd-band,transparent)}
-.hd-kakao.hd-banded{box-shadow:0 .2em .55em rgba(60,60,67,.09)}
+.hd-kakao.hd-banded{box-shadow:0 .2em .55em var(--hd-shadow,rgba(60,60,67,.09))}
 /* 띠가 없어도 이름줄이 캔버스 모서리에 닿으면 안 된다. 아이메시지는 프로필 사진이
    위쪽을 채워 주지만 카카오는 이름 한 줄뿐이라 같은 여백으로는 머리에 붙어 보인다 —
    한 줄 몫을 더 준다(글자 크기 14 기준 약 26px). */
-.hd-kakao{--hd-size:1.3em;padding-top:1.85em}
+.hd-kakao{--hd-size:1.3em;padding-top:1.85em;padding-bottom:1em}
 .hd-kakao svg{stroke-width:2.2}
 
 /* 신문 제호 — 한복판에 통째로 앉은 제호, 그 아래 한 줄로 적은 말(날짜·판 따위).
@@ -1906,7 +1906,8 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 /* + 를 글자로 넣으면 글꼴 baseline 때문에 원 안에서 아래로 쏠린다. svg 로 그려 가운데 고정. */
 .av-chip.is-add{background:none;border:1px dashed var(--c-primary);color:var(--c-primary)}
 /* 이미지를 넣는 자리라는 표시. 56px 짜리 큰 칩에서 연필이 얼굴처럼 커 보여 줄인다. */
-.av-chip.is-pick{font-size:11px;font-weight:400}
+.av-chip.is-pick{font-size:11px;font-weight:400;background:var(--c-border)}
+.av-chip.is-pick svg{width:60%;height:60%;fill:#fff;stroke:none}
 /* 내 캐릭터를 따로 목록으로 두지 않고 프로필에 직접 표시한다 —
    목록이 곧 답이라 어느 쪽이 나인지 눈으로 바로 잡힌다. */
 .av-slot{position:relative;display:inline-grid;flex:0 0 auto}
@@ -2638,7 +2639,7 @@ const DEF_THEME = () => ({
   frame: 'none', frameMood: '',
   /* 서명 — 캔버스 맨 아래에 붙는 캐릭터·제작자 표시. v2 에서 테마 안으로 통합됐다.
      기존 footer 블록과 병행하다가 완전히 테마로 옮긴다. */
-  signShow: false, signChar: '', signMaker: '', signAlign: 'right', signSep: '·'
+  signShow: true, signChar: '해이', signMaker: '@luvheil', signAlign: 'right', signSep: '·'
 });
 
 /* [원본 builtinThemes · builtinThemesV2] 함께 딸려 오는 테마.
@@ -2647,119 +2648,145 @@ const DEF_THEME = () => ({
    [참고] presetId가 열쇠다 — 이름을 바꿔도 presetId로 프리셋을 추적하므로
    '기본값으로 되돌리기' 단추가 그대로 유지된다. */
 const PRESET_THEMES = [
+  /* ═══ 기본 테마 3종 ═══════════════════════════════════════════ */
+  {
+    presetId: 'simple-white',
+    name: '기본(흰색)',
+    bg: '#FFFFFF', fg: '#37373E', bubbleBg: '#EDEDED', bubbleFg: '#37373E',
+    myBubbleBg: '#8A8F98', myBubbleFg: '#FFFFFF', highlight: '#E4E4E6',
+    bubbleStyle: 'bubble', showTail: false, tailShape: 'curve',
+    bubbleRadius: 16, brDetail: true, brTL: 2, brTR: 20, brBR: 20, brBL: 20,
+    showName: true, showAvatar: true, myName: true, myAvatar: true, roundAvatar: false,
+    header: 'none', headerTitle: '캐릭터',
+    signShow: true, signChar: '해이', signMaker: '@luvheil',
+    fmt: { align: 'justify', weight: 400, font: 'Pretendard', size: 14, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'top' }
+  },
   {
     presetId: 'simple-grey',
-    name: 'simple grey',
-    bg: '#EDEDEE', fg: '#424448', bubbleBg: '#424448', bubbleFg: '#FFFFFF',
-    myBubbleBg: '#8A8F98', myBubbleFg: '#424448', highlight: '#E4E4E6',
+    name: '기본(회색)',
+    bg: '#EDEDED', fg: '#424448', bubbleBg: '#424448', bubbleFg: '#FFFFFF',
+    myBubbleBg: '#C9C9C9', myBubbleFg: '#424448', highlight: '#E4E4E6',
     bubbleStyle: 'bubble', showTail: false, tailShape: 'curve',
-    bubbleRadius: 16, brDetail: true, brTL: 2, brTR: 14, brBR: 14, brBL: 14,
-    showName: true, showAvatar: true, myName: false, myAvatar: false, roundAvatar: true,
+    bubbleRadius: 16, brDetail: true, brTL: 2, brTR: 20, brBR: 20, brBL: 20,
+    showName: true, showAvatar: true, myName: true, myAvatar: true, roundAvatar: false,
     header: 'none', headerTitle: '캐릭터',
-    fmt: { align: 'justify', weight: 400, font: 'KoPubWorld Dotum', size: 13, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'center' }
+    signShow: true, signChar: '해이', signMaker: '@luvheil',
+    fmt: { align: 'justify', weight: 400, font: 'Pretendard', size: 14, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'top' }
   },
   {
     presetId: 'simple-black',
-    name: 'simple black',
-    bg: '#26262B', fg: '#EAEAEE', bubbleBg: '#37373E', bubbleFg: '#EAEAEE',
-    myBubbleBg: '#4A4A55', myBubbleFg: '#FFFFFF', highlight: '#4A4A55',
+    name: '기본(검정색)',
+    bg: '#26262B', fg: '#EDEDED', bubbleBg: '#37373E', bubbleFg: '#EDEDED',
+    myBubbleBg: '#4A4A55', myBubbleFg: '#FFFFFF', highlight: '#E4E4E6',
     bubbleStyle: 'bubble', showTail: false, tailShape: 'curve',
-    bubbleRadius: 16, brDetail: true, brTL: 2, brTR: 14, brBR: 14, brBL: 14,
-    showName: true, showAvatar: true, myName: false, myAvatar: false, roundAvatar: true,
-    header: 'none', headerTitle: '캐릭터 이름 작성 또는 문구 적을 수 있습니다.',
-    fmt: { align: 'justify', weight: 400, font: 'Pretendard', size: 13, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'center' }
+    bubbleRadius: 16, brDetail: true, brTL: 2, brTR: 20, brBR: 20, brBL: 20,
+    showName: true, showAvatar: true, myName: true, myAvatar: true, roundAvatar: false,
+    header: 'none', headerTitle: '캐릭터',
+    signShow: true, signChar: '해이', signMaker: '@luvheil',
+    fmt: { align: 'justify', weight: 400, font: 'Pretendard', size: 14, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'top' }
   },
-  {
-    presetId: 'ebook',
-    name: 'ebook',
-    bg: '#FFFFFF', fg: '#1C1C1E', bubbleBg: '#E9E9EB', bubbleFg: '#1C1C1E',
-    myBubbleBg: '#E9E9EB', myBubbleFg: '#1C1C1E', highlight: '#CFE5FF',
-    bubbleStyle: 'quote', showTail: true, tailShape: 'curve',
-    bubbleRadius: 18, brDetail: false, brTL: 12, brTR: 12, brBR: 12, brBL: 12,
-    showName: true, showAvatar: false, myName: true, myAvatar: false, roundAvatar: true,
-    header: 'kakao', headerTitle: '캐릭터이름',
-    fmt: { align: 'justify', weight: 400, font: 'Chosun Sinmyungjo', size: 13, lineHeight: 1.7, letterSpacing: -0.008, blockGap: 20, vAlign: 'top' }
-  },
-  {
-    presetId: 'newspaper',
-    name: 'newspaper',
-    /* 색은 «갓 스캔한 지면» 이다 — 흰 종이에 순검정 잉크. 누런 종이도 대 봤는데
-       (#EAE7DE · #1C1A17) 그쪽은 «오래 묵은 신문» 이고, 이쪽은 «지금 찍혀 나온 신문» 이다.
-       대비를 끝까지 올려야 제호의 가는 획과 굵은 선이 또렷하게 갈린다. */
-    bg: '#FFFFFF', fg: '#000000', highlight: '#E4E4E4',
-    /* 대사를 감싸는 네 색은 한 값으로 묶는다 — 인용구는 왼쪽 세로선 하나로 말하므로
-       [.bub.as-quote] 좌우가 다른 색일 이유가 없다. 잉크(#000)보다 한 단 옅은 회색이라
-       선이 글보다 앞서 읽히지 않는다. (글자색은 인용에서 본문색을 따라간다
-       [renderBlock 의 textColor] — 이 네 값은 말풍선으로 바꿔 봤을 때 쓰인다.) */
-    bubbleBg: '#424448', bubbleFg: '#424448',
-    myBubbleBg: '#424448', myBubbleFg: '#424448',
-    /* 종이결은 안 깐다 — 결은 «종이» 를 보이게 하는 것이라, 스캔본의 쨍한 흰 바탕과는
-       서로 다른 이야기를 한다. 손잡이는 그대로 있으니 [테마 › 배경 › 종이결] 얹고 싶으면
-       올리면 된다. */
-    paper: 0,
-    /* 대사는 인용구다 — 신문에 실린 말은 말풍선에 담기지 않고 «따온 말» 로 앉는다.
-       연속 발화는 안 묶는다: 묶으면 이름 없이 이어져 누가 말하는지 흐려진다. */
-    bubbleStyle: 'quote', showTail: true, tailShape: 'curve', groupRuns: false,
-    bubbleRadius: 12, brDetail: false, brTL: 12, brTR: 12, brBR: 12, brBL: 12,
-    showName: true, showAvatar: false, myName: true, myAvatar: false, roundAvatar: true,
-    header: 'news', headerTitle: '문장, 캐릭터 이름 등 내용 작성 가능합니다.',
-    /* 두 단으로 짠다 — 신문은 한 줄이 짧아야 눈이 되돌아오는 거리가 짧다. 한 단으로
-       흘리면 지면이 아니라 «긴 글 한 덩어리» 로 읽힌다. 제호는 두 단을 가로질러 선다
-       [.canvas.has-cols > .cv-head]. */
-    fmt: { align: 'justify', weight: 400, font: 'Bookk Myungjo', size: 13, lineHeight: 1.5, letterSpacing: -0.008, blockGap: 20, vAlign: 'top', columns: 2 }
-  },
+  /* ═══ 메신저 테마 ═══════════════════════════════════════════ */
   {
     presetId: 'kakao',
-    name: '카카오',
-    bg: '#B2C7D9', fg: '#424448', bubbleBg: '#FFFFFF', bubbleFg: '#3A3A3A',
+    name: 'kakaotalk',
+    bg: '#B2C7D9', fg: '#37373E', bubbleBg: '#FFFFFF', bubbleFg: '#37373E',
     myBubbleBg: '#FEE500', myBubbleFg: '#3A2E00', highlight: '#FFE38A',
     bubbleStyle: 'bubble', showTail: true, tailShape: 'long', tailPos: 'top',
-    bubbleRadius: 5, brDetail: false, brTL: 12, brTR: 12, brBR: 12, brBL: 12,
-    showName: true, showAvatar: true, myName: false, myAvatar: false, roundAvatar: true,
-    header: 'kakao', headerTitle: '캐릭터이름',
-    fmt: { align: 'left', weight: 400, font: 'Pretendard', size: 13.5, lineHeight: 1.5, letterSpacing: -0.008, blockGap: 22, vAlign: 'top' }
+    bubbleRadius: 8, brDetail: false, brTL: 8, brTR: 8, brBR: 8, brBL: 8,
+    showName: true, showAvatar: true, myName: false, myAvatar: false, roundAvatar: false,
+    header: 'kakao', headerTitle: '대화상대',
+    signShow: true, signChar: '해이', signMaker: '@luvheil',
+    bubbleShadow: true, brLink: true,
+    fmt: { align: 'justify', weight: 400, font: 'KoPubWorld Dotum', size: 14, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'top' }
   },
   {
     presetId: 'imessage-light',
-    name: 'iMessage-light',
-    bg: '#FFFFFF', fg: '#1C1C1E', bubbleBg: '#E9E9EB', bubbleFg: '#1C1C1E',
-    myBubbleBg: '#0B84FE', myBubbleFg: '#FFFFFF', highlight: '#CFE5FF',
+    name: 'iMessage(light)',
+    bg: '#FFFFFF', fg: '#37373E', bubbleBg: '#0B84FE', bubbleFg: '#FFFFFF',
+    myBubbleBg: '#EDEDED', myBubbleFg: '#37373E', highlight: '#CFE5FF',
     bubbleStyle: 'bubble', showTail: true, tailShape: 'curve',
-    bubbleRadius: 18, brDetail: false, brTL: 12, brTR: 12, brBR: 12, brBL: 12,
-    showName: false, showAvatar: true, myName: true, myAvatar: false, roundAvatar: true,
-    header: 'imessage', headerTitle: '캐릭터이름',
-    fmt: { align: 'left', weight: 400, font: 'Pretendard', size: 12.5, lineHeight: 1.7, letterSpacing: -0.008, blockGap: 20, vAlign: 'top' }
+    bubbleRadius: 18, brDetail: false, brTL: 18, brTR: 18, brBR: 18, brBL: 18,
+    showName: true, showAvatar: false, myName: true, myAvatar: false, roundAvatar: true,
+    header: 'imessage', headerTitle: '대화상대', headerBg: '#EDEDED',
+    signShow: true, signChar: '해이', signMaker: '@luvheil',
+    brLink: true,
+    fmt: { align: 'justify', weight: 400, font: 'Pretendard', size: 14, lineHeight: 1.5, letterSpacing: -0.008, blockGap: 30, vAlign: 'top' }
   },
   {
     presetId: 'imessage-dark',
-    name: 'iMessage-dark',
-    bg: '#26262B', fg: '#EAEAEE', bubbleBg: '#37373E', bubbleFg: '#EAEAEE',
-    myBubbleBg: '#0B84FE', myBubbleFg: '#FFFFFF', highlight: '#4A4A55',
+    name: 'iMessage(dark)',
+    bg: '#26262B', fg: '#EDEDED', bubbleBg: '#0B84FE', bubbleFg: '#FFFFFF',
+    myBubbleBg: '#37373E', myBubbleFg: '#EDEDED', highlight: '#CFE5FF',
     bubbleStyle: 'bubble', showTail: true, tailShape: 'curve',
-    bubbleRadius: 16, brDetail: false, brTL: 12, brTR: 12, brBR: 12, brBL: 12,
-    showName: false, showAvatar: true, myName: false, myAvatar: false, roundAvatar: true,
-    header: 'imessage', headerTitle: '캐릭터이름',
-    fmt: { align: 'left', weight: 400, font: 'Pretendard', size: 12.5, lineHeight: 1.7, letterSpacing: -0.008, blockGap: 20, vAlign: 'top' }
+    bubbleRadius: 18, brDetail: false, brTL: 18, brTR: 18, brBR: 18, brBL: 18,
+    showName: true, showAvatar: false, myName: true, myAvatar: false, roundAvatar: true,
+    header: 'imessage', headerTitle: '대화상대', headerBg: '#37373E',
+    signShow: true, signChar: '해이', signMaker: '@luvheil',
+    brLink: true,
+    fmt: { align: 'justify', weight: 400, font: 'Pretendard', size: 14, lineHeight: 1.5, letterSpacing: -0.008, blockGap: 30, vAlign: 'top' }
   },
-  /* 프레임을 두르는 두 벌 [FRAMES]. 여느 테마가 «색과 말풍선» 을 정한다면 이 둘은 «어떤 창에
+  /* ═══ 대본/스크립트 테마 ═══════════════════════════════════════════ */
+  {
+    presetId: 'square-white',
+    name: 'square(white)',
+    bg: '#FFFFFF', fg: '#37373E', bubbleBg: '#D14343', bubbleFg: '#26262B',
+    myBubbleBg: '#FFFFFF', myBubbleFg: '#26262B', highlight: '#CFE5FF',
+    bubbleStyle: 'script', showTail: true, tailShape: 'curve',
+    bubbleRadius: 18, brDetail: false, brTL: 18, brTR: 18, brBR: 18, brBL: 18,
+    showName: true, showAvatar: false, myName: true, myAvatar: false, roundAvatar: false,
+    header: 'kakao', headerTitle: '작품명',
+    signShow: true, signChar: '해이', signMaker: '@luvheil',
+    groupRuns: false, brLink: true,
+    fmt: { align: 'justify', weight: 400, font: 'Noto Sans KR', size: 17, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'top' }
+  },
+  {
+    presetId: 'square-black',
+    name: 'square(black)',
+    bg: '#26262B', fg: '#EDEDED', bubbleBg: '#D14343', bubbleFg: '#EDEDED',
+    myBubbleBg: '#FFFFFF', myBubbleFg: '#EDEDED', highlight: '#CFE5FF',
+    bubbleStyle: 'script', showTail: true, tailShape: 'curve',
+    bubbleRadius: 18, brDetail: false, brTL: 18, brTR: 18, brBR: 18, brBL: 18,
+    showName: true, showAvatar: false, myName: true, myAvatar: false, roundAvatar: false,
+    header: 'kakao', headerTitle: '작품명',
+    signShow: true, signChar: '해이', signMaker: '@luvheil',
+    groupRuns: false, brLink: true,
+    fmt: { align: 'justify', weight: 400, font: 'Noto Sans KR', size: 17, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'top' }
+  },
+  {
+    presetId: 'script',
+    name: '대본',
+    bg: '#FFFFFF', fg: '#26262B', bubbleBg: '#D14343', bubbleFg: '#26262B',
+    myBubbleBg: '#FFFFFF', myBubbleFg: '#26262B', highlight: '#CFE5FF',
+    bubbleStyle: 'script', showTail: true, tailShape: 'curve',
+    bubbleRadius: 18, brDetail: false, brTL: 18, brTR: 18, brBR: 18, brBL: 18,
+    showName: true, showAvatar: false, myName: true, myAvatar: false, roundAvatar: false,
+    header: 'kakao', headerTitle: '작품명',
+    signShow: true, signChar: '해이', signMaker: '@luvheil',
+    groupRuns: false, brLink: true,
+    fmt: { align: 'justify', weight: 400, font: 'Bookk Myungjo', size: 16, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'top', columns: 2, columnGap: 20 }
+  },
+  /* ═══ 프레임 테마 ═══════════════════════════════════════════
+     프레임을 두르는 두 벌 [FRAMES]. 여느 테마가 «색과 말풍선» 을 정한다면 이 둘은 «어떤 창에
      담기는가» 까지 정한다 — 그래서 화면머리를 안 쓴다(창이 이미 제 머리를 가졌다). */
   {
     presetId: 'cyworld',
     name: '미니홈피',
     frame: 'cyworld',
-    bg: '#FFFFFF', fg: '#3B3B3B', bubbleBg: '#EAF6F9', bubbleFg: '#2E3A3E',
+    bg: '#FFFFFF', fg: '#37373E', bubbleBg: '#EAF6F9', bubbleFg: '#2E3A3E',
     myBubbleBg: '#FFF0CE', myBubbleFg: '#4A3A16', highlight: '#CFEDF6',
-    bubbleStyle: 'bubble', showTail: true, tailShape: 'curve',
-    bubbleRadius: 10, brDetail: false, brTL: 10, brTR: 10, brBR: 10, brBL: 10,
+    bubbleStyle: 'bubble', showTail: true, tailShape: 'curve', tailPos: 'bottom',
+    bubbleRadius: 15, brDetail: false, brTL: 10, brTR: 10, brBR: 10, brBL: 10,
     showName: true, showAvatar: false, myName: true, myAvatar: false, roundAvatar: false,
-    header: 'none', headerTitle: '김라연', frameMood: '그냥',
-    fmt: { align: 'left', weight: 400, font: 'KoPubWorld Dotum', size: 12.5, lineHeight: 1.65, letterSpacing: -0.008, blockGap: 14, vAlign: 'top' }
+    header: 'none', headerTitle: '대화상대', frameMood: '#mood',
+    signShow: true, signChar: '해이', signMaker: '@luvheil',
+    groupRuns: true, brLink: true,
+    fmt: { align: 'justify', weight: 400, font: 'KoPubWorld Dotum', size: 14, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 10, vAlign: 'center' }
   },
   {
     presetId: 'buddy',
     name: '버디버디',
     frame: 'buddy',
-    bg: '#FFFFFF', fg: '#1B1B1B', bubbleBg: '#EFEFEA', bubbleFg: '#1B1B1B',
+    bg: '#FFFFFF', fg: '#26262B', bubbleBg: '#EFEFEA', bubbleFg: '#1B1B1B',
     myBubbleBg: '#CFE6F3', myBubbleFg: '#10333F', highlight: '#CFE6F3',
     /* 그 시절 대화창은 «이름 : 말» 이 줄줄이 쌓이는 맨글이었다 — 그래서 «없음» 으로 연다.
        이어 말하기도 안 묶는다: 묶으면 이름 없이 이어져 누가 말하는지 흐려진다.
@@ -2767,12 +2794,14 @@ const PRESET_THEMES = [
        바꿔 쓰고 싶을 때가 있는데, 여태 말풍선 색이 배경과 똑같은 흰색이라 꼴을 바꿔도
        흰 바탕에 흰 풍선이 되어 «아무 일도 안 일어난» 것처럼 보였다. 껍데기와 어울리는
        색을 미리 앉혀 둔다 — «없음» 은 배경을 안 그리므로 [.bub.as-plain] 기본 꼴은 그대로다. */
-    bubbleStyle: 'plain', showTail: false, tailShape: 'curve', groupRuns: false,
+    bubbleStyle: 'bubble', showTail: false, tailShape: 'curve', groupRuns: true,
     bubbleRadius: 0, brDetail: false, brTL: 0, brTR: 0, brBR: 0, brBL: 0,
-    showName: true, showAvatar: false, myName: true, myAvatar: false, roundAvatar: false,
-    header: 'none', headerTitle: '이제행복하다',
+    showName: true, showAvatar: true, myName: true, myAvatar: true, roundAvatar: false,
+    header: 'none', headerTitle: '대화상대',
+    signShow: true, signChar: '해이', signMaker: '@luvheil',
+    brLink: true,
     /* 껍데기와 같은 도트 글꼴이다 [FRAME_FONT] — 11 이 이 글꼴이 또렷하게 찍히는 크기다 */
-    fmt: { align: 'left', weight: 400, font: 'Galmuri11', size: 11, lineHeight: 1.7, letterSpacing: 0, blockGap: 8, vAlign: 'top' }
+    fmt: { align: 'justify', weight: 400, font: 'Galmuri11', size: 11, lineHeight: 1.8, letterSpacing: -0.008, blockGap: 30, vAlign: 'top' }
   },
 ];
 /* 기본으로 딸려 오는 테마인가. presetId로 찾는다 — 이름을 바꿔도 프리셋 연결이 유지된다. */
@@ -3058,7 +3087,7 @@ function demoSeed() {
     txt('[+] 클릭 〉 🎵 음악 에서 플레이어도 2디자인 있어요 (앨범 커버 추가 가능)'),
     line(),
     txt('그 외 캔버스 내용 맞춤 크기 조절 가능!\n캔버스 비율 기준으로 자동 장 분할 가능!\n다양하게 커스텀도 되고 프리셋도 있는 테마!\n최대한 이뽀니로 다양히 담은 폰트들 🤓 🤓'),
-    { id: uid(), type: 'footer', charName: '캐릭터', maker: '제작자', text: '', align: 'right' }
+    { id: uid(), type: 'footer', charName: '해이', maker: '@luvheil', text: '', align: 'right' }
   ];
   /* 설명 발췌는 길다 — 비율에 맞춰 잘리면 첫 화면에서 절반만 보인다. 한 장에 다 담기는
      «내용 맞춤» 으로 연다. 사람이 판형을 고르면 그때부터는 그 값이 산다. */
@@ -3092,7 +3121,8 @@ function load() {
     }
   } catch (e) { }
   if (!S.themes.length) {
-    S.themes = PRESET_THEMES.map(p => Object.assign(DEF_THEME(), JSON.parse(JSON.stringify(p))));
+    /* 테마별 캔버스 — 각 테마에 기본 캔버스를 넣는다 */
+    S.themes = PRESET_THEMES.map(p => Object.assign(DEF_THEME(), JSON.parse(JSON.stringify(p)), { canvas: { ...DEF_CANVAS } }));
     S.activeThemeId = S.themes[0].id;
   }
   /* 처음 들어온 사람에게만 설명 발췌를 깔아 준다 [demoSeed] — 저장본이 «아예 없을 때» 다.
@@ -3240,8 +3270,13 @@ function fmtStore() {
 const fmt = () => { const t = theme(); return t ? Object.assign({}, S.format, t.fmt || {}) : S.format; };
 /* 캔버스는 두 갈래다 — 내용에 맞춰 늘어나거나, 정한 비율로 여러 장에 나눠 담거나.
    자동 분할은 '비율을 지정' 에 딸린 성질이라 따로 켜고 끄지 않는다. */
+/* 캔버스 기본값 — 테마에 canvas가 없으면 이 값을 쓴다 */
+const DEF_CANVAS = { mode: 'ratio', ratio: '9:16', width: 560, mt: 40, mb: 40, ml: 40, mr: 40, marginDetail: false };
+/* 테마의 캔버스를 가져온다 — 없으면 전역 S.canvas, 그마저 없으면 기본값 */
+const themeCanvas = (th) => (th && th.canvas) || S.canvas || DEF_CANVAS;
+const canvas = () => themeCanvas(theme());
 /* 프레임이 판형을 못 박으면 «내용 맞춤» 은 없다 — 창은 정해진 크기의 그릇이다 [FRAME_RATIO] */
-const isFit = () => !lockRatio() && (S.canvas.mode || 'ratio') === 'fit';
+const isFit = () => !lockRatio() && (canvas().mode || 'ratio') === 'fit';
 /* 내용 묶음을 장의 위에 붙이는가 — 안 그러면 여태처럼 세로 가운데다 [.canvas.ratio-center].
    테마의 글자 서식에 산다 [fontControls] — 같은 글을 테마만 바꿔 다르게 앉힐 수 있다. */
 const isTopAlign = () => (fmt().vAlign || 'center') === 'top';
@@ -4475,7 +4510,7 @@ const FRAME_PAD = {
 };
 /* 프레임이 잠근 판형. 없으면 사람이 고른 것을 그대로 쓴다. */
 const lockRatio = () => FRAME_RATIO[frameKind(theme())] || null;
-const ratioKey = () => lockRatio() || S.canvas.ratio;
+const ratioKey = () => lockRatio() || canvas().ratio;
 const framePad = () => FRAME_PAD[frameKind(theme())] || { t: 0, r: 0, b: 0, l: 0 };
 /* 캔버스 안쪽 여백 — 껍데기 두께에 사람이 정한 여백을 «더한» 값이다.
    [왜 더하나] 한때 둘 중 큰 쪽을 썼는데, 껍데기가 두꺼운 변에서는(미니홈피 왼쪽 252px)
@@ -4484,10 +4519,10 @@ const framePad = () => FRAME_PAD[frameKind(theme())] || { t: 0, r: 0, b: 0, l: 0
    글만 그만큼 안으로 들어온다. 프레임이 없으면 framePad 가 0 이라 예전 그대로다.
    (껍데기 두께에는 이미 «숨 쉴 자리» 가 들어 있으므로 [FRAME_PAD] 여백을 0 으로 두어도
    첫 줄이 창틀에 닿지 않는다 — 더 주고 싶을 때만 주면 된다.) */
-const padT = () => (S.canvas.mt || 0) + framePad().t;
-const padR = () => (S.canvas.mr || 0) + framePad().r;
-const padB = () => (S.canvas.mb || 0) + framePad().b;
-const padL = () => (S.canvas.ml || 0) + framePad().l;
+const padT = () => (canvas().mt || 0) + framePad().t;
+const padR = () => (canvas().mr || 0) + framePad().r;
+const padB = () => (canvas().mb || 0) + framePad().b;
+const padL = () => (canvas().ml || 0) + framePad().l;
 
 /* 껍데기 안의 작은 그림. 글꼴에 딸린 문자를 쓰면 기기마다 다른 그림이 나오므로 직접 그린다. */
 const FR_ICON = {
@@ -4545,8 +4580,12 @@ function frameNode(th) {
       el('i', 'fbi fbi-emo'), el('i', 'fbi fbi-img'), el('i', 'fbi fbi-clip'));
     const input = el('div', 'fb-input');
     input.appendChild(frTxt('fb-send', '보내기(S)'));
+    /* 만든이 — 서명이 켜져 있으면 서명 내용, 아니면 대화명(headerTitle) */
+    const maker = th.signShow
+      ? [th.signChar, th.signMaker].filter(Boolean).join(th.signSep === '|' ? ' | ' : ' · ')
+      : (name || '버디버디');
     panel.append(chat, icons, input,
-      frRow('fb-status', frTxt('', '만든이 : ' + (name || '버디버디'))));
+      frRow('fb-status', frTxt('', '만든이 : ' + maker)));
     body.appendChild(panel);
     f.appendChild(body);
     return f;
@@ -4762,9 +4801,11 @@ function renderCanvas() {
     S.blocks.forEach((b, i) => cv.appendChild(renderBlock(b, th, f, S.blocks[i - 1], S.blocks[i + 1])));
     /* ── 테마 서명 (v2) ──────────────────────────────────────────
        footer 블록이 없고 테마에 서명이 켜져 있으면 테마 서명을 그린다.
-       기존 footer 블록이 있으면 그쪽이 우선한다 — 호환을 위해 둘 다 쓸 수 있게 둔다. */
+       기존 footer 블록이 있으면 그쪽이 우선한다 — 호환을 위해 둘 다 쓸 수 있게 둔다.
+       버디버디 프레임은 만든이 영역에 서명이 들어가므로 본문 서명은 그리지 않는다. */
     const hasFooterBlock = S.blocks.some(b => b.type === 'footer');
-    if (!hasFooterBlock && th.signShow) {
+    const isBuddyFrame = frameKind(th) === 'buddy';
+    if (!hasFooterBlock && th.signShow && !isBuddyFrame) {
       const signText = [th.signChar, th.signMaker].filter(Boolean).join(th.signSep === '|' ? ' | ' : ' · ');
       if (signText) {
         const signWrap = el('div', 'blk is-footer');
@@ -4844,7 +4885,7 @@ const CANVAS_W = 560;
    (덤으로 단 나누기의 한 단 폭도 그만큼 넓어져 글이 덜 길어진다 [renderCanvas].) */
 const ratioCanvasW = () => Math.round(CANVAS_W * Math.max(1, RATIOS[ratioKey()] || 1));
 /* 지금 캔버스의 논리 폭 — 내용 맞춤은 사람이 정한 폭, 비율 지정은 위 규칙이 정한다 */
-const canvasW = () => isFit() ? (S.canvas.width ?? CANVAS_W) : ratioCanvasW();
+const canvasW = () => isFit() ? (canvas().width ?? CANVAS_W) : ratioCanvasW();
 const PREVIEW_ZOOMS = [.5, .67, .8, 1, 1.25, 1.5, 2, 3, 4];
 function fitCanvas() {
   const cv = $('#canvas'), box = $('#canvasFit'), stage = $('#stage');
@@ -5005,7 +5046,8 @@ function renderBlock(b, th, f, prev, next) {
     const col = el('div', 'col');
     /* 이름은 말이 시작되는 자리에 둔다 — 얼굴이 아래로 내려가도 이름은 첫 장이다 */
     const nameOn = isMe ? th.myName : th.showName;
-    const nameEl = nameOn && ch && !cont ? el('div', 'who', ch.name) : null;
+    /* 각본은 이어 말하기에서도 이름을 유지한다 — 간격만 좁히고 이름은 매 줄에 남긴다 */
+    const nameEl = nameOn && ch && (!cont || bs === 'script') ? el('div', 'who', ch.name) : null;
     /* 인용에 사진까지 켜면 행이 격자가 되고 이름이 첫 줄을 통째로 쓴다 [.q-named] —
        그때만 이름은 열이 아니라 행의 자식이다. 사진이 없으면 여태처럼 글 바로 위다. */
     const quoteAv = bs === 'quote' && avOn;
@@ -5098,7 +5140,7 @@ function renderBlock(b, th, f, prev, next) {
    메신저 화면·신문 제호를 흉내 낸 껍데기. 캔버스 맨 위에 붙는다.
    아이콘은 전부 여기서 그린다 — 글꼴에 딸린 문자를 쓰면 기기마다 다른 그림이 나오고,
    저장본에도 그 차이가 그대로 실린다. 선 두께·색은 CSS 가 currentColor 로 맞춘다. */
-const HEADS = [['none', '없음'], ['imessage', '메시지1'], ['kakao', '메시지2'], ['news', '헤드라인']];
+const HEADS = [['none', '없음'], ['imessage', '메시지1'], ['kakao', '메시지2']];
 /* 신문 머리는 테마가 고른 글꼴을 안 따른다 — 신문의 얼굴은 결국 그 글꼴이다.
    · 제호(mark) 는 플레이페어의 «보통 굵기» 다 [NEWS_MARK_W]. 획 대비가 큰 디도풍
      세리프인데, 굵은 벌을 안 쓰니 그 대비가 얌전해져 지면 위에 조용히 얹힌다.
@@ -5395,6 +5437,8 @@ function headerNode(th) {
     head.style.setProperty('--hd-line', rgbaOf(mixHex(th.bg, th.fg, .12 / A), A * 100));
     /* 빈 프로필 동그라미는 «그 자리에 놓인 것» 이라 비치지 않는다 — 띠와 달리 불투명하다 */
     head.style.setProperty('--hd-avbg', mixHex(th.bg, th.fg, .55));
+    /* 그림자는 글자색 계열로 — 배경색과 어울리는 그늘이 된다 */
+    head.style.setProperty('--hd-shadow', rgbaOf(th.fg, 9));
   }
 
   /* 고른 머리 배경색 — 위의 «자동» 을 덮어쓴다. 색만 바뀌고 비치는 정도(HD_BAND_A)는
@@ -5411,7 +5455,9 @@ function headerNode(th) {
     head.style.setProperty('--hd-band', rgbaOf(band, A * 100));
     head.style.setProperty('--hd-line', mixHex(seen, th.fg, .12));
     head.style.setProperty('--hd-avbg', mixHex(seen, th.fg, .55));
+    head.style.setProperty('--hd-shadow', rgbaOf(th.fg, 9));
   }
+  /* 띠가 없으면 배경 투명 + 그림자 없음 (CSS 기본값 사용) */
 
   const row = el('div', 'hd-row');
   const left = el('div', 'hd-side');
@@ -6793,9 +6839,13 @@ function fontSelect(cur, on) {
 }
 
 /* ═══ 색 지정 팝오버 [원본 setPartialColor 를 팝오버로] ═══════ */
-/* [원본 PALETTE_BASE] 기본 9색은 고정 · 사용자가 더한 색은 뒤에 붙어 브라우저에 남는다 */
-const PALETTE_BASE = ['#424448', '#FFFFFF', '#8A8F98', '#D14343', '#E08A3C',
-  '#E3B93C', '#4C9A5A', '#4A7FD1', '#8A5FD1', '#FFEEB0', '#FFBDBD'];
+/* 기본 팔레트 17색: 무채색 6 + 빨주노초파보 6 + 연한 5
+   사용자가 더한 색은 뒤에 붙어 브라우저에 남는다 */
+const PALETTE_BASE = [
+  '#FFFFFF', '#E5E5E5', '#C0C0C0', '#808080', '#404040', '#1A1A1A',  /* 무채색 */
+  '#E53935', '#FF9800', '#FDD835', '#43A047', '#1E88E5', '#8E24AA',  /* 진한 */
+  '#FFCDD2', '#FFE0B2', '#FFF9C4', '#C8E6C9', '#BBDEFB'              /* 연한 */
+];
 const PALETTE_KEY = 'chat-excerpt/palette';
 let userPalette = [];
 let hiddenPalette = [];
@@ -7105,11 +7155,12 @@ function openResetModal() {
       reset.push('캐릭터 프리셋');
     }
     if (selected.has('themes')) {
-      S.themes = PRESET_THEMES.map(preset => Object.assign(DEF_THEME(), JSON.parse(JSON.stringify(preset))));
+      /* 테마별 캔버스 — 각 테마에 기본 캔버스를 넣는다 */
+      S.themes = PRESET_THEMES.map(preset => Object.assign(DEF_THEME(), JSON.parse(JSON.stringify(preset)), { canvas: { ...DEF_CANVAS } }));
       S.activeThemeId = S.themes[0].id;
       S.ui.themeDraft = null; S.ui.editingThemeId = null;
-      /* 캔버스도 테마와 한 묶음 — 함께 초기화 */
-      Object.assign(S.canvas, { mode: 'ratio', ratio: '9:16', width: 560, mt: 40, mb: 40, ml: 40, mr: 40, marginDetail: false });
+      /* 전역 캔버스도 함께 초기화 (하위호환) */
+      Object.assign(S.canvas, DEF_CANVAS);
       S.ui.canvasSnapshot = null;
       reset.push('테마 프리셋');
     }
@@ -7411,7 +7462,7 @@ function buildFooterEditor(host, block) {
     w.appendChild(i);
     return w;
   };
-  body.append(mk('캐릭터', 'charName', '예) 해이'), mk('제작자', 'maker', '예) luvheil'));
+  body.append(mk('캐릭터', 'charName', '예) 해이'), mk('제작자', 'maker', '예) @luvheil'));
 
   /* 정렬 + 구분자 */
   const optGrid = el('div', 'grid2');
@@ -8085,7 +8136,8 @@ function openAvatarModal(cur, onDone, opts) {
 /* 배경 이미지 모달 — 테마가 주어지면 캔버스와 동일한 CSS 기반 미리보기를 표시한다.
    위치·회전·확대·흐림·덮기를 모달 안에서 미리 보면서 조절할 수 있다. */
 function openBgImageModal(cur, onDone, t) {
-  const c = S.canvas;
+  /* 테마별 캔버스 — 없으면 전역 캔버스 사용 */
+  const c = (t && t.canvas) || S.canvas || DEF_CANVAS;
   const was = { mode: c.mode || 'ratio', ratio: c.ratio };
   const p = modal('배경 이미지', t
     ? '미리보기에서 실제 캔버스와 동일하게 표시됩니다.'
@@ -8453,7 +8505,13 @@ function charEditor() {
     avBtn.innerHTML = '';
     avBtn.classList.toggle('is-pick', !c.avatar);
     if (c.avatar) { const i = el('img'); i.src = c.avatar; avBtn.appendChild(i); }
-    else avBtn.textContent = '✏️';
+    else {
+      /* 캔버스 헤더와 같은 사람 실루엣 아이콘 */
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('viewBox', '0 0 24 24');
+      svg.innerHTML = '<circle cx="12" cy="7.6" r="4.9"/><path d="M12 14.6c-5.4 0-9.1 3.3-9.1 7.2V24h18.2v-2.2c0-3.9-3.7-7.2-9.1-7.2z"/>';
+      avBtn.appendChild(svg);
+    }
   };
   avBtn.title = '이미지 편집';
   avBtn.onclick = () => openAvatarModal(c.avatar, d => { c.avatar = d; paint(); sync(); });
@@ -9126,7 +9184,9 @@ function syncThemeEditFormV2() {
   if (!t) return;
 
   const src = S.themes.find(x => x.id === t.id);
-  const c = S.canvas;
+  /* 테마별 캔버스 — 없으면 기본값으로 초기화 */
+  if (!t.canvas) t.canvas = Object.assign({}, DEF_CANVAS);
+  const c = t.canvas;
   const up = () => renderCanvas();
   const rerender = () => { syncThemeEditFormV2(); renderCanvas(); };
 
@@ -9311,7 +9371,7 @@ function syncThemeEditFormV2() {
     nf.appendChild(el('label', 'lab', '이름'));
     const ni = el('input', 'inp');
     ni.value = t.headerTitle || '';
-    ni.placeholder = '김라연';
+    ni.placeholder = '대화상대';
     ni.oninput = () => { t.headerTitle = ni.value; up(); };
     nf.appendChild(ni);
     grid.appendChild(nf);
@@ -9320,7 +9380,7 @@ function syncThemeEditFormV2() {
     mf.appendChild(el('label', 'lab', 'TODAY IS'));
     const mi = el('input', 'inp');
     mi.value = t.frameMood || '';
-    mi.placeholder = '그냥';
+    mi.placeholder = '#mood';
     mi.oninput = () => { t.frameMood = mi.value; up(); };
     mf.appendChild(mi);
     grid.appendChild(mf);
@@ -9340,7 +9400,7 @@ function syncThemeEditFormV2() {
     tf.appendChild(el('label', 'lab', '대화명'));
     const ti = el('input', 'inp');
     ti.value = t.headerTitle || '';
-    ti.placeholder = '이제행복하다';
+    ti.placeholder = '대화상대';
     ti.oninput = () => { t.headerTitle = ti.value; up(); };
     tf.appendChild(ti);
     optWrap.appendChild(tf);
@@ -9376,7 +9436,7 @@ function syncThemeEditFormV2() {
     nf.appendChild(el('label', 'lab', '이름'));
     const ni = el('input', 'inp');
     ni.value = t.headerTitle || '';
-    ni.placeholder = '김라연';
+    ni.placeholder = '대화상대';
     ni.oninput = () => { t.headerTitle = ni.value; up(); };
     nf.appendChild(ni);
     optWrap.appendChild(nf);
@@ -9580,9 +9640,13 @@ function syncThemeEditFormV2() {
   styleField.appendChild(styleSeg);
   bubbleBody.appendChild(styleField);
 
-  const isBubble = (t.bubbleStyle || 'bubble') === 'bubble';
-  if (isBubble) {
-    /* 대사 묶기 */
+  const bs = t.bubbleStyle || 'bubble';
+  const isBubble = bs === 'bubble';
+  const isQuote = bs === 'quote';
+  const isScript = bs === 'script';
+
+  /* 대사 묶기 — 말풍선·인용·각본 모두 적용 (plain 제외) */
+  if (bs !== 'plain') {
     const grpTgl = el('div', 'tgl-inline');
     grpTgl.style.marginTop = 'var(--sp-md)';
     grpTgl.appendChild(el('span', 'lab', '대사 묶기'));
@@ -9590,7 +9654,9 @@ function syncThemeEditFormV2() {
     grpBtn.onclick = () => { t.groupRuns = !t.groupRuns; rerender(); };
     grpTgl.appendChild(grpBtn);
     bubbleBody.appendChild(grpTgl);
+  }
 
+  if (isBubble) {
     /* 말꼬리 */
     const tailTgl = el('div', 'tgl-inline');
     tailTgl.style.marginTop = 'var(--sp-md)';
@@ -9665,16 +9731,19 @@ function syncThemeEditFormV2() {
     bubbleBody.appendChild(radiusGrid);
   }
 
-  /* 말풍선 색상 */
-  const colorGrid = el('div', 'grid-2');
-  colorGrid.style.marginTop = 'var(--sp-md)';
-  colorGrid.appendChild(colorField('좌측 말풍선', t.bubbleBg, v => { t.bubbleBg = v; up(); }));
-  colorGrid.appendChild(colorField('좌측 글자', t.bubbleFg, v => { t.bubbleFg = v; up(); }));
-  colorGrid.appendChild(colorField('우측 말풍선', t.myBubbleBg || t.bubbleBg, v => { t.myBubbleBg = v; up(); }));
-  colorGrid.appendChild(colorField('우측 글자', t.myBubbleFg || t.bubbleFg, v => { t.myBubbleFg = v; up(); }));
-  bubbleBody.appendChild(colorGrid);
+  /* 말풍선 색상 — 말풍선 스타일에서만 의미 있음 (인용/각본/없음은 배경 없음) */
+  if (isBubble) {
+    const colorGrid = el('div', 'grid-2');
+    colorGrid.style.marginTop = 'var(--sp-md)';
+    colorGrid.appendChild(colorField('좌측 말풍선', t.bubbleBg, v => { t.bubbleBg = v; up(); }));
+    colorGrid.appendChild(colorField('좌측 글자', t.bubbleFg, v => { t.bubbleFg = v; up(); }));
+    colorGrid.appendChild(colorField('우측 말풍선', t.myBubbleBg || t.bubbleBg, v => { t.myBubbleBg = v; up(); }));
+    colorGrid.appendChild(colorField('우측 글자', t.myBubbleFg || t.bubbleFg, v => { t.myBubbleFg = v; up(); }));
+    bubbleBody.appendChild(colorGrid);
+  }
 
-  /* 추가 옵션 (라운드/그림자, 좌측 프로필·이름, 우측 프로필·이름) */
+  /* 추가 옵션 (라운드/그림자, 좌측 프로필·이름, 우측 프로필·이름)
+     각본은 이름이 대사 앞에 인라인으로 붙어서 프로필 이미지가 의미 없음 */
   const extraLabel = el('label', 'lab', '추가 옵션');
   extraLabel.style.marginTop = 'var(--sp-lg)';
   bubbleBody.appendChild(extraLabel);
@@ -9688,11 +9757,11 @@ function syncThemeEditFormV2() {
     row.appendChild(btn);
     return row;
   };
-  extraGrid.appendChild(mkTgl('라운드 프로필', t.roundAvatar, v => { t.roundAvatar = v; rerender(); }));
+  if (!isScript) extraGrid.appendChild(mkTgl('라운드 프로필', t.roundAvatar, v => { t.roundAvatar = v; rerender(); }));
   if (isBubble) extraGrid.appendChild(mkTgl('그림자', t.bubbleShadow, v => { t.bubbleShadow = v; rerender(); }));
-  extraGrid.appendChild(mkTgl('좌측 프로필', t.showAvatar, v => { t.showAvatar = v; rerender(); }));
+  if (!isScript) extraGrid.appendChild(mkTgl('좌측 프로필', t.showAvatar, v => { t.showAvatar = v; rerender(); }));
   extraGrid.appendChild(mkTgl('좌측 이름', t.showName, v => { t.showName = v; rerender(); }));
-  extraGrid.appendChild(mkTgl('우측 프로필', !!t.myAvatar, v => { t.myAvatar = v; rerender(); }));
+  if (!isScript) extraGrid.appendChild(mkTgl('우측 프로필', !!t.myAvatar, v => { t.myAvatar = v; rerender(); }));
   extraGrid.appendChild(mkTgl('우측 이름', !!t.myName, v => { t.myName = v; rerender(); }));
   bubbleBody.appendChild(extraGrid);
 
@@ -9757,20 +9826,22 @@ function syncThemeEditFormV2() {
     const mf = el('div', 'field');
     mf.appendChild(el('label', 'lab', '제작자'));
     const mi = el('input', 'inp');
-    mi.placeholder = '예) luvheil';
+    mi.placeholder = '예) @luvheil';
     mi.value = t.signMaker || '';
     mi.oninput = () => { t.signMaker = mi.value; up(); };
     mf.appendChild(mi);
     signGrid.appendChild(mf);
     signBody.appendChild(signGrid);
 
-    /* 정렬 — segment 스타일 */
-    const alignField = el('div', 'field');
-    alignField.style.marginTop = 'var(--sp-md)';
-    alignField.appendChild(el('label', 'lab', '정렬'));
-    alignField.appendChild(segment([['left', '좌'], ['center', '중앙'], ['right', '우']],
-      t.signAlign || 'right', v => { t.signAlign = v; rerender(); }));
-    signBody.appendChild(alignField);
+    /* 정렬 — segment 스타일 (버디버디는 만든이 영역에 서명이 들어가므로 정렬 선택 불필요) */
+    if (frameKind(t) !== 'buddy') {
+      const alignField = el('div', 'field');
+      alignField.style.marginTop = 'var(--sp-md)';
+      alignField.appendChild(el('label', 'lab', '정렬'));
+      alignField.appendChild(segment([['left', '좌'], ['center', '중앙'], ['right', '우']],
+        t.signAlign || 'right', v => { t.signAlign = v; rerender(); }));
+      signBody.appendChild(alignField);
+    }
 
     /* 구분·서식 — 같은 줄에 icb 버튼 스타일로, 자동 배분 */
     const fmtLine = el('div', 'tool-line');
@@ -10296,7 +10367,14 @@ function themeAvatarField(t, opts) {
   if (o.ratio && o.ratio !== '1:1') avBtn.style.borderRadius = '6px';
   avBtn.title = label + ' 편집';
   if (t.headerAvatar) { const i = el('img'); i.src = t.headerAvatar; avBtn.appendChild(i); }
-  else { avBtn.classList.add('is-pick'); avBtn.textContent = '✏️'; }
+  else {
+    avBtn.classList.add('is-pick');
+    /* 캔버스 헤더와 같은 사람 실루엣 아이콘 */
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.innerHTML = '<circle cx="12" cy="7.6" r="4.9"/><path d="M12 14.6c-5.4 0-9.1 3.3-9.1 7.2V24h18.2v-2.2c0-3.9-3.7-7.2-9.1-7.2z"/>';
+    avBtn.appendChild(svg);
+  }
   avBtn.onclick = () => openAvatarModal(t.headerAvatar, d => { t.headerAvatar = d; render(); }, o);
   const side = el('div'); side.style.flex = '1';
   if (t.headerAvatar) {
@@ -10412,7 +10490,7 @@ function themeEditor() {
     nw.appendChild(el('span', 'lab', frKind === 'cyworld' ? '미니홈피 주인' : '대화 상대'));
     const ni = el('input', 'inp');
     ni.value = t.headerTitle || '';
-    ni.placeholder = frKind === 'cyworld' ? '김라연' : '이제행복하다';
+    ni.placeholder = '대화상대';
     /* 적는 대로 캔버스에 비친다. render() 를 부르면 이 칸이 통째로 새로 그려져
        치던 자리를 잃는다 — 캔버스만 다시 그린다. */
     ni.oninput = () => { t.headerTitle = ni.value; up(); };
@@ -10426,7 +10504,7 @@ function themeEditor() {
     mdW.appendChild(el('span', 'lab', 'TODAY IS'));
     const mdI = el('input', 'inp');
     mdI.value = t.frameMood || '';
-    mdI.placeholder = '그냥';
+    mdI.placeholder = '#mood';
     mdI.oninput = () => { t.frameMood = mdI.value; up(); };
     mdW.appendChild(mdI);
     frBox.appendChild(mdW);
@@ -10444,7 +10522,9 @@ function themeEditor() {
   box.appendChild(el('div', 'divider'));
   box.appendChild(el('div', 'sec-title', '캔버스'));
   const cvBox = el('div', 'stack');
-  const c = S.canvas;
+  /* 테마별 캔버스 — 없으면 기본값으로 초기화 */
+  if (!t.canvas) t.canvas = Object.assign({}, DEF_CANVAS);
+  const c = t.canvas;
   const lockR = lockRatio();
   if (lockR) {
     const lseg = segment([[lockR, lockR + ' 고정']], lockR, () => { });
@@ -10516,19 +10596,21 @@ function themeEditor() {
     const makerField = el('div', 'field');
     makerField.appendChild(el('label', 'lab', '제작자'));
     const makerInp = el('input', 'inp');
-    makerInp.placeholder = '예) luvheil';
+    makerInp.placeholder = '예) @luvheil';
     makerInp.value = t.signMaker || '';
     makerInp.oninput = () => { t.signMaker = makerInp.value; up(); };
     makerField.appendChild(makerInp);
     signFields.appendChild(makerField);
     signBox.appendChild(signFields);
-    /* 위치와 구분자 */
+    /* 위치와 구분자 (버디버디는 만든이 영역에 서명이 들어가므로 위치 선택 불필요) */
     const signOpts = el('div', 'grid2'); signOpts.style.marginTop = '12px';
-    const alignField = el('div', 'field');
-    alignField.appendChild(el('label', 'lab', '위치'));
-    alignField.appendChild(segment([['left', '좌'], ['center', '중앙'], ['right', '우']],
-      t.signAlign || 'right', v => { t.signAlign = v; up(); }));
-    signOpts.appendChild(alignField);
+    if (frameKind(t) !== 'buddy') {
+      const alignField = el('div', 'field');
+      alignField.appendChild(el('label', 'lab', '위치'));
+      alignField.appendChild(segment([['left', '좌'], ['center', '중앙'], ['right', '우']],
+        t.signAlign || 'right', v => { t.signAlign = v; up(); }));
+      signOpts.appendChild(alignField);
+    }
     const sepField = el('div', 'field');
     sepField.appendChild(el('label', 'lab', '구분'));
     sepField.appendChild(segment([['·', '·'], ['|', '|']], t.signSep || '·', v => { t.signSep = v; up(); }));
@@ -10599,7 +10681,7 @@ function themeEditor() {
     tw.appendChild(el('span', 'lab', hdKind === 'news' ? '날짜 · 한 줄' : '이름'));
     const ti = el('input', 'inp');
     ti.value = t.headerTitle || '';
-    ti.placeholder = hdKind === 'news' ? '2026년 8월 13일 목요일' : '김라연';
+    ti.placeholder = hdKind === 'news' ? '2026년 8월 13일 목요일' : '대화상대';
     /* 적는 대로 캔버스에 비친다. render() 를 부르면 이 칸이 통째로 새로 그려져
        치던 자리를 잃는다 — 캔버스만 다시 그린다. */
     ti.oninput = () => { t.headerTitle = ti.value; up(); };
@@ -10670,9 +10752,10 @@ function themeEditor() {
   const st2 = el('div', 'stack');
   /* 발화자 블록의 겉모습 — 넷 중 하나. 말풍선만 배경이 있어, 나머지 셋은 꼬리·둥글기가
      의미 없다. «각본» 은 이름과 말이 한 줄에 오는 꼴이다 [.s-row]. */
+  const bs = t.bubbleStyle || 'bubble';
   st2.appendChild(segment([['bubble', '말풍선'], ['quote', '인용구'], ['script', '각본'], ['plain', '없음']],
-    t.bubbleStyle || 'bubble', v => { t.bubbleStyle = v; if (v === 'quote' || v === 'script') t.groupRuns = false; render(); }));
-  const isBubble = (t.bubbleStyle || 'bubble') === 'bubble';
+    bs, v => { t.bubbleStyle = v; if (v === 'quote' || v === 'script') t.groupRuns = false; render(); }));
+  const isBubble = bs === 'bubble';
   if (isBubble) st2.appendChild(toggleRow('말꼬리 추가', '', t.showTail, v => { t.showTail = v; render(); }));
   if (isBubble && t.showTail) {
     /* [원본 setBubbleTailSize · setBubbleTailPosition] 범위까지 그대로.
@@ -10695,8 +10778,8 @@ function themeEditor() {
     st2.appendChild(pos);
   }
   /* 연속 발화 묶기 — 이름·이미지·꼬리·간격이 한꺼번에 달라지므로 한 자리에서 켜고 끈다.
-     말풍선일 때만 의미가 있다 — 인용/각본/없음은 묶을 것이 없다. */
-  if (isBubble) {
+     말풍선·인용·각본 모두 적용 (plain 제외) */
+  if (bs !== 'plain') {
     st2.appendChild(toggleRow('대사 연속 묶기',
       '',
       t.groupRuns !== false, v => { t.groupRuns = v; render(); }));
@@ -10735,41 +10818,42 @@ function themeEditor() {
   }
   brWrap.appendChild(brBox); st2.appendChild(brWrap);
   box.appendChild(st2);
-  /* 대사 색 — 좌측(남)과 우측(나)을 위아래로 마주 세운다. 값은 여전히 bubbleBg /
-     myBubbleBg 다 — 이름만 «누구» 가 아니라 «어느 쪽» 으로 부른다. 캔버스에서 좌우를
-     가르는 것이 곧 그 «누구» 라서, 고를 때는 보이는 자리로 부르는 편이 헷갈리지 않는다.
-     대사의 «생김새» 는 바로 위 '대사 설정' 이 맡고, 여기는 «색» 만이다. */
-  box.appendChild(el('div', 'divider'));
-  box.appendChild(el('div', 'sec-title', '대사 색상'));
-  const gBub = el('div', 'grid2');
-  gBub.appendChild(colorField('좌측 말풍선 배경', t.bubbleBg, v => { t.bubbleBg = v; up(); }));
-  gBub.appendChild(colorField('좌측 말풍선 글자', t.bubbleFg, v => { t.bubbleFg = v; up(); }));
-  gBub.appendChild(colorField('우측 말풍선 배경', t.myBubbleBg || t.bubbleBg, v => { t.myBubbleBg = v; up(); }));
-  gBub.appendChild(colorField('우측 말풍선 글자', t.myBubbleFg || t.bubbleFg, v => { t.myBubbleFg = v; up(); }));
-  box.appendChild(gBub);
+  /* 대사 색 — 말풍선 스타일에서만 의미 있음 (인용/각본/없음은 배경 없음) */
+  if (isBubble) {
+    box.appendChild(el('div', 'divider'));
+    box.appendChild(el('div', 'sec-title', '대사 색상'));
+    const gBub = el('div', 'grid2');
+    gBub.appendChild(colorField('좌측 말풍선 배경', t.bubbleBg, v => { t.bubbleBg = v; up(); }));
+    gBub.appendChild(colorField('좌측 말풍선 글자', t.bubbleFg, v => { t.bubbleFg = v; up(); }));
+    gBub.appendChild(colorField('우측 말풍선 배경', t.myBubbleBg || t.bubbleBg, v => { t.myBubbleBg = v; up(); }));
+    gBub.appendChild(colorField('우측 말풍선 글자', t.myBubbleFg || t.bubbleFg, v => { t.myBubbleFg = v; up(); }));
+    box.appendChild(gBub);
+  }
 
-  box.appendChild(el('div', 'divider'));
-  box.appendChild(el('div', 'sec-title', '프로필 설정'));
-  /* 켜고 끄기만 하는 짧은 줄이라 세로로 쌓으면 화면만 먹는다. 둘씩 묶어 두 줄로 세운다 —
-     좁아지면 .grid2 가 알아서 한 줄에 하나씩 내려 준다(440px).
-     채워지는 차례가 곧 화면 배치다 — 윗줄이 좌측 인물, 아랫줄이 우측 인물이고, 왼쪽이
-     이름 오른쪽이 이미지다. 한 줄이 한 사람이라 켜고 끌 때 누구를 만지는지가 바로 읽힌다.
-     [이름을 «캐릭터 · 유저» 라 부르지 않는다] 그 말은 «누구인가» 를 가리키는데, 이 칸이
-     실제로 정하는 것은 «어느 쪽에 선 사람인가» 다 — 내 것으로 표시한 인물이 오른쪽에
-     선다. 바로 위의 말풍선 색 칸들이 이미 좌측·우측으로 말하고 있으니 [gBub] 같은 말로
-     맞춘다: 한 화면에서 같은 것을 두 이름으로 부르면 둘이 다른 것인 줄 알게 된다. */
-  const st1 = el('div', 'grid2'); st1.style.rowGap = '11px';
-  /* 프로필 모양은 남·나를 가리지 않는 «둘에 걸친» 값이라 두 칸을 통째로 쓰고 맨 위에 선다 —
-     반 칸만 차지하면 아래 네 칸의 캐릭터/유저 짝이 한 칸씩 밀려 어긋난다.
-     (끄면 각진 사각이 아니라 모서리만 둥근 네모가 된다 — 값을 고를 일이 없어 스테퍼를 뺐다.) */
-  const rp = toggleRow('라운드 프로필', '', t.roundAvatar, v => { t.roundAvatar = v; render(); });
-  rp.style.gridColumn = '1 / -1';
-  st1.appendChild(rp);
-  st1.appendChild(toggleRow('좌측 인물 이름', '', t.showName, v => { t.showName = v; render(); }));
-  st1.appendChild(toggleRow('좌측 인물 이미지', '', t.showAvatar, v => { t.showAvatar = v; render(); }));
-  st1.appendChild(toggleRow('우측 인물 이름', '', !!t.myName, v => { t.myName = v; render(); }));
-  st1.appendChild(toggleRow('우측 인물 이미지', '', !!t.myAvatar, v => { t.myAvatar = v; render(); }));
-  box.appendChild(st1);
+  /* 프로필 설정 — 각본은 이름이 대사 앞에 인라인으로 붙어서 프로필 이미지가 의미 없음 */
+  const isScript = bs === 'script';
+  if (!isScript) {
+    box.appendChild(el('div', 'divider'));
+    box.appendChild(el('div', 'sec-title', '프로필 설정'));
+    const st1 = el('div', 'grid2'); st1.style.rowGap = '11px';
+    /* 라운드 프로필 — 두 칸을 통째로 쓰고 맨 위에 선다 */
+    const rp = toggleRow('라운드 프로필', '', t.roundAvatar, v => { t.roundAvatar = v; render(); });
+    rp.style.gridColumn = '1 / -1';
+    st1.appendChild(rp);
+    st1.appendChild(toggleRow('좌측 인물 이름', '', t.showName, v => { t.showName = v; render(); }));
+    st1.appendChild(toggleRow('좌측 인물 이미지', '', t.showAvatar, v => { t.showAvatar = v; render(); }));
+    st1.appendChild(toggleRow('우측 인물 이름', '', !!t.myName, v => { t.myName = v; render(); }));
+    st1.appendChild(toggleRow('우측 인물 이미지', '', !!t.myAvatar, v => { t.myAvatar = v; render(); }));
+    box.appendChild(st1);
+  } else {
+    /* 각본 스타일에서는 이름 표시만 제공 */
+    box.appendChild(el('div', 'divider'));
+    box.appendChild(el('div', 'sec-title', '이름 설정'));
+    const st1 = el('div', 'grid2'); st1.style.rowGap = '11px';
+    st1.appendChild(toggleRow('좌측 인물 이름', '', t.showName, v => { t.showName = v; render(); }));
+    st1.appendChild(toggleRow('우측 인물 이름', '', !!t.myName, v => { t.myName = v; render(); }));
+    box.appendChild(st1);
+  }
 
 
 
@@ -12152,8 +12236,11 @@ function exportSettings(picked) {
   const data = { __type: SETTINGS_TYPE, __v: 1 };
   if (picked.has('characters')) data.characters = S.characters;
   if (picked.has('themes')) {
-    data.themes = S.themes; data.activeThemeId = S.activeThemeId; data.format = S.format;
-    data.canvas = S.canvas; /* 캔버스는 테마와 한 묶음 */
+    /* 테마별 캔버스 — 각 테마에 canvas가 없으면 전역 캔버스를 복사해 넣는다 */
+    data.themes = S.themes.map(t => t.canvas ? t : { ...t, canvas: { ...S.canvas } });
+    data.activeThemeId = S.activeThemeId; data.format = S.format;
+    /* 하위호환: 전역 캔버스도 함께 내보낸다 (구버전 가져오기 대응) */
+    data.canvas = S.canvas;
   }
   if (picked.has('colors')) {
     data.palette = userPalette; data.paletteHidden = hiddenPalette; data.colors = S.colors;
@@ -12245,7 +12332,10 @@ function applySettings(d, picked, mode) {
   }
   if (picked.has('themes')) {
     if (Array.isArray(d.themes) && d.themes.length) {
-      S.themes = merge ? mergeById(S.themes, d.themes) : d.themes;
+      /* 테마별 캔버스 — canvas가 없는 테마는 전역 캔버스(d.canvas)나 기본값으로 채운다 */
+      const fallbackCanvas = (d.canvas && typeof d.canvas === 'object') ? d.canvas : DEF_CANVAS;
+      const incoming = d.themes.map(t => t.canvas ? t : { ...t, canvas: { ...fallbackCanvas } });
+      S.themes = merge ? mergeById(S.themes, incoming) : incoming;
       S.themes.forEach(ensureThemeFormat);
       sortThemesByPreset();          /* 들여온 목록도 기본 테마는 정해진 차례에 세운다 */
       /* 더할 때는 보고 있던 테마를 그대로 둔다 — 더했다고 화면이 갈아엎히면 안 된다 */
@@ -12257,7 +12347,7 @@ function applySettings(d, picked, mode) {
     /* 전역 서식은 테마와 한 갈래다 — 테마를 안 받으면 이것도 안 받는다.
        더하기에서는 손대지 않는다(지금 쓰던 기본값을 지킨다). */
     if (!merge && d.format && typeof d.format === 'object') Object.assign(S.format, d.format);
-    /* 캔버스도 테마와 한 묶음 — 테마 고르면 캔버스도 함께 덮어쓴다 */
+    /* 하위호환: 전역 캔버스도 업데이트 (구버전 파일 대응) */
     if (d.canvas && typeof d.canvas === 'object') Object.assign(S.canvas, d.canvas);
   }
   /* 들여온 캐릭터가 사라진 발화자를 가리키지 않게 정리한다 */
