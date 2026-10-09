@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="color-scheme" content="light only">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>채팅 발췌기</title>
+<title>오천원 안 줘도 발췌해주는 사과🚬🍏</title>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
 <style>
@@ -122,7 +122,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .topbar-actions .btn{height:30px;padding:0 11px}
 /* 이름을 붙이면 셋을 합쳐 300px 가까이 된다 — 좁은 화면에서는 기호만 남긴다 */
 @media (max-width:560px){ .topbar-actions .btn-word{display:none} }
-@media (max-width:400px){ .brand{display:none} .topbar-actions{flex:1;justify-content:flex-end} }
+@media (max-width:400px){ .brand{font-size:1;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis} .topbar-actions{flex:none} }
 .stage{
   flex:1; min-height:0; overflow:auto; display:flex; flex-direction:column; align-items:center;
   /* 스크롤바 자리를 늘 비워 둔다.
@@ -271,8 +271,8 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
    굵게를 걸었는데 둘레보다 가늘어지는 일이 없어야 한다. */
 .blk-text b, .blk-text strong, .bub b, .bub strong,
 .blk-footer b, .blk-footer strong, #ta b, #ta strong{font-weight:var(--bold-w,700)}
-.sz-up{font-size:1.1em}
-.sz-dn{font-size:.85em}
+.sz-up{font-size:1.25em}
+.sz-dn{font-size:.75em}
 .blk-text{white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}
 /* HTML 블록은 «가둬» 둔다. 이 세 줄이 안쪽 배치를 블록 밖으로 못 나가게 막는 울타리다.
    · position:relative  — 안쪽 absolute 가 블록을 기준으로 앉는다. 이게 없으면 더 바깥
@@ -601,6 +601,31 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .hd-news .hd-thin{height:1px;opacity:.45;margin-top:calc(.22em + 2px)}
 .hd-news .hd-mast + .hd-thin{margin-top:0}
 .hd-news .hd-thin + .hd-thick{margin-top:calc(.22em + 2px)}
+
+/* 이북 리더 — 배경색은 캔버스 가장자리부터 구분선까지만.
+   장식 좌우여백(8px)은 본문 여백보다 작다. */
+.hd-ebook{--hd-size:1.1em;--eb-pad:12px;background:var(--hd-ebook-bg,transparent);
+  margin-left:calc(var(--cv-pl,32px) * -1);margin-right:calc(var(--cv-pr,32px) * -1);
+  margin-top:calc(var(--cv-pt,28px) * -1);padding:.6em var(--eb-pad) 0}
+.hd-ebook .hd-row{gap:1em;padding-bottom:.6em}
+.hd-ebook .hd-side{gap:12px;align-items:center}
+.hd-ebook .hd-side.right{gap:.9em}
+.hd-ebook .hd-side .hd-title{font-weight:600;font-size:.85em;letter-spacing:-.01em;
+  min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hd-ebook .hd-rule{height:1px;background:var(--hd-ebook-line,currentColor);opacity:.25;
+  margin:0 calc(var(--eb-pad) * -1)}
+.hd-ebook svg{stroke-width:2}
+/* 이북 푸터 — 배경색은 구분선부터 캔버스 하단까지. */
+.cv-foot-ebook{--eb-pad:8px;position:absolute;left:0;right:0;bottom:0;
+  background:var(--hd-ebook-bg,transparent);padding:0 var(--eb-pad) .6em}
+.cv-foot-ebook .hd-rule{height:1px;background:var(--hd-ebook-line,currentColor);opacity:.25;
+  margin:0 calc(var(--eb-pad) * -1)}
+.cv-foot-ebook .hd-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;
+  gap:.3em;padding-top:.5em}
+.cv-foot-ebook .hd-nav{font-size:.7em;opacity:.55;display:flex;align-items:center;gap:.25em;flex-shrink:0}
+.cv-foot-ebook .hd-nav svg{width:.8em;height:.8em;stroke-width:2.5}
+.cv-foot-ebook .hd-nav.right{justify-content:flex-end}
+.cv-foot-ebook .hd-sign{font-size:.75em;text-align:center;opacity:.6}
 
 /* ═══ 프레임 ══════════════════════════════════════════════════
    화면머리가 «맨 위에 눕는 띠» 라면 프레임은 «사방을 두른 창» 이다 — 캔버스 네 변을
@@ -2225,6 +2250,15 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   /* 톱니는 도구를 여닫는 단추다 — 도구가 늘 떠 있는 여기서는 할 일이 없다. */
   #btnGear,#btnGearInTabs{display:none}
   .composer-input{padding-left:14px}
+  /* 액션 메뉴는 PC 에서 아래로 열린다 — 위로 열면 작성창 위 내용을 가린다 */
+  #actionMenu{bottom:auto !important;top:100%;margin-bottom:0;margin-top:var(--sp-sm,8px)}
+  /* HTML 입력 칸은 PC 에서 더 크게 늘릴 수 있다 — 코드가 길면 120px 은 모자란다 */
+  .inp-group .composer-ta{max-height:400px}
+  /* PC에서 설정 패널은 항상 열림 + 높이 제한 해제 — 모바일의 55dvh 제한을 푼다 */
+  .settings-panel{max-height:none !important;overflow:visible;display:flex;flex-direction:column;flex:1 1 auto}
+  .settings-panel.is-open{max-height:none !important}
+  .tab-slider{flex:1 1 auto;min-height:0}
+  .settings-content{max-height:none;height:100%}
 
   /* 화면은 넓어도 시트는 400px(2단이면 360px)짜리 좁은 기둥이다.
      접는 기준을 화면 폭으로만 잡아 두면 여기서는 영영 안 접혀 칩과 탭이 줄을 넘긴다.
@@ -2266,7 +2300,8 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   /* 윗 여백은 굴리는 상자가 아니라 탭 줄이 가진다 — 상자에 주면 그 14px 이 굴림판 안쪽이라
      못 박힌 탭 줄[.tabs position:sticky] 위로 글이 지나가 보인다. */
   /* 여기서는 좌우로 갈라지므로 «가르는 선» 도 위가 아니라 옆이다 [한 기둥 배치의 border-top] */
-  .sheet-body{grid-column:2;grid-row:1;border-top:0;border-left:1px solid var(--c-border)}
+  .sheet-body{grid-column:2;grid-row:1;border-top:0;border-left:1px solid var(--c-border);
+    display:flex;flex-direction:column;min-height:0;overflow-y:auto}
   .sheet-body .tabs{padding-top:16px}
   .savesheet{z-index:100}
 }
@@ -2297,7 +2332,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 
 <div class="shell">
 <header class="topbar">
-  <span class="brand">채팅 발췌기</span>
+  <span class="brand">오천원 안 줘도 발췌해주는 사과🚬🍏</span>
   <div class="topbar-actions">
     <button type="button" class="btn btn-icon btn-danger" id="btnBulkDel" title="선택 삭제">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -2364,17 +2399,17 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
             </button>
             <div class="composer-ta" id="ta" contenteditable="true" role="textbox" aria-multiline="true" spellcheck="false"
                  tabindex="0" inputmode="text" enterkeyhint="enter" autocapitalize="sentences"
-                 data-placeholder="문단을 기준으로 블록이 구분됩니다."></div>
+                 data-placeholder="입력 시 문단을 기준으로 블록이 자동 분할됩니다."></div>
             <button type="button" class="btn-mini" id="btnAdd" title="추가">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
             </button>
           </div>
           <div class="action-menu" id="actionMenu" style="position: absolute; bottom: 100%; right: var(--pad); margin-bottom: var(--sp-sm, 8px);" hidden>
-            <button class="action-menu-item" data-action="image"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></span> 이미지</button>
+            <button class="action-menu-item" data-action="image"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></span> Image</button>
             <button class="action-menu-item" data-action="html"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7"/></svg></span> HTML</button>
-            <button class="action-menu-item" data-action="music"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span> 음악</button>
+            <button class="action-menu-item" data-action="music"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span> Now-Playing</button>
             <div class="action-menu-divider"></div>
-            <button class="action-menu-item" data-action="divider"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><path d="M5 12h14"/></svg></span> 가로선</button>
+            <button class="action-menu-item" data-action="divider"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><path d="M5 12h14"/></svg></span> 구분선</button>
           </div>
           </div><!-- /composerInput -->
         </div>
@@ -2448,7 +2483,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
               </div>
             </div>
             <div class="tgl-inline" style="margin-top:var(--sp-md);padding:0 var(--sp-md);">
-              <span class="lab">말풍선 색상 개별 설정</span>
+              <span class="lab">말풍선 개별 설정</span>
               <div class="tgl tgl-sm" id="charBubbleToggleV2"></div>
             </div>
             <div id="charBubbleOptsV2" style="display:none;margin-top:var(--sp-md);padding:0 var(--sp-md)">
@@ -2496,7 +2531,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 
 <script>
 /* ═══════════════════════════════════════════════════════════════
-   채팅 발췌기 — 리디자인
+   발췌하는 사과의 꿈🚬🍏 — 리디자인
    기능 근거 : planning/1-version/functional spec 기능정의서.csv
    원본에서 옮겨온 로직은 각 자리에 [원본] 으로 표시했다.
    ═══════════════════════════════════════════════════════════════ */
@@ -2526,6 +2561,7 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 /* 넓은 화면에서는 시트가 오른쪽 기둥이 되어 세로로 자리가 남는다 —
    도구·서식·작성창을 번갈아 띄우지 않고 한꺼번에 세워 둔다(CSS 의 min-width:900px 와 짝). */
 const isWide = () => !!(window.matchMedia && window.matchMedia('(min-width:900px)').matches);
+const is2Panel = () => !!(window.matchMedia && window.matchMedia('(min-width:1500px)').matches);
 /* [+] 는 화면 폭에 따라 삽입 막대 안팎을 오간다. 그런데 삽입 막대는 다시 그릴 때
    innerHTML 을 비우므로, 그 안에 있던 버튼이 DOM 에서 통째로 사라진다.
    요소를 붙잡아 두면 DOM 에서 빠져도 객체는 살아 있어 다시 붙일 수 있다. */
@@ -2555,38 +2591,58 @@ const initialSvg = name =>
    위에 어울리는 각도가 아니었다. 자리마다 눈으로 맞춘 값을 따로 둔다.
    y 는 '붙는 변에서 얼마나 삐져나오는가' — 위든 아래든 뜻이 같다.
    radius 는 그 꼬리와 어울리는 말풍선 둥글기로, 모양을 고를 때 함께 맞춰 준다. */
-const TAILS = {
-  curve: {
-    label: '곡선', img: 'var(--tail-curve)', w: 1.9, ar: 21 / 19, radius: 15,
+/* 말풍선 스타일 프리셋 — 4가지 중 선택 */
+const BUBBLE_STYLES = {
+  plain: {
+    label: 'Plain', radius: 18, hasTail: false,
+    /* 전체 둥글기 18, 꼬리 없음 */
+  },
+  modern: {
+    label: 'Modern', radius: 20, flatRadius: 2, isCorner: true, hasTail: false,
+    defaultPos: 'bottom',
+    /* 모서리 스타일: 한 귀퉁이만 각지게. 연속 묶기 첫 번째는 좌하, 나머지는 좌상 */
+  },
+  imessage: {
+    label: 'iMessage', img: 'var(--tail-curve)', w: 1.9, ar: 21 / 19, radius: 18, hasTail: true,
+    defaultPos: 'bottom', /* 곡선은 아래 고정 */
     pos: {
       bottom: { size: 7, x: 8, y: 1, rot: 0,  flipX: false, flipY: false },
       top:    { size: 7, x: 8, y: 2, rot: 75, flipX: false, flipY: false }
     }
   },
-  long: {
-    label: '긴꼬리', img: 'var(--tail-long)', w: 3.4, ar: 24 / 41, radius: 8,
+  kakaotalk: {
+    label: 'Kakaotalk', img: 'var(--tail-long)', w: 3.4, ar: 24 / 41, radius: 8, hasTail: true,
+    defaultPos: 'top', /* 긴꼬리는 위 기본 */
     pos: {
       bottom: { size: 9, x: 29, y: -8, rot: 0,  flipX: false, flipY: false },
       top:    { size: 7, x: 11, y: 8,  rot: 75, flipX: false, flipY: false }
     }
-  },
-  dot: {
-    label: '점', radius: 25,
-    /* 동그라미라 어느 자리에 붙든 모양이 같다 */
-    pos: {
-      bottom: { size: 6, x: 3, y: 4, rot: 0, flipX: false, flipY: false },
-      top:    { size: 6, x: 3, y: 4, rot: 0, flipX: false, flipY: false }
-    }
   }
 };
+/* 하위호환: 기존 tailShape 값을 새 bubblePreset으로 매핑 */
+const TAIL_COMPAT = { curve: 'imessage', long: 'kakaotalk', corner: 'modern' };
+const resolvePreset = th => {
+  if (!th) return 'imessage';
+  if (th.bubblePreset && BUBBLE_STYLES[th.bubblePreset]) return th.bubblePreset;
+  if (th.tailShape) {
+    /* 새 키 그대로 있으면 바로, 옛 키면 변환 */
+    if (BUBBLE_STYLES[th.tailShape]) return th.tailShape;
+    if (TAIL_COMPAT[th.tailShape]) return TAIL_COMPAT[th.tailShape];
+  }
+  return 'imessage';
+};
+const TAILS = BUBBLE_STYLES;
 const TAIL_POS = [['bottom', '아래'], ['top', '위']];
+/* 말꼬리 방향: 프리셋에 따라 자동 결정 */
 const tailPos = th => {
-  const k = th && th.tailPos;
-  return TAIL_POS.some(([v]) => v === k) ? k : 'bottom';
+  const preset = resolvePreset(th);
+  const t = BUBBLE_STYLES[preset] || BUBBLE_STYLES.imessage;
+  return t.defaultPos || 'bottom';
 };
 /* 모양 × 자리의 기본 프리셋 */
 const tailBase = (shape, pos) => {
-  const t = TAILS[shape] || TAILS.curve;
+  const key = BUBBLE_STYLES[shape] ? shape : (TAIL_COMPAT[shape] || 'imessage');
+  const t = BUBBLE_STYLES[key];
   return (t.pos && (t.pos[pos] || t.pos.bottom)) || {};
 };
 const PLUS_SVG = '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>';
@@ -2654,8 +2710,8 @@ const PRESET_THEMES = [
     name: 'simple(white)',
     bg: '#FFFFFF', fg: '#37373E', bubbleBg: '#EDEDED', bubbleFg: '#37373E',
     myBubbleBg: '#8A8F98', myBubbleFg: '#FFFFFF', highlight: '#E4E4E6',
-    bubbleStyle: 'bubble', showTail: false, tailShape: 'curve',
-    bubbleRadius: 16, brDetail: true, brTL: 2, brTR: 20, brBR: 20, brBL: 20,
+    bubbleStyle: 'bubble', bubblePreset: 'modern',
+    bubbleRadius: 20, brDetail: false, brTL: 20, brTR: 20, brBR: 20, brBL: 2,
     showName: true, showAvatar: true, myName: true, myAvatar: true, roundAvatar: false,
     header: 'none', headerTitle: '캐릭터',
     signShow: true, signChar: '해이', signMaker: '@luvheil',
@@ -2667,8 +2723,8 @@ const PRESET_THEMES = [
     name: 'simple(grey)',
     bg: '#EDEDED', fg: '#424448', bubbleBg: '#424448', bubbleFg: '#FFFFFF',
     myBubbleBg: '#C9C9C9', myBubbleFg: '#424448', highlight: '#E4E4E6',
-    bubbleStyle: 'bubble', showTail: false, tailShape: 'curve',
-    bubbleRadius: 16, brDetail: true, brTL: 2, brTR: 20, brBR: 20, brBL: 20,
+    bubbleStyle: 'bubble', bubblePreset: 'modern',
+    bubbleRadius: 20, brDetail: false, brTL: 20, brTR: 20, brBR: 20, brBL: 2,
     showName: true, showAvatar: true, myName: true, myAvatar: true, roundAvatar: false,
     header: 'none', headerTitle: '캐릭터',
     signShow: true, signChar: '해이', signMaker: '@luvheil',
@@ -2680,8 +2736,8 @@ const PRESET_THEMES = [
     name: 'simple(black)',
     bg: '#26262B', fg: '#EDEDED', bubbleBg: '#37373E', bubbleFg: '#EDEDED',
     myBubbleBg: '#4A4A55', myBubbleFg: '#FFFFFF', highlight: '#E4E4E6',
-    bubbleStyle: 'bubble', showTail: false, tailShape: 'curve',
-    bubbleRadius: 16, brDetail: true, brTL: 2, brTR: 20, brBR: 20, brBL: 20,
+    bubbleStyle: 'bubble', bubblePreset: 'modern',
+    bubbleRadius: 20, brDetail: false, brTL: 20, brTR: 20, brBR: 20, brBL: 2,
     showName: true, showAvatar: true, myName: true, myAvatar: true, roundAvatar: false,
     header: 'none', headerTitle: '캐릭터',
     signShow: true, signChar: '해이', signMaker: '@luvheil',
@@ -2694,7 +2750,7 @@ const PRESET_THEMES = [
     name: 'kakaotalk',
     bg: '#B2C7D9', fg: '#37373E', bubbleBg: '#FFFFFF', bubbleFg: '#37373E',
     myBubbleBg: '#FEE500', myBubbleFg: '#3A2E00', highlight: '#FFE38A',
-    bubbleStyle: 'bubble', showTail: true, tailShape: 'long', tailPos: 'top',
+    bubbleStyle: 'bubble', bubblePreset: 'kakaotalk', tailPos: 'top',
     bubbleRadius: 8, brDetail: false, brTL: 8, brTR: 8, brBR: 8, brBL: 8,
     showName: true, showAvatar: true, myName: false, myAvatar: false, roundAvatar: false,
     header: 'kakao', headerTitle: '대화상대',
@@ -2708,7 +2764,7 @@ const PRESET_THEMES = [
     name: 'iMessage(light)',
     bg: '#FFFFFF', fg: '#37373E', bubbleBg: '#0B84FE', bubbleFg: '#FFFFFF',
     myBubbleBg: '#EDEDED', myBubbleFg: '#37373E', highlight: '#CFE5FF',
-    bubbleStyle: 'bubble', showTail: true, tailShape: 'curve',
+    bubbleStyle: 'bubble', bubblePreset: 'imessage',
     bubbleRadius: 18, brDetail: false, brTL: 18, brTR: 18, brBR: 18, brBL: 18,
     showName: true, showAvatar: false, myName: true, myAvatar: false, roundAvatar: true,
     header: 'imessage', headerTitle: '대화상대', headerBg: '#EDEDED',
@@ -2722,7 +2778,7 @@ const PRESET_THEMES = [
     name: 'iMessage(dark)',
     bg: '#26262B', fg: '#EDEDED', bubbleBg: '#0B84FE', bubbleFg: '#FFFFFF',
     myBubbleBg: '#37373E', myBubbleFg: '#EDEDED', highlight: '#CFE5FF',
-    bubbleStyle: 'bubble', showTail: true, tailShape: 'curve',
+    bubbleStyle: 'bubble', bubblePreset: 'imessage',
     bubbleRadius: 18, brDetail: false, brTL: 18, brTR: 18, brBR: 18, brBL: 18,
     showName: true, showAvatar: false, myName: true, myAvatar: false, roundAvatar: true,
     header: 'imessage', headerTitle: '대화상대', headerBg: '#37373E',
@@ -2737,10 +2793,10 @@ const PRESET_THEMES = [
     name: 'square(white)',
     bg: '#FFFFFF', fg: '#37373E', bubbleBg: '#D14343', bubbleFg: '#26262B',
     myBubbleBg: '#FFFFFF', myBubbleFg: '#26262B', highlight: '#CFE5FF',
-    bubbleStyle: 'script', showTail: true, tailShape: 'curve',
+    bubbleStyle: 'script', bubblePreset: 'plain',
     bubbleRadius: 18, brDetail: false, brTL: 18, brTR: 18, brBR: 18, brBL: 18,
     showName: true, showAvatar: false, myName: true, myAvatar: false, roundAvatar: false,
-    header: 'kakao', headerTitle: '작품명',
+    header: 'ebook', headerTitle: '작품명',
     signShow: true, signChar: '해이', signMaker: '@luvheil',
     groupRuns: false, brLink: true,
     fmt: { align: 'justify', weight: 400, font: 'Noto Sans KR', size: 17, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'top' },
@@ -2751,10 +2807,10 @@ const PRESET_THEMES = [
     name: 'square(black)',
     bg: '#26262B', fg: '#EDEDED', bubbleBg: '#D14343', bubbleFg: '#EDEDED',
     myBubbleBg: '#FFFFFF', myBubbleFg: '#EDEDED', highlight: '#CFE5FF',
-    bubbleStyle: 'script', showTail: true, tailShape: 'curve',
+    bubbleStyle: 'script', bubblePreset: 'plain',
     bubbleRadius: 18, brDetail: false, brTL: 18, brTR: 18, brBR: 18, brBL: 18,
     showName: true, showAvatar: false, myName: true, myAvatar: false, roundAvatar: false,
-    header: 'kakao', headerTitle: '작품명',
+    header: 'ebook', headerTitle: '작품명',
     signShow: true, signChar: '해이', signMaker: '@luvheil',
     groupRuns: false, brLink: true,
     fmt: { align: 'justify', weight: 400, font: 'Noto Sans KR', size: 17, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'top' },
@@ -2783,8 +2839,8 @@ const PRESET_THEMES = [
     frame: 'cyworld',
     bg: '#FFFFFF', fg: '#37373E', bubbleBg: '#EAF6F9', bubbleFg: '#2E3A3E',
     myBubbleBg: '#FFF0CE', myBubbleFg: '#4A3A16', highlight: '#CFEDF6',
-    bubbleStyle: 'bubble', showTail: true, tailShape: 'curve', tailPos: 'bottom',
-    bubbleRadius: 15, brDetail: false, brTL: 10, brTR: 10, brBR: 10, brBL: 10,
+    bubbleStyle: 'bubble', bubblePreset: 'imessage', tailPos: 'bottom',
+    bubbleRadius: 15, brDetail: false, brTL: 15, brTR: 15, brBR: 15, brBL: 15,
     showName: true, showAvatar: false, myName: true, myAvatar: false, roundAvatar: false,
     header: 'none', headerTitle: '대화상대', frameMood: '#mood',
     signShow: true, signChar: '해이', signMaker: '@luvheil',
@@ -2804,7 +2860,7 @@ const PRESET_THEMES = [
        바꿔 쓰고 싶을 때가 있는데, 여태 말풍선 색이 배경과 똑같은 흰색이라 꼴을 바꿔도
        흰 바탕에 흰 풍선이 되어 «아무 일도 안 일어난» 것처럼 보였다. 껍데기와 어울리는
        색을 미리 앉혀 둔다 — «없음» 은 배경을 안 그리므로 [.bub.as-plain] 기본 꼴은 그대로다. */
-    bubbleStyle: 'bubble', showTail: false, tailShape: 'curve', groupRuns: true,
+    bubbleStyle: 'bubble', bubblePreset: 'plain', groupRuns: true,
     bubbleRadius: 0, brDetail: false, brTL: 0, brTR: 0, brBR: 0, brBL: 0,
     showName: true, showAvatar: true, myName: true, myAvatar: true, roundAvatar: false,
     header: 'none', headerTitle: '대화상대',
@@ -3726,7 +3782,8 @@ function htmlToMarkup(node) {
     if (tag === 'b' || tag === 'strong' || /font-weight:\s*(bold|[6-9]00)/.test(st)) s = `**${s}**`;
     if (cls && cls.contains('sz-up')) s = `[+]${s}[/+]`;
     else if (cls && cls.contains('sz-dn')) s = `[-]${s}[/-]`;
-    if (tag === 'mark' || bg) s = bg ? `==[#${bg}]${s}==` : `==${s}==`;
+    /* 색이 있는 형광펜만 마크업으로 — 색 없는 mark 껍데기는 무시(중첩 방지) */
+    if (bg) s = `==[#${bg}]${s}==`;
     /* div·p 는 줄을 바꾼다 — 서식이 함께 걸려 있어도 그 몫은 따로 챙긴다 */
     if ((tag === 'div' || tag === 'p') && out && !out.endsWith('\n')) out += '\n';
     out += s;
@@ -4320,8 +4377,10 @@ function closeActionMenu() {
   }
 }
 
-/* 설정 패널만 닫기 (내부용) */
+/* 설정 패널만 닫기 (내부용) — 2패널에서는 닫지 않음 */
 function closeSettingsPanel() {
+  /* 2패널에서는 설정 패널을 닫지 않는다 */
+  if (is2Panel()) return;
   const panel = $('#settingsPanel');
   if (!panel || !panel.classList.contains('is-open')) return;
 
@@ -4506,7 +4565,7 @@ function autoSnapForWriting(writing) {
    화면머리[HEADS]가 캔버스 맨 위에 눕는 띠라면, 프레임은 네 변을 통째로 두르는 껍데기다.
    본문은 그 안에 뚫린 칸에만 흐른다 — 그 칸의 두께가 곧 캔버스 안쪽 여백이다 [FRAME_PAD].
    테마가 소유한다: 같은 글을 창만 바꿔 다른 시절로 옮겨 담을 수 있어야 한다. */
-const FRAMES = [['none', '없음'], ['cyworld', '미니홈피'], ['buddy', '버디버디']];
+const FRAMES = [['none', '없음'], ['cyworld', 'Cyworld'], ['buddy', 'Buddybuddy']];
 const frameKind = t => (FRAMES.some(f => f[0] === (t && t.frame)) ? t.frame : 'none');
 /* 껍데기 글자는 테마 글꼴을 안 따른다 — 그 시절 화면의 얼굴은 결국 이 도트 글꼴이다.
    [FONTS] 에 이미 있는 것이라 저장 임베드도 같은 길로 간다 [usedFonts]. */
@@ -4679,9 +4738,10 @@ function renderCanvas() {
   /* 좌우 + = 말풍선 안쪽 · 상하 + = 위. 내 말풍선은 거울이라 같은 부호로 같은 방향이 된다. */
   /* 꼬리는 «모양 × 붙는 자리» 프리셋이 통째로 정한다. 눈으로 맞춰 확정한 값이라
      테마가 따로 덮을 여지를 두지 않는다 — 덮을 수 있게 두면 그 값이 어디서 왔는지 알 수 없다. */
-  const tl = TAILS[th.tailShape] || TAILS.curve;
+  const presetKey = resolvePreset(th);
+  const tl = BUBBLE_STYLES[presetKey];
   const tPos = tailPos(th);
-  const tb = tailBase(th.tailShape, tPos);
+  const tb = tailBase(presetKey, tPos);
   const tv = k => tb[k];
   cv.style.setProperty('--tail-size', (tv('size') ?? 7) + 'px');
   cv.style.setProperty('--tail-x', (tv('x') ?? 0) + 'px');
@@ -4699,14 +4759,13 @@ function renderCanvas() {
      민 만큼(x)을 빼고, 점은 지름의 두 배 자리에서 x 를 뺀다 — CSS 의 left 식과 같은 셈이다. */
   const tSize = tv('size') ?? 7, tX = tv('x') ?? 0;
   const tailOut = tl.img ? (tSize * tl.w - 2 - tX) : (tSize * 2 - tX);
-  const tailOn = (th.bubbleStyle || 'bubble') === 'bubble' && th.showTail;
+  const tailOn = (th.bubbleStyle || 'bubble') === 'bubble' && tl.hasTail;
   cv.style.setProperty('--tail-out',
     tailOn ? Math.max(0, Math.round(tailOut * 10) / 10) + 'px' : '0px');
   /* 꼬리를 아래에 다는 긴꼬리·점은 사진을 더 내려야 꼬리와 눈이 맞는다. 내리는 양은
      «사진 높이의 절반» — 그러면 사진 한가운데가 말풍선 밑변에 정확히 온다.
      곡선은 아래로 흘러내리지 않으므로 그대로 둔다. */
-  const dropAv = tailOn && tPos !== 'top'
-    && (th.tailShape === 'long' || th.tailShape === 'dot');
+  const dropAv = tailOn && tPos !== 'top' && presetKey === 'kakaotalk';
   cv.style.setProperty('--av-drop', dropAv ? 'calc(var(--av-size, 28px) / 2)' : '0px');
   if (tl.img) {
     cv.style.setProperty('--tail-img', tl.img);
@@ -4817,10 +4876,12 @@ function renderCanvas() {
     /* ── 테마 서명 (v2) ──────────────────────────────────────────
        footer 블록이 없고 테마에 서명이 켜져 있으면 테마 서명을 그린다.
        기존 footer 블록이 있으면 그쪽이 우선한다 — 호환을 위해 둘 다 쓸 수 있게 둔다.
-       버디버디 프레임은 만든이 영역에 서명이 들어가므로 본문 서명은 그리지 않는다. */
+       버디버디 프레임은 만든이 영역에 서명이 들어가므로 본문 서명은 그리지 않는다.
+       이북 헤더는 하단 푸터에 서명이 들어가므로 여기서는 그리지 않는다. */
     const hasFooterBlock = S.blocks.some(b => b.type === 'footer');
     const isBuddyFrame = frameKind(th) === 'buddy';
-    if (!hasFooterBlock && th.signShow && !isBuddyFrame) {
+    const isEbookHead = headKind(th) === 'ebook';
+    if (!hasFooterBlock && th.signShow && !isBuddyFrame && !isEbookHead) {
       const signText = [th.signChar, th.signMaker].filter(Boolean).join(th.signSep === '|' ? ' | ' : ' · ');
       if (signText) {
         const signWrap = el('div', 'blk is-footer');
@@ -4834,6 +4895,10 @@ function renderCanvas() {
         signWrap.appendChild(signEl);
         cv.appendChild(signWrap);
       }
+    }
+    /* 이북 푸터 — 하단 네비게이션 바 (이전권·서명·다음권) */
+    if (isEbookHead) {
+      cv.appendChild(ebookFooterNode(th));
     }
   }
 
@@ -4946,9 +5011,9 @@ const sameRun = (a, b) => !!a && !!b && !!a.asBubble && !!b.asBubble
 /* 볼드 한 단계의 굵기. 테마의 «굵게» 와 같은 값이라 서식과 테마가 같은 눈금을 쓴다.
    [700 인 이유] 이 저장소가 쓰는 글꼴 12종 가운데 500 을 가진 것은 프리텐다드 하나뿐이다.
    나머지 11종은 400/700(/800) 뿐이라, CSS 굵기 매칭 규칙상 500 을 달라고 하면 «아래쪽부터»
-   찾아 400 이 걸린다 — 굵게를 걸어도 보통과 한 획도 다르지 않았다. 어느 글꼴이든 가지고
-   있는 700 으로 맞춘다. [SCHEMA 7 에서 저장된 값도 함께 옮긴다] */
-const BOLD_W = 700;
+   찾아 400 이 걸린다 — 굵게를 걸어도 보통과 한 획도 다르지 않았다.
+   [사용자 요구] 800 을 기본으로 쓰고, 없으면 더 굵은 값을 찾는다. */
+const BOLD_W = 800;
 /* 본문 굵기 — 저장된 값을 그 글꼴의 눈금에 맞춰 그린다. 글꼴을 바꾸면 예전 굵기가 새
    글꼴에 없을 수 있는데, 그대로 그리면 화면은 브라우저가 대신 고른 굵기(가짜 볼드일 수도
    있다)로 나오고 설정 패널은 «보통» 을 가리켜 둘이 어긋난다 [snapWeight]. */
@@ -4957,15 +5022,21 @@ const textW = () => { const f = fmt(); return snapWeight(f.font, Number(f.weight
    굵기가 하나뿐인 글꼴(검은고딕·조선신명조 …)에서는 눈금에 «굵게» 가 없다. 그때는
    BOLD_W 로 두어 브라우저가 그리는 가짜 볼드라도 남긴다 — 굵게 단추를 눌렀는데 아무
    일도 안 일어나는 것보다 낫다.
+   [사용자 요구] 800 이상의 굵기를 우선 사용, 없으면 가장 굵은 값 사용.
    테마가 이미 그보다 굵으면 테마 굵기를 쓴다 — 굵게를 걸었는데 둘레보다 가늘어지는
    일이 없어야 한다. */
 function boldW() {
   const f = fmt();
   const steps = weightSteps(f.font);
-  const bold = steps.length > 1 ? steps[1][0] : BOLD_W;
+  /* 800 이상의 굵기 찾기, 없으면 가장 굵은 값 */
+  let bold = BOLD_W;
+  if (steps.length > 1) {
+    const heavy = steps.find(([w]) => w >= 800);
+    bold = heavy ? heavy[0] : steps[steps.length - 1][0];
+  }
   return Math.max(bold, textW());
 }
-const SIZE_LV = { '-1': .85, '0': 1, '1': 1.1 };
+const SIZE_LV = { '-1': .75, '0': 1, '1': 1.25 };
 const SIZE_LV_UI = [[-1, '작게', 's'], [0, '기본', 'm'], [1, '크게', 'l']];
 
 function renderBlock(b, th, f, prev, next) {
@@ -5052,14 +5123,18 @@ function renderBlock(b, th, f, prev, next) {
     const more = grouped && sameRun(b, next);
     if (cont) wrap.classList.add('is-run');
 
+    /* 말풍선 프리셋 결정 — bubblePreset 또는 기존 tailShape 호환 */
+    const presetKey = resolvePreset(th);
+    const preset = BUBBLE_STYLES[presetKey] || BUBBLE_STYLES.imessage;
     /* 꼬리는 덩어리의 한 장에만 붙는다 — 위에 달면 첫 장, 아래에 달면 마지막 장.
        프로필 이미지는 그 꼬리를 따라간다. 꼬리와 얼굴이 서로 다른 장에 있으면
        누가 말하는지와 어디서 말이 나오는지가 갈라져 보인다.
        인용·없음은 꼬리가 없으니 말이 시작되는 첫 장에 얼굴을 둔다. */
     const tTop = tailPos(th) === 'top';
-    const hasTail = bs === 'bubble' && th.showTail && (tTop ? !cont : !more);
-    const tailAtBottom = bs === 'bubble' && th.showTail && !tTop;
-    const avatarHere = tailAtBottom ? !more : !cont;
+    const hasTail = bs === 'bubble' && preset.hasTail && (tTop ? !cont : !more);
+    const tailAtBottom = bs === 'bubble' && preset.hasTail && !tTop;
+    /* modern(corner)은 꼬리가 아래에 붙으니 아바타도 마지막 장(!more)에 표시 */
+    const avatarHere = (tailAtBottom || preset.isCorner) ? !more : !cont;
 
     const avOn = isMe ? th.myAvatar : th.showAvatar;
     if (avOn) {
@@ -5090,27 +5165,53 @@ function renderBlock(b, th, f, prev, next) {
     }
 
     /* 얼굴을 말풍선의 어느 높이에 세울지.
-       · 말풍선            → 늘 위쪽 (말풍선 기준 상단 정렬)
+       · 말풍선 modern 단독  → 아래쪽 (말풍선 기준 하단 정렬)
+       · 말풍선 modern 연속  → 가운데 (마지막 말풍선과 중간 맞춤)
+       · 말풍선 (그 외)     → 위쪽 (말풍선 기준 상단 정렬)
        · 인용 + 아바타      → 위쪽
        · 각본              → 가운데
        · 없음              → 가운데 */
-    row.classList.add(bs === 'bubble' ? 'av-top'
-      : quoteAv ? 'av-top'
-        : 'av-mid');
+    const singleBubble = !cont && !more;
+    row.classList.add(
+      bs === 'bubble' && preset.isCorner ? (singleBubble ? 'av-bottom' : 'av-mid')
+        : bs === 'bubble' ? 'av-top'
+          : quoteAv ? 'av-top'
+            : 'av-mid');
 
     if (hasTail) row.classList.add('has-tail-row', ...(tTop ? ['tail-top'] : []));
+    /* 모서리 스타일(modern)인지 여부 — corner 는 SVG 대신 border-radius 로 표현 */
+    const isCornerTail = preset.isCorner && bs === 'bubble';
     const bub = el('div', 'bub'
-      + (hasTail ? ' has-tail ' + ((th.tailShape || 'curve') === 'dot' ? 't-dot' : 't-img')
-        + (tTop ? ' t-top' : '') : '')
+      + (hasTail && !isCornerTail ? ' has-tail t-img' + (tTop ? ' t-top' : '') : '')
+      + (isCornerTail ? ' t-corner' : '')
       + (bs === 'quote' ? ' as-quote' : '')
       + (bs === 'plain' || bs === 'script' ? ' as-plain' : ''));
     bub.innerHTML = applyInline(b.text || '');
     /* 꼬리를 실제 DOM 요소로 생성 — ::before 가상 요소는 SVG foreignObject 에서
        z-index:-1 + isolation:isolate 조합이 제대로 작동하지 않아 레이어가 꼬인다.
        실제 DOM 요소는 문서 흐름에 따라 정확한 레이어에 놓인다. */
-    if (hasTail) {
+    if (hasTail && !isCornerTail) {
       const tail = el('span', 'bub-tail');
       bub.prepend(tail);
+    }
+    /* 모서리 스타일 꼬리: 한 귀퉁이만 각지게 해서 말풍선임을 표현.
+       기본: 좌하(brBL) 각짐. 연속의 마지막(cont && !more)만 좌상(brTL) 각짐.
+       is-me 일 때는 좌우 반전. */
+    if (isCornerTail) {
+      const r = th.bubbleRadius ?? 20;
+      const flat = th.brBL ?? 2;
+      const runEnd = cont && !more; /* 연속의 마지막 */
+      if (sided) {
+        /* is-me: 우측 말풍선 — 기본 우하 각짐, 마지막만 우상 각짐 */
+        bub.style.borderRadius = runEnd
+          ? `${r}px ${flat}px ${r}px ${r}px`   /* 우상단 각짐 */
+          : `${r}px ${r}px ${flat}px ${r}px`;  /* 우하단 각짐 */
+      } else {
+        /* 좌측 말풍선 — 기본 좌하 각짐, 마지막만 좌상 각짐 */
+        bub.style.borderRadius = runEnd
+          ? `${flat}px ${r}px ${r}px ${r}px`   /* 좌상단 각짐 */
+          : `${r}px ${r}px ${r}px ${flat}px`;  /* 좌하단 각짐 */
+      }
     }
     const tBg = isMe ? (th.myBubbleBg || th.bubbleBg) : th.bubbleBg;
     const tFg = isMe ? (th.myBubbleFg || th.bubbleFg) : th.bubbleFg;
@@ -5166,7 +5267,7 @@ function renderBlock(b, th, f, prev, next) {
    메신저 화면·신문 제호를 흉내 낸 껍데기. 캔버스 맨 위에 붙는다.
    아이콘은 전부 여기서 그린다 — 글꼴에 딸린 문자를 쓰면 기기마다 다른 그림이 나오고,
    저장본에도 그 차이가 그대로 실린다. 선 두께·색은 CSS 가 currentColor 로 맞춘다. */
-const HEADS = [['none', '없음'], ['imessage', '메시지1'], ['kakao', '메시지2']];
+const HEADS = [['none', '없음'], ['imessage', 'iMessage'], ['kakao', 'Kakaotalk'], ['ebook', 'e-Book']];
 /* 신문 머리는 테마가 고른 글꼴을 안 따른다 — 신문의 얼굴은 결국 그 글꼴이다.
    · 제호(mark) 는 플레이페어의 «보통 굵기» 다 [NEWS_MARK_W]. 획 대비가 큰 디도풍
      세리프인데, 굵은 벌을 안 쓰니 그 대비가 얌전해져 지면 위에 조용히 얹힌다.
@@ -5287,7 +5388,10 @@ const HD_ICON = {
   menu: ['2.4 5.4 19.2 13.2', '<path d="M3.5 6.5h17M3.5 12h17M3.5 17.5h17"/>'],
   /* 어깨에서 잘리는 실루엣 — 아래를 동그라미 바닥에 붙여 쓴다 [.hd-av] */
   person: ['0 0 24 24',
-    '<circle cx="12" cy="7.6" r="4.9"/><path d="M12 14.6c-5.4 0-9.1 3.3-9.1 7.2V24h18.2v-2.2c0-3.9-3.7-7.2-9.1-7.2z"/>']
+    '<circle cx="12" cy="7.6" r="4.9"/><path d="M12 14.6c-5.4 0-9.1 3.3-9.1 7.2V24h18.2v-2.2c0-3.9-3.7-7.2-9.1-7.2z"/>'],
+  /* 이북 리더 아이콘 */
+  bookmark: ['3 1 18 22', '<path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>'],
+  list: ['2.5 5.5 19 13', '<path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/>']
 };
 /* 두 색을 t 만큼 섞은 단색. 반투명으로 겹쳐 두면 저장 렌더에서 층이 한 번 더 곱해져
    화면보다 진하게 나오는 일이 있다 — 미리 섞어 박으면 화면과 저장이 늘 같다. */
@@ -5500,6 +5604,9 @@ function headerNode(th) {
     hdName.style.fontWeight = textW();        /* 캐릭터 이름과 같은 굵기 [.who] */
     mid.appendChild(hdName);
     right.appendChild(hdIcon('video'));
+  } else if (kind === 'ebook') {
+    /* 이북 리더: 상단 헤더 없음, 하단 푸터만 사용 */
+    return null;
   } else {
     mid.classList.add('hd-title');
     mid.textContent = title;
@@ -5507,8 +5614,38 @@ function headerNode(th) {
   }
   row.append(left, mid, right);
   head.appendChild(row);
-  if (kind === 'imessage') head.appendChild(el('i', 'hd-rule'));
+  if (kind === 'imessage' || kind === 'ebook') head.appendChild(el('i', 'hd-rule'));
   return head;
+}
+
+/* 이북 푸터 — 하단 네비게이션 바.
+   구조: 구분선 + «< 이전권» + 서명(캐릭터·제작자) + «다음권 >»
+   장식 용도라 기능 없이 모양만 갖춘다. */
+function ebookFooterNode(th) {
+  const foot = el('div', 'cv-foot-ebook');
+  foot.style.color = th.fg;
+  /* 선 색상 → 배경색 (선 색상의 옅은 버전) */
+  if (th.ebookColor) {
+    foot.style.setProperty('--hd-ebook-line', th.ebookColor);
+    foot.style.setProperty('--hd-ebook-bg', rgbaOf(th.ebookColor, 12));
+  }
+  /* 상단 구분선 */
+  foot.appendChild(el('i', 'hd-rule'));
+  /* 3열 그리드: 이전권 / 서명 / 다음권 */
+  const row = el('div', 'hd-row');
+  const left = el('div', 'hd-nav');
+  left.appendChild(hdIcon('back'));
+  left.appendChild(Object.assign(el('span'), { textContent: '이전권' }));
+  const signText = [th.signChar, th.signMaker].filter(Boolean).join(th.signSep === '|' ? ' | ' : ' · ');
+  const mid = Object.assign(el('div', 'hd-sign'), { textContent: signText });
+  const right = el('div', 'hd-nav right');
+  right.appendChild(Object.assign(el('span'), { textContent: '다음권' }));
+  const fwdIcon = hdIcon('back');
+  fwdIcon.style.transform = 'scaleX(-1)';
+  right.appendChild(fwdIcon);
+  row.append(left, mid, right);
+  foot.appendChild(row);
+  return foot;
 }
 
 /* ═══ 음악 (플레이리스트 바) ══════════════════════════════════
@@ -5609,7 +5746,6 @@ function musicNode(b, th) {
   const mk = (cls, v) => (v || '').trim()
     ? Object.assign(el('div', cls), { textContent: v }) : null;
   const title = mk('mu-title', b.title), artist = mk('mu-artist', b.artist);
-  const mark = muIcon('mark', 'mu-mark');
   /* 커버는 «고른 것이 있을 때만» 만든다 — 빈 네모를 두면 안 고른 카드가 어긋나 보인다 */
   let cover = null;
   if (b.cover) {
@@ -5627,7 +5763,6 @@ function musicNode(b, th) {
     if (cover) row.appendChild(cover);
     const tr = el('div', 'mu-titlerow');
     if (title) tr.appendChild(title);
-    tr.appendChild(mark);
     meta.appendChild(tr);
     if (artist) meta.appendChild(artist);
     row.appendChild(meta);
@@ -5642,7 +5777,7 @@ function musicNode(b, th) {
   if (cover) head.appendChild(cover);
   if (title) meta.appendChild(title);
   if (artist) meta.appendChild(artist);
-  head.append(meta, mark);
+  head.appendChild(meta);
   d.append(head, bar);
   const ctl = el('div', 'mu-ctrl');
   ctl.append(muIcon('prev', 'mu-side'), muIcon('play', 'mu-play'), muIcon('next', 'mu-side'));
@@ -5942,8 +6077,8 @@ function pageRanges(hold = headHold + footHold) {
 }
 function renderPageMarks() {
   const cv = $('#canvas');
-  cv.querySelectorAll('.pagemark, .foot-ghost, .head-ghost, .frame-ghost').forEach(n => n.remove());
-  cv.querySelectorAll('.foot-pin, .head-pin').forEach(n => n.classList.remove('foot-pin', 'head-pin'));
+  cv.querySelectorAll('.pagemark, .foot-ghost, .head-ghost, .frame-ghost, .eb-foot-ghost').forEach(n => n.remove());
+  cv.querySelectorAll('.foot-pin, .head-pin, .eb-foot-pin').forEach(n => n.classList.remove('foot-pin', 'head-pin', 'eb-foot-pin'));
   /* 프레임 높이는 아래에서 «한 장» 으로 못 박는다 — CSS 의 100% 는 여러 장이면 쌓아 올린
      전체 높이라, 창이 장 수만큼 늘어난 한 덩어리로 그려진다. */
   const frame0 = cv.querySelector('.cv-frame');
@@ -5958,10 +6093,12 @@ function renderPageMarks() {
   const gap = Math.round(fmt().blockGap ?? 10);
   const head = cv.querySelector('.cv-head:not(.head-ghost)');
   const foot = footRow();
+  const ebFoot = cv.querySelector('.cv-foot-ebook:not(.eb-foot-ghost)');
   /* 축소해 보여 주는 중이라도 offsetHeight 는 논리 높이 그대로다 [fitCanvas].
      둘 다 아직 흐름 안에 있을 때 재야 제 높이가 나온다 — 못 박는 것은 그다음이다. */
   const hh = head ? head.offsetHeight : 0;
   const fh = foot ? foot.offsetHeight : 0;
+  const ebh = ebFoot ? ebFoot.offsetHeight : 0;
   /* 화면머리는 한 장이든 여러 장이든 늘 맨 위다 — 비율 지정이면 언제나 못 박는다.
      (서명과 다르다. 서명은 한 장에 들어가면 본문과 한 덩어리로 가운데에 놓는 편이 낫다.) */
   if (head) {
@@ -5974,9 +6111,11 @@ function renderPageMarks() {
     cv.classList.add('head-pinned');
     head.classList.add('head-pin');
   }
-  /* 서명도 어느 장에서든 바닥을 차지하므로 그 몫을 먼저 빼고 장을 센다.
-     그러고도 한 장에 들어가면 여태처럼 본문과 한 덩어리로 가운데에 놓는다. */
-  const hold = headHold + (foot ? fh + gap : 0);
+  /* 서명·이북 푸터도 어느 장에서든 바닥을 차지하므로 그 몫을 먼저 빼고 장을 센다.
+     그러고도 한 장에 들어가면 여태처럼 본문과 한 덩어리로 가운데에 놓는다.
+     서명과 이북 푸터는 동시에 사용되지 않음 (이북 헤더 사용 시 본문 서명 비활성화). */
+  const footH = foot ? fh : ebh;
+  const hold = headHold + (footH ? footH + gap : 0);
   /* 장을 세기 «전에» 쪼개 둔다 — 한 단에 안 들어가는 글은 여기서 여러 블록이 되고,
      그다음부터는 pageRanges 가 그 사이를 끊을 수 있다 [splitTallRows]. */
   /* Android Chrome 은 문자별 Range 측정이 부정확하므로 예측 기반 분할을 쓴다.
@@ -6001,12 +6140,14 @@ function renderPageMarks() {
   /* 단을 쓰면 rg 한 칸은 «장» 이 아니라 «단» 이다 — 장은 그것을 N 개씩 묶은 것이다 */
   const N = colOn() ? colCount() : 1;
   const pages = Math.max(1, Math.ceil(rg.length / N));
-  const pin = !!foot && pages > 1;
+  /* 서명 또는 이북 푸터가 있고 여러 페이지면 하단 고정 */
+  const pin = (!!foot || !!ebFoot) && pages > 1;
   if (pin) {
-    footHold = fh + gap;
-    cv.style.setProperty('--foot-h', fh + 'px');
+    footHold = footH + gap;
+    cv.style.setProperty('--foot-h', footH + 'px');
     cv.classList.add('foot-pinned');
-    foot.classList.add('foot-pin');
+    if (foot) foot.classList.add('foot-pin');
+    if (ebFoot) ebFoot.classList.add('eb-foot-pin');
   }
 
   /* 단 하나가 전부면 앉힐 것이 없다 — 세로 가운데는 [ratio-center] 가 맡는다.
@@ -6052,11 +6193,19 @@ function renderPageMarks() {
       cv.appendChild(g);
     }
     /* 마지막 장의 서명은 진짜(.foot-pin)가 캔버스 바닥에 서 있다 — 앞 장에만 사본을 깐다 */
-    if (pin && i < pages - 1) {
+    if (pin && foot && i < pages - 1) {
       const g = foot.cloneNode(true);
       g.className = 'foot-ghost';
       g.removeAttribute('data-id');
       g.style.top = ((i + 1) * H - padB() - fh) + 'px';
+      cv.appendChild(g);
+    }
+    /* 이북 푸터도 마지막 장에 진짜가 있고, 앞 장에 사본을 깐다 */
+    if (pin && ebFoot && i < pages - 1) {
+      const g = ebFoot.cloneNode(true);
+      g.classList.add('eb-foot-ghost');
+      g.style.bottom = 'auto';
+      g.style.top = ((i + 1) * H - padB() - ebh) + 'px';
       cv.appendChild(g);
     }
   }
@@ -6094,8 +6243,8 @@ function setStage(st, keepNav) {
   if (st !== 'format' && S.ui.selectedBlockId) endEdit();
   if (st === 'composer') { S.ui.insertMode = null; }
   if (st === 'tools') S.ui.bulk = false;
-  /* v2: 도구 단계 진입/이탈 시 설정 패널 토글 */
-  toggleSettingsPanel(st === 'tools');
+  /* v2: 도구 단계 진입/이탈 시 설정 패널 토글 — 2패널에서는 항상 열림 */
+  toggleSettingsPanel(st === 'tools' || is2Panel());
   render();
 }
 function themeDraftDirty() {
@@ -6143,7 +6292,7 @@ function commitCharDraft() {
 function confirmDiscardCharDraft(onDiscard) {
   if (!charDraftDirty()) return false;
   const p = modal('저장하지 않은 캐릭터 수정이 있습니다',
-    '고치던 내용을 담고 나갈지, 버리고 나갈지 고르세요. 창 바깥을 누르면 돌아가 마저 고칩니다.');
+    '저장하지 않을 경우, 지금까지 입력한 내용은 삭제됩니다.');
   const foot = el('div', 'modal-foot');
   const keep = el('button', 'btn btn-primary', '저장');
   keep.onclick = () => {
@@ -6187,7 +6336,7 @@ function commitThemeDraft() {
 function confirmDiscardThemeDraft(onDiscard) {
   if (!themeDraftDirty()) return false;
   const p = modal('저장하지 않은 테마 수정이 있습니다',
-    '고치던 내용을 담고 나갈지, 버리고 나갈지 고르세요. 창 바깥을 누르면 돌아가 마저 고칩니다.');
+    '저장하지 않을 경우, 지금까지 입력한 내용은 삭제됩니다.');
   const foot = el('div', 'modal-foot');
   /* 나가는 길목마다 «취소» 를 눌러 되돌아가서 [저장] 을 다시 찾아 누르게 하는 것은,
      하려던 일(저장하고 나가기)을 두 걸음으로 쪼개 놓은 것뿐이다 — 여기서 바로 담는다.
@@ -6255,6 +6404,8 @@ window.addEventListener('resize', () => {
      편집기가 화면에서 사라지므로, 고치던 것이 있으면 도구 단계로 데려가 눈앞에 남긴다. */
   if (!now && themeDraftDirty() && S.ui.stage !== 'tools') { setStage('tools'); return; }
   render();
+  /* 2패널로 넓어지면 설정 패널을 연다 */
+  if (is2Panel()) toggleSettingsPanel(true);
 });
 window.addEventListener('resize', syncViewportVars);
 document.addEventListener('focusin', syncViewportVars);
@@ -6305,14 +6456,14 @@ function renderComposer() {
   if (toolsNarrow) { $('#optRow').hidden = true; }
 
   const b = selBlock();
-  /* 사진·서명·음악·HTML은 칸이 따로 있어 작성창을 쓰지 않는다 — 그동안 작성창은 쉰다.
+  /* 사진·서명·음악·HTML·구분선은 칸이 따로 있어 작성창을 쓰지 않는다 — 그동안 작성창은 쉰다.
      텍스트 블록은 기존 #ta를 사용해야 hasSel(), formatSelection() 등이 동작한다. */
-  const editorOn = !!S.ui.newKind || (!!b && (b.type === 'image' || b.type === 'footer' || b.type === 'music' || b.type === 'html'));
+  const editorOn = !!S.ui.newKind || (!!b && (b.type === 'image' || b.type === 'footer' || b.type === 'music' || b.type === 'html' || b.type === 'divider'));
   $('#composerInput').hidden = editorOn;
 
   ta.placeholder = S.ui.insertMode === 'html'
     ? 'HTML 을 입력하면 그대로 캔버스에 들어갑니다.'
-    : '문단을 기준으로 블록이 구분됩니다.';
+    : '입력 시 문단을 기준으로 블록이 자동 분할됩니다.';
 
   $('#optRow').hidden = true;
   renderComposerHint(b, editorOn);
@@ -6408,8 +6559,8 @@ function commitWithCleanup() {
   if (!found.length) { commit(); return; }
   const items = found.map(([k, name, desc]) => [k, name, desc + `  (${hit[k]}군데)`, true]);
   pickerModal(
-    '붙여넣은 글에 지울 것이 있습니다',
-    '고른 것만 걷어내고 캔버스에 올립니다. 단추로 준 서식은 건드리지 않습니다.',
+    '아래의 내용을 제거하고 올릴까요?',
+    '원하지 않는 서식을 걷어내고 캔버스에 올릴 수 있습니다.',
     items, '정리해서 올리기', 'btn-primary',
     selected => {
       junkStrip(ta, selected);
@@ -7016,7 +7167,7 @@ function openColorPop(anchor, cur, title, onPick, clearable) {
     pop.appendChild(grid);
 
     const pick = el('button', 'btn btn-quiet pop-pick');
-    pick.innerHTML = EYEDROPPER + '<span>색 직접 고르기</span>';
+    pick.innerHTML = EYEDROPPER + '<span>직접 고르기</span>';
     pick.onclick = () => stage2(false);
     pop.appendChild(pick);
     place();
@@ -7164,14 +7315,14 @@ function openResetModal() {
     '초기화할 항목을 선택하세요',
     '선택한 항목만 기본 상태로 되돌립니다. 선택하지 않은 항목은 그대로 유지됩니다.',
     [
-      ['characters', '캐릭터 프리셋', '저장한 캐릭터와 프로필 이미지를 삭제합니다.'],
-      ['themes', '테마 프리셋', `기본 테마 ${PRESET_THEMES.length}종으로 복원하고 사용자 테마 · 캔버스 설정을 삭제합니다.`],
-      ['colors', '색', '색 팔레트와 최근 쓴 색을 삭제합니다.'],
+      ['characters', '캐릭터 프리셋', '등록한 캐릭터 목록을 삭제합니다.'],
+      ['themes', '테마 프리셋', `추가 · 수정한 테마를 없애고 기본 테마 ${PRESET_THEMES.length}종으로 복원합니다.`],
+      ['colors', '색상', '색상 팔레트를 초기화합니다.'],
       /* 유일하게 «지우지 않는» 항목이다 — 브라우저가 들고 있던 예전 판만 버린다.
          고친 것이 화면에 안 나올 때 쓰는 자리라, 초기화를 찾아 들어온 손이 여기서 만난다. */
-      ['cache', '앱 캐시', '브라우저가 들고 있던 예전 판을 버리고 새로 받습니다. 작성한 내용은 지워지지 않습니다.']
+      ['cache', '앱 캐시', '브라우저 캐시를 지워 오류를 방지합니다.']
     ],
-    '선택 항목 초기화', 'btn-danger', selected => {
+    '초기화', 'btn-danger', selected => {
     const reset = [];
     /* 아래에서 작성창을 비우기 전에 챙겨 둔다 — 캐시만 고른 사람은 아무것도 잃지 않아야 한다 */
     const typed = $('#ta').value || '';
@@ -7607,21 +7758,16 @@ function buildMusicEditor(host, block) {
 
   /* 색 — 안 건드리면 모두 본문 글자색을 그대로 따라간다. 그래서 처음 값은 «지금 나오는
      그 색» 이다. 한 번 고르면 그 블록의 값이 되어 테마를 바꿔도 안 따라온다.
-     첫 줄은 «카드가 말하는 것»(제목·가수·재생 단추)과 그 옆의 북마크, 둘째 줄은 진행바.
      카드 배경만 홀로 맨 뒤에 두어 바로 아래 불투명도와 한 덩어리로
      읽히게 한다 — 그 둘이 실제로 «카드가 보이는 색» 하나를 만든다 [musicNode]. */
-  /* 색상 — 2열 배치: 글자색/진행바 색, 배경 색/북마크 색 */
+  /* 색상 — 글자색, 진행바 색, 배경 색 */
   const cg = el('div', 'grid2-sm');
-  /* 1행: 글자색 (제목·가수·단추), 진행바 색 */
   cg.appendChild(colorField('글자 색', block.textColor || block.btnColor || block.tint || th.fg,
     v => { block.textColor = v; block.btnColor = v; save(); renderCanvas(); }));
   cg.appendChild(colorField('진행바 색', block.barColor || block.tint || th.fg,
     v => { block.barColor = v; save(); renderCanvas(); }));
-  /* 2행: 배경 색, 북마크 색 */
   cg.appendChild(colorField('배경 색', block.card || MU_CARD,
     v => { block.card = v; save(); renderCanvas(); }));
-  cg.appendChild(colorField('북마크 색', block.heartColor || th.fg,
-    v => { block.heartColor = v; save(); renderCanvas(); }));
   body.appendChild(cg);
 
   /* 카드가 얼마나 비치는가 — 0 이면 아예 없는 것과 같고, 100 이면 꽉 찬 단색이다.
@@ -8011,13 +8157,27 @@ function buildTextEditor(host, block) {
   fontGrp.appendChild(fontSel);
   const sizeGrp = el('div', 'tool-grp');
   sizeGrp.appendChild(el('span', 'lab', '크기'));
-  const curSizeLv = block.sizeLv ?? 0;
+  const onSel = hasSel();
+  const curSizeLv = onSel ? richSizeLv() : (block.sizeLv ?? 0);
+  const applySizeTE = v => {
+    if (hasSel()) {
+      formatSelection(() => {
+        clearRich('szUp'); clearRich('szDn');
+        if (v > 0) applyRich('szUp'); else if (v < 0) applyRich('szDn');
+      });
+      return;
+    }
+    /* 블록 전체 */
+    clearRich('szUp'); clearRich('szDn'); block.text = reflowComposer(null);
+    if (v) block.sizeLv = v; else delete block.sizeLv;
+    save(); render();
+  };
   SIZE_LV_UI.forEach(([lv, label, cls]) => {
-    const btn = el('button', 'icb' + (curSizeLv === lv ? ' is-on' : ''));
+    const btn = el('button', 'icb' + (!onSel && curSizeLv === lv ? ' is-on' : ''));
     btn.style.boxShadow = 'none';
     btn.innerHTML = `<span class="szA ${cls}">${cls === 's' ? 'a' : 'A'}</span>`;
     btn.title = label;
-    btn.onclick = () => { block.sizeLv = lv; save(); render(); };
+    bindFormatAction(btn, () => applySizeTE(lv));
     sizeGrp.appendChild(btn);
   });
   line1.append(fontGrp, el('div', 'tool-sep'), sizeGrp);
@@ -8173,7 +8333,7 @@ function openBgImageModal(cur, onDone, t) {
   const was = { mode: c.mode || 'ratio', ratio: c.ratio };
   const p = modal('배경 이미지', t
     ? '미리보기에서 실제 캔버스와 동일하게 표시됩니다.'
-    : '고른 비율은 캔버스에도 그대로 적용됩니다.');
+    : '변경한 비율은 캔버스에 바로 적용됩니다.');
   const up = () => {
     /* t와 S.ui.themeDraft가 다른 객체일 수 있음 (클로저 문제)
        t의 배경 속성을 S.ui.themeDraft에 동기화해야 renderCanvas()에서 반영됨 */
@@ -8696,8 +8856,8 @@ function panelCanvas(p) {
     sec.appendChild(lseg);
     const lnote = el('div', 'lab-sub');
     lnote.style.margin = '9px 0 0';
-    lnote.textContent = '«' + (FRAMES.find(f => f[0] === frameKind(theme())) || [, ''])[1]
-      + '» 프레임이 판형을 정합니다 · 테마에서 프레임을 바꾸면 다시 고를 수 있습니다';
+    lnote.textContent = (FRAMES.find(f => f[0] === frameKind(theme())) || [, ''])[1]
+      + "은 캔버스 사이즈를 변경할 수 없습니다.";
     sec.appendChild(lnote);
     const dv0 = el('div', 'divider'); dv0.style.margin = '16px 0';
     sec.appendChild(dv0);
@@ -9383,7 +9543,7 @@ function syncThemeEditFormV2() {
     t.frame = 'none';
     t.header = 'none';
     if (['cyworld', 'buddy'].includes(v)) t.frame = v;
-    else if (['imessage', 'kakao', 'news'].includes(v)) t.header = v;
+    else if (['imessage', 'kakao', 'news', 'ebook'].includes(v)) t.header = v;
     rerender();
   };
   decoField.appendChild(decoSel);
@@ -9422,7 +9582,7 @@ function syncThemeEditFormV2() {
     optWrap.appendChild(themeAvatarField(t, {
       label: '대문 사진', title: '미니홈피 대문 사진',
       sub: '4:3 으로 잘라 넣습니다',
-      hint: '없으면 회색 사람 모양이 들어갑니다',
+      hint: '미지정 시 회색 사람 아이콘으로 대체됩니다.',
       ratio: '4:3', maxPx: 640
     }, rerender));
   } else if (frKind === 'buddy') {
@@ -9461,6 +9621,25 @@ function syncThemeEditFormV2() {
     df.appendChild(di);
     grid.appendChild(df);
     optWrap.appendChild(grid);
+  } else if (hdKind === 'ebook') {
+    hasOpts = true;
+    /* 선 색상 (배경색은 이 색의 옅은 버전으로 자동 생성) */
+    const cur = (t.ebookColor || '').trim();
+    const bgField = el('div', 'field');
+    bgField.style.marginTop = 'var(--sp-md)';
+    const bgHead = el('div', 'tgl-inline');
+    bgHead.appendChild(el('label', 'lab', '선 색상'));
+    const rs = el('button', 'btn btn-quiet btn-sm', '↺');
+    rs.title = '없음으로 되돌리기';
+    rs.disabled = !cur;
+    rs.style.cssText = 'width:24px;height:24px;padding:0;margin-left:auto';
+    rs.onclick = () => { t.ebookColor = ''; rerender(); };
+    bgHead.appendChild(rs);
+    bgField.appendChild(bgHead);
+    const cf = colorField('', cur || t.fg, v => { t.ebookColor = v; rs.disabled = false; up(); });
+    cf.style.marginTop = '6px';
+    bgField.appendChild(cf);
+    optWrap.appendChild(bgField);
   } else if (hdKind === 'imessage' || hdKind === 'kakao') {
     hasOpts = true;
     /* 메시지1/2: 이름 + 배경색 + (아이메시지만 프로필) */
@@ -9515,7 +9694,7 @@ function syncThemeEditFormV2() {
   if (lockR) {
     /* 프레임이 비율을 고정 */
     const note = el('div', 'lab-sub');
-    note.textContent = '«' + (FRAMES.find(f => f[0] === frKind) || [, ''])[1] + '» 프레임이 판형을 정합니다';
+    note.textContent = (FRAMES.find(f => f[0] === frKind) || [, ''])[1] + "은 캔버스 사이즈를 변경할 수 없습니다.";
     canvasBody.appendChild(note);
   } else {
     /* 크기 설정 탭: 내용 맞춤 / 페이지 분할 */
@@ -9646,7 +9825,7 @@ function syncThemeEditFormV2() {
   } else {
     const bgNote = el('div', 'lab-sub');
     bgNote.style.marginTop = 'var(--sp-md)';
-    bgNote.textContent = '프레임이 캔버스를 덮으므로 배경 이미지는 쓰지 않습니다.';
+    bgNote.textContent = (FRAMES.find(f => f[0] === frKind) || [, ''])[1] + "은 배경 이미지 설정이 불가합니다.";
     bgBody.appendChild(bgNote);
   }
   bgSection.appendChild(bgBody);
@@ -9666,7 +9845,13 @@ function syncThemeEditFormV2() {
   const styleSeg = el('div', 'seg');
   [['bubble', '말풍선'], ['quote', '인용'], ['script', '각본'], ['plain', '없음']].forEach(([v, l]) => {
     const b = el('button', (t.bubbleStyle || 'bubble') === v ? 'is-on' : '', l);
-    b.onclick = () => { t.bubbleStyle = v; if (v === 'quote' || v === 'script') t.groupRuns = false; rerender(); };
+    b.onclick = () => {
+      t.bubbleStyle = v;
+      if (v === 'quote' || v === 'script') t.groupRuns = false;
+      /* 각본은 이미지 표시 불가 */
+      if (v === 'script') { t.showAvatar = false; t.myAvatar = false; }
+      rerender();
+    };
     styleSeg.appendChild(b);
   });
   styleField.appendChild(styleSeg);
@@ -9689,49 +9874,73 @@ function syncThemeEditFormV2() {
   }
 
   if (isBubble) {
-    /* 말꼬리 */
-    const tailTgl = el('div', 'tgl-inline');
-    tailTgl.style.marginTop = 'var(--sp-md)';
-    tailTgl.appendChild(el('span', 'lab', '말꼬리'));
-    const tailBtn = el('div', 'tgl tgl-sm' + (t.showTail ? ' is-on' : ''));
-    tailBtn.onclick = () => { t.showTail = !t.showTail; rerender(); };
-    tailTgl.appendChild(tailBtn);
-    bubbleBody.appendChild(tailTgl);
+    /* 말풍선 스타일 프리셋 — Plain / Modern / iMessage / Kakaotalk */
+    const presetField = el('div', 'field');
+    presetField.style.marginTop = 'var(--sp-md)';
+    presetField.appendChild(el('label', 'lab', '말풍선 스타일'));
+    const presetOpts = Object.keys(BUBBLE_STYLES).map(k => [k, BUBBLE_STYLES[k].label]);
+    const currentPreset = resolvePreset(t);
+    presetField.appendChild(segment(presetOpts, currentPreset, v => {
+      t.bubblePreset = v;
+      /* 호환: 기존 tailShape/showTail 도 함께 설정 */
+      t.tailShape = v;
+      t.showTail = BUBBLE_STYLES[v].hasTail;
+      const preset = BUBBLE_STYLES[v];
+      if (preset && preset.radius != null) {
+        const r = preset.radius;
+        t.bubbleRadius = r;
+        /* modern은 brDetail/brLink 둘 다 끄고 brBL을 각진 모서리로 사용, 나머지는 brLink 켜기 */
+        if (preset.isCorner) {
+          t.brDetail = true;
+          t.brLink = false;
+          t.brTL = r; t.brTR = r; t.brBR = r;
+          t.brBL = preset.flatRadius ?? 2;
+        } else {
+          t.brDetail = false;
+          t.brLink = true;
+          t.brTL = t.brTR = t.brBL = t.brBR = r;
+        }
+      }
+      rerender();
+    }));
+    bubbleBody.appendChild(presetField);
 
-    if (t.showTail) {
-      /* 말꼬리 모양 (점 제외) */
-      const tailShapeField = el('div', 'field');
-      tailShapeField.style.marginTop = 'var(--sp-md)';
-      tailShapeField.appendChild(el('label', 'lab', '말꼬리 모양'));
-      const tailShapes = Object.keys(TAILS).filter(k => k !== 'dot').map(k => [k, TAILS[k].label]);
-      tailShapeField.appendChild(segment(tailShapes, t.tailShape || 'curve', v => {
-        t.tailShape = v;
-        const r = TAILS[v] && TAILS[v].radius;
-        if (r != null) { t.bubbleRadius = r; t.brDetail = false; }
-        rerender();
-      }));
-      bubbleBody.appendChild(tailShapeField);
+    /* 모서리 둥글기 — 프리셋별로 UI가 다름:
+       Plain: 함께 토글 + 4코너/1스텝퍼 전환
+       Modern: 함께 토글 없음, 4코너(3개 연동)
+       iMessage/Kakaotalk: 함께 토글 없음, 1스텝퍼만 */
+    const curPreset = resolvePreset(t);
+    const isPlain = curPreset === 'plain';
+    const isModern = curPreset === 'modern';
 
-      /* 말꼬리 방향 */
-      const tailPosField = el('div', 'field');
-      tailPosField.style.marginTop = 'var(--sp-md)';
-      tailPosField.appendChild(el('label', 'lab', '말꼬리 방향'));
-      tailPosField.appendChild(segment(TAIL_POS, tailPos(t), v => { t.tailPos = v; rerender(); }));
-      bubbleBody.appendChild(tailPosField);
-    }
-
-    /* 모서리 둥글기 (함께 토글 + 4개 항상 노출) */
     const radiusHead = el('div', 'tgl-inline');
     radiusHead.style.marginTop = 'var(--sp-md)';
     radiusHead.appendChild(el('span', 'lab', '모서리 둥글기'));
-    const radiusLinkWrap = el('div', 'tgl-inline');
-    radiusLinkWrap.style.cssText = 'gap:6px;margin-left:auto';
-    radiusLinkWrap.appendChild(el('span', 'lab', '함께'));
-    if (t.brLink == null) t.brLink = true;
-    const radiusTgl = el('div', 'tgl tgl-sm' + (t.brLink ? ' is-on' : ''));
-    radiusTgl.onclick = () => { t.brLink = !t.brLink; radiusTgl.classList.toggle('is-on'); };
-    radiusLinkWrap.appendChild(radiusTgl);
-    radiusHead.appendChild(radiusLinkWrap);
+
+    /* Plain만 함께 토글 표시 */
+    if (isPlain) {
+      const radiusLinkWrap = el('div', 'tgl-inline');
+      radiusLinkWrap.style.cssText = 'gap:6px;margin-left:auto';
+      radiusLinkWrap.appendChild(el('span', 'lab', '함께'));
+      if (t.brLink == null) t.brLink = true;
+      const radiusTgl = el('div', 'tgl tgl-sm' + (t.brLink ? ' is-on' : ''));
+      radiusTgl.onclick = () => {
+        t.brLink = !t.brLink;
+        /* brDetail도 동기화 — 렌더링은 brDetail을 확인함 */
+        t.brDetail = !t.brLink;
+        if (t.brDetail) {
+          /* 개별 모드로 전환: 현재 bubbleRadius로 4코너 초기화 */
+          const r = t.bubbleRadius ?? 18;
+          t.brTL = t.brTR = t.brBL = t.brBR = r;
+        } else {
+          /* 함께 모드로 전환: 4코너 중 가장 큰 값을 bubbleRadius로 */
+          t.bubbleRadius = Math.max(t.brTL ?? 18, t.brTR ?? 18, t.brBL ?? 18, t.brBR ?? 18);
+        }
+        rerender();
+      };
+      radiusLinkWrap.appendChild(radiusTgl);
+      radiusHead.appendChild(radiusLinkWrap);
+    }
     bubbleBody.appendChild(radiusHead);
 
     /* 4개 값 초기화 — 없으면 bubbleRadius에서 가져옴 */
@@ -9743,23 +9952,50 @@ function syncThemeEditFormV2() {
 
     const radiusGrid = el('div', 'grid-2');
     radiusGrid.style.cssText = 'margin-top:var(--sp-sm);row-gap:9px';
-    const mkRadius = (lab, key) => {
-      const sync = v => {
-        t[key] = v;
-        if (t.brLink) {
-          t.brTL = t.brTR = t.brBL = t.brBR = v;
+
+    if (isPlain) {
+      /* Plain: 함께 켜면 1스텝퍼, 끄면 4코너 (brLink와 brDetail 동기화됨) */
+      if (t.brLink) {
+        const singleStep = stepH('둥글기', t.bubbleRadius ?? 18, 0, 28, 1, v => {
           t.bubbleRadius = v;
-          rerender();
-          return;
-        }
+          t.brTL = t.brTR = t.brBL = t.brBR = v;
+          t.brDetail = false; /* 렌더링용 */
+          up();
+        });
+        singleStep.style.gridColumn = '1 / -1';
+        radiusGrid.appendChild(singleStep);
+      } else {
+        const mkPlain = (lab, key) => stepH(lab, t[key] ?? 18, 0, 28, 1, v => {
+          t[key] = v;
+          t.brDetail = true; /* 렌더링용 */
+          up();
+        });
+        radiusGrid.appendChild(mkPlain('좌상', 'brTL'));
+        radiusGrid.appendChild(mkPlain('우상', 'brTR'));
+        radiusGrid.appendChild(mkPlain('좌하', 'brBL'));
+        radiusGrid.appendChild(mkPlain('우하', 'brBR'));
+      }
+    } else if (isModern) {
+      /* Modern: 스텝퍼 2개 — 둥근(3코너 연동) / 뾰족(brBL) */
+      radiusGrid.appendChild(stepH('둥근', t.bubbleRadius ?? 20, 0, 28, 1, v => {
+        t.bubbleRadius = v;
+        t.brTL = t.brTR = t.brBR = v;
         up();
-      };
-      return stepH(lab, t[key] ?? 14, 0, 28, 1, sync);
-    };
-    radiusGrid.appendChild(mkRadius('좌상', 'brTL'));
-    radiusGrid.appendChild(mkRadius('우상', 'brTR'));
-    radiusGrid.appendChild(mkRadius('좌하', 'brBL'));
-    radiusGrid.appendChild(mkRadius('우하', 'brBR'));
+      }));
+      radiusGrid.appendChild(stepH('뾰족', t.brBL ?? 2, 0, 28, 1, v => {
+        t.brBL = v;
+        up();
+      }));
+    } else {
+      /* iMessage / Kakaotalk: 스텝퍼 1개만 */
+      const singleStep = stepH('둥글기', t.bubbleRadius ?? 14, 0, 28, 1, v => {
+        t.bubbleRadius = v;
+        t.brTL = t.brTR = t.brBL = t.brBR = v;
+        up();
+      });
+      singleStep.style.gridColumn = '1 / -1';
+      radiusGrid.appendChild(singleStep);
+    }
     bubbleBody.appendChild(radiusGrid);
   }
 
@@ -9803,7 +10039,7 @@ function syncThemeEditFormV2() {
   /* ═══ 텍스트 서식 ═══ */
   const textSection = el('div', 'section' + (openSec.text ? ' open' : ''));
   const textHeader = el('div', 'section-header');
-  textHeader.innerHTML = '<h3>텍스트 서식</h3><svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>';
+  textHeader.innerHTML = '<h3>서식</h3><svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>';
   textHeader.onclick = () => { openSec.text = !openSec.text; textSection.classList.toggle('open'); };
   textSection.appendChild(textHeader);
   const textBody = el('div', 'section-body');
@@ -10418,7 +10654,7 @@ function themeAvatarField(t, opts, onUpdate) {
     /* .hint 는 패널 «바깥» 여백(--pad)을 안고 있어 여기서는 혼자 안으로 들어가 보인다 —
        칸 안에서 쓰는 잔글씨(.lab-sub)로 둔다. 다른 안내 줄과도 같은 결이 된다. */
     side.appendChild(Object.assign(el('div', 'lab-sub'),
-      { textContent: o.hint || '없으면 회색 사람 모양이 들어갑니다' }));
+      { textContent: o.hint || '미지정 시 회색 사람 아이콘으로 대체됩니다.' }));
   }
   row.append(avBtn, side);
   avBox.appendChild(row);
@@ -10545,7 +10781,7 @@ function themeEditor() {
     frBox.appendChild(themeAvatarField(t, {
       label: '대문 사진', title: '미니홈피 대문 사진',
       sub: '4:3 으로 잘라 넣습니다. 끌어서 위치를, 아래에서 크기를 맞추세요.',
-      hint: '없으면 회색 사람 모양이 들어갑니다',
+      hint: '미지정 시 회색 사람 아이콘으로 대체됩니다.',
       ratio: '4:3', maxPx: 640
     }, render));
   }
@@ -10565,8 +10801,8 @@ function themeEditor() {
     cvBox.appendChild(lseg);
     const lnote = el('div', 'lab-sub');
     lnote.style.margin = '9px 0 0';
-    lnote.textContent = '«' + (FRAMES.find(f => f[0] === frameKind(theme())) || [, ''])[1]
-      + '» 프레임이 판형을 정합니다';
+    lnote.textContent = (FRAMES.find(f => f[0] === frameKind(theme())) || [, ''])[1]
+      + "은 캔버스 사이즈를 변경할 수 없습니다.";
     cvBox.appendChild(lnote);
   } else {
     cvBox.appendChild(el('span', 'sec-lab', '판형'));
@@ -10669,7 +10905,7 @@ function themeEditor() {
   if (frKind !== 'none') {
     const bgNote = el('div', 'lab-sub');
     bgNote.style.marginTop = '11px';
-    bgNote.textContent = '프레임이 캔버스를 덮으므로 배경 이미지는 쓰지 않습니다.';
+    bgNote.textContent = (FRAMES.find(f => f[0] === frKind) || [, ''])[1] + "은 배경 이미지 설정이 불가합니다.";
     box.appendChild(bgNote);
   } else {
     /* 배경 이미지 — v2 스타일: 버튼만 두고 모달에서 설정 */
@@ -10787,28 +11023,41 @@ function themeEditor() {
      의미 없다. «각본» 은 이름과 말이 한 줄에 오는 꼴이다 [.s-row]. */
   const bs = t.bubbleStyle || 'bubble';
   st2.appendChild(segment([['bubble', '말풍선'], ['quote', '인용구'], ['script', '각본'], ['plain', '없음']],
-    bs, v => { t.bubbleStyle = v; if (v === 'quote' || v === 'script') t.groupRuns = false; render(); }));
+    bs, v => {
+      t.bubbleStyle = v;
+      if (v === 'quote' || v === 'script') t.groupRuns = false;
+      /* 각본은 이미지 표시 불가 */
+      if (v === 'script') { t.showAvatar = false; t.myAvatar = false; }
+      render();
+    }));
   const isBubble = bs === 'bubble';
-  if (isBubble) st2.appendChild(toggleRow('말꼬리 추가', '', t.showTail, v => { t.showTail = v; render(); }));
-  if (isBubble && t.showTail) {
-    /* [원본 setBubbleTailSize · setBubbleTailPosition] 범위까지 그대로.
-       원본에는 위·중간·아래 같은 프리셋이 없다 — 크기와 오프셋 두 축뿐이다. */
-    st2.appendChild(segment(Object.keys(TAILS).map(k => [k, TAILS[k].label]), t.tailShape || 'curve',
-      v => {
-        t.tailShape = v;
-        /* 모양마다 어울리는 둥글기가 정해져 있다 — 고를 때 함께 맞춘다.
-           고정은 아니다. 아래 '모서리 둥글기' 에서 언제든 다시 잡을 수 있다. */
-        const r = TAILS[v] && TAILS[v].radius;
-        if (r != null) { t.bubbleRadius = r; t.brDetail = false; }
-        render();
-      }));
-
-    /* 붙는 자리 — 위냐 아래냐. 값을 손으로 옮겨 맞추는 대신 기준 변을 통째로 바꾼다.
-       그래야 한 줄짜리든 여러 줄짜리든 같은 자리에 붙는다. */
-    const pos = el('div');
-    pos.appendChild(el('span', 'lab', '말꼬리 방향'));
-    pos.appendChild(segment(TAIL_POS, tailPos(t), v => { t.tailPos = v; render(); }));
-    st2.appendChild(pos);
+  /* 말풍선 스타일 프리셋 — Plain / Modern / iMessage / Kakaotalk */
+  if (isBubble) {
+    const presetOpts = Object.keys(BUBBLE_STYLES).map(k => [k, BUBBLE_STYLES[k].label]);
+    const currentPreset = resolvePreset(t);
+    st2.appendChild(segment(presetOpts, currentPreset, v => {
+      t.bubblePreset = v;
+      /* 호환: 기존 tailShape/showTail 도 함께 설정 */
+      t.tailShape = v;
+      t.showTail = BUBBLE_STYLES[v].hasTail;
+      const preset = BUBBLE_STYLES[v];
+      if (preset && preset.radius != null) {
+        const r = preset.radius;
+        t.bubbleRadius = r;
+        /* modern은 brDetail/brLink 둘 다 끄고 brBL을 각진 모서리로 사용, 나머지는 brLink 켜기 */
+        if (preset.isCorner) {
+          t.brDetail = true;
+          t.brLink = false;
+          t.brTL = r; t.brTR = r; t.brBR = r;
+          t.brBL = preset.flatRadius ?? 2;
+        } else {
+          t.brDetail = false;
+          t.brLink = true;
+          t.brTL = t.brTR = t.brBL = t.brBR = r;
+        }
+      }
+      render();
+    }));
   }
   /* 연속 발화 묶기 — 이름·이미지·꼬리·간격이 한꺼번에 달라지므로 한 자리에서 켜고 끈다.
      말풍선·인용·각본 모두 적용 (plain 제외) */
@@ -10817,37 +11066,76 @@ function themeEditor() {
       '',
       t.groupRuns !== false, v => { t.groupRuns = v; render(); }));
   }
-  /* 켜고 끄는 값이 아니라 늘 있는 값이라 토글을 빼고 스테퍼만 둔다.
-     캔버스 여백과 같은 꺾쇠로 네 귀를 따로 잡을 수 있다. */
+  /* 모서리 둥글기 — 프리셋별로 UI가 다름:
+     Plain: 펼침 버튼 + 4코너/1스텝퍼 전환
+     Modern: 펼침 버튼 없음, 4코너(3개 연동) + UI 업데이트
+     iMessage/Kakaotalk: 펼침 버튼 없음, 1스텝퍼만 */
+  const curPresetB = resolvePreset(t);
+  const isPlainB = curPresetB === 'plain';
+  const isModernB = curPresetB === 'modern';
+
   const brWrap = el('div');
-  brWrap.hidden = !isBubble;        /* 배경이 없으면 모서리를 둥글릴 것도 없다 */
-  /* 위(표시 형태·꼬리)는 '무엇을 그리나', 아래는 '그 모서리를 얼마나 굴리나' — 성격이 달라 선으로 가른다 */
+  brWrap.hidden = !isBubble;
   const brDv = el('div', 'divider'); brDv.hidden = !isBubble;
   brWrap.appendChild(brDv);
   const brHead = el('div', 'row-between');
-  /* 아래가 스테퍼 묶음이라 '캔버스 여백 · 글꼴 상세 설정' 과 같은 구획 제목 크기를 쓴다 */
-  const brLab = el('span', 'sec-lab', t.brDetail ? '모서리 둥글기 (왼쪽 기준)' : '모서리 둥글기');
+  const brLab = el('span', 'sec-lab', (isPlainB && t.brDetail) ? '모서리 둥글기 (왼쪽 기준)' : '모서리 둥글기');
   brLab.style.margin = '0';
   brHead.appendChild(brLab);
-  const brTg = el('button', 'icb icb-sm');
-  brTg.title = t.brDetail ? '네 귀를 한 값으로 합치기' : '네 귀를 따로 지정';
-  brTg.innerHTML = `<svg viewBox="0 0 24 24"><path d="${t.brDetail ? 'M18 15l-6-6-6 6' : 'M6 9l6 6 6-6'}"/></svg>`;
-  brTg.onclick = () => {
-    t.brDetail = !t.brDetail;
-    /* 나눌 때는 지금 값에서 출발하고, 합칠 때는 가장 둥근 귀를 대표값으로 삼는다 */
-    if (t.brDetail) { const r = t.bubbleRadius ?? 14; t.brTL = t.brTR = t.brBR = t.brBL = r; }
-    else t.bubbleRadius = Math.max(t.brTL ?? 14, t.brTR ?? 14, t.brBR ?? 14, t.brBL ?? 14);
-    render();
-  };
-  brHead.appendChild(brTg); brWrap.appendChild(brHead);
+
+  /* Plain만 펼침/접기 버튼 표시 */
+  if (isPlainB) {
+    const brTg = el('button', 'icb icb-sm');
+    brTg.title = t.brDetail ? '네 귀를 한 값으로 합치기' : '네 귀를 따로 지정';
+    brTg.innerHTML = `<svg viewBox="0 0 24 24"><path d="${t.brDetail ? 'M18 15l-6-6-6 6' : 'M6 9l6 6 6-6'}"/></svg>`;
+    brTg.onclick = () => {
+      t.brDetail = !t.brDetail;
+      if (t.brDetail) { const r = t.bubbleRadius ?? 14; t.brTL = t.brTR = t.brBR = t.brBL = r; }
+      else t.bubbleRadius = Math.max(t.brTL ?? 14, t.brTR ?? 14, t.brBR ?? 14, t.brBL ?? 14);
+      render();
+    };
+    brHead.appendChild(brTg);
+  }
+  brWrap.appendChild(brHead);
+
   const brBox = el('div', 'grid2'); brBox.style.cssText = 'margin-top:9px;row-gap:9px';
-  if (t.brDetail) {
-    brBox.appendChild(stepH('좌상', t.brTL ?? 14, 0, 28, 1, v => { t.brTL = v; up(); }));
-    brBox.appendChild(stepH('우상', t.brTR ?? 14, 0, 28, 1, v => { t.brTR = v; up(); }));
-    brBox.appendChild(stepH('좌하', t.brBL ?? 14, 0, 28, 1, v => { t.brBL = v; up(); }));
-    brBox.appendChild(stepH('우하', t.brBR ?? 14, 0, 28, 1, v => { t.brBR = v; up(); }));
+
+  if (isPlainB) {
+    /* Plain: brDetail 켜면 4코너, 끄면 1스텝퍼 */
+    if (t.brDetail) {
+      const mkPlainB = (lab, key) => stepH(lab, t[key] ?? 18, 0, 28, 1, v => {
+        t[key] = v;
+        t.brDetail = true; /* 렌더링용 */
+        up();
+      });
+      brBox.appendChild(mkPlainB('좌상', 'brTL'));
+      brBox.appendChild(mkPlainB('우상', 'brTR'));
+      brBox.appendChild(mkPlainB('좌하', 'brBL'));
+      brBox.appendChild(mkPlainB('우하', 'brBR'));
+    } else {
+      brBox.appendChild(stepH('둥글기', t.bubbleRadius ?? 18, 0, 28, 1, v => {
+        t.bubbleRadius = v;
+        t.brTL = t.brTR = t.brBL = t.brBR = v;
+        t.brDetail = false; /* 렌더링용 */
+        up();
+      }));
+    }
+  } else if (isModernB) {
+    /* Modern: 스텝퍼 2개 — 둥근(3코너 연동) / 뾰족(brBL) */
+    brBox.appendChild(stepH('둥근', t.bubbleRadius ?? 20, 0, 28, 1, v => {
+      t.bubbleRadius = v;
+      t.brTL = t.brTR = t.brBR = v;
+      up();
+    }));
+    brBox.appendChild(stepH('뾰족', t.brBL ?? 2, 0, 28, 1, v => {
+      t.brBL = v;
+      up();
+    }));
   } else {
-    brBox.appendChild(stepH('둥글기', t.bubbleRadius ?? 14, 0, 28, 1, v => { t.bubbleRadius = v; up(); }));
+    /* iMessage / Kakaotalk: 스텝퍼 1개만 */
+    brBox.appendChild(stepH('둥글기', t.bubbleRadius ?? 14, 0, 28, 1, v => {
+      t.bubbleRadius = v; t.brTL = t.brTR = t.brBL = t.brBR = v; up();
+    }));
   }
   brWrap.appendChild(brBox); st2.appendChild(brWrap);
   box.appendChild(st2);
@@ -12081,7 +12369,7 @@ async function exportPNG() {
   /* 미리보기용 표시만 걷어 낸다 — 못 박은 화면머리·서명(.head-pin/.foot-pin)과 그 자리
      (--head-h/--foot-h)는 저장할 그림 자체이므로 그대로 둔다. 구분선·사본·장마다 앉힌
      여백은 장을 이어 붙여 보여 주려던 것이고, 저장은 장마다 캔버스를 새로 세우므로 없어야 한다. */
-  cv.querySelectorAll('.pagemark, .foot-ghost, .head-ghost, .frame-ghost').forEach(n => n.remove());
+  cv.querySelectorAll('.pagemark, .foot-ghost, .head-ghost, .frame-ghost, .eb-foot-ghost').forEach(n => n.remove());
   clearPageOffsets(cv);
   try {
     const hti = await loadHTI();
@@ -12244,8 +12532,8 @@ const SETTINGS_TYPE = 'chat-excerpt/settings';
    (글자 서식은 테마 안에 산다[t.fmt] — 전역 기본값도 테마와 한 갈래로 묶는다.) */
 const SETTINGS_PARTS = [
   ['characters', '캐릭터', '저장한 캐릭터와 프로필 이미지'],
-  ['themes', '테마', '테마 목록 · 글자 서식 · 캔버스 설정'],
-  ['colors', '색', '색 팔레트와 최근 쓴 색']
+  ['themes', '테마', '테마 목록'],
+  ['colors', '색상', '추가한 색상 프리셋']
 ];
 /* 파일 안에 그 갈래가 실제로 들어 있는가 — 불러오기 모달이 고를 수 있는 것만 켜 준다 */
 function settingsHas(d, key) {
@@ -12260,9 +12548,9 @@ const partName = key => (SETTINGS_PARTS.find(p => p[0] === key) || [, key])[1];
 function openExportModal() {
   pickerModal(
     '내보낼 항목을 선택하세요',
-    '고른 항목만 파일에 담깁니다. 작성한 내용(블록)은 담기지 않습니다.',
+    '고른 항목이 JSON 파일로 저장됩니다.',
     SETTINGS_PARTS.map(([k, n, d]) => [k, n, d, true]),
-    '선택 항목 내보내기', 'btn-primary', picked => { closeModal(); exportSettings(picked); });
+    '내보내기', 'btn-primary', picked => { closeModal(); exportSettings(picked); });
 }
 
 function exportSettings(picked) {
@@ -12286,15 +12574,15 @@ function exportSettings(picked) {
 
 /* 불러오는 방식 — 지금 것을 두고 뒤에 «더할지», 지금 것 «대신» 넣을지.
    캐릭터·테마·색은 목록이라 더할 수 있지만, 캔버스는 테마와 함께 들어온다. */
-const IMPORT_MODES = [['merge', '기존에 더하기'], ['replace', '덮어쓰기']];
+const IMPORT_MODES = [['merge', '기존 항목 유지'], ['replace', '덮어쓰기']];
 const IMPORT_NOTE = {
-  merge: '캐릭터 · 테마 · 색은 지금 것을 그대로 두고 뒤에 더합니다. 캔버스는 테마와 함께 덮어씁니다.',
-  replace: '고른 항목을 지금 것 «대신» 넣습니다. 지금 캐릭터와 테마는 사라집니다.'
+  merge: '기존 캐릭터 · 테마 · 색을 유지하고 새로운 항목을 추가합니다.',
+  replace: '새 항목을 추가하고, 지금 캐릭터 · 테마 · 색을 지웁니다.'
 };
 function openImportModal(d) {
   let mode = 'merge';
   const wrap = el('div');
-  wrap.appendChild(el('span', 'lab', '불러오는 방식'));
+  wrap.appendChild(el('span', 'lab', '방식'));
   const note = el('div', 'lab-sub', IMPORT_NOTE[mode]);
   note.style.margin = '8px 0 0';
   const seg = segment(IMPORT_MODES, mode, v => {
@@ -12307,12 +12595,12 @@ function openImportModal(d) {
 
   pickerModal(
     '불러올 항목을 선택하세요',
-    '고른 항목만 지금 설정에 반영합니다. 고르지 않은 항목은 그대로 둡니다.',
+    '고른 항목만 JSON 파일에서 가지고 옵니다.',
     SETTINGS_PARTS.map(([k, n, desc]) => {
       const on = settingsHas(d, k);
-      return [k, n, on ? desc : '이 파일에는 없습니다', on, on];
+      return [k, n, on ? desc : '해당 항목은 파일에 포함돼 있지 않습니다.', on, on];
     }),
-    '선택 항목 불러오기', 'btn-primary', picked => {
+    '불러오기', 'btn-primary', picked => {
       const added = applySettings(d, picked, mode);
       save(); closeModal(); render();
       toast((mode === 'merge' ? '더했습니다 · ' : '덮어썼습니다 · ') + added.join(' · '));
@@ -12961,6 +13249,8 @@ save();
 ensureFontCss(fmt().font);
 syncViewportVars();
 render();
+/* 2패널에서는 설정 패널을 처음부터 연다 */
+if (is2Panel()) toggleSettingsPanel(true);
 /* 캐시를 비우며 맡아 둔 «치던 글» 을 돌려준다 [clearCacheAndReload]. render() 뒤라야 한다 —
    앞에 두면 render 가 작성창을 제 손으로 비우며 함께 지운다. */
 try {
