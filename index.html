@@ -627,6 +627,35 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .cv-foot-ebook .hd-nav.right{justify-content:flex-end}
 .cv-foot-ebook .hd-sign{font-size:.75em;text-align:center;opacity:.6}
 
+/* 이북 모던 — 헤더 + 진행률 바 + 푸터 조합. preview 디자인 기반. */
+.hd-ebook-modern{--hd-size:1em;--eb-pad:14px;
+  background:linear-gradient(to bottom, rgba(0,0,0,.08) 0%, transparent 100%);
+  margin-left:calc(var(--cv-pl,32px) * -1);margin-right:calc(var(--cv-pr,32px) * -1);
+  margin-top:calc(var(--cv-pt,28px) * -1);padding:12px var(--eb-pad)}
+.hd-ebook-modern.light{background:linear-gradient(to bottom, rgba(0,0,0,.04) 0%, transparent 100%)}
+.hd-ebook-modern .hd-row{display:flex;justify-content:space-between;align-items:center}
+.hd-ebook-modern .hd-title{font-weight:500;font-size:.85em;letter-spacing:-.01em}
+.hd-ebook-modern svg{width:1em;height:1em;stroke-width:2;opacity:.6}
+/* 이북 모던 푸터 — 진행률 바 + 네비게이션 */
+.cv-foot-ebook-modern{--eb-pad:14px;position:absolute;left:0;right:0;bottom:0;
+  background:linear-gradient(to top, rgba(0,0,0,.08) 0%, transparent 100%);
+  padding:12px var(--eb-pad) 14px}
+.cv-foot-ebook-modern.light{background:linear-gradient(to top, rgba(0,0,0,.03) 0%, transparent 100%)}
+/* 진행률 바 영역 */
+.cv-foot-ebook-modern .eb-progress{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.cv-foot-ebook-modern .eb-bar{flex:1;height:3px;background:currentColor;opacity:.15;border-radius:2px;
+  position:relative;overflow:hidden}
+.cv-foot-ebook-modern .eb-fill{position:absolute;left:0;top:0;height:100%;
+  background:currentColor;opacity:.5;border-radius:2px;display:block}
+.cv-foot-ebook-modern .eb-pct{font-size:.6em;opacity:.4;min-width:24px;text-align:right}
+/* 하단 네비게이션 */
+.cv-foot-ebook-modern .hd-row{display:flex;justify-content:space-between;align-items:center;font-size:.7em}
+.cv-foot-ebook-modern .hd-nav{opacity:.5;display:flex;align-items:center;gap:2px}
+.cv-foot-ebook-modern .hd-nav svg{width:.85em;height:.85em;stroke-width:2.5}
+.cv-foot-ebook-modern .hd-sign{opacity:.5}
+/* 여러 장일 때 마지막 페이지에 고정 — 캔버스 하단 여백 위에 위치 */
+.cv-foot-ebook-modern.eb-foot-pin{bottom:var(--cv-pb,32px)}
+
 /* ═══ 프레임 ══════════════════════════════════════════════════
    화면머리가 «맨 위에 눕는 띠» 라면 프레임은 «사방을 두른 창» 이다 — 캔버스 네 변을
    껍데기가 통째로 먹고, 본문은 그 안에 뚫린 칸(.fr-hole)에만 흐른다.
@@ -908,6 +937,62 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .blk-bubble.is-me .bub.as-quote{padding:1px 11px 1px 0;
   border-left:0;border-right:3px solid var(--bub-bg,#E9E9EC)}
 .blk-bubble .bub.as-plain{background:none;border-radius:0;padding:0}
+/* 알림 스타일 — iOS 잠금화면 알림 말풍선. 블록 전체에 배경 적용. 이미지·이름 강제 표시. */
+.blk-bubble.n-row{
+  background:var(--notif-bg,rgba(255,255,255,0.25));
+  border-radius:20px;padding:12px 14px;gap:12px;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  box-shadow:0 2px 12px rgba(0,0,0,0.1);
+  align-items:flex-start;
+}
+/* 알림 아바타 — 42px, 라운드, 뱃지가 밖으로 나오도록 overflow:visible */
+.blk-bubble.n-row .av{
+  width:42px !important;height:42px !important;flex:0 0 42px !important;
+  border-radius:50% !important;position:relative;overflow:visible !important;
+}
+.blk-bubble.n-row .av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+/* 메시지 앱 뱃지 */
+.blk-bubble.n-row .av .notif-badge{
+  position:absolute;bottom:-2px;right:-2px;width:20px;height:20px;border-radius:5px;
+  background:#34c759;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 1px 3px rgba(0,0,0,0.2);z-index:1;
+}
+.blk-bubble.n-row .av .notif-badge svg{width:14px;height:14px;fill:#fff}
+/* 알림 col — 이름과 본문 좌측 맞춤 */
+.blk-bubble.n-row .col{flex:1;max-width:100%;gap:1px;display:flex;flex-direction:column;align-items:stretch !important}
+/* 알림 이름 — 굵고 약간 크게, 좌측 맞춤 */
+.blk-bubble.n-row .who{font-size:1em !important;font-weight:600 !important;opacity:1 !important;padding:0 !important;margin:0 !important;width:100%}
+/* 알림 본문 — 약간 작고 흐리게, 좌측 맞춤 */
+.blk-bubble .bub.as-notif{background:transparent !important;border-radius:0 !important;padding:0 !important;margin:0 !important;font-size:.9em;opacity:.6;width:100%}
+/* SNS 스타일 — 트위터/X 형태의 게시물. 블록 전체에 배경 적용. */
+.blk-bubble.x-row{
+  background:var(--sns-bg,transparent);
+  padding:12px 14px;border-radius:0;gap:12px;
+  align-items:flex-start;
+}
+/* SNS 아바타 — 48px */
+.blk-bubble.x-row .av{
+  width:48px !important;height:48px !important;flex:0 0 48px !important;
+  border-radius:50% !important;
+}
+.blk-bubble.x-row .av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+/* SNS col — 이름·본문·아이콘 간격 균일하게 */
+.blk-bubble.x-row .col{flex:1;max-width:100%;gap:6px;display:flex;flex-direction:column;align-items:stretch !important}
+/* SNS 헤더 (이름 + 더보기) */
+.blk-bubble.x-row .sns-header{display:flex;align-items:center;width:100%;gap:6px}
+.blk-bubble.x-row .sns-header .who{flex:1;font-size:1em !important;font-weight:700 !important;opacity:1 !important;padding:0 !important;margin:0 !important}
+.blk-bubble.x-row .sns-header .sns-more{opacity:0.5;flex-shrink:0}
+.blk-bubble.x-row .sns-header .sns-more svg{width:18px;height:18px;fill:currentColor}
+/* SNS 본문 */
+.blk-bubble .bub.as-sns{background:transparent !important;border-radius:0 !important;padding:0 !important;margin:0 !important;width:100%}
+/* SNS 액션 아이콘 */
+.blk-bubble .bub.as-sns .sns-actions{display:flex;align-items:center;gap:40px;margin-top:6px}
+.blk-bubble .bub.as-sns .sns-action{opacity:0.5}
+.blk-bubble .bub.as-sns .sns-action svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+/* SNS 우측 액션 (북마크, 공유) */
+.blk-bubble .bub.as-sns .sns-actions-right{display:flex;gap:12px;margin-left:auto}
+/* SNS 대사 묶기 — 간격 좁히고 구분선 추가 */
+.is-run > .blk-bubble.x-row{margin-top:0;border-top:1px solid rgba(128,128,128,0.12)}
 /* 말풍선은 메신저를 흉내 낸 것이고, 메신저는 어절을 지키지 않고 «글자» 단위로 끊는다.
    상자가 글자에 딱 맞게 좁아서 어절을 지키면 오른쪽이 뭉텅이로 비기 때문이다.
    글 블록[.blk-text]·인용·없음은 말풍선이 아니라 문단이라 여태처럼 어절을 지킨다(keep-all). */
@@ -1527,6 +1612,15 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 /* 없음 (텍스트만) */
 .theme-card .bubble-preview.is-none{
   background:transparent !important;border-radius:0;
+}
+/* 알림 스타일 */
+.theme-card .bubble-preview.is-notif{
+  border-radius:10px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  box-shadow:0 1px 6px rgba(0,0,0,0.08);
+}
+/* SNS 스타일 */
+.theme-card .bubble-preview.is-sns{
+  background:transparent !important;border-radius:0;text-align:left;
 }
 .theme-card .nm{font-size:var(--fs-xs);line-height:1;color:var(--c-text-secondary,#636366);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .theme-card.is-on{border-color:var(--c-primary,#8A9F7A)}
@@ -4107,6 +4201,105 @@ function dropEmptyMarks(root) {
   });
 }
 
+/* 중첩된 색상(형광펜/글자색)을 분할하여 내부 색이 우선되도록 한다.
+   예: <mark yellow>맛있는 <mark red>밥을</mark> 먹었다</mark>
+   →  <mark yellow>맛있는 </mark><mark red>밥을</mark><mark yellow> 먹었다</mark>
+   마지막에 칠한 색이 최종 색이 되어 중첩이 사라지고 마커 파싱 오류도 방지된다. */
+function splitNestedColors(root) {
+  const getMarkColor = e => hexOf(e.style.background || e.style.backgroundColor) || '';
+  const getTextColor = e => hexOf(e.style.color || '') || '';
+
+  /* 중첩된 요소를 분할하는 핵심 함수 */
+  function splitNested(selector, getColor, cloneOuter) {
+    let changed;
+    do {
+      changed = false;
+      const outers = [...root.querySelectorAll(selector)];
+      for (const outer of outers) {
+        if (!outer.parentNode) continue;
+        const inner = outer.querySelector(selector);
+        if (!inner) continue;
+        const outerColor = getColor(outer), innerColor = getColor(inner);
+        /* 같은 색이면 내부를 풀어주기만 하면 됨 */
+        if (outerColor === innerColor) { unwrapEl(inner); changed = true; continue; }
+        /* 다른 색이면 외부를 분할하여 내부를 독립시킴 */
+        const parent = outer.parentNode;
+        const frag = document.createDocumentFragment();
+        /* inner 이전의 내용을 새 outer로 감쌈 */
+        const beforeNodes = [];
+        let node = outer.firstChild;
+        while (node && node !== inner) { beforeNodes.push(node); node = node.nextSibling; }
+        if (beforeNodes.length) {
+          const before = cloneOuter(outer);
+          beforeNodes.forEach(n => before.appendChild(n));
+          frag.appendChild(before);
+        }
+        /* inner를 외부로 옮김 */
+        frag.appendChild(inner);
+        /* inner 이후의 내용을 새 outer로 감쌈 */
+        const afterNodes = [...outer.childNodes].filter(n => n !== inner);
+        if (afterNodes.length) {
+          const after = cloneOuter(outer);
+          afterNodes.forEach(n => after.appendChild(n));
+          frag.appendChild(after);
+        }
+        parent.insertBefore(frag, outer);
+        outer.remove();
+        changed = true;
+        break; /* DOM이 변경되었으므로 처음부터 다시 */
+      }
+    } while (changed);
+  }
+
+  /* 형광펜(mark) 분할 */
+  splitNested('mark', getMarkColor, outer => {
+    const clone = document.createElement('mark');
+    clone.style.background = outer.style.background || outer.style.backgroundColor;
+    clone.style.color = 'inherit';
+    return clone;
+  });
+
+  /* 글자색(span with color) 분할 — font 태그도 처리 */
+  const colorSelector = 'span[style*="color"],font[color]';
+  splitNested(colorSelector, getTextColor, outer => {
+    const clone = document.createElement('span');
+    clone.style.color = outer.style.color || (outer.getAttribute && outer.getAttribute('color')) || '';
+    return clone;
+  });
+}
+
+/* 인접한 같은 색 요소를 하나로 합친다 (형광펜, 글자색 공통) */
+function mergeAdjacentColors(root) {
+  const getMarkColor = e => hexOf(e.style.background || e.style.backgroundColor) || '';
+  const getTextColor = e => hexOf(e.style.color || '') || '';
+
+  function mergeAdjacent(selector, getColor) {
+    let merged;
+    do {
+      merged = false;
+      const els = [...root.querySelectorAll(selector)];
+      for (const el of els) {
+        if (!el.parentNode) continue;
+        const next = el.nextSibling;
+        if (!next || next.nodeType !== 1) continue;
+        const nextMatch = next.matches && next.matches(selector);
+        if (nextMatch && getColor(el) === getColor(next)) {
+          while (next.firstChild) el.appendChild(next.firstChild);
+          next.remove();
+          merged = true;
+        }
+      }
+    } while (merged);
+  }
+
+  /* 먼저 중첩을 분할 */
+  splitNestedColors(root);
+  /* 인접 병합: 형광펜 */
+  mergeAdjacent('mark', getMarkColor);
+  /* 인접 병합: 글자색 */
+  mergeAdjacent('span[style*="color"]', getTextColor);
+}
+
 /* 서식을 벗기거나 겹칠 때 브라우저가 남기는 빈 껍데기를 걷어낸다.
    선택 영역을 떼어 내면 <b>…</b> 의 껍데기가 제자리에 남는데, 그대로 되읽으면 글 속에
    **** · [#FF0000][/] 같은 빈 마커가 그대로 튀어나온다. 줄바꿈과 그림은 글자가 없어도
@@ -4129,6 +4322,7 @@ function reflowComposer(saved) {
   if (!ta) return '';
   normalizeComposerFontSizes();
   dropEmptyMarks(ta);
+  mergeAdjacentColors(ta);
   pruneEmptyFormat(ta);
   const markup = ta.value;
   /* 마커에는 그림을 담을 자리가 없다 — 어쩌다 그림이 끼어든 작성창은 다시 그리지 않는다 */
@@ -4881,7 +5075,8 @@ function renderCanvas() {
        이북 헤더는 하단 푸터에 서명이 들어가므로 여기서는 그리지 않는다. */
     const hasFooterBlock = S.blocks.some(b => b.type === 'footer');
     const isBuddyFrame = frameKind(th) === 'buddy';
-    const isEbookHead = headKind(th) === 'ebook';
+    const hdKind = headKind(th);
+    const isEbookHead = hdKind === 'ebook' || hdKind === 'ebook-modern';
     if (!hasFooterBlock && th.signShow && !isBuddyFrame && !isEbookHead) {
       const signText = [th.signChar, th.signMaker].filter(Boolean).join(th.signSep === '|' ? ' | ' : ' · ');
       if (signText) {
@@ -4898,8 +5093,10 @@ function renderCanvas() {
       }
     }
     /* 이북 푸터 — 하단 네비게이션 바 (이전권·서명·다음권) */
-    if (isEbookHead) {
+    if (hdKind === 'ebook') {
       cv.appendChild(ebookFooterNode(th));
+    } else if (hdKind === 'ebook-modern') {
+      cv.appendChild(ebookModernFooterNode(th));
     }
   }
 
@@ -5006,6 +5203,9 @@ if (window.ResizeObserver && $('#canvas')) {
 const sameRun = (a, b) => !!a && !!b && !!a.asBubble && !!b.asBubble
   && (a.type || 'text') === 'text' && (b.type || 'text') === 'text'
   && (a.speakerId || null) === (b.speakerId || null);
+/* SNS는 화자 무관하게 연속 말풍선이면 묶는다 */
+const snsRun = (a, b) => !!a && !!b && !!a.asBubble && !!b.asBubble
+  && (a.type || 'text') === 'text' && (b.type || 'text') === 'text';
 
 /* 블록 하나의 글자 크기 단계. 테마의 본문 크기에 곱한다 — 절대값이 아니라 «한 단계»라
    테마 크기를 바꿔도 관계가 유지된다. 0(기본)은 아예 안 적어 예전 저장본과도 같다. */
@@ -5105,23 +5305,27 @@ function renderBlock(b, th, f, prev, next) {
     /* v13: isMe 불리언 대신 position 문자열을 쓴다. 'right' 이면 우측(나) 쪽이다. */
     const isMe = ch && ch.position === 'right';
     const bs = th.bubbleStyle || 'bubble';
-    /* 인용·없음은 말풍선이 아니라 글에 가깝다. 메신저처럼 좌우로 가르지 않고
-       한 방향으로 흘리며, 정렬은 도구(서식 설정)의 글 정렬을 그대로 따른다. */
-    const doc = bs !== 'bubble';
+    /* 인용·없음·각본은 말풍선이 아니라 글에 가깝다. 메신저처럼 좌우로 가르지 않고
+       한 방향으로 흘리며, 정렬은 도구(서식 설정)의 글 정렬을 그대로 따른다.
+       알림·SNS 는 말풍선처럼 배경이 있으므로 doc 에 넣지 않는다. */
+    const doc = bs === 'quote' || bs === 'plain' || bs === 'script';
     /* 좌우 가르기는 세 꼴 모두에 준다. 예전에는 «없음» 만 빼 두고 정렬이 그 몫을 한다고
        보았는데, 정렬은 덩어리를 옮길 뿐 «누가 어느 쪽» 인지를 말하지 못한다 — 도구의
-       «위치 · 좌/우» 를 눌러도 아무 일이 없어 고장으로 보였다 [.p-row 는 아래에서]. */
-    const sided = isMe;
+       «위치 · 좌/우» 를 눌러도 아무 일이 없어 고장으로 보였다 [.p-row 는 아래에서].
+       SNS는 좌우 구분 없이 모두 좌측 정렬 */
+    const sided = bs === 'sns' ? false : isMe;
     const row = el('div', 'blk-bubble' + (sided ? ' is-me' : '') + (doc ? ' as-doc' : '')
       + (bs === 'quote' ? ' q-row' : '') + (bs === 'plain' ? ' p-row' : '')
-      + (bs === 'script' ? ' s-row' : ''));
+      + (bs === 'script' ? ' s-row' : '') + (bs === 'notif' ? ' n-row' : '')
+      + (bs === 'sns' ? ' x-row' : ''));
     /* 같은 사람이 연달아 말하면 한 덩어리로 묶는다 — 메신저가 연속 발화를 다루는 방식이다.
        · 위가 같은 사람이면(cont) 이름을 빼고 이미지는 자리만 남긴 채 감춘다
        · 아래가 같은 사람이면(more) 꼬리를 접는다 — 꼬리는 덩어리의 마지막 한 장에만 남는다
        · 덩어리 안쪽은 문단 간격 대신 좁은 간격(--cv-run-gap)을 쓴다 */
-    const grouped = th.groupRuns !== false;
-    const cont = grouped && sameRun(prev, b);
-    const more = grouped && sameRun(b, next);
+    /* 알림 스타일은 대사 묶기 강제 OFF, SNS는 화자 무관하게 묶기 */
+    const grouped = bs === 'notif' ? false : (th.groupRuns !== false);
+    const cont = grouped && (bs === 'sns' ? snsRun(prev, b) : sameRun(prev, b));
+    const more = grouped && (bs === 'sns' ? snsRun(b, next) : sameRun(b, next));
     if (cont) wrap.classList.add('is-run');
 
     /* 말풍선 프리셋 결정 — bubblePreset 또는 기존 tailShape 호환 */
@@ -5137,19 +5341,29 @@ function renderBlock(b, th, f, prev, next) {
     /* modern(corner)은 꼬리가 아래에 붙으니 아바타도 마지막 장(!more)에 표시 */
     const avatarHere = (tailAtBottom || preset.isCorner) ? !more : !cont;
 
-    const avOn = isMe ? th.myAvatar : th.showAvatar;
+    /* 알림·SNS 스타일은 이미지·이름 무조건 표시 (대사 묶기에서도 유지) */
+    const avOn = (bs === 'notif' || bs === 'sns') ? true : (isMe ? th.myAvatar : th.showAvatar);
+    /* 알림·SNS는 대사 묶기에서도 아바타를 항상 표시 */
+    const avHere = (bs === 'notif' || bs === 'sns') ? true : avatarHere;
     if (avOn) {
-      const av = el('div', 'av' + (avatarHere ? '' : ' is-ghost'));
+      const av = el('div', 'av' + (avHere ? '' : ' is-ghost'));
       if (ch && ch.avatar) { const i = el('img'); i.src = ch.avatar; av.appendChild(i); }
       else av.innerHTML = initialSvg(ch && ch.name);
       if (ch && ch.useCustomBubble) av.style.background = ch.bubbleBg;
+      /* 알림 스타일은 메시지 앱 뱃지 추가 */
+      if (bs === 'notif') {
+        const badge = el('div', 'notif-badge');
+        badge.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 3C6.5 3 2 6.5 2 11c0 2.5 1.3 4.7 3.3 6.2-.3 1.8-1.2 3.3-1.3 3.3 0 0 2.5-.5 4.2-1.8.8.2 1.8.3 2.8.3 5.5 0 10-3.5 10-8s-4.5-8-9-8z"/></svg>';
+        av.appendChild(badge);
+      }
       row.appendChild(av);
     }
     const col = el('div', 'col');
     /* 이름은 말이 시작되는 자리에 둔다 — 얼굴이 아래로 내려가도 이름은 첫 장이다 */
-    const nameOn = isMe ? th.myName : th.showName;
-    /* 각본은 이어 말하기에서도 이름을 유지한다 — 간격만 좁히고 이름은 매 줄에 남긴다 */
-    const nameEl = nameOn && ch && (!cont || bs === 'script') ? el('div', 'who', ch.name) : null;
+    /* 알림·SNS 스타일은 이름 무조건 표시 (대사 묶기에서도 유지) */
+    const nameOn = (bs === 'notif' || bs === 'sns') ? true : (isMe ? th.myName : th.showName);
+    /* 각본·알림·SNS는 이어 말하기에서도 이름을 유지한다 — 간격만 좁히고 이름은 매 줄에 남긴다 */
+    const nameEl = nameOn && ch && (!cont || bs === 'script' || bs === 'notif' || bs === 'sns') ? el('div', 'who', ch.name) : null;
     /* 인용에 사진까지 켜면 행이 격자가 되고 이름이 첫 줄을 통째로 쓴다 [.q-named] —
        그때만 이름은 열이 아니라 행의 자식이다. 사진이 없으면 여태처럼 글 바로 위다. */
     const quoteAv = bs === 'quote' && avOn;
@@ -5157,6 +5371,15 @@ function renderBlock(b, th, f, prev, next) {
     if (nameEl) {
       row.classList.add('has-name');
       if (quoteAv) { row.classList.add('q-named'); row.insertBefore(nameEl, row.firstChild); }
+      else if (bs === 'sns') {
+        /* SNS는 이름 + 더보기를 헤더로 감싼다 */
+        const header = el('div', 'sns-header');
+        header.appendChild(nameEl);
+        const more = el('div', 'sns-more');
+        more.innerHTML = '<svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>';
+        header.appendChild(more);
+        col.appendChild(header);
+      }
       else col.appendChild(nameEl);
       /* 각본은 이름과 말 사이에 금을 하나 긋는다. 가상 요소(::after)가 아니라 실제 요소다 —
          저장은 캔버스를 SVG 안에서 다시 그리는 일이라, 가상 요소는 그 안에서 어긋날 수 있다
@@ -5188,8 +5411,33 @@ function renderBlock(b, th, f, prev, next) {
       + (hasTail && !isCornerTail ? ' has-tail t-img' + (tTop ? ' t-top' : '') : '')
       + (isCornerTail ? ' t-corner' : '')
       + (bs === 'quote' ? ' as-quote' : '')
-      + (bs === 'plain' || bs === 'script' ? ' as-plain' : ''));
+      + (bs === 'plain' || bs === 'script' ? ' as-plain' : '')
+      + (bs === 'notif' ? ' as-notif' : '')
+      + (bs === 'sns' ? ' as-sns' : ''));
     bub.innerHTML = applyInline(b.text || '');
+    /* SNS 스타일은 액션 아이콘을 추가 (댓글, 리트윗, 좋아요 + 북마크, 공유) */
+    if (bs === 'sns') {
+      const actions = el('div', 'sns-actions');
+      /* 좌측 액션: 댓글, 리트윗, 좋아요 */
+      ['M12 3C6.5 3 2 6.6 2 11c0 2.2 1.1 4.2 2.8 5.6L3 21l5-2.5c1.2.4 2.6.5 4 .5 5.5 0 10-3.6 10-8s-4.5-8-10-8z',
+       'M17 2l4 4-4 4M3 11v-1a4 4 0 014-4h14M7 22l-4-4 4-4M21 13v1a4 4 0 01-4 4H3',
+       'M12 21l-1.5-1.3C5.4 15.2 2 12 2 8.2 2 5.3 4.3 3 7.2 3c1.7 0 3.4.9 4.8 2.3C13.4 3.9 15.1 3 16.8 3 19.7 3 22 5.3 22 8.2c0 3.8-3.4 7-8.5 11.5L12 21z'
+      ].forEach(d => {
+        const act = el('div', 'sns-action');
+        act.innerHTML = `<svg viewBox="0 0 24 24"><path d="${d}"/></svg>`;
+        actions.appendChild(act);
+      });
+      /* 우측 액션: 북마크, 공유 */
+      const rightActions = el('div', 'sns-actions-right');
+      const bookmark = el('div', 'sns-action');
+      bookmark.innerHTML = '<svg viewBox="0 0 24 24"><path d="M5 4a1 1 0 011-1h12a1 1 0 011 1v17l-7-4-7 4V4z"/></svg>';
+      rightActions.appendChild(bookmark);
+      const share = el('div', 'sns-action');
+      share.innerHTML = '<svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>';
+      rightActions.appendChild(share);
+      actions.appendChild(rightActions);
+      bub.appendChild(actions);
+    }
     /* 꼬리를 실제 DOM 요소로 생성 — ::before 가상 요소는 SVG foreignObject 에서
        z-index:-1 + isolation:isolate 조합이 제대로 작동하지 않아 레이어가 꼬인다.
        실제 DOM 요소는 문서 흐름에 따라 정확한 레이어에 놓인다. */
@@ -5219,8 +5467,17 @@ function renderBlock(b, th, f, prev, next) {
     const tBg = isMe ? (th.myBubbleBg || th.bubbleBg) : th.bubbleBg;
     const tFg = isMe ? (th.myBubbleFg || th.bubbleFg) : th.bubbleFg;
     bub.style.setProperty('--bub-bg', (ch && ch.useCustomBubble) ? ch.bubbleBg : tBg);
-    /* 말풍선이 아닐 때는 배경이 없으니 말풍선 글자색이 아니라 본문 글자색을 따른다 */
-    const textColor = bs === 'bubble' ? ((ch && ch.useCustomBubble) ? ch.bubbleFg : tFg) : th.fg;
+    /* 알림·SNS 스타일은 row 전체에 배경색 적용 */
+    if (bs === 'notif') {
+      row.style.setProperty('--notif-bg', th.notifBg || 'rgba(255,255,255,0.25)');
+    }
+    if (bs === 'sns') {
+      row.style.setProperty('--sns-bg', th.snsBg || 'transparent');
+    }
+    /* 말풍선이 아닐 때는 배경이 없으니 말풍선 글자색이 아니라 본문 글자색을 따른다.
+       알림·SNS 스타일도 본문 글자색을 따른다. */
+    const textColor = bs === 'bubble' ? ((ch && ch.useCustomBubble) ? ch.bubbleFg : tFg)
+      : (bs === 'notif' || bs === 'sns') ? th.fg : th.fg;
     bub.style.color = textColor;
     /* 이름은 말풍선 밖, 캔버스 배경 위에 놓인다. 말풍선 안 글자색을 따라가면
        배경과 대비가 안 맞아 안 보인다 — 본문 글자색(전체 글자)을 쓴다. */
@@ -5270,7 +5527,7 @@ function renderBlock(b, th, f, prev, next) {
    메신저 화면·신문 제호를 흉내 낸 껍데기. 캔버스 맨 위에 붙는다.
    아이콘은 전부 여기서 그린다 — 글꼴에 딸린 문자를 쓰면 기기마다 다른 그림이 나오고,
    저장본에도 그 차이가 그대로 실린다. 선 두께·색은 CSS 가 currentColor 로 맞춘다. */
-const HEADS = [['none', '없음'], ['imessage', 'iMessage'], ['kakao', 'Kakaotalk'], ['ebook', 'e-Book']];
+const HEADS = [['none', '없음'], ['imessage', 'iMessage'], ['kakao', 'Kakaotalk'], ['ebook', 'e-Book'], ['ebook-modern', 'e-Book 모던']];
 /* 신문 머리는 테마가 고른 글꼴을 안 따른다 — 신문의 얼굴은 결국 그 글꼴이다.
    · 제호(mark) 는 플레이페어의 «보통 굵기» 다 [NEWS_MARK_W]. 획 대비가 큰 디도풍
      세리프인데, 굵은 벌을 안 쓰니 그 대비가 얌전해져 지면 위에 조용히 얹힌다.
@@ -5610,6 +5867,19 @@ function headerNode(th) {
   } else if (kind === 'ebook') {
     /* 이북 리더: 상단 헤더 없음, 하단 푸터만 사용 */
     return null;
+  } else if (kind === 'ebook-modern') {
+    /* 이북 모던: 헤더 + 진행률 바 푸터 */
+    const hx = hexOf(th.bg) || 'FFFFFF';
+    const [rr, gg, bb] = [0, 2, 4].map(i => parseInt(hx.slice(i, i + 2), 16));
+    const isLight = (rr * 299 + gg * 587 + bb * 114) / 1000 > 128;
+    if (isLight) head.classList.add('light');
+    const hRow = el('div', 'hd-row');
+    hRow.appendChild(hdIcon('back'));
+    const hTitle = Object.assign(el('span', 'hd-title'), { textContent: th.headerTitle || '작품명' });
+    hRow.appendChild(hTitle);
+    hRow.appendChild(hdIcon('menu'));
+    head.appendChild(hRow);
+    return head;
   } else {
     mid.classList.add('hd-title');
     mid.textContent = title;
@@ -5643,6 +5913,42 @@ function ebookFooterNode(th) {
   const mid = Object.assign(el('div', 'hd-sign'), { textContent: signText });
   const right = el('div', 'hd-nav right');
   right.appendChild(Object.assign(el('span'), { textContent: '다음권' }));
+  const fwdIcon = hdIcon('back');
+  fwdIcon.style.transform = 'scaleX(-1)';
+  right.appendChild(fwdIcon);
+  row.append(left, mid, right);
+  foot.appendChild(row);
+  return foot;
+}
+
+/* 이북 모던 푸터 — 진행률 바 + 하단 네비게이션.
+   구조: 진행바(가로줄 + 퍼센트) + «< 이전» + 서명 + «다음 >»
+   진행률은 th.ebookPct 로 조절 (기본 35%). */
+function ebookModernFooterNode(th) {
+  const hx = hexOf(th.bg) || 'FFFFFF';
+  const [rr, gg, bb] = [0, 2, 4].map(i => parseInt(hx.slice(i, i + 2), 16));
+  const isLight = (rr * 299 + gg * 587 + bb * 114) / 1000 > 128;
+  const foot = el('div', 'cv-foot-ebook-modern' + (isLight ? ' light' : ''));
+  foot.style.color = th.fg;
+  /* 진행률 바 */
+  const pct = clamp(th.ebookPct ?? 35, 0, 100);
+  const prog = el('div', 'eb-progress');
+  const bar = el('div', 'eb-bar');
+  const fill = el('span', 'eb-fill');
+  fill.style.width = pct + '%';
+  bar.appendChild(fill);
+  prog.appendChild(bar);
+  prog.appendChild(Object.assign(el('span', 'eb-pct'), { textContent: pct + '%' }));
+  foot.appendChild(prog);
+  /* 하단 네비게이션 */
+  const row = el('div', 'hd-row');
+  const left = el('div', 'hd-nav');
+  left.appendChild(hdIcon('back'));
+  left.appendChild(Object.assign(el('span'), { textContent: '이전' }));
+  const signText = [th.signChar, th.signMaker].filter(Boolean).join(th.signSep === '|' ? ' | ' : ' · ');
+  const mid = Object.assign(el('div', 'hd-sign'), { textContent: signText });
+  const right = el('div', 'hd-nav');
+  right.appendChild(Object.assign(el('span'), { textContent: '다음' }));
   const fwdIcon = hdIcon('back');
   fwdIcon.style.transform = 'scaleX(-1)';
   right.appendChild(fwdIcon);
@@ -6096,12 +6402,15 @@ function renderPageMarks() {
   const gap = Math.round(fmt().blockGap ?? 10);
   const head = cv.querySelector('.cv-head:not(.head-ghost)');
   const foot = footRow();
-  const ebFoot = cv.querySelector('.cv-foot-ebook:not(.eb-foot-ghost)');
+  const ebFoot = cv.querySelector('.cv-foot-ebook:not(.eb-foot-ghost), .cv-foot-ebook-modern:not(.eb-foot-ghost)');
   /* 축소해 보여 주는 중이라도 offsetHeight 는 논리 높이 그대로다 [fitCanvas].
      둘 다 아직 흐름 안에 있을 때 재야 제 높이가 나온다 — 못 박는 것은 그다음이다. */
   const hh = head ? head.offsetHeight : 0;
   const fh = foot ? foot.offsetHeight : 0;
-  const ebh = ebFoot ? ebFoot.offsetHeight : 0;
+  /* 이북 푸터는 position:absolute라 offsetHeight가 정확하지 않을 수 있음
+     강제 reflow로 CSS가 적용된 후 높이를 측정한다 */
+  if (ebFoot) void ebFoot.offsetHeight; /* force reflow */
+  const ebh = ebFoot ? Math.ceil(ebFoot.getBoundingClientRect().height) : 0;
   /* 화면머리는 한 장이든 여러 장이든 늘 맨 위다 — 비율 지정이면 언제나 못 박는다.
      (서명과 다르다. 서명은 한 장에 들어가면 본문과 한 덩어리로 가운데에 놓는 편이 낫다.) */
   if (head) {
@@ -6242,8 +6551,9 @@ function setStage(st, keepNav) {
     /* 탭 UI 초기화 — 다음에 열 때 캐릭터 목록으로 */
     resetSettingsTabUI();
   }
-  /* 블록 편집은 서식 단계에서만 산다. 어느 경로로 빠져나가든 작성창을 비운다. */
-  if (st !== 'format' && S.ui.selectedBlockId) endEdit();
+  /* 블록 편집은 서식 단계에서만 산다. 어느 경로로 빠져나가든 작성창을 비운다.
+     selectedBlockId가 이미 null이어도 입력창에 텍스트가 남아 있을 수 있으므로 항상 비운다. */
+  if (st !== 'format') endEdit();
   if (st === 'composer') { S.ui.insertMode = null; }
   if (st === 'tools') S.ui.bulk = false;
   /* v2: 도구 단계 진입/이탈 시 설정 패널 토글 — 2패널에서는 항상 열림 */
@@ -9281,16 +9591,22 @@ function renderThemeGridV2() {
     let bubbleClass = 'bubble-preview';
     if (bs === 'bubble') bubbleClass += ' has-tail-left';
     else if (bs === 'quote') bubbleClass += ' is-quote';
+    else if (bs === 'notif') bubbleClass += ' is-notif';
+    else if (bs === 'sns') bubbleClass += ' is-sns';
     else if (bs === 'script') bubbleClass += ' is-script';
     else bubbleClass += ' is-none';
     const bubble = el('div', bubbleClass);
     if (bs === 'bubble') {
       bubble.style.background = t.bubbleBg;
       bubble.style.color = t.bubbleFg;
+    } else if (bs === 'notif') {
+      bubble.style.background = t.notifBg || 'rgba(255,255,255,0.25)';
+      bubble.style.color = t.fg;
     } else {
       bubble.style.color = t.bubbleFg || t.fg;
     }
-    bubble.textContent = bs === 'script' ? '대사' : (bs === 'quote' ? '인용문' : (bs === 'bubble' ? '대화문' : '텍스트'));
+    const bubbleLabels = { bubble: '대화문', quote: '인용문', notif: '알림', sns: 'SNS', script: '대사', plain: '텍스트' };
+    bubble.textContent = bubbleLabels[bs] || '텍스트';
     preview.appendChild(bubble);
     card.appendChild(preview);
     /* 이름 */
@@ -9546,7 +9862,7 @@ function syncThemeEditFormV2() {
     t.frame = 'none';
     t.header = 'none';
     if (['cyworld', 'buddy'].includes(v)) t.frame = v;
-    else if (['imessage', 'kakao', 'news', 'ebook'].includes(v)) t.header = v;
+    else if (['imessage', 'kakao', 'news', 'ebook', 'ebook-modern'].includes(v)) t.header = v;
     rerender();
   };
   decoField.appendChild(decoSel);
@@ -9643,6 +9959,40 @@ function syncThemeEditFormV2() {
     cf.style.marginTop = '6px';
     bgField.appendChild(cf);
     optWrap.appendChild(bgField);
+  } else if (hdKind === 'ebook-modern') {
+    hasOpts = true;
+    /* 이북 모던: 작품명 + 진행률 */
+    const nf = el('div', 'field');
+    nf.appendChild(el('label', 'lab', '작품명'));
+    const ni = el('input', 'inp');
+    ni.value = t.headerTitle || '';
+    ni.placeholder = '작품명';
+    ni.oninput = () => { t.headerTitle = ni.value; up(); };
+    nf.appendChild(ni);
+    optWrap.appendChild(nf);
+    /* 진행률 슬라이더 */
+    const pf = el('div', 'field');
+    pf.style.marginTop = 'var(--sp-md)';
+    const pHead = el('div', 'tgl-inline');
+    pHead.appendChild(el('label', 'lab', '진행률'));
+    const pVal = el('span');
+    pVal.style.cssText = 'margin-left:auto;font-size:12px;opacity:.7';
+    pVal.textContent = (t.ebookPct ?? 35) + '%';
+    pHead.appendChild(pVal);
+    pf.appendChild(pHead);
+    const pSlider = el('input');
+    pSlider.type = 'range';
+    pSlider.min = 0; pSlider.max = 100; pSlider.value = t.ebookPct ?? 35;
+    pSlider.style.cssText = 'width:100%;margin-top:6px';
+    pSlider.oninput = pSlider.onchange = () => {
+      const v = +pSlider.value;
+      t.ebookPct = v;
+      pVal.textContent = v + '%';
+      /* 캔버스 다시 그리기로 푸터 진행률 반영 */
+      renderCanvas();
+    };
+    pf.appendChild(pSlider);
+    optWrap.appendChild(pf);
   } else if (hdKind === 'imessage' || hdKind === 'kakao') {
     hasOpts = true;
     /* 메시지1/2: 이름 + 배경색 + (아이메시지만 프로필) */
@@ -9846,11 +10196,11 @@ function syncThemeEditFormV2() {
   const styleField = el('div', 'field');
   styleField.appendChild(el('label', 'lab', '스타일'));
   const styleSeg = el('div', 'seg');
-  [['bubble', '말풍선'], ['quote', '인용'], ['script', '각본'], ['plain', '없음']].forEach(([v, l]) => {
+  [['bubble', '말풍선'], ['quote', '인용'], ['notif', '알림'], ['sns', 'SNS'], ['script', '각본'], ['plain', '없음']].forEach(([v, l]) => {
     const b = el('button', (t.bubbleStyle || 'bubble') === v ? 'is-on' : '', l);
     b.onclick = () => {
       t.bubbleStyle = v;
-      if (v === 'quote' || v === 'script') t.groupRuns = false;
+      if (v === 'quote' || v === 'script' || v === 'notif') t.groupRuns = false;
       /* 각본은 이미지 표시 불가 */
       if (v === 'script') { t.showAvatar = false; t.myAvatar = false; }
       rerender();
@@ -9863,10 +10213,12 @@ function syncThemeEditFormV2() {
   const bs = t.bubbleStyle || 'bubble';
   const isBubble = bs === 'bubble';
   const isQuote = bs === 'quote';
+  const isNotif = bs === 'notif';
+  const isSns = bs === 'sns';
   const isScript = bs === 'script';
 
-  /* 대사 묶기 — 말풍선·인용·각본 모두 적용 (plain 제외) */
-  if (bs !== 'plain') {
+  /* 대사 묶기 — 말풍선·인용·각본·SNS 적용 (plain, notif 제외) */
+  if (bs !== 'plain' && bs !== 'notif') {
     const grpTgl = el('div', 'tgl-inline');
     grpTgl.style.marginTop = 'var(--sp-md)';
     grpTgl.appendChild(el('span', 'lab', '대사 묶기'));
@@ -10002,8 +10354,9 @@ function syncThemeEditFormV2() {
     bubbleBody.appendChild(radiusGrid);
   }
 
-  /* 말풍선 색상 — 말풍선 스타일에서만 의미 있음 (인용/각본/없음은 배경 없음) */
+  /* 색상 설정 — 스타일별로 다른 UI */
   if (isBubble) {
+    /* 말풍선 색상 */
     const colorGrid = el('div', 'grid-2');
     colorGrid.style.marginTop = 'var(--sp-md)';
     colorGrid.appendChild(colorField('좌측 말풍선', t.bubbleBg, v => { t.bubbleBg = v; up(); }));
@@ -10012,29 +10365,54 @@ function syncThemeEditFormV2() {
     colorGrid.appendChild(colorField('우측 글자', t.myBubbleFg || t.bubbleFg, v => { t.myBubbleFg = v; up(); }));
     bubbleBody.appendChild(colorGrid);
   }
+  if (isQuote) {
+    /* 인용 색상 — 좌측/우측 인용선 색만 (말풍선 색과 연동) */
+    const colorGrid = el('div', 'grid-2');
+    colorGrid.style.marginTop = 'var(--sp-md)';
+    colorGrid.appendChild(colorField('좌측 인용', t.bubbleBg, v => { t.bubbleBg = v; up(); }));
+    colorGrid.appendChild(colorField('우측 인용', t.myBubbleBg || t.bubbleBg, v => { t.myBubbleBg = v; up(); }));
+    bubbleBody.appendChild(colorGrid);
+  }
+  if (isNotif) {
+    /* 알림 배경색 — 기본 오퍼시티 낮춤 */
+    const colorGrid = el('div', 'grid-2');
+    colorGrid.style.marginTop = 'var(--sp-md)';
+    colorGrid.appendChild(colorField('알림 배경', t.notifBg || 'rgba(255,255,255,0.25)', v => { t.notifBg = v; up(); }));
+    bubbleBody.appendChild(colorGrid);
+  }
+  if (isSns) {
+    /* SNS 배경색 — 기본 투명 */
+    const colorGrid = el('div', 'grid-2');
+    colorGrid.style.marginTop = 'var(--sp-md)';
+    colorGrid.appendChild(colorField('배경색', t.snsBg || 'transparent', v => { t.snsBg = v; up(); }));
+    bubbleBody.appendChild(colorGrid);
+  }
 
   /* 추가 옵션 (라운드/그림자, 좌측 프로필·이름, 우측 프로필·이름)
-     각본은 이름이 대사 앞에 인라인으로 붙어서 프로필 이미지가 의미 없음 */
-  const extraLabel = el('label', 'lab', '추가 옵션');
-  extraLabel.style.marginTop = 'var(--sp-lg)';
-  bubbleBody.appendChild(extraLabel);
-  const extraGrid = el('div', 'grid-2');
-  extraGrid.style.cssText = 'gap:var(--sp-md) 14px;margin-top:var(--sp-sm)';
-  const mkTgl = (lab, val, on) => {
-    const row = el('div', 'tgl-inline');
-    row.appendChild(el('span', 'lab', lab));
-    const btn = el('div', 'tgl tgl-sm' + (val ? ' is-on' : ''));
-    btn.onclick = () => on(!val);
-    row.appendChild(btn);
-    return row;
-  };
-  if (!isScript) extraGrid.appendChild(mkTgl('라운드 프로필', t.roundAvatar, v => { t.roundAvatar = v; rerender(); }));
-  if (isBubble) extraGrid.appendChild(mkTgl('그림자', t.bubbleShadow, v => { t.bubbleShadow = v; rerender(); }));
-  if (!isScript) extraGrid.appendChild(mkTgl('좌측 프로필', t.showAvatar, v => { t.showAvatar = v; rerender(); }));
-  extraGrid.appendChild(mkTgl('좌측 이름', t.showName, v => { t.showName = v; rerender(); }));
-  if (!isScript) extraGrid.appendChild(mkTgl('우측 프로필', !!t.myAvatar, v => { t.myAvatar = v; rerender(); }));
-  extraGrid.appendChild(mkTgl('우측 이름', !!t.myName, v => { t.myName = v; rerender(); }));
-  bubbleBody.appendChild(extraGrid);
+     각본은 이름이 대사 앞에 인라인으로 붙어서 프로필 이미지가 의미 없음
+     알림은 이미지·이름 무조건 표시라 추가 옵션 필요 없음 */
+  if (!isNotif) {
+    const extraLabel = el('label', 'lab', '추가 옵션');
+    extraLabel.style.marginTop = 'var(--sp-lg)';
+    bubbleBody.appendChild(extraLabel);
+    const extraGrid = el('div', 'grid-2');
+    extraGrid.style.cssText = 'gap:var(--sp-md) 14px;margin-top:var(--sp-sm)';
+    const mkTgl = (lab, val, on) => {
+      const row = el('div', 'tgl-inline');
+      row.appendChild(el('span', 'lab', lab));
+      const btn = el('div', 'tgl tgl-sm' + (val ? ' is-on' : ''));
+      btn.onclick = () => on(!val);
+      row.appendChild(btn);
+      return row;
+    };
+    if (!isScript && !isSns) extraGrid.appendChild(mkTgl('라운드 프로필', t.roundAvatar, v => { t.roundAvatar = v; rerender(); }));
+    if (isBubble) extraGrid.appendChild(mkTgl('그림자', t.bubbleShadow, v => { t.bubbleShadow = v; rerender(); }));
+    if (!isScript && !isSns) extraGrid.appendChild(mkTgl('좌측 프로필', t.showAvatar, v => { t.showAvatar = v; rerender(); }));
+    if (!isSns) extraGrid.appendChild(mkTgl('좌측 이름', t.showName, v => { t.showName = v; rerender(); }));
+    if (!isScript && !isSns) extraGrid.appendChild(mkTgl('우측 프로필', !!t.myAvatar, v => { t.myAvatar = v; rerender(); }));
+    if (!isSns) extraGrid.appendChild(mkTgl('우측 이름', !!t.myName, v => { t.myName = v; rerender(); }));
+    bubbleBody.appendChild(extraGrid);
+  }
 
   bubbleSection.appendChild(bubbleBody);
   body.appendChild(bubbleSection);
@@ -11022,18 +11400,21 @@ function themeEditor() {
   box.appendChild(el('div', 'divider'));
   box.appendChild(el('div', 'sec-title', '대사 설정'));
   const st2 = el('div', 'stack');
-  /* 발화자 블록의 겉모습 — 넷 중 하나. 말풍선만 배경이 있어, 나머지 셋은 꼬리·둥글기가
-     의미 없다. «각본» 은 이름과 말이 한 줄에 오는 꼴이다 [.s-row]. */
+  /* 발화자 블록의 겉모습 — 여섯 중 하나. 말풍선·알림·SNS는 배경이 있어,
+     나머지 셋은 꼬리·둥글기가 의미 없다. «각본» 은 이름과 말이 한 줄에 오는 꼴이다 [.s-row]. */
   const bs = t.bubbleStyle || 'bubble';
-  st2.appendChild(segment([['bubble', '말풍선'], ['quote', '인용구'], ['script', '각본'], ['plain', '없음']],
+  st2.appendChild(segment([['bubble', '말풍선'], ['quote', '인용'], ['notif', '알림'], ['sns', 'SNS'], ['script', '각본'], ['plain', '없음']],
     bs, v => {
       t.bubbleStyle = v;
-      if (v === 'quote' || v === 'script') t.groupRuns = false;
+      if (v === 'quote' || v === 'script' || v === 'notif') t.groupRuns = false;
       /* 각본은 이미지 표시 불가 */
       if (v === 'script') { t.showAvatar = false; t.myAvatar = false; }
       render();
     }));
   const isBubble = bs === 'bubble';
+  const isQuote = bs === 'quote';
+  const isNotif = bs === 'notif';
+  const isSns = bs === 'sns';
   /* 말풍선 스타일 프리셋 — Plain / Modern / iMessage / Kakaotalk */
   if (isBubble) {
     const presetOpts = Object.keys(BUBBLE_STYLES).map(k => [k, BUBBLE_STYLES[k].label]);
@@ -11063,8 +11444,8 @@ function themeEditor() {
     }));
   }
   /* 연속 발화 묶기 — 이름·이미지·꼬리·간격이 한꺼번에 달라지므로 한 자리에서 켜고 끈다.
-     말풍선·인용·각본 모두 적용 (plain 제외) */
-  if (bs !== 'plain') {
+     말풍선·인용·각본·SNS 적용 (plain, notif 제외) */
+  if (bs !== 'plain' && bs !== 'notif') {
     st2.appendChild(toggleRow('대사 연속 묶기',
       '',
       t.groupRuns !== false, v => { t.groupRuns = v; render(); }));
@@ -11142,7 +11523,7 @@ function themeEditor() {
   }
   brWrap.appendChild(brBox); st2.appendChild(brWrap);
   box.appendChild(st2);
-  /* 대사 색 — 말풍선 스타일에서만 의미 있음 (인용/각본/없음은 배경 없음) */
+  /* 대사 색 — 스타일별로 다른 UI */
   if (isBubble) {
     box.appendChild(el('div', 'divider'));
     box.appendChild(el('div', 'sec-title', '대사 색상'));
@@ -11153,10 +11534,36 @@ function themeEditor() {
     gBub.appendChild(colorField('우측 말풍선 글자', t.myBubbleFg || t.bubbleFg, v => { t.myBubbleFg = v; up(); }));
     box.appendChild(gBub);
   }
+  if (isQuote) {
+    /* 인용 색상 — 좌측/우측 인용선 색만 (말풍선 색과 연동) */
+    box.appendChild(el('div', 'divider'));
+    box.appendChild(el('div', 'sec-title', '인용 색상'));
+    const gBub = el('div', 'grid2');
+    gBub.appendChild(colorField('좌측 인용', t.bubbleBg, v => { t.bubbleBg = v; up(); }));
+    gBub.appendChild(colorField('우측 인용', t.myBubbleBg || t.bubbleBg, v => { t.myBubbleBg = v; up(); }));
+    box.appendChild(gBub);
+  }
+  if (isNotif) {
+    /* 알림 배경색 */
+    box.appendChild(el('div', 'divider'));
+    box.appendChild(el('div', 'sec-title', '알림 색상'));
+    const gBub = el('div', 'grid2');
+    gBub.appendChild(colorField('알림 배경', t.notifBg || 'rgba(255,255,255,0.25)', v => { t.notifBg = v; up(); }));
+    box.appendChild(gBub);
+  }
+  if (isSns) {
+    /* SNS 배경색 */
+    box.appendChild(el('div', 'divider'));
+    box.appendChild(el('div', 'sec-title', 'SNS 색상'));
+    const gBub = el('div', 'grid2');
+    gBub.appendChild(colorField('배경색', t.snsBg || 'transparent', v => { t.snsBg = v; up(); }));
+    box.appendChild(gBub);
+  }
 
-  /* 프로필 설정 — 각본은 이름이 대사 앞에 인라인으로 붙어서 프로필 이미지가 의미 없음 */
+  /* 프로필 설정 — 각본은 이름이 대사 앞에 인라인으로 붙어서 프로필 이미지가 의미 없음
+     알림은 이미지·이름 무조건 표시라 설정 불필요 */
   const isScript = bs === 'script';
-  if (!isScript) {
+  if (!isScript && !isNotif && !isSns) {
     box.appendChild(el('div', 'divider'));
     box.appendChild(el('div', 'sec-title', '프로필 설정'));
     const st1 = el('div', 'grid2'); st1.style.rowGap = '11px';
@@ -11169,7 +11576,7 @@ function themeEditor() {
     st1.appendChild(toggleRow('우측 인물 이름', '', !!t.myName, v => { t.myName = v; render(); }));
     st1.appendChild(toggleRow('우측 인물 이미지', '', !!t.myAvatar, v => { t.myAvatar = v; render(); }));
     box.appendChild(st1);
-  } else {
+  } else if (isScript) {
     /* 각본 스타일에서는 이름 표시만 제공 */
     box.appendChild(el('div', 'divider'));
     box.appendChild(el('div', 'sec-title', '이름 설정'));
