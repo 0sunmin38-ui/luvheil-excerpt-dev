@@ -715,10 +715,10 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .hd-lock-clock .lock-time{font-size:min(90px,18vw);font-weight:800;line-height:1;
   font-variant-numeric:tabular-nums;letter-spacing:-.04em;
   text-shadow:0 0 20px rgba(255,255,255,.35),0 0 60px rgba(255,255,255,.2),0 2px 4px rgba(0,0,0,.15)}
-.hd-news-online{--title-pl:40px;--title-pr:40px;padding:calc(20em / 14) var(--title-pr) calc(10em / 14) var(--title-pl);text-align:left;letter-spacing:0;overflow-wrap:anywhere}
+.hd-news-online{--title-pl:40px;--title-pr:40px;padding:calc(16em / 14) var(--title-pr) calc(12em / 14) var(--title-pl);text-align:left;letter-spacing:0;overflow-wrap:anywhere}
 .hd-news-online .online-category{font-size:calc(12em / 14);font-weight:600;margin-bottom:calc(4 * var(--title-u));line-height:1.5}
 .hd-news-online .online-headline{font-size:calc(22em / 14);font-weight:800;line-height:1.35}
-.hd-paper{padding:calc(20em / 14) 36px calc(12em / 14);text-align:left;letter-spacing:0;overflow-wrap:anywhere}
+.hd-paper{padding:calc(14em / 14) 36px calc(10em / 14);text-align:left;letter-spacing:0;overflow-wrap:anywhere}
 .hd-paper .paper-journal{font-size:calc(11em / 14);font-weight:500;letter-spacing:.06em;line-height:1.5;opacity:.55;margin-bottom:calc(4 * var(--title-u))}
 .hd-paper .paper-title{font-family:"Times New Roman",Georgia,serif;font-size:calc(20em / 14);font-weight:700;line-height:1.35;margin-bottom:calc(4 * var(--title-u))}
 .hd-paper .paper-authors{font-size:calc(12em / 14);font-weight:400;line-height:1.5;opacity:.6}
@@ -2783,8 +2783,8 @@ const initialSvg = name =>
 /* 말풍선 스타일 프리셋 — 4가지 중 선택 */
 const BUBBLE_STYLES = {
   plain: {
-    label: 'Plain', radius: 18, hasTail: false,
-    /* 전체 둥글기 18, 꼬리 없음 */
+    label: 'Plain', radius: 18, hasTail: false, avBottom: true,
+    /* 전체 둥글기 18, 꼬리 없음, 아바타 하단 정렬 */
   },
   modern: {
     label: 'Modern', radius: 20, flatRadius: 2, isCorner: true, hasTail: false,
@@ -2792,8 +2792,8 @@ const BUBBLE_STYLES = {
     /* 모서리 스타일: 한 귀퉁이만 각지게. 연속 묶기 첫 번째는 좌하, 나머지는 좌상 */
   },
   imessage: {
-    label: 'iMessage', img: 'var(--tail-curve)', w: 1.9, ar: 21 / 19, radius: 18, hasTail: true,
-    defaultPos: 'bottom', /* 곡선은 아래 고정 */
+    label: 'iMessage', img: 'var(--tail-curve)', w: 1.9, ar: 21 / 19, radius: 18, hasTail: true, avBottom: true,
+    defaultPos: 'bottom', /* 곡선은 아래 고정, 아바타 하단 정렬 */
     pos: {
       bottom: { size: 7, x: 8, y: 1, rot: 0,  flipX: false, flipY: false },
       top:    { size: 7, x: 8, y: 2, rot: 75, flipX: false, flipY: false }
@@ -2949,6 +2949,21 @@ const PRESET_THEMES = [
     canvas: { mode: 'ratio', ratio: '3:4', width: 560, mt: 20, mb: 20, ml: 40, mr: 40, marginDetail: false }
   },
   {
+    presetId: 'line',
+    name: 'LINE',
+    bg: '#A0C6DC', fg: '#1A1A1A', bubbleBg: '#FFFFFF', bubbleFg: '#1A1A1A',
+    myBubbleBg: '#07C153', myBubbleFg: '#FFFFFF', highlight: '#A8E6CF',
+    bubbleStyle: 'bubble', bubblePreset: 'plain', tailPos: 'top',
+    bubbleRadius: 18, brDetail: true, brTL: 18, brTR: 18, brBR: 18, brBL: 3,
+    showTail: false, tailShape: 'plain',
+    showName: true, showAvatar: false, myName: false, myAvatar: false, roundAvatar: true,
+    header: 'kakao', headerTitle: '대화상대',
+    signShow: true, signChar: '해이', signMaker: '@luvheil',
+    bubbleShadow: false, brLink: false,
+    fmt: { align: 'justify', weight: 400, font: 'Pretendard', size: 14, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'top' },
+    canvas: { mode: 'ratio', ratio: '3:4', width: 560, mt: 20, mb: 20, ml: 40, mr: 40, marginDetail: false, marginLink: true }
+  },
+  {
     presetId: 'imessage-light',
     name: 'iMessage(light)',
     bg: '#FFFFFF', fg: '#37373E', bubbleBg: '#0B84FE', bubbleFg: '#FFFFFF',
@@ -2979,31 +2994,31 @@ const PRESET_THEMES = [
   /* ═══ 대본/스크립트 테마 ═══════════════════════════════════════════ */
   {
     presetId: 'square-white',
-    name: 'square(white)',
-    bg: '#FFFFFF', fg: '#37373E', bubbleBg: '#D14343', bubbleFg: '#26262B',
-    myBubbleBg: '#FFFFFF', myBubbleFg: '#26262B', highlight: '#CFE5FF',
+    name: 'square(cream)',
+    bg: '#FFFEF8', fg: '#552609', bubbleBg: '#B45309', bubbleFg: '#FFFBEB',
+    myBubbleBg: '#FEF3C7', myBubbleFg: '#78350F', highlight: '#FDE68A',
     bubbleStyle: 'script', bubblePreset: 'plain',
     bubbleRadius: 18, brDetail: false, brTL: 18, brTR: 18, brBR: 18, brBL: 18,
     showName: true, showAvatar: false, myName: true, myAvatar: false, roundAvatar: false,
-    header: 'ebook', headerTitle: '작품명',
+    header: 'ebook-modern', headerTitle: '작품명',
     signShow: true, signChar: '해이', signMaker: '@luvheil',
-    groupRuns: false, brLink: true,
-    fmt: { align: 'justify', weight: 400, font: 'Noto Sans KR', size: 17, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'center' },
-    canvas: { mode: 'ratio', ratio: '1:1', width: 560, mt: 30, mb: 30, ml: 50, mr: 50, marginDetail: false }
+    groupRuns: true, brLink: true,
+    fmt: { align: 'justify', weight: 400, font: 'Noto Sans KR', size: 16, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'center' },
+    canvas: { mode: 'ratio', ratio: '1:1', width: 560, mt: 30, mb: 30, ml: 50, mr: 50, marginDetail: false, marginLink: true }
   },
   {
     presetId: 'square-black',
-    name: 'square(black)',
-    bg: '#26262B', fg: '#EDEDED', bubbleBg: '#D14343', bubbleFg: '#EDEDED',
-    myBubbleBg: '#FFFFFF', myBubbleFg: '#EDEDED', highlight: '#CFE5FF',
+    name: 'square(slate)',
+    bg: '#1E293B', fg: '#CBD5E1', bubbleBg: '#475569', bubbleFg: '#F1F5F9',
+    myBubbleBg: '#334155', myBubbleFg: '#E2E8F0', highlight: '#94A3B8',
     bubbleStyle: 'script', bubblePreset: 'plain',
     bubbleRadius: 18, brDetail: false, brTL: 18, brTR: 18, brBR: 18, brBL: 18,
     showName: true, showAvatar: false, myName: true, myAvatar: false, roundAvatar: false,
-    header: 'ebook', headerTitle: '작품명',
+    header: 'ebook-modern', headerTitle: '작품명',
     signShow: true, signChar: '해이', signMaker: '@luvheil',
-    groupRuns: false, brLink: true,
+    groupRuns: true, brLink: true,
     fmt: { align: 'justify', weight: 400, font: 'Noto Sans KR', size: 17, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'center' },
-    canvas: { mode: 'ratio', ratio: '1:1', width: 560, mt: 30, mb: 30, ml: 50, mr: 50, marginDetail: false }
+    canvas: { mode: 'ratio', ratio: '1:1', width: 560, mt: 30, mb: 30, ml: 50, mr: 50, marginDetail: false, marginLink: true }
   },
   {
     presetId: 'script',
@@ -3013,11 +3028,11 @@ const PRESET_THEMES = [
     bubbleStyle: 'script', showTail: true, tailShape: 'curve',
     bubbleRadius: 18, brDetail: false, brTL: 18, brTR: 18, brBR: 18, brBL: 18,
     showName: true, showAvatar: false, myName: true, myAvatar: false, roundAvatar: false,
-    header: 'kakao', headerTitle: '작품명',
+    header: 'ebook-modern', headerTitle: '작품명',
     signShow: true, signChar: '해이', signMaker: '@luvheil',
-    groupRuns: false, brLink: true,
+    groupRuns: true, brLink: true,
     fmt: { align: 'justify', weight: 400, font: 'Bookk Myungjo', size: 12, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 20, vAlign: 'top', columns: 2, columnGap: 20 },
-    canvas: { mode: 'ratio', ratio: '4:3', width: 560, mt: 20, mb: 20, ml: 40, mr: 40, marginDetail: false }
+    canvas: { mode: 'ratio', ratio: '4:3', width: 560, mt: 20, mb: 20, ml: 40, mr: 40, marginDetail: false, marginLink: true }
   },
   /* ═══ 프레임 테마 ═══════════════════════════════════════════
      프레임을 두르는 두 벌 [FRAMES]. 여느 테마가 «색과 말풍선» 을 정한다면 이 둘은 «어떤 창에
@@ -3039,7 +3054,7 @@ const PRESET_THEMES = [
   },
   {
     presetId: 'buddy',
-    name: 'buddy',
+    name: 'buddybuddy',
     frame: 'buddy',
     bg: '#FFFFFF', fg: '#26262B', bubbleBg: '#EFEFEA', bubbleFg: '#1B1B1B',
     myBubbleBg: '#CFE6F3', myBubbleFg: '#10333F', highlight: '#CFE6F3',
@@ -3057,7 +3072,82 @@ const PRESET_THEMES = [
     brLink: true,
     /* 껍데기와 같은 도트 글꼴이다 [FRAME_FONT] — 11 이 이 글꼴이 또렷하게 찍히는 크기다 */
     fmt: { align: 'justify', weight: 400, font: 'Galmuri11', size: 11, lineHeight: 1.8, letterSpacing: -0.008, blockGap: 30, vAlign: 'top' },
-    canvas: { mode: 'ratio', ratio: '3:4', width: 560, mt: 20, mb: 20, ml: 30, mr: 30, marginDetail: false }
+    canvas: { mode: 'ratio', ratio: '3:4', width: 560, mt: 20, mb: 20, ml: 30, mr: 30, marginDetail: false, marginLink: true }
+  },
+  /* ═══ 새 테마 (발췌.json) ═══════════════════════════════════════════ */
+  {
+    presetId: 'insta-dm',
+    name: 'insta DM',
+    bg: '#FFFFFF', fg: '#1A1A1A', bubbleBg: '#AA249D', bubbleFg: '#FFFFFF',
+    myBubbleBg: '#EDEDF0', myBubbleFg: '#1A1A1A', highlight: '#FFE79A',
+    bubbleStyle: 'bubble', bubblePreset: 'modern', groupRuns: true,
+    bubbleRadius: 20, brDetail: true, brTL: 20, brTR: 20, brBR: 20, brBL: 2, brLink: false,
+    showTail: false, tailShape: 'modern',
+    showName: true, showAvatar: false, myName: true, myAvatar: false, roundAvatar: true,
+    header: 'insta-dm', headerTitle: '대화상대',
+    signShow: true, signChar: '윤도', signMaker: '@ROMEC',
+    fmt: { align: 'justify', weight: 400, font: 'Pretendard', size: 14, lineHeight: 1.6, letterSpacing: -0.008, blockGap: 18, vAlign: 'top' },
+    canvas: { mode: 'ratio', ratio: '3:4', width: 560, mt: 20, mb: 20, ml: 50, mr: 50, marginDetail: false, marginLink: true }
+  },
+  {
+    presetId: 'ios',
+    name: 'iOS',
+    bg: '#FFFFFF', fg: '#1A1A1A', bubbleBg: '#EDEDF0', bubbleFg: '#1A1A1A',
+    myBubbleBg: '#424448', myBubbleFg: '#FFFFFF', highlight: '#FFE79A',
+    bubbleStyle: 'notif', groupRuns: false,
+    bubbleRadius: 12, brDetail: false, brTL: 12, brTR: 12, brBR: 12, brBL: 12,
+    showTail: true, tailShape: 'curve',
+    showName: true, showAvatar: true, myName: false, myAvatar: false, roundAvatar: true,
+    header: 'lock-clock', headerTitle: '',
+    signShow: true, signChar: '해이', signMaker: '@luvheil',
+    lockDate: '3월 12일 화요일', lockTime: '3:08', notifBg: 'rgba(255,255,255,0.5)', lockGlass: false, lockFg: '#404040',
+    bgOverlay: 10, bgOverlayColor: '#000000', bgY: 0,
+    fmt: { align: 'justify', weight: 400, font: 'Pretendard', size: 15, lineHeight: 1.5, letterSpacing: 0, blockGap: 20, vAlign: 'top' },
+    canvas: { mode: 'ratio', ratio: '3:4', width: 560, mt: 20, mb: 20, ml: 50, mr: 50, marginDetail: false, marginLink: true }
+  },
+  {
+    presetId: 'twitter',
+    name: 'Twitter',
+    bg: '#FFFFFF', fg: '#1A1A1A', bubbleBg: '#EDEDF0', bubbleFg: '#1A1A1A',
+    myBubbleBg: '#424448', myBubbleFg: '#FFFFFF', highlight: '#FFE79A',
+    bubbleStyle: 'sns', groupRuns: true, snsBg: '#FFFFFF',
+    bubbleRadius: 12, brDetail: false, brTL: 12, brTR: 12, brBR: 12, brBL: 12,
+    showTail: true, tailShape: 'curve',
+    showName: true, showAvatar: true, myName: false, myAvatar: false, roundAvatar: true,
+    header: 'none', headerTitle: '',
+    signShow: true, signChar: '해이', signMaker: '@luvheil',
+    fmt: { align: 'justify', weight: 400, font: 'Pretendard', size: 15, lineHeight: 1.6, letterSpacing: 0, blockGap: 20, vAlign: 'center' },
+    canvas: { mode: 'ratio', ratio: '1:1', width: 560, mt: 30, mb: 30, ml: 40, mr: 40, marginDetail: false, marginLink: true }
+  },
+  {
+    presetId: 'chapter',
+    name: 'article',
+    bg: '#F8FAFC', fg: '#334155', bubbleBg: '#E2E8F0', bubbleFg: '#1E293B',
+    myBubbleBg: '#475569', myBubbleFg: '#F1F5F9', highlight: '#CBD5E1',
+    bubbleStyle: 'quote', groupRuns: true,
+    bubbleRadius: 12, brDetail: false, brTL: 12, brTR: 12, brBR: 12, brBL: 12,
+    showTail: true, tailShape: 'curve',
+    showName: true, showAvatar: true, myName: true, myAvatar: true, roundAvatar: false,
+    header: 'news-online', headerTitle: '',
+    onlineHeadline: '큰 제목', onlineCategory: '소제목', onlineCategoryColor: '#7C3AED',
+    signShow: true, signChar: '해이', signMaker: '@luvheil',
+    fmt: { align: 'justify', weight: 400, font: 'Pretendard', size: 17, lineHeight: 1.6, letterSpacing: 0, blockGap: 20, vAlign: 'center' },
+    canvas: { mode: 'ratio', ratio: '1:1', width: 560, mt: 40, mb: 40, ml: 40, mr: 40, marginDetail: false, marginLink: true }
+  },
+  {
+    presetId: 'newspapers',
+    name: 'journal',
+    bg: '#1A1815', fg: '#C4B8A8', bubbleBg: '#2D2822', bubbleFg: '#E8DFD3',
+    myBubbleBg: '#3D362E', myBubbleFg: '#F5EFE7', highlight: '#8B7355',
+    bubbleStyle: 'script', groupRuns: true,
+    bubbleRadius: 12, brDetail: false, brTL: 12, brTR: 12, brBR: 12, brBL: 12,
+    showTail: true, tailShape: 'curve',
+    showName: true, showAvatar: false, myName: true, myAvatar: false, roundAvatar: true,
+    header: 'paper', headerTitle: '',
+    paperJournal: '소제목', paperTitle: '큰 제목', paperAuthors: '해이 | @luvheil',
+    signShow: true, signChar: '해이', signMaker: '@luvheil',
+    fmt: { align: 'left', weight: 400, font: 'Pretendard', size: 17, lineHeight: 1.5, letterSpacing: 0, blockGap: 20, vAlign: 'top' },
+    canvas: { mode: 'ratio', ratio: '1:1', width: 560, mt: 20, mb: 20, ml: 40, mr: 40, marginDetail: false, marginLink: true }
   },
 ];
 /* 기본으로 딸려 오는 테마인가. presetId로 찾는다 — 이름을 바꿔도 프리셋 연결이 유지된다. */
@@ -5556,7 +5646,7 @@ function renderBlock(b, th, f, prev, next) {
     }
 
     /* 얼굴을 말풍선의 어느 높이에 세울지.
-       · 말풍선 modern 단독  → 아래쪽 (말풍선 기준 하단 정렬)
+       · 말풍선 modern/iMessage/plain → 아래쪽 (말풍선 기준 하단 정렬)
        · 말풍선 modern 연속  → 아래쪽 + 살짝 위로 (.av-lift)
        · 말풍선 (그 외)     → 위쪽 (말풍선 기준 상단 정렬)
        · 인용 + 아바타      → 위쪽
@@ -5565,7 +5655,7 @@ function renderBlock(b, th, f, prev, next) {
     const singleBubble = !cont && !more;
     const isModernMulti = bs === 'bubble' && preset.isCorner && !singleBubble;
     row.classList.add(
-      bs === 'bubble' && preset.isCorner ? 'av-bottom'
+      bs === 'bubble' && (preset.isCorner || preset.avBottom) ? 'av-bottom'
         : bs === 'bubble' ? 'av-top'
           : quoteAv ? 'av-top'
             : 'av-mid');
@@ -6761,8 +6851,10 @@ function renderPageMarks() {
     cv.classList.add('head-pinned');
     head.classList.add('head-pin');
   } else if (isFlowHead) {
-    /* 제목도 본문과 함께 움직이며 페이지 높이 계산에 참여한다. */
+    /* 제목도 본문과 함께 움직이며 페이지 높이 계산에 참여한다.
+       중앙 정렬 시 헤더 높이의 절반을 hold처럼 취급해서 위/아래 균형을 맞춘다. */
     head.classList.add('head-flow');
+    if (!isTopAlign()) headHold = Math.round(hh / 2);
   }
   /* 하단 장식과 서명이 차지할 몫을 먼저 빼고 장을 센다.
      인스타 입력창은 서명을 포함하지 않으므로 둘의 높이와 사이 간격을 함께 확보한다. */
