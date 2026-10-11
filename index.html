@@ -627,26 +627,30 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .cv-foot-ebook .hd-nav.right{justify-content:flex-end}
 .cv-foot-ebook .hd-sign{font-size:.75em;text-align:center;opacity:.6}
 
-/* 이북 모던 — 헤더 + 진행률 바 + 푸터 조합. preview 디자인 기반. */
-.hd-ebook-modern{--hd-size:1em;--eb-pad:14px;
+/* 이북 모던 — 헤더 + 진행률 바 + 푸터 조합. preview 디자인 기반.
+   kakao(1.3em) 대비 사이즈 확대: 1em → 1.2em */
+.hd-ebook-modern{--hd-size:1.2em;--eb-pad:16px;
   background:linear-gradient(to bottom, rgba(0,0,0,.08) 0%, transparent 100%);
   margin-left:calc(var(--cv-pl,32px) * -1);margin-right:calc(var(--cv-pr,32px) * -1);
-  margin-top:calc(var(--cv-pt,28px) * -1);padding:12px var(--eb-pad)}
+  margin-top:calc(var(--cv-pt,28px) * -1);padding:14px var(--eb-pad)}
 .hd-ebook-modern.light{background:linear-gradient(to bottom, rgba(0,0,0,.04) 0%, transparent 100%)}
 .hd-ebook-modern .hd-row{display:flex;justify-content:space-between;align-items:center}
-.hd-ebook-modern .hd-title{font-weight:500;font-size:.85em;letter-spacing:-.01em}
-.hd-ebook-modern svg{width:1em;height:1em;stroke-width:2;opacity:.6}
-/* 이북 모던 푸터 — 하단 네비게이션 */
-.cv-foot-ebook-modern{--eb-pad:14px;position:absolute;left:0;right:0;bottom:0;
+.hd-ebook-modern .hd-title{font-weight:500;font-size:.95em;letter-spacing:-.01em}
+.hd-ebook-modern svg{width:1.1em;height:1.1em;stroke-width:2;opacity:.6}
+/* 이북 모던 푸터 — 하단 네비게이션.
+   iOS Safari 저장 시 글자 간격 문제 방지를 위해 letter-spacing/word-spacing 명시 */
+.cv-foot-ebook-modern{--eb-pad:16px;position:absolute;left:0;right:0;bottom:0;
   background:linear-gradient(to top, rgba(0,0,0,.08) 0%, transparent 100%);
-  padding:12px var(--eb-pad) calc(var(--cv-pb,32px) * 2 / 3)}
+  padding:14px var(--eb-pad) calc(var(--cv-pb,32px) * 2 / 3);
+  letter-spacing:0;word-spacing:normal;text-align:left}
 .cv-foot-ebook-modern.light{background:linear-gradient(to top, rgba(0,0,0,.03) 0%, transparent 100%)}
 /* 하단 네비게이션 */
-.cv-foot-ebook-modern .hd-row{display:flex;justify-content:space-between;align-items:center;font-size:.7em}
-.cv-foot-ebook-modern .hd-nav{opacity:.5;display:flex;align-items:center;gap:2px}
-.cv-foot-ebook-modern .hd-nav svg{width:.85em;height:.85em;fill:none;stroke:currentColor;stroke-width:2.5;
+.cv-foot-ebook-modern .hd-row{display:flex;justify-content:space-between;align-items:center;font-size:.8em;
+  letter-spacing:0;word-spacing:normal}
+.cv-foot-ebook-modern .hd-nav{opacity:.5;display:flex;align-items:center;gap:3px;flex-shrink:0}
+.cv-foot-ebook-modern .hd-nav svg{width:.9em;height:.9em;fill:none;stroke:currentColor;stroke-width:2.5;
   stroke-linecap:round;stroke-linejoin:round}
-.cv-foot-ebook-modern .hd-sign{opacity:.5}
+.cv-foot-ebook-modern .hd-sign{opacity:.5;flex-shrink:0;white-space:nowrap}
 /* 여러 장일 때도 bottom:0 유지 — padding-bottom으로 내용 위치 조절 */
 .cv-foot-ebook-modern.eb-foot-pin{bottom:0}
 
@@ -681,12 +685,19 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .hd-insta-dm .hd-actions{display:flex;gap:calc(10 * var(--insta-u));flex-shrink:0}
 .canvas > .cv-foot-insta-dm{position:absolute;left:0;right:0;bottom:0;background:transparent;
   padding:calc(10 * var(--insta-u)) 18px calc(12 * var(--insta-u));line-height:1.4}
-.cv-foot-insta-dm .ft-row{display:flex;align-items:center;gap:calc(14 * var(--insta-u))}
-.cv-foot-insta-dm .ft-camera{width:calc(40 * var(--insta-u));height:calc(40 * var(--insta-u));
-  border-radius:50%;background:var(--insta-accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.cv-foot-insta-dm .ft-camera svg{width:calc(23 * var(--insta-u));height:calc(23 * var(--insta-u));margin-top:calc(-3.1 * var(--insta-u))}
-.cv-foot-insta-dm .ft-input{flex:1;min-width:0;display:flex;align-items:center;gap:calc(4 * var(--insta-u))}
-.cv-foot-insta-dm .ft-placeholder{flex:1;min-width:0;font-size:calc(16 * var(--insta-u));opacity:.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* 인스타 DM 푸터: 전체를 하나의 둥근 박스로 감싸기 */
+.cv-foot-insta-dm .ft-row{display:flex;align-items:center;gap:calc(12 * var(--insta-u));
+  background:rgba(239,239,239,.95);border-radius:calc(24 * var(--insta-u));
+  padding:calc(6 * var(--insta-u)) calc(12 * var(--insta-u)) calc(6 * var(--insta-u)) calc(6 * var(--insta-u))}
+/* 카메라 버튼: 사이즈 축소 + 파랑-보라 그라데이션 */
+.cv-foot-insta-dm .ft-camera{width:calc(36 * var(--insta-u));height:calc(36 * var(--insta-u));
+  border-radius:50%;background:linear-gradient(135deg, #5B7FFF 0%, #8B5CF6 100%);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cv-foot-insta-dm .ft-camera svg{width:calc(20 * var(--insta-u));height:calc(20 * var(--insta-u));margin-top:calc(-2.5 * var(--insta-u))}
+.cv-foot-insta-dm .ft-input{flex:1;min-width:0;display:flex;align-items:center;gap:calc(4 * var(--insta-u));
+  min-height:calc(36 * var(--insta-u))}
+.cv-foot-insta-dm .ft-placeholder{flex:1;min-width:0;font-size:calc(14 * var(--insta-u));opacity:.5;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:calc(36 * var(--insta-u))}
 .cv-foot-insta-dm .ft-icons{display:flex;align-items:center;gap:calc(16 * var(--insta-u));flex-shrink:0}
 .cv-foot-insta-dm .ft-icons svg{width:calc(26 * var(--insta-u));height:calc(26 * var(--insta-u))}
 .hd-insta-dm .insta-icon,.cv-foot-insta-dm .insta-icon{display:block;overflow:visible}
@@ -695,23 +706,41 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .canvas.has-insta-dm.foot-pinned{padding-bottom:calc(var(--cv-pb,32px) + var(--foot-h,0px) + var(--cv-gap,10px))}
 .canvas.has-insta-dm .blk.is-footer.foot-pin{bottom:calc(var(--insta-foot-h,0px) + (var(--cv-pb,32px) + var(--cv-gap,10px)) / 2)}
 
-/* 프리뷰 장식 — 잠금화면은 고정 글꼴·크기, 뉴스·논문은 본문 14px 기준 비율. */
+/* 프리뷰 장식 — 잠금화면은 고정 글꼴·크기 + 글래스 효과, 뉴스·논문은 본문 14px 기준 비율.
+   잠금화면 시간은 캔버스 상단에 넉넉한 여백으로 배치 (iOS 잠금화면 레퍼런스). */
 .hd-lock-clock{font-family:"Pretendard",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
-  padding:30px 18px;text-align:center;letter-spacing:0}
-.hd-lock-clock .lock-date{font-size:16px;font-weight:500;line-height:1.3;opacity:.85;margin-bottom:4px}
-.hd-lock-clock .lock-time{font-size:86px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
-.hd-news-online{padding:calc(20em / 14) 20px calc(16em / 14);text-align:left;letter-spacing:0;overflow-wrap:anywhere}
-.hd-news-online .online-category{font-size:calc(12em / 14);font-weight:600;margin-bottom:calc(8 * var(--title-u));line-height:1.5}
-.hd-news-online .online-headline{font-size:calc(22em / 14);font-weight:700;line-height:1.35}
-.hd-paper{padding:calc(24em / 14) 20px;text-align:left;letter-spacing:0;overflow-wrap:anywhere}
-.hd-paper .paper-journal{font-size:calc(11em / 14);font-weight:500;letter-spacing:.06em;line-height:1.5;opacity:.55;margin-bottom:calc(10 * var(--title-u))}
-.hd-paper .paper-title{font-family:"Times New Roman",Georgia,serif;font-size:calc(17em / 14);font-weight:700;line-height:1.4;margin-bottom:calc(10 * var(--title-u))}
-.hd-paper .paper-authors{font-size:calc(12em / 14);font-weight:400;line-height:1.5;opacity:.7}
-.hd-news-online::after,.hd-paper::after{content:"";position:absolute;left:20px;right:20px;bottom:0;height:1px;background:currentColor;opacity:.2}
-/* 실화면은 backdrop-filter, 저장본은 같은 배경을 잘라 흐린 층으로 재현한다. */
-.hd-insta-dm,.cv-foot-insta-dm{backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
-.insta-glass{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-.hd-insta-dm > .hd-row,.cv-foot-insta-dm > .ft-row{position:relative;z-index:1}
+  padding:48px 18px 16px;text-align:center;letter-spacing:0;
+  color:var(--lock-fg,inherit);min-height:calc(100% / 3)}
+.hd-lock-clock .lock-date{font-size:18px;font-weight:600;line-height:1.3;margin-bottom:8px}
+.hd-lock-clock .lock-time{font-size:min(90px,18vw);font-weight:800;line-height:1;
+  font-variant-numeric:tabular-nums;letter-spacing:-.04em;
+  text-shadow:0 0 20px rgba(255,255,255,.35),0 0 60px rgba(255,255,255,.2),0 2px 4px rgba(0,0,0,.15)}
+.hd-news-online{--title-pl:40px;--title-pr:40px;padding:calc(20em / 14) var(--title-pr) calc(10em / 14) var(--title-pl);text-align:left;letter-spacing:0;overflow-wrap:anywhere}
+.hd-news-online .online-category{font-size:calc(12em / 14);font-weight:600;margin-bottom:calc(4 * var(--title-u));line-height:1.5}
+.hd-news-online .online-headline{font-size:calc(22em / 14);font-weight:800;line-height:1.35}
+.hd-paper{padding:calc(20em / 14) 36px calc(12em / 14);text-align:left;letter-spacing:0;overflow-wrap:anywhere}
+.hd-paper .paper-journal{font-size:calc(11em / 14);font-weight:500;letter-spacing:.06em;line-height:1.5;opacity:.55;margin-bottom:calc(4 * var(--title-u))}
+.hd-paper .paper-title{font-family:"Times New Roman",Georgia,serif;font-size:calc(20em / 14);font-weight:700;line-height:1.35;margin-bottom:calc(4 * var(--title-u))}
+.hd-paper .paper-authors{font-size:calc(12em / 14);font-weight:400;line-height:1.5;opacity:.6}
+.hd-news-online::after{content:"";position:absolute;left:var(--title-pl);right:var(--title-pr);bottom:0;height:1px;background:currentColor;opacity:.2}
+.hd-paper::after{content:"";position:absolute;left:36px;right:36px;bottom:0;height:1px;background:currentColor;opacity:.2}
+/* 배경 복제 층을 화면과 저장본에 공통으로 사용한다. 블러는 헤더 아래에서 페이드한다. */
+.hd-insta-dm,.cv-foot-insta-dm{backdrop-filter:none;-webkit-backdrop-filter:none;background:transparent}
+.insta-glass{position:absolute;inset:0 0 -32px;overflow:hidden;pointer-events:none;z-index:0;
+  mask-image:linear-gradient(to bottom,#000 0%,#000 calc(100% - 32px),transparent 100%);
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 calc(100% - 32px),transparent 100%)}
+.hd-insta-dm > .hd-row{position:relative;z-index:1}
+/* 시계의 원래 글꼴·크기·높이는 유지하고, 글래스 ON일 때만 표면과 윤곽을 분리한다. */
+.lock-time.is-glass{position:relative;text-shadow:none}
+.lock-time.is-glass .lock-time-face{position:relative;z-index:1;color:transparent;
+  -webkit-text-stroke:.9px var(--lock-glass-rim,rgba(246,255,237,.58));
+  background:linear-gradient(155deg,rgba(255,255,255,.2),rgba(255,255,255,.015) 45%,rgba(255,255,255,.09));
+  background-clip:text;-webkit-background-clip:text}
+.lock-glass{position:absolute;inset:0;overflow:hidden;pointer-events:none;
+  mask:var(--lock-mask) center / 100% 100% no-repeat;
+  -webkit-mask:var(--lock-mask) center / 100% 100% no-repeat}
+.lock-glass::after{content:"";position:absolute;inset:0;
+  background:var(--lock-glass-tint,rgba(255,255,255,.16))}
 
 /* ═══ 프레임 ══════════════════════════════════════════════════
    화면머리가 «맨 위에 눕는 띠» 라면 프레임은 «사방을 두른 창» 이다 — 캔버스 네 변을
@@ -937,11 +966,15 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
    좁힌 뒤 «몇 번째 단인가» 를 가로 여백으로, «그 단의 맨 위» 를 세로 여백으로
    손수 앉힌다 [placeFlow]. */
 .canvas.has-colpage > .blk{width:var(--cv-colw);align-self:flex-start}
+.canvas.has-colpage > .cv-head.head-flow{width:calc(var(--cv-colw) + var(--cv-pl,32px) + var(--cv-pr,32px));align-self:flex-start}
 /* 서명은 단에 안 든다 — 장 바닥을 가로질러 통째로 눕는다 */
 .canvas.has-colpage > .blk.is-footer{width:auto;align-self:stretch}
 .canvas.head-pinned{padding-top:calc(var(--cv-pt,32px) + var(--head-hold,0px))}
 .canvas .cv-head.head-pin{position:absolute;margin:0;left:0;right:0;top:0}
 .canvas > .head-ghost{position:absolute;margin:0;pointer-events:none;left:0;right:0}
+/* Title 흐름 모드: 본문과 함께 이동 — 캔버스 좌우 끝까지 늘어나도록 음수 마진 */
+.canvas .cv-head.head-flow{margin:0 calc(var(--cv-pl,32px) * -1) 4px calc(var(--cv-pr,32px) * -1)}
+.canvas .cv-head.head-flow.hd-news-online{--title-pl:calc(var(--cv-pl,32px) + 8px);--title-pr:calc(var(--cv-pr,32px) + 8px)}
 
 /* 프로필 이미지를 말풍선의 어느 높이에 세울지는 렌더가 정한다(av-top/av-mid/av-bottom).
    꼬리가 있으면 꼬리와 눈높이를 맞추고, 없으면 이름 유무를 따르고, 인용·없음은 가운데다. */
@@ -996,7 +1029,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .blk-bubble .bub.as-plain{background:none;border-radius:0;padding:0}
 /* 알림 스타일 — iOS 잠금화면 알림 말풍선. 블록 전체에 배경 적용. 이미지·이름 강제 표시. */
 .blk-bubble.n-row{
-  background:var(--notif-bg,rgba(255,255,255,0.25));
+  background:var(--notif-bg,rgba(255,255,255,0.5));
   border-radius:20px;padding:12px 14px;gap:12px;
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   box-shadow:0 2px 12px rgba(0,0,0,0.1);
@@ -1977,8 +2010,12 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 }
 
 .colorf{display:flex;gap:8px;align-items:center}
-.colorf .sw{width:38px;height:38px;flex:0 0 38px;border-radius:var(--r-sm);border:1px solid var(--c-border);padding:0;overflow:hidden}
+.colorf .sw{width:var(--ctl-sm);height:var(--ctl-sm);flex:0 0 var(--ctl-sm);border-radius:var(--r-sm);border:1px solid var(--c-border);padding:0;overflow:hidden}
 .colorf .sw input{opacity:0;width:100%;height:100%;border:0;padding:0;cursor:pointer}
+/* 색상 필드 + 보조 버튼 (자동 등) 인라인 레이아웃 */
+.colorf-row{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-sm);margin-bottom:6px}
+.colorf-row > .lab{margin:0}
+.colorf-row > .btn{height:24px;padding:0 var(--sp-sm);font-size:var(--fs-xs)}
 
 /* 버튼 (v2) */
 .btn{height:var(--ctl-sm);padding:0 var(--sp-md);border-radius:var(--r-sm);
@@ -2163,7 +2200,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 
 /* ═══ 팝오버 (색 지정) ═══════════════════════════════════════ */
 .pop{
-  position:fixed;z-index:70;background:var(--c-surface);border:1px solid var(--c-border);
+  position:fixed;z-index:91;background:var(--c-surface);border:1px solid var(--c-border);
   border-radius:var(--r-card);box-shadow:var(--shadow-pop);padding:14px;width:280px;
 }
 .pop-title{font-size:var(--fs-label);color:var(--c-text-secondary);margin-bottom:10px}
@@ -2215,7 +2252,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 .pop-hue i{position:absolute;top:50%;width:15px;height:15px;border-radius:50%;background:#fff;
   box-shadow:0 1px 4px rgba(0,0,0,.4);transform:translate(-50%,-50%);pointer-events:none}
 .pop-cur{width:34px;height:34px;flex:0 0 34px;border-radius:var(--r-sm);border:1px solid var(--c-border)}
-.popmask{position:fixed;inset:0;z-index:69}
+.popmask{position:fixed;inset:0;z-index:90}
 
 /* ═══ 모달 (이미지 편집 · 아바타) ═════════════════════════════ */
 .modal{position:fixed;inset:0;z-index:80;background:rgba(20,20,24,.45);display:grid;place-items:center;padding:16px}
@@ -5133,8 +5170,9 @@ function renderCanvas() {
     const hasFooterBlock = S.blocks.some(b => b.type === 'footer');
     const isBuddyFrame = frameKind(th) === 'buddy';
     const hdKind = headKind(th);
-    const isEbookHead = hdKind === 'ebook' || hdKind === 'ebook-modern';
-    if (!hasFooterBlock && th.signShow && !isBuddyFrame && !isEbookHead) {
+    const isEbookHead = hdKind === 'ebook-modern';
+    const isPaperHead = hdKind === 'paper'; /* title(2)는 서명을 저자 위치에 표시 */
+    if (!hasFooterBlock && th.signShow && !isBuddyFrame && !isEbookHead && !isPaperHead) {
       const signText = [th.signChar, th.signMaker].filter(Boolean).join(th.signSep === '|' ? ' | ' : ' · ');
       if (signText) {
         const signWrap = el('div', 'blk is-footer');
@@ -5150,9 +5188,7 @@ function renderCanvas() {
       }
     }
     /* 이북 푸터 — 하단 네비게이션 바 (이전권·서명·다음권) */
-    if (hdKind === 'ebook') {
-      cv.appendChild(ebookFooterNode(th));
-    } else if (hdKind === 'ebook-modern') {
+    if (hdKind === 'ebook-modern') {
       cv.appendChild(ebookModernFooterNode(th));
     } else if (hdKind === 'insta-dm') {
       cv.appendChild(instaDmFooterNode(th));
@@ -5190,8 +5226,34 @@ function renderCanvas() {
   diag('render:done', { blocks: S.blocks.length, ms: Math.round(performance.now() - renderAt) });
 }
 
+/* 렌더·저장 모두 같은 글자 마스크를 쓴다. DPR 2로 얇은 윤곽 안쪽도 매끄럽게 유지한다.
+   글꼴이 로드되면 ensureCanvasFonts가 재렌더하므로 마스크도 실제 글꼴로 다시 만들어진다. */
+function lockClockMask(face, w, h) {
+  if (!face || !w || !h) return '';
+  const cs = getComputedStyle(face), text = face.textContent;
+  const c = document.createElement('canvas'); c.width = w * 2; c.height = h * 2;
+  const g = c.getContext('2d'); if (!g) return '';
+  g.scale(2, 2); g.font = cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
+  const spacing = parseFloat(cs.letterSpacing) || 0;
+  const chars = Array.from(text), m = g.measureText(text), px = parseFloat(cs.fontSize);
+  const ascent = m.fontBoundingBoxAscent ?? px * .8, descent = m.fontBoundingBoxDescent ?? px * .2;
+  const y = (h - ascent - descent) / 2 + ascent;
+  // tabular-nums의 글자 폭은 Canvas 기본 숫자 폭과 다르므로 실제 DOM 위치를 따른다.
+  const box = face.parentElement.getBoundingClientRect(), scale = box.width / w || 1;
+  const range = document.createRange(), source = face.firstChild;
+  let offset = 0;
+  g.fillStyle = '#fff';
+  chars.forEach(ch => {
+    range.setStart(source, offset); offset += ch.length; range.setEnd(source, offset);
+    const r = range.getBoundingClientRect(), glyphW = g.measureText(ch).width;
+    const x = (r.left - box.left) / scale + (r.width / scale - spacing - glyphW) / 2;
+    g.fillText(ch, x, y);
+  });
+  return c.toDataURL('image/png');
+}
+
 function syncCanvasBackgrounds(cv, pages = 1) {
-  cv.querySelectorAll(':scope > .bg-ghost, .insta-glass').forEach(n => n.remove());
+  cv.querySelectorAll(':scope > .bg-ghost, .insta-glass, .lock-glass').forEach(n => n.remove());
   const bg = cv.querySelector(':scope > .cv-bg:not(.cv-tex)');
   const H = isFit() ? cv.offsetHeight : pageBox().h;
   const W = cv.offsetWidth;
@@ -5203,16 +5265,35 @@ function syncCanvasBackgrounds(cv, pages = 1) {
       copy.style.top = (i * H) + 'px'; cv.appendChild(copy);
     }
   }
-  if (!bg || !H) return;
-  cv.querySelectorAll('.hd-insta-dm, .cv-foot-insta-dm').forEach(node => {
+  if (!H || !W) return;
+  // 복제 층을 한 곳에서 배치하여 회전·확대·덮기와 장별 배경 좌표를 그대로 따른다.
+  const backgroundAt = (node, blur, tone = '') => {
+    const copy = bg ? bg.cloneNode(true) : el('div', 'cv-bg');
+    copy.classList.remove('bg-ghost');
+    let x = 0, y = 0;
+    for (let n = node; n && n !== cv; n = n.offsetParent) {
+      x += n.offsetLeft; y += n.offsetTop;
+    }
+    const localTop = ((y % H) + H) % H;
+    copy.style.cssText = 'position:absolute;left:' + (-x) + 'px;top:' + (-localTop)
+      + 'px;width:' + W + 'px;height:' + H
+      + 'px;overflow:hidden;filter:blur(' + blur + 'px)' + tone + ';background:var(--cv-bg);';
+    return copy;
+  };
+  cv.querySelectorAll('.hd-insta-dm').forEach(node => {
     const glass = el('div', 'insta-glass');
     glass.setAttribute('aria-hidden', 'true');
-    const copy = bg.cloneNode(true);
-    copy.classList.remove('bg-ghost');
-    const localTop = ((node.offsetTop % H) + H) % H;
-    copy.style.cssText = 'position:absolute;left:0;top:' + (-localTop) + 'px;width:' + W
-      + 'px;height:' + H + 'px;overflow:hidden;filter:blur(20px);background:var(--cv-bg);';
-    glass.appendChild(copy); node.prepend(glass);
+    glass.appendChild(backgroundAt(node, 12)); node.prepend(glass);
+  });
+  cv.querySelectorAll('.lock-time.is-glass').forEach(node => {
+    const face = node.querySelector('.lock-time-face');
+    const mask = lockClockMask(face, node.offsetWidth, node.offsetHeight);
+    if (!mask) return;
+    const glass = el('div', 'lock-glass');
+    glass.setAttribute('aria-hidden', 'true');
+    glass.style.setProperty('--lock-mask', 'url("' + mask + '")');
+    // 배경의 작은 무늬를 넓게 섞어 자연스러운 유리색을 얻는다. 지정색도 이 배경 위에 반투명하게 얹는다.
+    glass.appendChild(backgroundAt(node, 20, ' saturate(.65)')); node.prepend(glass);
   });
 }
 
@@ -5398,8 +5479,8 @@ function renderBlock(b, th, f, prev, next) {
     /* 좌우 가르기는 세 꼴 모두에 준다. 예전에는 «없음» 만 빼 두고 정렬이 그 몫을 한다고
        보았는데, 정렬은 덩어리를 옮길 뿐 «누가 어느 쪽» 인지를 말하지 못한다 — 도구의
        «위치 · 좌/우» 를 눌러도 아무 일이 없어 고장으로 보였다 [.p-row 는 아래에서].
-       SNS는 좌우 구분 없이 모두 좌측 정렬 */
-    const sided = bs === 'sns' ? false : isMe;
+       SNS·알림은 좌우 구분 없이 모두 좌측 정렬 */
+    const sided = (bs === 'sns' || bs === 'notif') ? false : isMe;
     const row = el('div', 'blk-bubble' + (sided ? ' is-me' : '') + (doc ? ' as-doc' : '')
       + (bs === 'quote' ? ' q-row' : '') + (bs === 'plain' ? ' p-row' : '')
       + (bs === 'script' ? ' s-row' : '') + (bs === 'notif' ? ' n-row' : '')
@@ -5555,7 +5636,7 @@ function renderBlock(b, th, f, prev, next) {
     bub.style.setProperty('--bub-bg', (ch && ch.useCustomBubble) ? ch.bubbleBg : tBg);
     /* 알림·SNS 스타일은 row 전체에 배경색 적용 */
     if (bs === 'notif') {
-      row.style.setProperty('--notif-bg', th.notifBg || 'rgba(255,255,255,0.25)');
+      row.style.setProperty('--notif-bg', th.notifBg || 'rgba(255,255,255,0.5)');
     }
     if (bs === 'sns') {
       row.style.setProperty('--sns-bg', th.snsBg || 'transparent');
@@ -5613,7 +5694,7 @@ function renderBlock(b, th, f, prev, next) {
    메신저 화면·신문 제호를 흉내 낸 껍데기. 캔버스 맨 위에 붙는다.
    아이콘은 전부 여기서 그린다 — 글꼴에 딸린 문자를 쓰면 기기마다 다른 그림이 나오고,
    저장본에도 그 차이가 그대로 실린다. 선 두께·색은 CSS 가 currentColor 로 맞춘다. */
-const HEADS = [['none', '없음'], ['imessage', 'iMessage'], ['kakao', 'Kakaotalk'], ['insta-dm', 'Instagram DM'], ['ebook', 'e-Book'], ['ebook-modern', 'e-Book 모던'], ['lock-clock', '잠금화면 시간'], ['news-online', '온라인 뉴스'], ['paper', '논문']];
+const HEADS = [['none', '없음'], ['imessage', 'iMessage'], ['kakao', 'Kakaotalk'], ['insta-dm', 'Instagram DM'], ['ebook-modern', 'e-Book'], ['lock-clock', 'Lock Screen'], ['news-online', 'title(1)'], ['paper', 'title(2)']];
 /* 신문 머리는 테마가 고른 글꼴을 안 따른다 — 신문의 얼굴은 결국 그 글꼴이다.
    · 제호(mark) 는 플레이페어의 «보통 굵기» 다 [NEWS_MARK_W]. 획 대비가 큰 디도풍
      세리프인데, 굵은 벌을 안 쓰니 그 대비가 얌전해져 지면 위에 조용히 얹힌다.
@@ -5750,7 +5831,7 @@ const INSTA_ICONS = {
   chevron: '<svg class="insta-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"> <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
   phone: '<svg class="insta-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"> <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
   video: '<svg class="insta-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"> <rect x="1" y="5" width="15" height="14" rx="2.5" stroke="currentColor" stroke-width="1.7"/> <path d="M16 9l5.5-3v12l-5.5-3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
-  camera: '<svg class="insta-icon" aria-hidden="true" viewBox="0 0 24 24"> <path d="M4 6h3l1.5-2h7l1.5 2h3a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2z" fill="#fff"/> <circle cx="12" cy="13.5" r="5.5" fill="var(--insta-accent)"/> <circle cx="12" cy="13.5" r="3.8" fill="#fff"/> </svg>',
+  camera: '<svg class="insta-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"> <defs><linearGradient id="camLens" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#5B7FFF"/><stop offset="100%" stop-color="#8B5CF6"/></linearGradient></defs> <path d="M4 6h3l1.5-2h7l1.5 2h3a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2z" fill="#fff"/> <circle cx="12" cy="13.5" r="5" fill="url(#camLens)"/> <circle cx="12" cy="13.5" r="3" fill="#fff"/> </svg>',
   mic: '<svg class="insta-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"> <rect x="9" y="2" width="6" height="12" rx="3" stroke="currentColor" stroke-width="1.8"/> <path d="M5 10v1a7 7 0 0014 0v-1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/> <path d="M12 19v3m-3 0h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/> </svg>',
   gallery: '<svg class="insta-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"> <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/> <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/> <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
   plus: '<svg class="insta-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"> <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/> <path d="M12 8v8m-4-4h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/> </svg>'
@@ -5841,7 +5922,12 @@ const muIcon = (k, cls) => {
   return svg;
 };
 
-const headKind = t => (HEADS.some(h => h[0] === (t && t.header)) ? t.header : 'none');
+/* 'ebook'은 삭제됨 → 'ebook-modern'으로 마이그레이션 */
+const headKind = t => {
+  const h = t && t.header;
+  if (h === 'ebook') return 'ebook-modern';
+  return HEADS.some(x => x[0] === h) ? h : 'none';
+};
 /* 신문 글꼴은 처음 쓰일 때 받는다. 다 받으면 글자 너비가 달라지므로 한 번만 다시 그린다 —
    안 그리면 장 나누기를 대체 글꼴 치수로 재 놓은 채 남는다. */
 let _newsFontOn = false;
@@ -5871,10 +5957,9 @@ function ensureNewsFont() {
 /* 새 장식의 텍스트 설정은 두 테마 편집 화면이 같은 필드를 사용한다. */
 const TITLE_HEADER_FIELDS = {
   'lock-clock': [['lockDate', '날짜', '9월 27일 토요일'], ['lockTime', '시간', '2:14']],
-  'news-online': [['onlineCategory', '분류 라벨', '문화'], ['onlineHeadline', '제목', '네가 봄이면, 그럼 됐지']],
-  'paper': [['paperJournal', '학술지', 'Journal of Emotional Studies'],
-    ['paperTitle', '논문 제목', 'The Phenomenology of Surrender in Intimate Relationships'],
-    ['paperAuthors', '저자', 'Sa, Haeyi · Choi, Yundo']]
+  'news-online': [['onlineCategory', '태그', '문화'], ['onlineHeadline', '제목', '네가 봄이면, 그럼 됐지']],
+  'paper': [['paperJournal', '태그', 'Journal of Emotional Studies'],
+    ['paperTitle', '제목', 'The Phenomenology of Surrender in Intimate Relationships']]
 };
 function titleHeaderControls(t, kind, up) {
   const wrap = el('div', 'stack');
@@ -5886,7 +5971,36 @@ function titleHeaderControls(t, kind, up) {
     input.oninput = () => { t[key] = input.value; up(); };
     field.appendChild(input); wrap.appendChild(field);
   });
-  if (kind === 'news-online') wrap.appendChild(colorField('라벨 색', t.onlineCategoryColor || '#1a73e8', v => { t.onlineCategoryColor = v; up(); }));
+  if (kind === 'news-online') wrap.appendChild(colorField('태그 색', t.onlineCategoryColor || '#1a73e8', v => { t.onlineCategoryColor = v; up(); }));
+  if (kind === 'lock-clock') {
+    const styleField = el('div', 'field');
+    styleField.appendChild(el('label', 'lab', '시계 스타일'));
+    const items = [['normal', '기본'], ['glass', '글래스']];
+    const styleSeg = segment(items, t.lockGlass ? 'glass' : 'normal', value => {
+      t.lockGlass = value === 'glass';
+      [...styleSeg.children].forEach((button, i) => {
+        const active = items[i][0] === value;
+        button.classList.toggle('is-on', active); button.setAttribute('aria-pressed', String(active));
+      });
+      up();
+    });
+    styleSeg.setAttribute('role', 'group'); styleSeg.setAttribute('aria-label', '시계 스타일');
+    [...styleSeg.children].forEach((button, i) => button.setAttribute('aria-pressed', String(i === (t.lockGlass ? 1 : 0))));
+    styleField.appendChild(styleSeg); wrap.appendChild(styleField);
+    const makeColor = () => {
+      const automatic = el('button', 'btn btn-quiet', '자동');
+      automatic.type = 'button'; automatic.disabled = !t.lockFg;
+      automatic.title = '글래스는 배경색을 사용하고, 기본 시계는 테마 글자색을 사용합니다';
+      const color = colorField('글자 색', t.lockFg || '', value => {
+        t.lockFg = value; automatic.disabled = !value; up();
+      });
+      const colorLabel = color.querySelector('.lab'), colorRow = el('div', 'colorf-row');
+      colorLabel.replaceWith(colorRow); colorRow.append(colorLabel, automatic);
+      automatic.onclick = () => { t.lockFg = ''; color.replaceWith(makeColor()); up(); };
+      return color;
+    };
+    wrap.appendChild(makeColor());
+  }
   return wrap;
 }
 
@@ -5898,17 +6012,37 @@ function headerNode(th) {
   if (kind === 'none') return null;
   const title = (th.headerTitle || '').trim();
   const head = el('div', 'cv-head hd-' + kind);
-  head.style.color = th.fg;
+  /* 잠금화면 시간은 별도 글자 색상 지원 — lockFg가 있으면 그것을 사용 */
+  if (kind === 'lock-clock' && th.lockFg) {
+    head.style.color = th.lockFg;
+  } else {
+    head.style.color = th.fg;
+  }
   if (TITLE_HEADER_FIELDS[kind]) {
     head.style.setProperty('--title-u', (fmt().size / 14) + 'px');
     const classes = kind === 'lock-clock' ? ['lock-date', 'lock-time']
       : kind === 'news-online' ? ['online-category', 'online-headline']
-      : ['paper-journal', 'paper-title', 'paper-authors'];
+      : ['paper-journal', 'paper-title'];
     TITLE_HEADER_FIELDS[kind].forEach(([key, , initial], i) => {
       const node = Object.assign(el('div', classes[i]), { textContent: th[key] ?? initial });
+      if (kind === 'lock-clock' && i === 1 && th.lockGlass) {
+        node.classList.add('is-glass');
+        if (th.lockFg) {
+          node.style.setProperty('--lock-glass-rim', rgbaOf(mixHex(th.lockFg, '#FFFFFF', .65), 65));
+          node.style.setProperty('--lock-glass-tint', rgbaOf(th.lockFg, 68));
+        }
+        const face = el('span', 'lock-time-face', node.textContent);
+        node.replaceChildren(face);
+      }
       if (kind === 'news-online' && i === 0) node.style.color = th.onlineCategoryColor || '#1a73e8';
       head.appendChild(node);
     });
+    /* title(2): 서명을 저자 위치에 표시 */
+    if (kind === 'paper' && th.signShow && th.signChar) {
+      const authors = el('div', 'paper-authors');
+      authors.textContent = th.signChar + (th.signMaker ? ' · ' + th.signMaker : '');
+      head.appendChild(authors);
+    }
     return head;
   }
 
@@ -6073,9 +6207,6 @@ function headerNode(th) {
     hRow.appendChild(actions);
     head.appendChild(hRow);
     return head;
-  } else if (kind === 'ebook') {
-    /* 이북 리더: 상단 헤더 없음, 하단 푸터만 사용 */
-    return null;
   } else if (kind === 'ebook-modern') {
     /* 이북 모던: 헤더 + 진행률 바 푸터 */
     const hx = hexOf(th.bg) || 'FFFFFF';
@@ -6096,7 +6227,7 @@ function headerNode(th) {
   }
   row.append(left, mid, right);
   head.appendChild(row);
-  if (kind === 'imessage' || kind === 'ebook') head.appendChild(el('i', 'hd-rule'));
+  if (kind === 'imessage') head.appendChild(el('i', 'hd-rule'));
   return head;
 }
 
@@ -6295,7 +6426,10 @@ function musicNode(b, th) {
 /* ═══ 페이지 자동 분할 (F-WEB-019) [원본 page-split-save-script] ═══ */
 const pageRows = () => [...$('#canvas').children].filter(n => n.classList.contains('blk'));
 /* 서명은 장마다 바닥에 따로 놓인다 — 장을 나눌 때 세는 줄에서는 빠진다 */
-const flowRows = () => pageRows().filter(n => !n.classList.contains('is-footer'));
+// 본문과 함께 움직이는 제목도 높이 계산·장 배치·내보내기의 같은 흐름에 포함한다.
+const flowRows = () => [...$('#canvas').children].filter(n =>
+  (n.classList.contains('blk') && !n.classList.contains('is-footer'))
+  || (n.classList.contains('cv-head') && n.classList.contains('head-flow')));
 const footRow = () => {
   const f = pageRows().filter(n => n.classList.contains('is-footer'));
   return f[f.length - 1] || null;
@@ -6305,7 +6439,7 @@ const footRow = () => {
 let footHold = 0, headHold = 0;
 /* 미리보기에서 장마다 제자리에 앉히려고 얹은 여백 [renderPageMarks]. 저장은 장마다
    캔버스를 새로 세우므로 이것을 걷어 내고 시작한다 — 안 걷으면 그 여백만큼 밀려 나온다. */
-const clearPageOffsets = cv => cv.querySelectorAll('.blk[data-page-top], .blk[data-page-col]')
+const clearPageOffsets = cv => cv.querySelectorAll('.blk[data-page-top], .blk[data-page-col], .cv-head[data-page-top], .cv-head[data-page-col]')
   .forEach(n => {
     n.style.marginTop = ''; n.style.marginLeft = '';
     delete n.dataset.pageTop; delete n.dataset.pageCol;
@@ -6585,7 +6719,7 @@ function pageRanges(hold = headHold + footHold) {
 function renderPageMarks() {
   const cv = $('#canvas');
   cv.querySelectorAll('.pagemark, .foot-ghost, .head-ghost, .frame-ghost, .eb-foot-ghost, .bg-ghost').forEach(n => n.remove());
-  cv.querySelectorAll('.foot-pin, .head-pin, .eb-foot-pin').forEach(n => n.classList.remove('foot-pin', 'head-pin', 'eb-foot-pin'));
+  cv.querySelectorAll('.foot-pin, .head-pin, .head-flow, .eb-foot-pin').forEach(n => n.classList.remove('foot-pin', 'head-pin', 'head-flow', 'eb-foot-pin'));
   /* 프레임 높이는 아래에서 «한 장» 으로 못 박는다 — CSS 의 100% 는 여러 장이면 쌓아 올린
      전체 높이라, 창이 장 수만큼 늘어난 한 덩어리로 그려진다. */
   const frame0 = cv.querySelector('.cv-frame');
@@ -6613,8 +6747,11 @@ function renderPageMarks() {
      offsetHeight 는 absolute 요소도 패딩을 포함한 높이를 돌려준다. */
   const ebh = ebFoot ? ebFoot.offsetHeight : 0;
   /* 화면머리는 한 장이든 여러 장이든 늘 맨 위다 — 비율 지정이면 언제나 못 박는다.
-     (서명과 다르다. 서명은 한 장에 들어가면 본문과 한 덩어리로 가운데에 놓는 편이 낫다.) */
-  if (head) {
+     (서명과 다르다. 서명은 한 장에 들어가면 본문과 한 덩어리로 가운데에 놓는 편이 낫다.)
+     title(1)·title(2)는 본문과 함께 이동한다. */
+  const th = theme();
+  const isFlowHead = head && ['news-online', 'paper'].includes(headKind(th));
+  if (head && !isFlowHead) {
     /* 화면머리는 위 여백을 안 쓴다 — 캔버스 맨 위 가장자리부터 그린다 [.cv-head].
        위 여백은 그 «다음» 부터다. 캔버스가 이미 위 여백만큼 안쪽 여백을 두고 있으므로
        [.canvas.head-pinned], 본문이 더 내줘야 할 몫은 화면머리의 높이 그대로다.
@@ -6623,6 +6760,9 @@ function renderPageMarks() {
     cv.style.setProperty('--head-hold', headHold + 'px');
     cv.classList.add('head-pinned');
     head.classList.add('head-pin');
+  } else if (isFlowHead) {
+    /* 제목도 본문과 함께 움직이며 페이지 높이 계산에 참여한다. */
+    head.classList.add('head-flow');
   }
   /* 하단 장식과 서명이 차지할 몫을 먼저 빼고 장을 센다.
      인스타 입력창은 서명을 포함하지 않으므로 둘의 높이와 사이 간격을 함께 확보한다. */
@@ -6656,8 +6796,9 @@ function renderPageMarks() {
   /* 단을 쓰면 rg 한 칸은 «장» 이 아니라 «단» 이다 — 장은 그것을 N 개씩 묶은 것이다 */
   const N = colOn() ? colCount() : 1;
   const pages = Math.max(1, Math.ceil(rg.length / N));
-  /* 인스타는 한 장에서도 서명을 입력창 위에 고정한다. 다른 서명은 여러 장일 때 고정한다. */
-  const pin = (!!foot || !!ebFoot) && (pages > 1 || !!dmFoot);
+  /* 인스타는 한 장에서도 서명을 입력창 위에 고정한다. 다른 서명은 여러 장일 때 고정한다.
+     중앙 정렬에서도 서명은 하단에 고정한다 — 상단 정렬과 동일한 동작. */
+  const pin = (!!foot || !!ebFoot) && (pages > 1 || !!dmFoot || !isTopAlign());
   if (pin) {
     footHold = footH + gap;
     cv.style.setProperty('--foot-h', footH + 'px');
@@ -6698,8 +6839,9 @@ function renderPageMarks() {
       g.style.top = (i * H) + 'px';
       cv.appendChild(g);
     }
-    /* 첫 장의 화면머리는 진짜(.head-pin)가 캔버스 맨 위에 서 있다 — 뒷장에만 사본을 깐다 */
-    if (head && i) {
+    /* 첫 장의 화면머리는 진짜(.head-pin)가 캔버스 맨 위에 서 있다 — 뒷장에만 사본을 깐다.
+       Big Title 흐름 모드(.head-flow)는 본문 안에 섞이므로 사본을 안 깐다. */
+    if (head && i && !isFlowHead) {
       /* 서명 사본과 달리 겉모습이 뿌리 클래스(hd-imessage…)에 걸려 있다 —
          통째로 갈아치우지 말고 «못 박음» 만 «사본» 으로 바꿔 단다. */
       const g = head.cloneNode(true);
@@ -8916,7 +9058,9 @@ function openBgImageModal(cur, onDone, t) {
     /* 이미지 선택/변경 버튼 */
     const imgBtns = el('div');
     imgBtns.style.cssText = 'position:absolute;right:8px;bottom:8px;z-index:4;display:flex;gap:6px;';
-    const pick = () => pickImage(d => {
+    /* 배경 이미지도 압축 적용 — localStorage 용량 및 렌더링 성능 개선 */
+    const pick = () => pickImage(async rawData => {
+      const d = await shrinkImage(rawData, 2048);
       currentSrc = d;
       /* 항상 S.ui.themeDraft를 수정해야 renderCanvas()에서 반영됨 */
       if (S.ui.themeDraft) S.ui.themeDraft.bgImage = d;
@@ -9043,7 +9187,7 @@ function openBgImageModal(cur, onDone, t) {
     imgBtns.style.cssText = 'position:absolute;right:8px;bottom:8px;z-index:4;display:flex;gap:6px;';
     imgBtns.hidden = !cur;
     crop._onPick = () => { imgBtns.hidden = false; };
-    const pick = () => pickImage(d => { crop._setSrc(d); imgBtns.hidden = false; });
+    const pick = () => pickImage(async d => { const src = await shrinkImage(d, 2048); crop._setSrc(src); imgBtns.hidden = false; });
     crop.style.cursor = 'pointer';
     crop.addEventListener('click', e => { if (!crop._src) { e.stopPropagation(); pick(); } });
     const reBtn = el('button', 'btn btn-quiet');
@@ -9126,8 +9270,8 @@ function renderTools() {
   /* v2: 캔버스 탭을 테마로 통합 — 기존 canvas 선택 시 theme로 전환 */
   if (S.ui.tool === 'canvas') S.ui.tool = 'theme';
   ({ character: panelCharacter, theme: panelTheme })[S.ui.tool](p);
-  /* 되돌릴 자리가 새 내용보다 아래면 브라우저가 알아서 끝까지만 내려 준다 */
-  if (sb) sb.scrollTop = same ? keep : 0;
+  /* 패널 전환 시 항상 스크롤 최상단으로 초기화 */
+  if (sb) sb.scrollTop = 0;
 }
 
 function panelCharacter(p) {
@@ -9822,7 +9966,7 @@ function renderThemeGridV2() {
       bubble.style.background = t.bubbleBg;
       bubble.style.color = t.bubbleFg;
     } else if (bs === 'notif') {
-      bubble.style.background = t.notifBg || 'rgba(255,255,255,0.25)';
+      bubble.style.background = t.notifBg || 'rgba(255,255,255,0.5)';
       bubble.style.color = t.fg;
     } else {
       bubble.style.color = t.bubbleFg || t.fg;
@@ -10143,6 +10287,7 @@ function syncThemeEditFormV2() {
   if (TITLE_HEADER_FIELDS[hdKind]) {
     hasOpts = true;
     optWrap.appendChild(titleHeaderControls(t, hdKind, up));
+    /* title(news-online)은 항상 본문과 함께 모드 — 위치 선택 UI 불필요 */
   } else if (hdKind === 'news') {
     hasOpts = true;
     /* 신문: 제호 + 날짜 */
@@ -10165,25 +10310,6 @@ function syncThemeEditFormV2() {
     df.appendChild(di);
     grid.appendChild(df);
     optWrap.appendChild(grid);
-  } else if (hdKind === 'ebook') {
-    hasOpts = true;
-    /* 선 색상 (배경색은 이 색의 옅은 버전으로 자동 생성) */
-    const cur = (t.ebookColor || '').trim();
-    const bgField = el('div', 'field');
-    bgField.style.marginTop = 'var(--sp-md)';
-    const bgHead = el('div', 'tgl-inline');
-    bgHead.appendChild(el('label', 'lab', '선 색상'));
-    const rs = el('button', 'btn btn-quiet btn-sm', '↺');
-    rs.title = '없음으로 되돌리기';
-    rs.disabled = !cur;
-    rs.style.cssText = 'width:24px;height:24px;padding:0;margin-left:auto';
-    rs.onclick = () => { t.ebookColor = ''; rerender(); };
-    bgHead.appendChild(rs);
-    bgField.appendChild(bgHead);
-    const cf = colorField('', cur || t.fg, v => { t.ebookColor = v; rs.disabled = false; up(); });
-    cf.style.marginTop = '6px';
-    bgField.appendChild(cf);
-    optWrap.appendChild(bgField);
   } else if (hdKind === 'ebook-modern') {
     hasOpts = true;
     /* 이북 모던: 작품명 */
@@ -10339,13 +10465,13 @@ function syncThemeEditFormV2() {
   marginGrid.appendChild(mkMargin('우', 'mr', 'ml'));
   canvasBody.appendChild(marginGrid);
 
-  /* 세로 정렬 — 페이지 분할 모드에서 내용을 위에 붙일지 가운데에 둘지 */
+  /* 정렬 — 페이지 분할 모드에서 내용을 위에 붙일지 가운데에 둘지 */
   if (!isFit()) {
     const vAlignField = el('div', 'field');
     vAlignField.style.marginTop = 'var(--sp-lg)';
-    vAlignField.appendChild(el('label', 'lab', '세로 정렬'));
+    vAlignField.appendChild(el('label', 'lab', '정렬'));
     if (!t.fmt) t.fmt = Object.assign({}, S.format);
-    vAlignField.appendChild(segment([['top', '위'], ['center', '가운데']], t.fmt.vAlign || 'center',
+    vAlignField.appendChild(segment([['top', '상단 정렬'], ['center', '중앙 정렬']], t.fmt.vAlign || 'center',
       v => { t.fmt.vAlign = v; rerender(); }));
     canvasBody.appendChild(vAlignField);
   }
@@ -10399,7 +10525,7 @@ function syncThemeEditFormV2() {
   const styleField = el('div', 'field');
   styleField.appendChild(el('label', 'lab', '스타일'));
   const styleSeg = el('div', 'seg');
-  [['bubble', '말풍선'], ['quote', '인용'], ['notif', '알림'], ['sns', 'SNS'], ['script', '각본'], ['plain', '없음']].forEach(([v, l]) => {
+  [['bubble', '말풍선'], ['quote', '인용'], ['script', '각본'], ['notif', '알림'], ['sns', '트윗'], ['plain', '없음']].forEach(([v, l]) => {
     const b = el('button', (t.bubbleStyle || 'bubble') === v ? 'is-on' : '', l);
     b.onclick = () => {
       t.bubbleStyle = v;
@@ -10577,10 +10703,11 @@ function syncThemeEditFormV2() {
     bubbleBody.appendChild(colorGrid);
   }
   if (isNotif) {
-    /* 알림 배경색 — 기본 오퍼시티 낮춤 */
+    /* 알림 배경색 — 기본 오퍼시티 50% 유지 */
     const colorGrid = el('div', 'grid-2');
     colorGrid.style.marginTop = 'var(--sp-md)';
-    colorGrid.appendChild(colorField('알림 배경', t.notifBg || 'rgba(255,255,255,0.25)', v => { t.notifBg = v; up(); }));
+    const notifHex = '#' + (hexOf(t.notifBg) || 'FFFFFF');
+    colorGrid.appendChild(colorField('알림 배경', notifHex, v => { t.notifBg = rgbaOf(v, 50); up(); }));
     bubbleBody.appendChild(colorGrid);
   }
   if (isSns) {
@@ -11608,7 +11735,7 @@ function themeEditor() {
   /* 발화자 블록의 겉모습 — 여섯 중 하나. 말풍선·알림·SNS는 배경이 있어,
      나머지 셋은 꼬리·둥글기가 의미 없다. «각본» 은 이름과 말이 한 줄에 오는 꼴이다 [.s-row]. */
   const bs = t.bubbleStyle || 'bubble';
-  st2.appendChild(segment([['bubble', '말풍선'], ['quote', '인용'], ['notif', '알림'], ['sns', 'SNS'], ['script', '각본'], ['plain', '없음']],
+  st2.appendChild(segment([['bubble', '말풍선'], ['quote', '인용'], ['script', '각본'], ['notif', '알림'], ['sns', '트윗'], ['plain', '없음']],
     bs, v => {
       t.bubbleStyle = v;
       if (v === 'quote' || v === 'script' || v === 'notif') t.groupRuns = false;
@@ -11749,11 +11876,12 @@ function themeEditor() {
     box.appendChild(gBub);
   }
   if (isNotif) {
-    /* 알림 배경색 */
+    /* 알림 배경색 — 기본 오퍼시티 50% 유지 */
     box.appendChild(el('div', 'divider'));
     box.appendChild(el('div', 'sec-title', '알림 색상'));
     const gBub = el('div', 'grid2');
-    gBub.appendChild(colorField('알림 배경', t.notifBg || 'rgba(255,255,255,0.25)', v => { t.notifBg = v; up(); }));
+    const notifHex = '#' + (hexOf(t.notifBg) || 'FFFFFF');
+    gBub.appendChild(colorField('알림 배경', notifHex, v => { t.notifBg = rgbaOf(v, 50); up(); }));
     box.appendChild(gBub);
   }
   if (isSns) {
@@ -13132,7 +13260,7 @@ async function exportPNG() {
     toast('저장에 실패했습니다' + (why ? ' · ' + why : ''));
   } finally {
     if (exportFontStyle) exportFontStyle.remove();
-    pageRows().forEach(n => n.classList.remove('row-off'));
+    flowRows().forEach(n => n.classList.remove('row-off'));
     S.ui.selectedBlockId = wasSel; renderCanvas();
   }
 }
