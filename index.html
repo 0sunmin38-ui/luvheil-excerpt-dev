@@ -636,25 +636,82 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .hd-ebook-modern .hd-row{display:flex;justify-content:space-between;align-items:center}
 .hd-ebook-modern .hd-title{font-weight:500;font-size:.85em;letter-spacing:-.01em}
 .hd-ebook-modern svg{width:1em;height:1em;stroke-width:2;opacity:.6}
-/* 이북 모던 푸터 — 진행률 바 + 네비게이션 */
+/* 이북 모던 푸터 — 하단 네비게이션 */
 .cv-foot-ebook-modern{--eb-pad:14px;position:absolute;left:0;right:0;bottom:0;
   background:linear-gradient(to top, rgba(0,0,0,.08) 0%, transparent 100%);
-  padding:12px var(--eb-pad) 14px}
+  padding:12px var(--eb-pad) calc(var(--cv-pb,32px) * 2 / 3)}
 .cv-foot-ebook-modern.light{background:linear-gradient(to top, rgba(0,0,0,.03) 0%, transparent 100%)}
-/* 진행률 바 영역 */
-.cv-foot-ebook-modern .eb-progress{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.cv-foot-ebook-modern .eb-bar{flex:1;height:3px;background:currentColor;opacity:.15;border-radius:2px;
-  position:relative;overflow:hidden}
-.cv-foot-ebook-modern .eb-fill{position:absolute;left:0;top:0;height:100%;
-  background:currentColor;opacity:.5;border-radius:2px;display:block}
-.cv-foot-ebook-modern .eb-pct{font-size:.6em;opacity:.4;min-width:24px;text-align:right}
 /* 하단 네비게이션 */
 .cv-foot-ebook-modern .hd-row{display:flex;justify-content:space-between;align-items:center;font-size:.7em}
 .cv-foot-ebook-modern .hd-nav{opacity:.5;display:flex;align-items:center;gap:2px}
-.cv-foot-ebook-modern .hd-nav svg{width:.85em;height:.85em;stroke-width:2.5}
+.cv-foot-ebook-modern .hd-nav svg{width:.85em;height:.85em;fill:none;stroke:currentColor;stroke-width:2.5;
+  stroke-linecap:round;stroke-linejoin:round}
 .cv-foot-ebook-modern .hd-sign{opacity:.5}
-/* 여러 장일 때 마지막 페이지에 고정 — 캔버스 하단 여백 위에 위치 */
-.cv-foot-ebook-modern.eb-foot-pin{bottom:var(--cv-pb,32px)}
+/* 여러 장일 때도 bottom:0 유지 — padding-bottom으로 내용 위치 조절 */
+.cv-foot-ebook-modern.eb-foot-pin{bottom:0}
+
+/* 인스타 DM — 본문 14px일 때 프리뷰 치수. 좌우 패딩만 18px로 고정한다.
+   --insta-u는 렌더가 본문 크기 / 14로 설정하며, 작은 이름·문구에서도 같은 단위를 쓴다. */
+.hd-insta-dm{padding:calc(11 * var(--insta-u)) 18px;background:transparent;line-height:1.4}
+.hd-insta-dm .hd-row{display:flex;align-items:center;gap:calc(12 * var(--insta-u))}
+.hd-insta-dm .hd-btn-circle{
+  width:calc(42 * var(--insta-u));height:calc(42 * var(--insta-u));border-radius:50%;
+  border:calc(1.2 * var(--insta-u)) solid var(--insta-border,#e0e0e0);
+  background:var(--insta-btn-bg,#fff);display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  box-shadow:0 2px 8px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04)}
+.hd-insta-dm .hd-btn-circle svg{width:calc(22 * var(--insta-u));height:calc(22 * var(--insta-u))}
+.hd-insta-dm .hd-btn-circle.back svg{margin-left:calc(-2 * var(--insta-u))}
+.hd-insta-dm .hd-story-ring{
+  width:calc(42 * var(--insta-u));height:calc(42 * var(--insta-u));border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,#f58529 0%,#dd2a7b 50%,#8134af 100%);
+  display:flex;align-items:center;justify-content:center}
+.hd-insta-dm .hd-story-ring .hd-av-inner{
+  width:calc(38 * var(--insta-u));height:calc(38 * var(--insta-u));border-radius:50%;
+  background:var(--hd-avbg,#c4c4c4);border:calc(2 * var(--insta-u)) solid var(--insta-ring-border,#fff);overflow:hidden}
+.hd-insta-dm .hd-av-inner img{width:100%;height:100%;object-fit:cover}
+.hd-insta-dm .hd-av-inner svg{width:70%;height:70%;margin:15%;fill:var(--insta-ring-border,#fff);stroke:none}
+.hd-insta-dm .hd-user-info{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.hd-insta-dm .hd-name-row{display:flex;align-items:center;gap:calc(2 * var(--insta-u));line-height:1.2}
+.hd-insta-dm .hd-name{font-size:calc(15 * var(--insta-u));font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hd-insta-dm .hd-chevron{flex-shrink:0}
+.hd-insta-dm .hd-chevron svg{width:calc(18 * var(--insta-u));height:calc(18 * var(--insta-u))}
+.hd-insta-dm .hd-status-row{display:flex;align-items:center;gap:calc(5 * var(--insta-u));margin-top:var(--insta-u);line-height:1.2}
+.hd-insta-dm .hd-status-text{font-size:calc(13 * var(--insta-u));opacity:.55;white-space:nowrap}
+.hd-insta-dm .hd-status-dot{width:calc(7 * var(--insta-u));height:calc(7 * var(--insta-u));border-radius:50%;background:#44d62c;flex-shrink:0}
+.hd-insta-dm .hd-actions{display:flex;gap:calc(10 * var(--insta-u));flex-shrink:0}
+.canvas > .cv-foot-insta-dm{position:absolute;left:0;right:0;bottom:0;background:transparent;
+  padding:calc(10 * var(--insta-u)) 18px calc(12 * var(--insta-u));line-height:1.4}
+.cv-foot-insta-dm .ft-row{display:flex;align-items:center;gap:calc(14 * var(--insta-u))}
+.cv-foot-insta-dm .ft-camera{width:calc(40 * var(--insta-u));height:calc(40 * var(--insta-u));
+  border-radius:50%;background:var(--insta-accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cv-foot-insta-dm .ft-camera svg{width:calc(23 * var(--insta-u));height:calc(23 * var(--insta-u));margin-top:calc(-3.1 * var(--insta-u))}
+.cv-foot-insta-dm .ft-input{flex:1;min-width:0;display:flex;align-items:center;gap:calc(4 * var(--insta-u))}
+.cv-foot-insta-dm .ft-placeholder{flex:1;min-width:0;font-size:calc(16 * var(--insta-u));opacity:.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cv-foot-insta-dm .ft-icons{display:flex;align-items:center;gap:calc(16 * var(--insta-u));flex-shrink:0}
+.cv-foot-insta-dm .ft-icons svg{width:calc(26 * var(--insta-u));height:calc(26 * var(--insta-u))}
+.hd-insta-dm .insta-icon,.cv-foot-insta-dm .insta-icon{display:block;overflow:visible}
+/* 입력창은 서명과 별개다. 내용 맞춤·한 장에서도 입력창 높이를 확보한다. */
+.canvas.has-insta-dm{padding-bottom:calc(var(--insta-foot-h,0px) + (var(--cv-pb,32px) + var(--cv-gap,10px)) / 2)}
+.canvas.has-insta-dm.foot-pinned{padding-bottom:calc(var(--cv-pb,32px) + var(--foot-h,0px) + var(--cv-gap,10px))}
+.canvas.has-insta-dm .blk.is-footer.foot-pin{bottom:calc(var(--insta-foot-h,0px) + (var(--cv-pb,32px) + var(--cv-gap,10px)) / 2)}
+
+/* 프리뷰 장식 — 잠금화면은 고정 글꼴·크기, 뉴스·논문은 본문 14px 기준 비율. */
+.hd-lock-clock{font-family:"Pretendard",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  padding:30px 18px;text-align:center;letter-spacing:0}
+.hd-lock-clock .lock-date{font-size:16px;font-weight:500;line-height:1.3;opacity:.85;margin-bottom:4px}
+.hd-lock-clock .lock-time{font-size:86px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.hd-news-online{padding:calc(20em / 14) 20px calc(16em / 14);text-align:left;letter-spacing:0;overflow-wrap:anywhere}
+.hd-news-online .online-category{font-size:calc(12em / 14);font-weight:600;margin-bottom:calc(8 * var(--title-u));line-height:1.5}
+.hd-news-online .online-headline{font-size:calc(22em / 14);font-weight:700;line-height:1.35}
+.hd-paper{padding:calc(24em / 14) 20px;text-align:left;letter-spacing:0;overflow-wrap:anywhere}
+.hd-paper .paper-journal{font-size:calc(11em / 14);font-weight:500;letter-spacing:.06em;line-height:1.5;opacity:.55;margin-bottom:calc(10 * var(--title-u))}
+.hd-paper .paper-title{font-family:"Times New Roman",Georgia,serif;font-size:calc(17em / 14);font-weight:700;line-height:1.4;margin-bottom:calc(10 * var(--title-u))}
+.hd-paper .paper-authors{font-size:calc(12em / 14);font-weight:400;line-height:1.5;opacity:.7}
+.hd-news-online::after,.hd-paper::after{content:"";position:absolute;left:20px;right:20px;bottom:0;height:1px;background:currentColor;opacity:.2}
+/* 실화면은 backdrop-filter, 저장본은 같은 배경을 잘라 흐린 층으로 재현한다. */
+.hd-insta-dm,.cv-foot-insta-dm{backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.insta-glass{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.hd-insta-dm > .hd-row,.cv-foot-insta-dm > .ft-row{position:relative;z-index:1}
 
 /* ═══ 프레임 ══════════════════════════════════════════════════
    화면머리가 «맨 위에 눕는 띠» 라면 프레임은 «사방을 두른 창» 이다 — 캔버스 네 변을
@@ -977,7 +1034,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 }
 .blk-bubble.x-row .av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 /* SNS col — 이름·본문·아이콘 간격 균일하게 */
-.blk-bubble.x-row .col{flex:1;max-width:100%;gap:6px;display:flex;flex-direction:column;align-items:stretch !important}
+.blk-bubble.x-row .col{flex:1;max-width:100%;gap:3px;display:flex;flex-direction:column;align-items:stretch !important}
 /* SNS 헤더 (이름 + 더보기) */
 .blk-bubble.x-row .sns-header{display:flex;align-items:center;width:100%;gap:6px}
 .blk-bubble.x-row .sns-header .who{flex:1;font-size:1em !important;font-weight:700 !important;opacity:1 !important;padding:0 !important;margin:0 !important}
@@ -5097,6 +5154,8 @@ function renderCanvas() {
       cv.appendChild(ebookFooterNode(th));
     } else if (hdKind === 'ebook-modern') {
       cv.appendChild(ebookModernFooterNode(th));
+    } else if (hdKind === 'insta-dm') {
+      cv.appendChild(instaDmFooterNode(th));
     }
   }
 
@@ -5125,9 +5184,36 @@ function renderCanvas() {
        나눠 앉힌다. 둘을 같이 걸면 가운데를 두 번 잡아 아래로 밀린다. */
     cv.classList.toggle('ratio-center', pages <= 1 && !isTopAlign() && !colOn());
   }
+  syncCanvasBackgrounds(cv, Math.max(1, pages || 1));
   fitCanvas();
   ensureCanvasFonts();
   diag('render:done', { blocks: S.blocks.length, ms: Math.round(performance.now() - renderAt) });
+}
+
+function syncCanvasBackgrounds(cv, pages = 1) {
+  cv.querySelectorAll(':scope > .bg-ghost, .insta-glass').forEach(n => n.remove());
+  const bg = cv.querySelector(':scope > .cv-bg:not(.cv-tex)');
+  const H = isFit() ? cv.offsetHeight : pageBox().h;
+  const W = cv.offsetWidth;
+  if (bg) {
+    bg.style.height = H + 'px'; bg.style.bottom = 'auto';
+    for (let i = 1; i < pages; i++) {
+      const copy = bg.cloneNode(true);
+      copy.classList.add('bg-ghost');
+      copy.style.top = (i * H) + 'px'; cv.appendChild(copy);
+    }
+  }
+  if (!bg || !H) return;
+  cv.querySelectorAll('.hd-insta-dm, .cv-foot-insta-dm').forEach(node => {
+    const glass = el('div', 'insta-glass');
+    glass.setAttribute('aria-hidden', 'true');
+    const copy = bg.cloneNode(true);
+    copy.classList.remove('bg-ghost');
+    const localTop = ((node.offsetTop % H) + H) % H;
+    copy.style.cssText = 'position:absolute;left:0;top:' + (-localTop) + 'px;width:' + W
+      + 'px;height:' + H + 'px;overflow:hidden;filter:blur(20px);background:var(--cv-bg);';
+    glass.appendChild(copy); node.prepend(glass);
+  });
 }
 
 /* 지금 캔버스가 쓰는 글꼴의 스타일시트를 그 자리에서 받는다.
@@ -5527,7 +5613,7 @@ function renderBlock(b, th, f, prev, next) {
    메신저 화면·신문 제호를 흉내 낸 껍데기. 캔버스 맨 위에 붙는다.
    아이콘은 전부 여기서 그린다 — 글꼴에 딸린 문자를 쓰면 기기마다 다른 그림이 나오고,
    저장본에도 그 차이가 그대로 실린다. 선 두께·색은 CSS 가 currentColor 로 맞춘다. */
-const HEADS = [['none', '없음'], ['imessage', 'iMessage'], ['kakao', 'Kakaotalk'], ['ebook', 'e-Book'], ['ebook-modern', 'e-Book 모던']];
+const HEADS = [['none', '없음'], ['imessage', 'iMessage'], ['kakao', 'Kakaotalk'], ['insta-dm', 'Instagram DM'], ['ebook', 'e-Book'], ['ebook-modern', 'e-Book 모던'], ['lock-clock', '잠금화면 시간'], ['news-online', '온라인 뉴스'], ['paper', '논문']];
 /* 신문 머리는 테마가 고른 글꼴을 안 따른다 — 신문의 얼굴은 결국 그 글꼴이다.
    · 제호(mark) 는 플레이페어의 «보통 굵기» 다 [NEWS_MARK_W]. 획 대비가 큰 디도풍
      세리프인데, 굵은 벌을 안 쓰니 그 대비가 얌전해져 지면 위에 조용히 얹힌다.
@@ -5651,8 +5737,52 @@ const HD_ICON = {
     '<circle cx="12" cy="7.6" r="4.9"/><path d="M12 14.6c-5.4 0-9.1 3.3-9.1 7.2V24h18.2v-2.2c0-3.9-3.7-7.2-9.1-7.2z"/>'],
   /* 이북 리더 아이콘 */
   bookmark: ['3 1 18 22', '<path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>'],
-  list: ['2.5 5.5 19 13', '<path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/>']
+  list: ['2.5 5.5 19 13', '<path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/>'],
+  /* 인스타 DM 아이콘 */
+  phone: ['2 2 20 20', '<path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>'],
+  mic: ['5 2 14 20', '<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v1a7 7 0 0014 0v-1"/><path d="M12 19v3m-3 0h6"/>'],
+  gallery: ['3 3 18 18', '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/><path d="M21 15l-5-5L5 21"/>'],
+  plus: ['2 2 20 20', '<circle cx="12" cy="12" r="10"/><path d="M12 8v8m-4-4h8"/>']
 };
+/* 프리뷰의 24×24 viewBox와 도형별 색·획을 함께 보존한다. */
+const INSTA_ICONS = {
+  back: '<svg class="insta-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"> <path d="M14.5 18l-6-6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
+  chevron: '<svg class="insta-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"> <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
+  phone: '<svg class="insta-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"> <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
+  video: '<svg class="insta-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"> <rect x="1" y="5" width="15" height="14" rx="2.5" stroke="currentColor" stroke-width="1.7"/> <path d="M16 9l5.5-3v12l-5.5-3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
+  camera: '<svg class="insta-icon" aria-hidden="true" viewBox="0 0 24 24"> <path d="M4 6h3l1.5-2h7l1.5 2h3a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2z" fill="#fff"/> <circle cx="12" cy="13.5" r="5.5" fill="var(--insta-accent)"/> <circle cx="12" cy="13.5" r="3.8" fill="#fff"/> </svg>',
+  mic: '<svg class="insta-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"> <rect x="9" y="2" width="6" height="12" rx="3" stroke="currentColor" stroke-width="1.8"/> <path d="M5 10v1a7 7 0 0014 0v-1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/> <path d="M12 19v3m-3 0h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/> </svg>',
+  gallery: '<svg class="insta-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"> <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/> <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/> <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
+  plus: '<svg class="insta-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"> <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/> <path d="M12 8v8m-4-4h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/> </svg>'
+};
+function instaIcon(kind) {
+  const wrap = el('span');
+  wrap.innerHTML = INSTA_ICONS[kind];
+  return wrap.firstElementChild;
+}
+function instaDecorationStyle(node, th) {
+  /* 좁은 캔버스에서는 버튼·간격·이름의 최소 공간을 한 비율로 줄여 도형이 겹치지 않게 한다. */
+  const unit = Math.min(fmt().size / 14, Math.max(.1, (canvasW() - 36) / 276));
+  node.style.setProperty('--insta-u', unit + 'px');
+  node.style.setProperty('--insta-accent', '#e33e5c');
+  node.style.color = th.fg;
+}
+function instaDmFooterNode(th) {
+  const foot = el('div', 'cv-foot-insta-dm');
+  instaDecorationStyle(foot, th);
+  const row = el('div', 'ft-row');
+  const camera = el('div', 'ft-camera');
+  camera.appendChild(instaIcon('camera'));
+  const input = el('div', 'ft-input');
+  input.appendChild(Object.assign(el('span', 'ft-placeholder'), { textContent: '메시지 보내기...' }));
+  const icons = el('div', 'ft-icons');
+  ['mic', 'gallery', 'plus'].forEach(k => icons.appendChild(instaIcon(k)));
+  input.appendChild(icons);
+  row.append(camera, input);
+  foot.appendChild(row);
+  return foot;
+}
+
 /* 두 색을 t 만큼 섞은 단색. 반투명으로 겹쳐 두면 저장 렌더에서 층이 한 번 더 곱해져
    화면보다 진하게 나오는 일이 있다 — 미리 섞어 박으면 화면과 저장이 늘 같다. */
 function mixHex(a, b, t) {
@@ -5738,6 +5868,28 @@ function ensureNewsFont() {
 }
 /* 제목은 적은 그대로 쓴다. 비워 두면 자리는 지키되 아무것도 안 적는다 —
    빈칸에 '이름' 같은 대신 글자를 넣으면 그것이 저장본에 그대로 찍힌다. */
+/* 새 장식의 텍스트 설정은 두 테마 편집 화면이 같은 필드를 사용한다. */
+const TITLE_HEADER_FIELDS = {
+  'lock-clock': [['lockDate', '날짜', '9월 27일 토요일'], ['lockTime', '시간', '2:14']],
+  'news-online': [['onlineCategory', '분류 라벨', '문화'], ['onlineHeadline', '제목', '네가 봄이면, 그럼 됐지']],
+  'paper': [['paperJournal', '학술지', 'Journal of Emotional Studies'],
+    ['paperTitle', '논문 제목', 'The Phenomenology of Surrender in Intimate Relationships'],
+    ['paperAuthors', '저자', 'Sa, Haeyi · Choi, Yundo']]
+};
+function titleHeaderControls(t, kind, up) {
+  const wrap = el('div', 'stack');
+  TITLE_HEADER_FIELDS[kind].forEach(([key, label, initial]) => {
+    const field = el('div', 'field');
+    field.appendChild(el('label', 'lab', label));
+    const input = el('input', 'inp');
+    input.value = t[key] ?? initial;
+    input.oninput = () => { t[key] = input.value; up(); };
+    field.appendChild(input); wrap.appendChild(field);
+  });
+  if (kind === 'news-online') wrap.appendChild(colorField('라벨 색', t.onlineCategoryColor || '#1a73e8', v => { t.onlineCategoryColor = v; up(); }));
+  return wrap;
+}
+
 function headerNode(th) {
   /* 프레임을 두르면 화면머리는 안 선다 — 머리는 캔버스 가장자리까지 나가는 띠라
      [.cv-head 의 음수 여백] 껍데기 위로 올라타 창을 가로지른다. 둘 중 하나만 쓴다. */
@@ -5747,6 +5899,18 @@ function headerNode(th) {
   const title = (th.headerTitle || '').trim();
   const head = el('div', 'cv-head hd-' + kind);
   head.style.color = th.fg;
+  if (TITLE_HEADER_FIELDS[kind]) {
+    head.style.setProperty('--title-u', (fmt().size / 14) + 'px');
+    const classes = kind === 'lock-clock' ? ['lock-date', 'lock-time']
+      : kind === 'news-online' ? ['online-category', 'online-headline']
+      : ['paper-journal', 'paper-title', 'paper-authors'];
+    TITLE_HEADER_FIELDS[kind].forEach(([key, , initial], i) => {
+      const node = Object.assign(el('div', classes[i]), { textContent: th[key] ?? initial });
+      if (kind === 'news-online' && i === 0) node.style.color = th.onlineCategoryColor || '#1a73e8';
+      head.appendChild(node);
+    });
+    return head;
+  }
 
   if (kind === 'news') {
     ensureNewsFont();
@@ -5864,6 +6028,51 @@ function headerNode(th) {
     hdName.style.fontWeight = textW();        /* 캐릭터 이름과 같은 굵기 [.who] */
     mid.appendChild(hdName);
     right.appendChild(hdIcon('video'));
+  } else if (kind === 'insta-dm') {
+    /* 인스타 DM: 뒤로가기 + 스토리링(아바타) + 이름/상태 + 전화/영상
+       배경은 항상 투명 — 캔버스 배경이 그대로 비친다 */
+    instaDecorationStyle(head, th);
+    head.style.setProperty('--hd-avbg', mixHex(th.bg, th.fg, .23));
+    head.style.setProperty('--insta-border', mixHex(th.bg, th.fg, .12));
+    head.style.setProperty('--insta-btn-bg', th.bg);
+    head.style.setProperty('--insta-ring-border', th.bg);
+    const hRow = el('div', 'hd-row');
+    /* 뒤로가기 버튼 */
+    const backBtn = el('div', 'hd-btn-circle back');
+    backBtn.appendChild(instaIcon('back'));
+    hRow.appendChild(backBtn);
+    /* 스토리 링 + 아바타 */
+    const storyRing = el('div', 'hd-story-ring');
+    const avInner = el('div', 'hd-av-inner');
+    if (th.headerAvatar) { const i = el('img'); i.src = th.headerAvatar; i.alt = ''; avInner.appendChild(i); }
+    else avInner.appendChild(hdIcon('person'));
+    storyRing.appendChild(avInner);
+    hRow.appendChild(storyRing);
+    /* 유저 정보 */
+    const userInfo = el('div', 'hd-user-info');
+    const nameRow = el('div', 'hd-name-row');
+    const hdName = Object.assign(el('span', 'hd-name'), { textContent: title || '대화상대' });
+    nameRow.appendChild(hdName);
+    const chevron = el('span', 'hd-chevron');
+    chevron.appendChild(instaIcon('chevron'));
+    nameRow.appendChild(chevron);
+    userInfo.appendChild(nameRow);
+    const statusRow = el('div', 'hd-status-row');
+    statusRow.appendChild(Object.assign(el('span', 'hd-status-text'), { textContent: '활동 중' }));
+    statusRow.appendChild(el('span', 'hd-status-dot'));
+    userInfo.appendChild(statusRow);
+    hRow.appendChild(userInfo);
+    /* 액션 버튼들 */
+    const actions = el('div', 'hd-actions');
+    const phoneBtn = el('div', 'hd-btn-circle');
+    phoneBtn.appendChild(instaIcon('phone'));
+    actions.appendChild(phoneBtn);
+    const videoBtn = el('div', 'hd-btn-circle');
+    videoBtn.appendChild(instaIcon('video'));
+    actions.appendChild(videoBtn);
+    hRow.appendChild(actions);
+    head.appendChild(hRow);
+    return head;
   } else if (kind === 'ebook') {
     /* 이북 리더: 상단 헤더 없음, 하단 푸터만 사용 */
     return null;
@@ -5921,25 +6130,14 @@ function ebookFooterNode(th) {
   return foot;
 }
 
-/* 이북 모던 푸터 — 진행률 바 + 하단 네비게이션.
-   구조: 진행바(가로줄 + 퍼센트) + «< 이전» + 서명 + «다음 >»
-   진행률은 th.ebookPct 로 조절 (기본 35%). */
+/* 이북 모던 푸터 — 하단 네비게이션.
+   구조: «< 이전» + 서명 + «다음 >» */
 function ebookModernFooterNode(th) {
   const hx = hexOf(th.bg) || 'FFFFFF';
   const [rr, gg, bb] = [0, 2, 4].map(i => parseInt(hx.slice(i, i + 2), 16));
   const isLight = (rr * 299 + gg * 587 + bb * 114) / 1000 > 128;
   const foot = el('div', 'cv-foot-ebook-modern' + (isLight ? ' light' : ''));
   foot.style.color = th.fg;
-  /* 진행률 바 */
-  const pct = clamp(th.ebookPct ?? 35, 0, 100);
-  const prog = el('div', 'eb-progress');
-  const bar = el('div', 'eb-bar');
-  const fill = el('span', 'eb-fill');
-  fill.style.width = pct + '%';
-  bar.appendChild(fill);
-  prog.appendChild(bar);
-  prog.appendChild(Object.assign(el('span', 'eb-pct'), { textContent: pct + '%' }));
-  foot.appendChild(prog);
   /* 하단 네비게이션 */
   const row = el('div', 'hd-row');
   const left = el('div', 'hd-nav');
@@ -6386,7 +6584,7 @@ function pageRanges(hold = headHold + footHold) {
 }
 function renderPageMarks() {
   const cv = $('#canvas');
-  cv.querySelectorAll('.pagemark, .foot-ghost, .head-ghost, .frame-ghost, .eb-foot-ghost').forEach(n => n.remove());
+  cv.querySelectorAll('.pagemark, .foot-ghost, .head-ghost, .frame-ghost, .eb-foot-ghost, .bg-ghost').forEach(n => n.remove());
   cv.querySelectorAll('.foot-pin, .head-pin, .eb-foot-pin').forEach(n => n.classList.remove('foot-pin', 'head-pin', 'eb-foot-pin'));
   /* 프레임 높이는 아래에서 «한 장» 으로 못 박는다 — CSS 의 100% 는 여러 장이면 쌓아 올린
      전체 높이라, 창이 장 수만큼 늘어난 한 덩어리로 그려진다. */
@@ -6397,20 +6595,23 @@ function renderPageMarks() {
   cv.style.removeProperty('--foot-h');
   cv.style.removeProperty('--head-hold');
   footHold = headHold = 0;
+  const dmFoot = cv.querySelector('.cv-foot-insta-dm:not(.eb-foot-ghost)');
+  const dmh = dmFoot ? dmFoot.offsetHeight : 0;
+  cv.classList.toggle('has-insta-dm', !!dmFoot);
+  cv.style.setProperty('--insta-foot-h', dmh + 'px');
   if (isFit() || !S.blocks.length) return 1;
 
   const gap = Math.round(fmt().blockGap ?? 10);
   const head = cv.querySelector('.cv-head:not(.head-ghost)');
   const foot = footRow();
-  const ebFoot = cv.querySelector('.cv-foot-ebook:not(.eb-foot-ghost), .cv-foot-ebook-modern:not(.eb-foot-ghost)');
+  const ebFoot = cv.querySelector('.cv-foot-ebook:not(.eb-foot-ghost), .cv-foot-ebook-modern:not(.eb-foot-ghost), .cv-foot-insta-dm:not(.eb-foot-ghost)');
   /* 축소해 보여 주는 중이라도 offsetHeight 는 논리 높이 그대로다 [fitCanvas].
      둘 다 아직 흐름 안에 있을 때 재야 제 높이가 나온다 — 못 박는 것은 그다음이다. */
   const hh = head ? head.offsetHeight : 0;
   const fh = foot ? foot.offsetHeight : 0;
-  /* 이북 푸터는 position:absolute라 offsetHeight가 정확하지 않을 수 있음
-     강제 reflow로 CSS가 적용된 후 높이를 측정한다 */
-  if (ebFoot) void ebFoot.offsetHeight; /* force reflow */
-  const ebh = ebFoot ? Math.ceil(ebFoot.getBoundingClientRect().height) : 0;
+  /* 페이지 좌표와 같은 논리 높이로 잰다 — getBoundingClientRect 는 미리보기 배율을 탄다.
+     offsetHeight 는 absolute 요소도 패딩을 포함한 높이를 돌려준다. */
+  const ebh = ebFoot ? ebFoot.offsetHeight : 0;
   /* 화면머리는 한 장이든 여러 장이든 늘 맨 위다 — 비율 지정이면 언제나 못 박는다.
      (서명과 다르다. 서명은 한 장에 들어가면 본문과 한 덩어리로 가운데에 놓는 편이 낫다.) */
   if (head) {
@@ -6423,10 +6624,13 @@ function renderPageMarks() {
     cv.classList.add('head-pinned');
     head.classList.add('head-pin');
   }
-  /* 서명·이북 푸터도 어느 장에서든 바닥을 차지하므로 그 몫을 먼저 빼고 장을 센다.
-     그러고도 한 장에 들어가면 여태처럼 본문과 한 덩어리로 가운데에 놓는다.
-     서명과 이북 푸터는 동시에 사용되지 않음 (이북 헤더 사용 시 본문 서명 비활성화). */
-  const footH = foot ? fh : ebh;
+  /* 하단 장식과 서명이 차지할 몫을 먼저 빼고 장을 센다.
+     인스타 입력창은 서명을 포함하지 않으므로 둘의 높이와 사이 간격을 함께 확보한다. */
+  /* 서명과 입력창 사이 여백은 기존 하단 여백 + 블록 간격의 절반으로 둔다.
+     pageBox.inner가 이미 padB를 빼므로 장식 예약 높이에서는 그 몫을 되돌린다. */
+  const dmSpacing = (padB() + gap) / 2;
+  const footH = dmFoot ? dmh + dmSpacing - padB() + (foot ? fh : -gap) : (foot ? fh : ebh);
+  if (dmFoot) footHold = dmh + dmSpacing - padB();
   const hold = headHold + (footH ? footH + gap : 0);
   /* 장을 세기 «전에» 쪼개 둔다 — 한 단에 안 들어가는 글은 여기서 여러 블록이 되고,
      그다음부터는 pageRanges 가 그 사이를 끊을 수 있다 [splitTallRows]. */
@@ -6452,8 +6656,8 @@ function renderPageMarks() {
   /* 단을 쓰면 rg 한 칸은 «장» 이 아니라 «단» 이다 — 장은 그것을 N 개씩 묶은 것이다 */
   const N = colOn() ? colCount() : 1;
   const pages = Math.max(1, Math.ceil(rg.length / N));
-  /* 서명 또는 이북 푸터가 있고 여러 페이지면 하단 고정 */
-  const pin = (!!foot || !!ebFoot) && pages > 1;
+  /* 인스타는 한 장에서도 서명을 입력창 위에 고정한다. 다른 서명은 여러 장일 때 고정한다. */
+  const pin = (!!foot || !!ebFoot) && (pages > 1 || !!dmFoot);
   if (pin) {
     footHold = footH + gap;
     cv.style.setProperty('--foot-h', footH + 'px');
@@ -6509,7 +6713,7 @@ function renderPageMarks() {
       const g = foot.cloneNode(true);
       g.className = 'foot-ghost';
       g.removeAttribute('data-id');
-      g.style.top = ((i + 1) * H - padB() - fh) + 'px';
+      g.style.top = ((i + 1) * H - fh - (dmFoot ? dmh + dmSpacing : padB())) + 'px';
       cv.appendChild(g);
     }
     /* 이북 푸터도 마지막 장에 진짜가 있고, 앞 장에 사본을 깐다 */
@@ -6517,7 +6721,8 @@ function renderPageMarks() {
       const g = ebFoot.cloneNode(true);
       g.classList.add('eb-foot-ghost');
       g.style.bottom = 'auto';
-      g.style.top = ((i + 1) * H - padB() - ebh) + 'px';
+      /* 배경은 장 끝에 붙인다 — 내용의 하단 여백은 푸터 자체의 패딩이 맡는다. */
+      g.style.top = ((i + 1) * H - ebh) + 'px';
       cv.appendChild(g);
     }
   }
@@ -8642,8 +8847,11 @@ function openAvatarModal(cur, onDone, opts) {
    위치·회전·확대·흐림·덮기를 모달 안에서 미리 보면서 조절할 수 있다. */
 function openBgImageModal(cur, onDone, t) {
   /* 테마별 캔버스 — 없으면 전역 캔버스 사용 */
-  const c = (t && t.canvas) || S.canvas || DEF_CANVAS;
-  const was = { mode: c.mode || 'ratio', ratio: c.ratio };
+  if (t && !t.canvas) t.canvas = { ...themeCanvas(t) };
+  const c = t ? t.canvas : canvas();
+  const was = { ...c };
+  const bgKeys = ['bgImage', 'bgSize', 'bgX', 'bgY', 'bgRotation', 'bgBlur', 'bgOverlay', 'bgOverlayColor'];
+  const beforeBg = t ? Object.fromEntries(bgKeys.map(key => [key, t[key]])) : null;
   const p = modal('배경 이미지', t
     ? '미리보기에서 실제 캔버스와 동일하게 표시됩니다.'
     : '변경한 비율은 캔버스에 바로 적용됩니다.');
@@ -8659,8 +8867,9 @@ function openBgImageModal(cur, onDone, t) {
       S.ui.themeDraft.bgBlur = t.bgBlur;
       S.ui.themeDraft.bgOverlay = t.bgOverlay;
       S.ui.themeDraft.bgOverlayColor = t.bgOverlayColor;
+      S.ui.themeDraft.canvas = { ...c };
     }
-    if (t) renderCanvas();
+    renderCanvas();
   };
 
   const body = el('div', 'stack');
@@ -8712,6 +8921,8 @@ function openBgImageModal(cur, onDone, t) {
       /* 항상 S.ui.themeDraft를 수정해야 renderCanvas()에서 반영됨 */
       if (S.ui.themeDraft) S.ui.themeDraft.bgImage = d;
       t.bgImage = d; /* 미리보기용 */
+      c.mode = 'ratio';
+      if (!RATIOS[c.ratio]) c.ratio = '9:16';
       imgBtns.querySelector('.rm-btn').hidden = !d;
       syncPreview();
       up();
@@ -8762,13 +8973,13 @@ function openBgImageModal(cur, onDone, t) {
     /* 비율 선택 */
     const ratios = el('div', 'crop-ratios');
     Object.keys(RATIOS).forEach(r => {
-      const b = el('button', (!isFit() && c.ratio === r) ? 'on' : '');
+      const b = el('button', ((c.ratio || '9:16') === r) ? 'on' : '');
       b.innerHTML = `${r}<small>${RSUB[r]}</small>`;
       b.onclick = () => {
         c.mode = 'ratio'; c.ratio = r;
         [...ratios.children].forEach(x => x.classList.toggle('on', x === b));
         stage.style.aspectRatio = r.replace(':', '/');
-        save(); renderCanvas();
+        up();
       };
       ratios.appendChild(b);
     });
@@ -8809,13 +9020,13 @@ function openBgImageModal(cur, onDone, t) {
 
     const ratios = el('div', 'crop-ratios');
     Object.keys(RATIOS).forEach(r => {
-      const b = el('button', (!isFit() && c.ratio === r) ? 'on' : '');
+      const b = el('button', ((c.ratio || '9:16') === r) ? 'on' : '');
       b.innerHTML = `${r}<small>${RSUB[r]}</small>`;
       b.onclick = () => {
         c.mode = 'ratio'; c.ratio = r;
         [...ratios.children].forEach(x => x.classList.toggle('on', x === b));
         crop._setRatio(r);
-        save(); renderCanvas();
+        up();
       };
       ratios.appendChild(b);
     });
@@ -8856,16 +9067,27 @@ function openBgImageModal(cur, onDone, t) {
 
   const foot = el('div', 'modal-foot');
   const cancel = el('button', 'btn btn-quiet', '취소');
-  cancel.onclick = () => { c.mode = was.mode; c.ratio = was.ratio; save(); closeModal(); render(); };
+  const cancelChanges = () => {
+    Object.assign(c, was);
+    if (t) Object.assign(t, beforeBg);
+    up(); closeModal(); render();
+  };
+  cancel.onclick = cancelChanges;
+  p.parentElement.onclick = e => { if (e.target === p.parentElement) cancelChanges(); };
   const ok = el('button', 'btn btn-primary', '확인');
   ok.onclick = () => {
     if (t) {
       /* 테마 모드: 이미 t에 값들이 반영되어 있음 — false로 리셋 방지 */
-      closeModal();
+      if (currentSrc) {
+        c.mode = 'ratio';
+        if (!RATIOS[c.ratio]) c.ratio = '9:16';
+      }
+      up(); closeModal();
       onDone(currentSrc, false);
     } else {
       /* 크롭 모드 */
       const out = previewEl.crop._export() || cur || '';
+      if (out) { c.mode = 'ratio'; if (!RATIOS[c.ratio]) c.ratio = '9:16'; }
       closeModal();
       onDone(out, out !== (cur || ''));
     }
@@ -9862,7 +10084,7 @@ function syncThemeEditFormV2() {
     t.frame = 'none';
     t.header = 'none';
     if (['cyworld', 'buddy'].includes(v)) t.frame = v;
-    else if (['imessage', 'kakao', 'news', 'ebook', 'ebook-modern'].includes(v)) t.header = v;
+    else if (HEADS.some(([key]) => key === v)) t.header = v;
     rerender();
   };
   decoField.appendChild(decoSel);
@@ -9918,7 +10140,10 @@ function syncThemeEditFormV2() {
   }
 
   /* ── 헤더 옵션 ── */
-  if (hdKind === 'news') {
+  if (TITLE_HEADER_FIELDS[hdKind]) {
+    hasOpts = true;
+    optWrap.appendChild(titleHeaderControls(t, hdKind, up));
+  } else if (hdKind === 'news') {
     hasOpts = true;
     /* 신문: 제호 + 날짜 */
     const grid = el('div', 'grid-2');
@@ -9961,7 +10186,7 @@ function syncThemeEditFormV2() {
     optWrap.appendChild(bgField);
   } else if (hdKind === 'ebook-modern') {
     hasOpts = true;
-    /* 이북 모던: 작품명 + 진행률 */
+    /* 이북 모던: 작품명 */
     const nf = el('div', 'field');
     nf.appendChild(el('label', 'lab', '작품명'));
     const ni = el('input', 'inp');
@@ -9970,32 +10195,9 @@ function syncThemeEditFormV2() {
     ni.oninput = () => { t.headerTitle = ni.value; up(); };
     nf.appendChild(ni);
     optWrap.appendChild(nf);
-    /* 진행률 슬라이더 */
-    const pf = el('div', 'field');
-    pf.style.marginTop = 'var(--sp-md)';
-    const pHead = el('div', 'tgl-inline');
-    pHead.appendChild(el('label', 'lab', '진행률'));
-    const pVal = el('span');
-    pVal.style.cssText = 'margin-left:auto;font-size:12px;opacity:.7';
-    pVal.textContent = (t.ebookPct ?? 35) + '%';
-    pHead.appendChild(pVal);
-    pf.appendChild(pHead);
-    const pSlider = el('input');
-    pSlider.type = 'range';
-    pSlider.min = 0; pSlider.max = 100; pSlider.value = t.ebookPct ?? 35;
-    pSlider.style.cssText = 'width:100%;margin-top:6px';
-    pSlider.oninput = pSlider.onchange = () => {
-      const v = +pSlider.value;
-      t.ebookPct = v;
-      pVal.textContent = v + '%';
-      /* 캔버스 다시 그리기로 푸터 진행률 반영 */
-      renderCanvas();
-    };
-    pf.appendChild(pSlider);
-    optWrap.appendChild(pf);
-  } else if (hdKind === 'imessage' || hdKind === 'kakao') {
+  } else if (hdKind === 'imessage' || hdKind === 'kakao' || hdKind === 'insta-dm') {
     hasOpts = true;
-    /* 메시지1/2: 이름 + 배경색 + (아이메시지만 프로필) */
+    /* 메시지1/2/인스타: 이름 + 배경색 + (아이메시지/인스타만 프로필) */
     const nf = el('div', 'field');
     nf.appendChild(el('label', 'lab', '이름'));
     const ni = el('input', 'inp');
@@ -10005,11 +10207,12 @@ function syncThemeEditFormV2() {
     nf.appendChild(ni);
     optWrap.appendChild(nf);
 
-    /* 프로필 사진 + 배경색 — 아이메시지만 (메시지2는 배경색 옵션 없음) */
-    if (hdKind === 'imessage') {
+    /* 프로필 사진 — 아이메시지/인스타 */
+    if (hdKind === 'imessage' || hdKind === 'insta-dm') {
       optWrap.appendChild(themeAvatarField(t, {}, rerender));
-
-      /* 배경색 */
+    }
+    /* 배경색 — 아이메시지만 (인스타는 무조건 투명) */
+    if (hdKind === 'imessage') {
       const auto = mixHex(t.bg, t.fg, .055 / HD_BAND_A);
       const cur = (t.headerBg || '').trim();
       const bgField = el('div', 'field');
@@ -11312,7 +11515,9 @@ function themeEditor() {
   const hdBox = el('div', 'stack');
   const hdKind = headKind(t);
   hdBox.appendChild(segment(HEADS, hdKind, v => { t.header = v; render(); }));
-  if (hdKind !== 'none') {
+  if (TITLE_HEADER_FIELDS[hdKind]) {
+    hdBox.appendChild(titleHeaderControls(t, hdKind, up));
+  } else if (hdKind !== 'none') {
     /* 신문은 칸이 둘이다 — 큰 제호와 그 아래 한 줄. 제호를 붙박이로 두었더니
        «내 신문» 이 안 되었다: 신문 이름은 발췌마다 다르다. */
     if (hdKind === 'news') {
@@ -12079,6 +12284,7 @@ function usedFonts() {
     Object.values(NEWS_FONT).forEach(n => set.add(n));
   /* 프레임의 껍데기 글자도 제 몫의 도트 글꼴로 찍힌다 [FRAME_FONT] — 임베드도 함께 챙긴다 */
   if (frameKind(theme()) !== 'none') set.add(FRAME_FONT);
+  if (S.blocks.length && headKind(theme()) === 'lock-clock') set.add('Pretendard');
   return [...set];
 }
 
@@ -12779,7 +12985,7 @@ async function exportPNG() {
   /* 미리보기용 표시만 걷어 낸다 — 못 박은 화면머리·서명(.head-pin/.foot-pin)과 그 자리
      (--head-h/--foot-h)는 저장할 그림 자체이므로 그대로 둔다. 구분선·사본·장마다 앉힌
      여백은 장을 이어 붙여 보여 주려던 것이고, 저장은 장마다 캔버스를 새로 세우므로 없어야 한다. */
-  cv.querySelectorAll('.pagemark, .foot-ghost, .head-ghost, .frame-ghost, .eb-foot-ghost').forEach(n => n.remove());
+  cv.querySelectorAll('.pagemark, .foot-ghost, .head-ghost, .frame-ghost, .eb-foot-ghost, .bg-ghost').forEach(n => n.remove());
   clearPageOffsets(cv);
   try {
     const hti = await loadHTI();
@@ -12840,6 +13046,7 @@ async function exportPNG() {
     if (multi) toast(`${ranges.length}장으로 저장합니다…`);
     /* 화면이 아니라 줄바꿈·상자 크기를 못 박은 클론을 SVG 로 뽑아 정확한 크기로 그린다 */
     const shoot = async () => {
+      syncCanvasBackgrounds(cv, 1);
       /* Android 는 화면 DOM → 수동 복제본 → html-to-image 복제본처럼 레이아웃을 두 번
          다시 만들지 않는다. 레퍼런스와 같이 화면에 실제로 놓인 캔버스를 곧장 넘긴다.
          라이브러리가 만드는 단 한 번의 복제본은 같은 문서·같은 계산 스타일·같은 내장
