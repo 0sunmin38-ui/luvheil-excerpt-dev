@@ -712,7 +712,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   padding:48px 18px 16px;text-align:center;letter-spacing:0;
   color:var(--lock-fg,inherit);min-height:calc(100% / 3)}
 .hd-lock-clock .lock-date{font-size:18px;font-weight:600;line-height:1.3;margin-bottom:8px}
-.hd-lock-clock .lock-time{font-size:min(90px,18vw);font-weight:800;line-height:1;
+.hd-lock-clock .lock-time{font-size:min(90px,calc(var(--canvas-w,560px) * .18));font-weight:800;line-height:1;
   font-variant-numeric:tabular-nums;letter-spacing:-.04em;
   text-shadow:0 0 20px rgba(255,255,255,.35),0 0 60px rgba(255,255,255,.2),0 2px 4px rgba(0,0,0,.15)}
 .hd-news-online{--title-pl:40px;--title-pr:40px;padding:calc(16em / 14) var(--title-pr) calc(12em / 14) var(--title-pl);text-align:left;letter-spacing:0;overflow-wrap:anywhere}
@@ -732,15 +732,10 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .hd-insta-dm > .hd-row{position:relative;z-index:1}
 /* 시계의 원래 글꼴·크기·높이는 유지하고, 글래스 ON일 때만 표면과 윤곽을 분리한다. */
 .lock-time.is-glass{position:relative;text-shadow:none}
-.lock-time.is-glass .lock-time-face{position:relative;z-index:1;color:transparent;
-  -webkit-text-stroke:.9px var(--lock-glass-rim,rgba(246,255,237,.58));
-  background:linear-gradient(155deg,rgba(255,255,255,.2),rgba(255,255,255,.015) 45%,rgba(255,255,255,.09));
-  background-clip:text;-webkit-background-clip:text}
-.lock-glass{position:absolute;inset:0;overflow:hidden;pointer-events:none;
-  mask:var(--lock-mask) center / 100% 100% no-repeat;
-  -webkit-mask:var(--lock-mask) center / 100% 100% no-repeat}
-.lock-glass::after{content:"";position:absolute;inset:0;
-  background:var(--lock-glass-tint,rgba(255,255,255,.16))}
+.lock-time-face{position:relative;z-index:1}
+.lock-glass{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.lock-time.is-raster .lock-time-face{opacity:0}
+.lock-glass > img{display:block;width:100%;height:100%;position:absolute;inset:0}
 
 /* ═══ 프레임 ══════════════════════════════════════════════════
    화면머리가 «맨 위에 눕는 띠» 라면 프레임은 «사방을 두른 창» 이다 — 캔버스 네 변을
@@ -974,6 +969,9 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .canvas > .head-ghost{position:absolute;margin:0;pointer-events:none;left:0;right:0}
 /* Title 흐름 모드: 본문과 함께 이동 — 캔버스 좌우 끝까지 늘어나도록 음수 마진 */
 .canvas .cv-head.head-flow{margin:0 calc(var(--cv-pl,32px) * -1) 4px calc(var(--cv-pr,32px) * -1)}
+/* 흐름 제목에는 캔버스 위 여백이 이미 있다. 헤더 안쪽 위 여백까지 중앙
+   묶음에 넣으면 보이는 글자 전체가 아래로 치우친다. 고정 헤더는 기존 패딩을 쓴다. */
+.canvas .cv-head.head-flow:is(.hd-paper,.hd-news-online){padding-top:0}
 .canvas .cv-head.head-flow.hd-news-online{--title-pl:calc(var(--cv-pl,32px) + 8px);--title-pr:calc(var(--cv-pr,32px) + 8px)}
 
 /* 프로필 이미지를 말풍선의 어느 높이에 세울지는 렌더가 정한다(av-top/av-mid/av-bottom).
@@ -1031,10 +1029,13 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .blk-bubble.n-row{
   background:var(--notif-bg,rgba(255,255,255,0.5));
   border-radius:20px;padding:12px 14px;gap:12px;
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  backdrop-filter:none;-webkit-backdrop-filter:none;
   box-shadow:0 2px 12px rgba(0,0,0,0.1);
   align-items:flex-start;
 }
+.notif-glass{position:absolute;inset:0;border-radius:inherit;overflow:hidden;pointer-events:none;z-index:0}
+.notif-glass img{display:block;width:100%;height:100%}
+.n-row > .av,.n-row > .col{position:relative;z-index:1}
 /* 알림 아바타 — 42px, 라운드, 뱃지가 밖으로 나오도록 overflow:visible */
 .blk-bubble.n-row .av{
   width:42px !important;height:42px !important;flex:0 0 42px !important;
@@ -5326,7 +5327,7 @@ function lockClockMask(face, w, h) {
   g.scale(2, 2); g.font = cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
   const spacing = parseFloat(cs.letterSpacing) || 0;
   const chars = Array.from(text), m = g.measureText(text), px = parseFloat(cs.fontSize);
-  const ascent = m.fontBoundingBoxAscent ?? px * .8, descent = m.fontBoundingBoxDescent ?? px * .2;
+  const ascent = m.actualBoundingBoxAscent ?? px * .8, descent = m.actualBoundingBoxDescent ?? px * .2;
   const y = (h - ascent - descent) / 2 + ascent;
   // tabular-nums의 글자 폭은 Canvas 기본 숫자 폭과 다르므로 실제 DOM 위치를 따른다.
   const box = face.parentElement.getBoundingClientRect(), scale = box.width / w || 1;
@@ -5342,8 +5343,134 @@ function lockClockMask(face, w, h) {
   return c.toDataURL('image/png');
 }
 
+/* 알림·시계가 같은 배경 좌표/회전/덮기를 사용한다. 한 동기화 작업 안에서
+   같은 흐림 배경은 한 번만 만든다. Canvas filter 미지원 Safari도 픽셀로 흐린다. */
+function blurPixels(context, w, h, radius, saturation = 1) {
+  const pixels = context.getImageData(0, 0, w, h), temp = new Uint8ClampedArray(pixels.data.length);
+  let src = pixels.data, dst = temp;
+  const r = Math.max(1, Math.round(radius)), span = 2 * r + 1;
+  for (let pass = 0; pass < 3; pass++) {
+    for (const horizontal of [true, false]) {
+      const lines = horizontal ? h : w, length = horizontal ? w : h;
+      const step = horizontal ? 4 : w * 4;
+      for (let line = 0; line < lines; line++) {
+        const base = horizontal ? line * w * 4 : line * 4;
+        for (let channel = 0; channel < 4; channel++) {
+          let sum = 0;
+          for (let k = -r; k <= r; k++) sum += src[base + Math.max(0, Math.min(length - 1, k)) * step + channel];
+          for (let k = 0; k < length; k++) {
+            dst[base + k * step + channel] = sum / span;
+            sum += src[base + Math.min(length - 1, k + r + 1) * step + channel]
+              - src[base + Math.max(0, k - r) * step + channel];
+          }
+        }
+      }
+      [src, dst] = [dst, src];
+    }
+  }
+  if (saturation !== 1) for (let i = 0; i < src.length; i += 4) {
+    const gray = src[i] * .2126 + src[i + 1] * .7152 + src[i + 2] * .0722;
+    for (let c = 0; c < 3; c++) src[i + c] = gray + (src[i + c] - gray) * saturation;
+  }
+  context.putImageData(pixels, 0, 0);
+}
+async function glassBackground(cv, bg, W, H, blur, saturation) {
+  const sample = document.createElement('canvas');
+  const sampleScale = Math.min(1, 2048 / Math.max(W, H));
+  sample.width = Math.max(1, Math.ceil(W * sampleScale));
+  sample.height = Math.max(1, Math.ceil(H * sampleScale));
+  const b = sample.getContext('2d'); if (!b) throw new Error('배경 캔버스를 만들지 못했습니다');
+  b.scale(sampleScale, sampleScale);
+  b.fillStyle = getComputedStyle(cv).backgroundColor; b.fillRect(0, 0, W, H);
+  const imageNode = bg && bg.querySelector('i');
+  if (imageNode) {
+    const cs = getComputedStyle(imageNode);
+    const match = cs.backgroundImage.match(/^url\(["']?([^"')]+)["']?\)$/);
+    if (match) {
+      const image = new Image(); if (isOutside(match[1])) image.crossOrigin = 'anonymous';
+      image.src = match[1];
+      if (!(await whenDrawable(image))) throw new Error('글래스 배경 이미지를 받지 못했습니다');
+      const iw = imageNode.offsetWidth, ih = imageNode.offsetHeight;
+      const cover = Math.max(iw / image.naturalWidth, ih / image.naturalHeight);
+      const size = cs.backgroundSize === 'cover' ? image.naturalWidth * cover
+        : iw * parseFloat(cs.backgroundSize) / 100;
+      const dh = size * image.naturalHeight / image.naturalWidth;
+      const pos = cs.backgroundPosition.split(' ').map(parseFloat);
+      b.save();
+      b.translate(imageNode.offsetLeft + iw / 2, imageNode.offsetTop + ih / 2);
+      const matrix = new DOMMatrix(cs.transform === 'none' ? undefined : cs.transform);
+      b.transform(matrix.a, matrix.b, matrix.c, matrix.d, 0, 0);
+      b.drawImage(image, -iw / 2 + (iw - size) * (pos[0] || 0) / 100,
+        -ih / 2 + (ih - dh) * (pos[1] || 0) / 100, size, dh);
+      b.restore();
+      blur = Math.hypot(blur, parseFloat(cs.getPropertyValue('--bgb')) || 0);
+      const overlay = bg.querySelector('u');
+      if (overlay) {
+        const oc = getComputedStyle(overlay);
+        b.globalAlpha = parseFloat(oc.opacity); b.fillStyle = oc.backgroundColor;
+        b.fillRect(0, 0, W, H); b.globalAlpha = 1;
+      }
+    }
+  }
+  if (imageNode) blurPixels(b, sample.width, sample.height, blur * sampleScale, saturation);
+  return sample;
+}
+function glassPosition(node, cv, H) {
+  let x = 0, y = 0;
+  for (let n = node; n && n !== cv; n = n.offsetParent) { x += n.offsetLeft; y += n.offsetTop; }
+  return { x, y: ((y % H) + H) % H };
+}
+/* 시계 표면만 PNG로 굳혀 화면과 SVG 저장에 같은 글자 형상을 사용한다. */
+async function paintLockGlass(cv, node, mask, background, W, H, layer) {
+  const w = node.offsetWidth, h = node.offsetHeight, dpr = 2;
+  const surface = document.createElement('canvas');
+  surface.width = Math.ceil(w * dpr); surface.height = Math.ceil(h * dpr);
+  const g = surface.getContext('2d'); if (!g) return;
+  const sample = await background, { x, y } = glassPosition(node, cv, H);
+  g.scale(dpr, dpr); g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high';
+  g.drawImage(sample, -x, -y, W, H);
+  const cs = getComputedStyle(node);
+  g.fillStyle = cs.getPropertyValue('--lock-glass-tint').trim() || 'rgba(255,255,255,.16)';
+  g.fillRect(0, 0, w, h);
+  const shine = g.createLinearGradient(0, 0, w, h);
+  shine.addColorStop(0, 'rgba(255,255,255,.2)'); shine.addColorStop(.45, 'rgba(255,255,255,.015)');
+  shine.addColorStop(1, 'rgba(255,255,255,.09)'); g.fillStyle = shine; g.fillRect(0, 0, w, h);
+  const glyph = new Image(); glyph.src = mask;
+  if (!(await whenDrawable(glyph))) throw new Error('시계 글자 마스크를 받지 못했습니다');
+  g.globalCompositeOperation = 'destination-in'; g.drawImage(glyph, 0, 0, w, h);
+  // 윤곽은 같은 마스크의 인접 픽셀로 만들어 별도 글꼴/베이스라인 차이를 없앤다.
+  const rim = document.createElement('canvas'); rim.width = surface.width; rim.height = surface.height;
+  const r = rim.getContext('2d'); if (!r) return;
+  for (const [dx, dy] of [[-1,0],[1,0],[0,-1],[0,1]]) r.drawImage(glyph, dx, dy);
+  r.globalCompositeOperation = 'destination-out'; r.drawImage(glyph, 0, 0);
+  r.globalCompositeOperation = 'source-in';
+  r.fillStyle = cs.getPropertyValue('--lock-glass-rim').trim() || 'rgba(246,255,237,.58)';
+  r.fillRect(0, 0, rim.width, rim.height);
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalCompositeOperation = 'source-over'; g.drawImage(rim, 0, 0);
+  const img = new Image(); img.src = surface.toDataURL('image/png');
+  img.alt = ''; img.setAttribute('aria-hidden', 'true');
+  await whenDrawable(img);
+  // 비동기 로딩 사이 테마가 바뀌면 옛 노드에만 반영한다.
+  if (layer.parentNode === node) { layer.replaceChildren(img); node.classList.add('is-raster'); }
+}
+
+async function paintNotificationGlass(cv, node, background, W, H, layer) {
+  const sample = await background, { x, y } = glassPosition(node, cv, H);
+  const surface = document.createElement('canvas');
+  surface.width = node.offsetWidth; surface.height = node.offsetHeight;
+  const g = surface.getContext('2d'); if (!g) return;
+  g.drawImage(sample, -x, -y, W, H);
+  g.fillStyle = getComputedStyle(node).getPropertyValue('--notif-bg').trim() || 'rgba(255,255,255,.5)';
+  g.fillRect(0, 0, surface.width, surface.height);
+  const img = new Image(); img.src = surface.toDataURL('image/png'); img.alt = '';
+  await whenDrawable(img);
+  if (layer.parentNode === node) layer.replaceChildren(img);
+}
+
+let _glassScene = [];
+const _glassBackgrounds = new Map();
 function syncCanvasBackgrounds(cv, pages = 1) {
-  cv.querySelectorAll(':scope > .bg-ghost, .insta-glass, .lock-glass').forEach(n => n.remove());
+  cv.querySelectorAll(':scope > .bg-ghost, .insta-glass, .lock-glass, .notif-glass').forEach(n => n.remove());
   const bg = cv.querySelector(':scope > .cv-bg:not(.cv-tex)');
   const H = isFit() ? cv.offsetHeight : pageBox().h;
   const W = cv.offsetWidth;
@@ -5356,6 +5483,21 @@ function syncCanvasBackgrounds(cv, pages = 1) {
     }
   }
   if (!H || !W) return;
+  const th = theme();
+  const scene = [W, H, th.bg, th.bgImage, th.bgRotation, th.bgSize,
+    th.bgX, th.bgY, th.bgBlur, th.bgOverlay, th.bgOverlayColor];
+  if (scene.some((value, index) => value !== _glassScene[index])) {
+    _glassScene = scene; _glassBackgrounds.clear();
+  }
+  const blurred = (radius, saturation = 1) => {
+    const key = radius + '/' + saturation;
+    if (!_glassBackgrounds.has(key)) {
+      const promise = glassBackground(cv, bg, W, H, radius, saturation);
+      _glassBackgrounds.set(key, promise);
+      promise.catch(() => { if (_glassBackgrounds.get(key) === promise) _glassBackgrounds.delete(key); });
+    }
+    return _glassBackgrounds.get(key);
+  };
   // 복제 층을 한 곳에서 배치하여 회전·확대·덮기와 장별 배경 좌표를 그대로 따른다.
   const backgroundAt = (node, blur, tone = '') => {
     const copy = bg ? bg.cloneNode(true) : el('div', 'cv-bg');
@@ -5375,16 +5517,30 @@ function syncCanvasBackgrounds(cv, pages = 1) {
     glass.setAttribute('aria-hidden', 'true');
     glass.appendChild(backgroundAt(node, 12)); node.prepend(glass);
   });
-  cv.querySelectorAll('.lock-time.is-glass').forEach(node => {
+  const clocks = [...cv.querySelectorAll('.lock-time.is-glass')].map(node => {
+    node.classList.remove('is-raster');
     const face = node.querySelector('.lock-time-face');
     const mask = lockClockMask(face, node.offsetWidth, node.offsetHeight);
     if (!mask) return;
     const glass = el('div', 'lock-glass');
     glass.setAttribute('aria-hidden', 'true');
-    glass.style.setProperty('--lock-mask', 'url("' + mask + '")');
-    // 배경의 작은 무늬를 넓게 섞어 자연스러운 유리색을 얻는다. 지정색도 이 배경 위에 반투명하게 얹는다.
-    glass.appendChild(backgroundAt(node, 20, ' saturate(.65)')); node.prepend(glass);
+    node.prepend(glass);
+    return paintLockGlass(cv, node, mask, blurred(20, .65), W, H, glass).catch(error => {
+      console.warn('글래스 시계 표면 생성 실패', error);
+      // 실패한 투명 시계 대신 원래 시간 글자를 보이게 한다.
+      if (glass.parentNode === node) { node.classList.remove('is-glass', 'is-raster'); glass.remove(); }
+    });
   });
+  cv.querySelectorAll('.n-row').forEach(node => {
+    if (!bg) return; // 단색은 기존 반투명 채움만으로 같은 결과다.
+    const layer = el('div', 'notif-glass'); layer.setAttribute('aria-hidden', 'true');
+    node.prepend(layer);
+    clocks.push(paintNotificationGlass(cv, node, blurred(12), W, H, layer).catch(error => {
+      console.warn('알림 배경 표면 생성 실패', error); layer.remove();
+    }));
+  });
+  cv._glassReady = Promise.all(clocks);
+  return cv._glassReady;
 }
 
 /* 지금 캔버스가 쓰는 글꼴의 스타일시트를 그 자리에서 받는다.
@@ -6851,10 +7007,9 @@ function renderPageMarks() {
     cv.classList.add('head-pinned');
     head.classList.add('head-pin');
   } else if (isFlowHead) {
-    /* 제목도 본문과 함께 움직이며 페이지 높이 계산에 참여한다.
-       중앙 정렬 시 헤더 높이의 절반을 hold처럼 취급해서 위/아래 균형을 맞춘다. */
+    /* 제목은 flowRows에 이미 포함된다. 별도 예약하면 여러 장/다단에서
+       제목 높이를 두 번 빼고 본문 묶음을 아래로 밀게 된다. */
     head.classList.add('head-flow');
-    if (!isTopAlign()) headHold = Math.round(hh / 2);
   }
   /* 하단 장식과 서명이 차지할 몫을 먼저 빼고 장을 센다.
      인스타 입력창은 서명을 포함하지 않으므로 둘의 높이와 사이 간격을 함께 확보한다. */
@@ -12975,8 +13130,12 @@ function canBake(src) {
    보는 것과 픽셀을 읽는 것은 다른 허락이라, 눈으로는 가려낼 수 없다. */
 async function blockedImages(node) {
   const seen = new Set(), out = [];
-  for (const img of [...node.querySelectorAll('img')]) {
-    const src = img.src || '';
+  const sources = [...node.querySelectorAll('img')].map(img => img.src || '');
+  [node, ...node.querySelectorAll('*')].forEach(element => {
+    for (const match of getComputedStyle(element).backgroundImage.matchAll(/url\(["']?([^"')]+)["']?\)/g))
+      sources.push(match[1]);
+  });
+  for (const src of sources) {
     if (!src || /^data:/i.test(src) || !isOutside(src) || seen.has(src)) continue;
     seen.add(src);
     if (!(await canBake(src))) out.push(src);
@@ -13008,6 +13167,25 @@ async function bakeImagesForExport(root) {
     if (!png) { console.warn('저장용 이미지 PNG 변환 실패 — 원본을 그대로 싣습니다', src.slice(0, 48)); return; }
     img.src = png;
     if (img.decode) await img.decode().catch(() => { });
+  }));
+  /* 업로드 배경도 <img>와 같은 PNG 디코드 경로를 탄다. CSS 변수에만
+     주소를 두면 라이브러리의 이미지 인라인/대기 대상에서 빠질 수 있다.
+     URL별 약속을 공유해 시계·헤더 복제 배경을 여러 번 굽지 않는다. */
+  const baked = new Map();
+  await Promise.all([root, ...root.querySelectorAll('*')].map(async node => {
+    const background = getComputedStyle(node).backgroundImage;
+    const urls = [...background.matchAll(/url\(["']?([^"')]+)["']?\)/g)];
+    if (!urls.length) return;
+    let value = background;
+    for (const match of urls) {
+      const src = match[1];
+      if (!baked.has(src)) baked.set(src, bakeFromSrc(src));
+      const png = await baked.get(src);
+      if (!png && !isOutside(src)) throw new Error('배경 이미지를 저장용 PNG로 변환하지 못했습니다');
+      // CORS가 막힌 외부 이미지는 기존 정책대로 나머지를 저장하고 끝에 알린다.
+      value = value.replace(match[0], 'url("' + (png || BLANK_PX) + '")');
+    }
+    node.style.setProperty('background-image', value, 'important');
   }));
 }
 
@@ -13051,11 +13229,10 @@ async function renderExact(hti, node, w, h, scale, fontCss, bg) {
   };
   /* 글꼴을 다 심었으면 그걸로, 못 심었으면 skipFonts 로. 중간(외부 url 잔존)은 두지 않는다.
      글꼴이 먼저다 — 두 그리기 방식을 다 해 보고 나서야 글꼴을 포기한다. */
-  /* 레퍼런스 구현처럼 Android 는 논리 크기 DOM 을 그대로 두고 pixelRatio 로 래스터 크기만
-     키운다. CSS transform 으로 내용 자체를 확대하면 Android 의 foreignObject 가 글자와
-     상자 클립을 서로 다른 반올림 자리에서 계산해 마지막 획·줄을 자를 수 있다.
-     다른 엔진은 기존의 또렷한 scaled 경로를 그대로 유지한다. */
-  const ordered = isAndroid() ? [legacy, scaled] : [scaled, legacy];
+  /* 루트 CSS transform은 WebKit foreignObject에서 그림자/filter 좌표와
+     글꼴 래스터 좌표를 따로 확대할 수 있다. DOM은 논리 크기로 유지하고
+     출력 캔버스의 pixelRatio로 확대하는 경로를 모든 환경에서 먼저 쓴다. */
+  const ordered = [legacy, scaled];
   const variants = fontCss
     ? [...ordered.map(v => ({ ...v, fontEmbedCSS: fontCss })),
        ...ordered.map(v => ({ ...v, skipFonts: true }))]
@@ -13266,7 +13443,7 @@ async function exportPNG() {
     if (multi) toast(`${ranges.length}장으로 저장합니다…`);
     /* 화면이 아니라 줄바꿈·상자 크기를 못 박은 클론을 SVG 로 뽑아 정확한 크기로 그린다 */
     const shoot = async () => {
-      syncCanvasBackgrounds(cv, 1);
+      await syncCanvasBackgrounds(cv, 1);
       /* Android 는 화면 DOM → 수동 복제본 → html-to-image 복제본처럼 레이아웃을 두 번
          다시 만들지 않는다. 레퍼런스와 같이 화면에 실제로 놓인 캔버스를 곧장 넘긴다.
          라이브러리가 만드는 단 한 번의 복제본은 같은 문서·같은 계산 스타일·같은 내장
@@ -13281,6 +13458,7 @@ async function exportPNG() {
         /* 말풍선 꼬리는 실제 DOM 요소(.bub-tail)로 그린다 — ::before 가상 요소의
            z-index 문제가 해결되어 별도 처리 없이 정상 렌더링된다. */
         try {
+          await bakeImagesForExport(cv);
           await raf2();
           const w = Math.ceil(cv.offsetWidth), h = Math.ceil(cv.offsetHeight);
           const scale = exportRatio(w, h);
