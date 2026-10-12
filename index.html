@@ -9,17 +9,22 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
 <style>
 /* ═══════════════════════════════════════════════════════════════
-   v2 디자인 토큰 (Matcha + Butter)
+   v2 디자인 토큰 (Mint + Pear)
    ═══════════════════════════════════════════════════════════════ */
 :root{
-  /* ── 색상 시스템: Matcha + Butter ── */
-  --c-primary:#8A9F7A;
-  --c-primary-hover:#728563;
-  --c-primary-muted:rgba(138,159,122,0.15);
+  /* ── 색상 시스템: Mint + Pear ── */
+  --c-primary:#84BF93;
+  --c-primary-hover:#6AA87A;
+  --c-primary-muted:rgba(132,191,147,0.18);
+  --c-primary-text:#356344;
+  --c-primary-fill:#6AA87A;
+  --c-primary-fill-hover:#5A9569;
+  --c-primary-ink:#FFFFFF;
 
-  --c-secondary:#F8E29D;
-  --c-secondary-hover:#E5CF8A;
-  --c-secondary-muted:rgba(248,226,157,0.25);
+  --c-secondary:#F3EEB6;
+  --c-secondary-hover:#E5E0A3;
+  --c-secondary-muted:rgba(243,238,182,0.35);
+  --c-secondary-text:#625D30;
 
   --c-surface:#FFFFFF;
   --c-surface-raised:#FAFAFA;
@@ -42,8 +47,8 @@
   --c-danger-bg:rgba(199,91,88,0.12);
 
   /* ── 호환성 레이어 (기존 변수 매핑) ── */
-  --green-500:var(--c-primary); --green-050:#E4F6E4; --green-100:#CFE9CF; --green-200:#C1DCC1;
-  --green-600:var(--c-primary-hover); --green-700:#5E8C5E;
+  --green-500:var(--c-primary); --green-050:var(--c-primary-muted); --green-100:#DAEDDF; --green-200:#BEDDC7;
+  --green-600:var(--c-primary-hover); --green-700:var(--c-primary-text);
   --surface:var(--c-surface); --surface-sunken:var(--c-surface-sunken); --surface-app:#EFEFF1;
   --border:var(--c-border); --border-strong:var(--c-border-strong);
   --text-strong:var(--c-text); --text:#333333; --text-muted:var(--c-text-secondary); --text-hint:var(--c-text-tertiary);
@@ -1484,8 +1489,8 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .btn-mini svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .btn-mini:hover{background:var(--c-surface-sunken)}
 .btn-mini.is-on{background:var(--green-050);border-color:var(--c-primary);color:var(--green-700)}
-.btn-mini.is-send{background:var(--c-primary);border:1px solid var(--c-primary);color:#fff}
-.btn-mini.is-send:hover{background:var(--green-600)}
+.btn-mini.is-send{background:var(--c-primary-fill);border:1px solid var(--c-primary-fill);color:var(--c-primary-ink)}
+.btn-mini.is-send:hover{background:var(--c-primary-fill-hover)}
 
 /* ═══════════════════════════════════════════════════════════════
    v2 컴포넌트: 인풋 그룹 (컴포저 통합)
@@ -1517,7 +1522,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 }
 .inp-group .btn-mini:hover{background:var(--c-surface-sunken)}
 .inp-group .btn-mini.is-on{background:var(--green-050);border:1px solid var(--c-primary);color:var(--green-700)}
-.inp-group .btn-mini.is-send{background:var(--c-primary);border:1px solid var(--c-primary);color:#fff}
+.inp-group .btn-mini.is-send{background:var(--c-primary-fill);border:1px solid var(--c-primary-fill);color:var(--c-primary-ink)}
 
 /* ═══════════════════════════════════════════════════════════════
    v2 컴포넌트: 액션 메뉴
@@ -1604,11 +1609,11 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   padding:var(--sp-xs) 0 var(--sp-sm);border-bottom:1px solid var(--c-divider,#EBEBF0);margin-bottom:var(--sp-md);
 }
 .edit-header .back-btn{
-  width:28px;height:28px;border-radius:var(--r-sm);background:var(--c-surface-sunken,#F2F2F7);
+  width:28px;height:28px;border-radius:var(--r-sm);background:var(--c-surface-sunken);color:var(--c-text-secondary);
   border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;
 }
-.edit-header .back-btn:hover{background:var(--c-border,#E5E5EA)}
-.edit-header .back-btn svg{width:16px;height:16px;stroke:var(--c-text-secondary,#636366);fill:none;stroke-width:2}
+.edit-header .back-btn:hover{background:var(--c-border)}
+.edit-header .back-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
 .edit-header .edit-title{font-size:var(--fs-sm);font-weight:var(--fw-bold)}
 .edit-header .action-btn{
   width:28px;height:28px;border-radius:var(--r-sm);background:transparent;
@@ -1642,7 +1647,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   background:var(--c-surface,#fff);border:1px solid var(--c-border,#E5E5EA);border-radius:var(--r-md);
   position:relative;cursor:pointer;transition:border-color var(--dur-fast);
 }
-.char-card:hover{border-color:var(--c-primary,#8A9F7A)}
+.char-card:hover{border-color:var(--c-primary,#84BF93)}
 .char-card .avatar{
   position:relative;width:40px;height:40px;border-radius:var(--r-full);background:var(--c-border,#E5E5EA);
   flex-shrink:0;overflow:visible;display:flex;align-items:center;justify-content:center;
@@ -1667,7 +1672,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   border-radius:var(--r-md);color:var(--c-text-tertiary,#AEAEB2);font-size:var(--fs-sm);
   line-height:1;cursor:pointer;transition:all var(--dur-fast);
 }
-.char-add:hover{border-color:var(--c-primary,#8A9F7A);color:var(--c-primary,#8A9F7A);background:var(--c-primary-muted)}
+.char-add:hover{border-color:var(--c-primary,#84BF93);color:var(--c-primary-text,#356344);background:var(--c-primary-muted)}
 .char-add svg{
   width:40px;height:40px;padding:10px;border-radius:var(--r-full);background:var(--c-surface-sunken,#F2F2F7);
   stroke:currentColor;fill:none;stroke-width:1.8;flex-shrink:0;
@@ -1723,7 +1728,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   background:transparent !important;border-radius:0;text-align:left;
 }
 .theme-card .nm{font-size:var(--fs-xs);line-height:1;color:var(--c-text-secondary,#636366);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.theme-card.is-on{border-color:var(--c-primary,#8A9F7A)}
+.theme-card.is-on{border-color:var(--c-primary,#84BF93)}
 .theme-card .edit-btn{
   position:absolute;top:6px;right:6px;width:20px;height:20px;border-radius:50%;
   background:rgba(255,255,255,0.9);border:none;cursor:pointer;
@@ -1744,7 +1749,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   line-height:var(--lh-tight);cursor:pointer;
 }
 .ratio-tabs button small{display:block;font-size:9px;font-weight:var(--fw-normal);opacity:0.75;margin-top:1px}
-.ratio-tabs button.is-on{background:var(--c-primary-muted);border-color:var(--c-primary,#8A9F7A);color:var(--c-primary,#8A9F7A)}
+.ratio-tabs button.is-on{background:var(--c-primary-muted);border-color:var(--c-primary,#84BF93);color:var(--c-primary-text,#356344)}
 
 .tail-sel{display:flex;gap:var(--sp-sm)}
 .tail-sel button{
@@ -1752,7 +1757,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   border:1px solid transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;
 }
 .tail-sel button svg{width:20px;height:20px;stroke:var(--c-text-secondary,#636366);fill:none}
-.tail-sel button.is-on{background:var(--c-primary-muted);border-color:var(--c-primary,#8A9F7A)}
+.tail-sel button.is-on{background:var(--c-primary-muted);border-color:var(--c-primary,#84BF93)}
 .tail-sel button.is-on svg{stroke:var(--c-primary,#8A9F7A)}
 
 .pos-control{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;width:80px}
@@ -1761,7 +1766,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   border-radius:4px;cursor:pointer;font-size:10px;color:var(--c-text-tertiary,#AEAEB2);display:grid;place-items:center;
 }
 .pos-control button:hover{background:var(--c-surface-sunken,#F2F2F7)}
-.pos-control button.is-on{background:var(--c-primary-muted);border-color:var(--c-primary,#8A9F7A);color:var(--c-primary,#8A9F7A)}
+.pos-control button.is-on{background:var(--c-primary-muted);border-color:var(--c-primary,#84BF93);color:var(--c-primary-text,#356344)}
 
 .bgimg-drop{
   width:100%;aspect-ratio:4/3;background:var(--c-surface-drop,#F8F8FA);border:1px dashed var(--c-border-strong,#D1D1D6);
@@ -1863,10 +1868,10 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 }
 .icb svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .icb:hover{background:var(--c-surface-sunken)}
-.icb.is-on{background:var(--c-primary-muted);border-color:var(--c-primary);color:var(--c-primary)}
-.icb.is-primary{background:var(--c-primary);border-color:var(--c-primary);color:var(--c-text-inverse)}
-.icb.is-primary:hover{background:var(--c-primary-hover)}
-.icb.is-ghost{background:transparent;border-color:var(--c-primary);color:var(--c-primary)}
+.icb.is-on{background:var(--c-primary-muted);border-color:var(--c-primary);color:var(--c-primary-text)}
+.icb.is-primary{background:var(--c-primary-fill);border-color:var(--c-primary-fill);color:var(--c-primary-ink)}
+.icb.is-primary:hover{background:var(--c-primary-fill-hover)}
+.icb.is-ghost{background:transparent;border-color:var(--c-primary);color:var(--c-primary-text)}
 .icb[disabled],.icb.is-disabled{opacity:0.5;cursor:default;pointer-events:none}
 .icb-sm{--ctl:var(--ctl-sm)}
 /* 색 지정 버튼 — 지금 색을 원 둘레의 링으로 보여준다 [design/FLOW.md '현재 색 프리뷰 링'].
@@ -1887,7 +1892,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   cursor:pointer;transition:all .15s;
 }
 .chip:hover{background:var(--c-surface-sunken)}
-.chip.is-on{background:var(--c-primary-muted);border-color:var(--c-primary);color:var(--c-primary)}
+.chip.is-on{background:var(--c-primary-muted);border-color:var(--c-primary);color:var(--c-primary-text)}
 .chip-danger{background:var(--c-danger-bg);border-color:transparent;color:var(--c-danger)}
 
 /* 세그먼트 .seg (v2) */
@@ -1905,7 +1910,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .seg button small{display:block;font-size:9px;font-weight:var(--fw-normal);opacity:0.7;margin-bottom:2px}
 .seg button.is-on{
   background:var(--c-primary-muted);border-color:var(--c-primary);
-  color:var(--c-primary);font-weight:var(--fw-bold);
+  color:var(--c-primary-text);font-weight:var(--fw-bold);
 }
 /* 세그먼트 확장 (index.html 전용) */
 .seg button:has(small){height:auto;padding:3px 2px;line-height:1.15}
@@ -1927,7 +1932,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .tgl-text{display:inline-flex;background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--r-full);padding:2px}
 .tgl-text.is-fill{display:flex;width:100%}
 .tgl-text button{flex:1 1 0;min-width:0;height:24px;padding:0 var(--sp-sm);border:none;border-radius:var(--r-full);background:transparent;font-size:var(--fs-xs);color:var(--c-text-secondary);cursor:pointer;transition:all .15s;white-space:nowrap}
-.tgl-text button.is-on{background:var(--c-primary-muted);border:1px solid var(--c-primary);color:var(--c-primary)}
+.tgl-text button.is-on{background:var(--c-primary-muted);border:1px solid var(--c-primary);color:var(--c-primary-text)}
 .tgl-text button:disabled{opacity:0.4;cursor:not-allowed}
 .tgl-text.is-disabled{opacity:0.5}
 .tgl-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
@@ -2034,10 +2039,10 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   border:1px solid transparent;cursor:pointer;transition:all var(--dur-fast)}
 .btn svg{width:14px;height:14px}
 /* btn-fill (진함, 기존 btn-primary) */
-.btn-fill,.btn-primary{background:var(--c-primary);color:var(--c-text-inverse)}
-.btn-fill:hover,.btn-primary:hover{background:var(--c-primary-hover)}
+.btn-fill,.btn-primary{background:var(--c-primary-fill);color:var(--c-primary-ink)}
+.btn-fill:hover,.btn-primary:hover{background:var(--c-primary-fill-hover)}
 /* btn-outline (테두리만) */
-.btn-outline{background:transparent;border-color:var(--c-primary);color:var(--c-primary)}
+.btn-outline{background:transparent;border-color:var(--c-primary);color:var(--c-primary-text)}
 .btn-outline:hover{background:var(--c-primary-muted)}
 /* btn-quiet (조용) */
 .btn-quiet{background:var(--c-surface-sunken);color:var(--c-text-secondary)}
@@ -2128,7 +2133,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 .av-chip img{width:100%;height:100%;object-fit:cover}
 .av-chip.is-on{border-color:var(--c-primary)}
 /* + 를 글자로 넣으면 글꼴 baseline 때문에 원 안에서 아래로 쏠린다. svg 로 그려 가운데 고정. */
-.av-chip.is-add{background:none;border:1px dashed var(--c-primary);color:var(--c-primary)}
+.av-chip.is-add{background:none;border:1px dashed var(--c-primary);color:var(--c-primary-text)}
 /* 이미지를 넣는 자리라는 표시. 56px 짜리 큰 칩에서 연필이 얼굴처럼 커 보여 줄인다. */
 .av-chip.is-pick{font-size:11px;font-weight:400;background:var(--c-border)}
 .av-chip.is-pick svg{width:60%;height:60%;fill:#fff;stroke:none}
@@ -2153,7 +2158,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 .char-chip:hover{background:var(--c-surface-sunken)}
 .char-chip .avatar{width:24px;height:24px;border-radius:var(--r-full);background:var(--c-border);flex-shrink:0;overflow:hidden}
 .char-chip .avatar img{width:100%;height:100%;object-fit:cover}
-.char-chip.is-on{background:var(--c-primary-muted);border-color:var(--c-primary);color:var(--c-primary)}
+.char-chip.is-on{background:var(--c-primary-muted);border-color:var(--c-primary);color:var(--c-primary-text)}
 /* 수정 버튼 포함 */
 .char-chip.has-edit{padding-right:4px}
 .char-chip .edit-btn{
@@ -2183,7 +2188,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 }
 .tab.is-on{
   background:var(--c-primary-muted);border-color:var(--c-primary);
-  color:var(--c-primary);font-weight:var(--fw-medium);
+  color:var(--c-primary-text);font-weight:var(--fw-medium);
 }
 /* 탭 - sticky 헤더용 (index.html 전용) */
 .tabs-sticky{
@@ -2199,12 +2204,13 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   border:1px solid transparent;background:transparent;cursor:pointer;
   transition:all .15s;white-space:nowrap;
 }
-.tabs-sticky .tab.is-on{background:var(--c-primary-muted);border-color:var(--c-primary);color:var(--c-primary);font-weight:var(--fw-medium)}
+.tabs-sticky .tab.is-on{background:var(--c-primary-muted);border-color:var(--c-primary);color:var(--c-primary-text);font-weight:var(--fw-medium)}
 
 .editcard{background:var(--c-surface-sunken);border-radius:var(--r-card);padding:12px;margin-top:11px}
-/* 편집 카드는 회색 바탕이라 그 안의 회색 입력칸·버튼이 배경에 묻힌다. 흰 바탕 + 테두리로 띄운다. */
-.editcard .step input,.editcard .btn-quiet,.editcard .sel{background:var(--c-surface);border:1px solid var(--c-border)}
-.editcard .btn-quiet:hover{background:var(--c-surface-sunken)}
+/* 회색 편집 카드 안에서는 입력칸은 흰색, 보조 버튼은 페어색으로 구분한다. */
+.editcard .step input,.editcard .sel{background:var(--c-surface);border:1px solid var(--c-border)}
+.editcard .btn-quiet{background:var(--c-secondary);border:1px solid var(--c-secondary-hover)}
+.editcard .btn-quiet:hover{background:var(--c-border)}
 /* 패널 소제목 — 아래 토글 라벨(12px 본문)보다 약하면 위계가 뒤집혀 읽기 힘들다 */
 .sec-lab{font-size:var(--fs-body);font-weight:600;color:var(--c-text);display:block;margin-bottom:9px}
 
@@ -10282,7 +10288,7 @@ function buildTextEditor(host, block) {
     chipRow.appendChild(chip);
   });
   const addChip = el('button', 'char-chip');
-  addChip.style.cssText = 'border-style:dashed;border-color:var(--c-primary);color:var(--c-primary);padding-left:var(--sp-sm);';
+  addChip.style.cssText = 'border-style:dashed;border-color:var(--c-primary);color:var(--c-primary-text);padding-left:var(--sp-sm);';
   addChip.innerHTML = PLUS_SVG + '<span>추가</span>';
   addChip.querySelector('svg').style.cssText = 'width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;';
   addChip.onclick = () => { S.ui.tool = 'character'; S.ui.editingCharacterId = 'new'; S.ui.charDraft = null; setStage('tools'); };
