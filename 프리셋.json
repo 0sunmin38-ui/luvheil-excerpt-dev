@@ -566,7 +566,7 @@
       "signAlign": "right",
       "signSep": "·",
       "presetId": "ios",
-      "groupRuns": false,
+      "groupRuns": true,
       "lockDate": "3월 12일 화요일",
       "lockTime": "3:08",
       "notifBg": "rgba(255,255,255,0.5)",
