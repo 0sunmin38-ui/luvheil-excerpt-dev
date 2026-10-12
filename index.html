@@ -722,9 +722,15 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .hd-paper .paper-journal{font-size:calc(12em / 14);font-weight:600;padding-left:calc(3 * var(--title-u));line-height:1.3;margin-bottom:calc(2 * var(--title-u))}
 .hd-paper .paper-title{font-size:2em;font-weight:800;line-height:1.2;margin-bottom:calc(2 * var(--title-u))}
 .hd-paper .paper-authors{font-size:calc(10em / 14);font-weight:400;padding-left:calc(3 * var(--title-u));line-height:1.3;opacity:.6}
+.hd-paper[data-align="center"] .paper-journal,
+.hd-paper[data-align="center"] .paper-authors{padding-left:0}
+.hd-paper[data-align="right"] .paper-journal,
+.hd-paper[data-align="right"] .paper-authors{padding-left:0;padding-right:calc(3 * var(--title-u))}
 .hd-paper::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;opacity:.2}
 /* 본문도 태그·서명과 같은 들여쓰기 기준에서 시작한다. */
 .canvas:has(> .hd-paper) > .blk:not(.is-footer){padding-left:var(--title-body-inset,3px)}
+.canvas:has(> .hd-paper[data-align="center"]) > .blk:not(.is-footer){padding-left:0}
+.canvas:has(> .hd-paper[data-align="right"]) > .blk:not(.is-footer){padding-left:0;padding-right:var(--title-body-inset,3px)}
 /* 배경 복제 층을 화면과 저장본에 공통으로 사용한다. 블러는 헤더 아래에서 페이드한다. */
 .hd-insta-dm,.cv-foot-insta-dm{backdrop-filter:none;-webkit-backdrop-filter:none;background:transparent}
 .insta-glass{position:absolute;inset:0 0 -32px;overflow:hidden;pointer-events:none;z-index:0}
@@ -4276,7 +4282,7 @@ function histApply(json) {
     Object.assign(S.colors, d.colors || {});
     /* 되돌린 판에 없는 블록을 고르고 있으면 편집 대상을 놓는다 */
     if (!S.blocks.some(x => x.id === S.ui.selectedBlockId)) S.ui.selectedBlockId = null;
-    S.ui.themeDraft = null; S.ui.charDraft = null;
+    S.ui.themeDraft = null; S.ui.charDraft = null; S.ui.imagePreview = null;
     try {
       localStorage.setItem(KEY, json);
       _quotaWarned = false;
@@ -6053,6 +6059,13 @@ const RATIOS = { '9:16': 9 / 16, '3:4': 3 / 4, '1:1': 1, '4:3': 4 / 3, '16:9': 1
 function renderCanvas() {
   const renderAt = performance.now(); diag('render:start', { blocks: S.blocks.length });
   const cv = $('#canvas'), th = theme(), f = fmt();
+  const preview = S.ui.imagePreview;
+  const previewActive = S.ui.stage === 'format' && preview &&
+    (preview.blockId ? S.ui.selectedBlockId === preview.blockId : S.ui.newKind === 'image');
+  const blocks = previewActive
+    ? (preview.blockId ? S.blocks.map(b => b.id === preview.blockId ? { ...b, ...preview.block } : b)
+      : [...S.blocks.filter(b => b.type !== 'footer'), preview.block, ...S.blocks.filter(b => b.type === 'footer')])
+    : S.blocks;
   /* 이전 렌더의 중앙 정렬과 서명 자리가 페이지 높이 계산에 섞이지 않게 먼저 푼다. */
   cv.classList.remove('ratio-center', 'foot-pinned');
   cv.style.setProperty('--cv-ratio', String(RATIOS[ratioKey()] || 1));
@@ -6195,7 +6208,7 @@ function renderCanvas() {
   const frn = frameNode(th);
   if (frn) cv.appendChild(frn);
 
-  if (!S.blocks.length) {
+  if (!blocks.length) {
     cv.classList.add('is-empty');
     cv.appendChild(Object.assign(el('div', 'canvas-empty'), { innerHTML: '블록을 <b>클릭</b>하면 수정 · <b>끌면</b> 순서 이동<br>(터치는 <b>꾹 눌렀다</b> 끌기)' }));
   } else {
@@ -6204,7 +6217,7 @@ function renderCanvas() {
        한가운데 놓는 상태라, 폭을 꽉 채우는 머리가 끼면 그 배치가 통째로 어그러진다). */
     const hd = headerNode(th);
     if (hd) cv.appendChild(hd);
-    S.blocks.forEach((b, i) => cv.appendChild(renderBlock(b, th, f, S.blocks[i - 1], S.blocks[i + 1])));
+    blocks.forEach((b, i) => cv.appendChild(renderBlock(b, th, f, blocks[i - 1], blocks[i + 1])));
     /* ── 테마 서명 (v2) ──────────────────────────────────────────
        footer 블록이 없고 테마에 서명이 켜져 있으면 테마 서명을 그린다.
        기존 footer 블록이 있으면 그쪽이 우선한다 — 호환을 위해 둘 다 쓸 수 있게 둔다.
@@ -6630,10 +6643,27 @@ function renderBlock(b, th, f, prev, next) {
   if (b.type === 'image') {
     const d = el('div', 'blk-image');
     d.style.margin = (b.margin || 0) + 'px 0';
+    d.style.textAlign = ['left', 'center', 'right'].includes(b.imageAlign) ? b.imageAlign : 'center';
     const img = el('img'); img.src = b.src; img.alt = '';
-    img.style.width = (b.size ?? 60) + '%';
-    img.style.borderRadius = (b.round === false ? 0 : 10) + 'px';
-    d.appendChild(img); wrap.appendChild(d); return wrap;
+    const crop = b.imageCrop;
+    if (crop && [crop.x, crop.y, crop.width, crop.height, crop.ratio].every(Number.isFinite)
+      && crop.width > 0 && crop.height > 0 && crop.ratio > 0) {
+      const view = el('div');
+      view.style.cssText = 'display:inline-block;position:relative;overflow:hidden;vertical-align:top;';
+      view.style.width = (b.size ?? 60) + '%';
+      view.style.aspectRatio = String(crop.ratio);
+      view.style.borderRadius = (b.round === false ? 0 : 10) + 'px';
+      img.style.cssText = 'position:absolute;max-width:none;height:auto;';
+      img.style.width = (100 / crop.width) + '%';
+      img.style.left = (-100 * crop.x / crop.width) + '%';
+      img.style.top = (-100 * crop.y / crop.height) + '%';
+      view.appendChild(img); d.appendChild(view);
+    } else {
+      img.style.width = (b.size ?? 60) + '%';
+      img.style.borderRadius = (b.round === false ? 0 : 10) + 'px';
+      d.appendChild(img);
+    }
+    wrap.appendChild(d); return wrap;
   }
   if (b.type === 'html') { const d = el('div', 'blk-html'); d.innerHTML = safeHTML(b.text); wrap.appendChild(d); return wrap; }
   if (b.type === 'music') { wrap.appendChild(musicNode(b, th)); return wrap; }
@@ -7174,7 +7204,24 @@ function titleHeaderControls(t, kind, up) {
     input.oninput = () => { t[key] = input.value; up(); };
     field.appendChild(input); wrap.appendChild(field);
   });
-  if (kind === 'paper') wrap.appendChild(colorField('소제목 색', titleTagColor(t), v => { t.paperTagColor = v; up(); }));
+  if (kind === 'paper') {
+    const field = el('div', 'field');
+    field.appendChild(el('label', 'lab', '정렬'));
+    const items = [['left', '좌측 정렬'], ['center', '중앙 정렬'], ['right', '우측 정렬']];
+    const align = segment(items, t.paperAlign || 'left', value => {
+      t.paperAlign = value;
+      [...align.children].forEach((button, i) => {
+        const active = items[i][0] === value;
+        button.classList.toggle('is-on', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+      up();
+    });
+    align.setAttribute('role', 'group'); align.setAttribute('aria-label', 'article 정렬');
+    [...align.children].forEach((button, i) => button.setAttribute('aria-pressed', String(items[i][0] === (t.paperAlign || 'left'))));
+    field.appendChild(align); wrap.appendChild(field);
+    wrap.appendChild(colorField('소제목 색', titleTagColor(t), v => { t.paperTagColor = v; up(); }));
+  }
   if (kind === 'lock-clock') {
     const styleField = el('div', 'field');
     styleField.appendChild(el('label', 'lab', '시계 스타일'));
@@ -7215,6 +7262,10 @@ function headerNode(th) {
   if (kind === 'none') return null;
   const title = (th.headerTitle || '').trim();
   const head = el('div', 'cv-head hd-' + kind);
+  if (kind === 'paper') {
+    head.dataset.align = th.paperAlign || 'left';
+    head.style.textAlign = head.dataset.align;
+  }
   /* 잠금화면 시간은 별도 글자 색상 지원 — lockFg가 있으면 그것을 사용 */
   if (kind === 'lock-clock' && th.lockFg) {
     head.style.color = th.lockFg;
@@ -7934,7 +7985,7 @@ function renderPageMarks() {
   const dmh = dmFoot ? dmFoot.offsetHeight : 0;
   cv.classList.toggle('has-insta-dm', !!dmFoot);
   cv.style.setProperty('--insta-foot-h', dmh + 'px');
-  if (!S.blocks.length) return 1;
+  if (!flowRows().length) return 1;
 
   const gap = Math.round(fmt().blockGap ?? 10);
   const head = cv.querySelector('.cv-head:not(.head-ghost)');
@@ -8087,7 +8138,7 @@ function setStage(st, keepNav) {
   /* 넓은 화면에서는 도구가 단계와 상관없이 늘 떠 있다 [renderTools] — 자리를 옮겨도
      편집기는 눈앞에 그대로다. 그때 초안을 비우면 고치던 값이 소리 없이 되돌아간다.
      도구가 실제로 사라지는 좁은 화면에서만 '나가는 것' 으로 친다. */
-  const closesTools = st !== 'tools' && !isWide();
+  const closesTools = st !== 'tools' && S.ui.stage === 'tools' && !isWide();
   /* 나가는 길이면 먼저 묻는다 — 답을 받고 나서 같은 자리로 다시 온다 */
   if (closesTools && confirmDiscardThemeDraft(() => setStage(st, keepNav))) return;
   if (closesTools && confirmDiscardCharDraft(() => setStage(st, keepNav))) return;
@@ -8097,6 +8148,7 @@ function setStage(st, keepNav) {
      경우만 예외다 — 그때는 옮긴 목적이 곧 칩을 펴는 것이라 열어 둔 채로 간다. */
   S.ui.navOpen = !!keepNav;
   S.ui.stage = st;
+  if (st !== 'format') S.ui.imagePreview = null;
   /* 데스크톱 한 기둥 배치에서 «열려 있을 칸» 도 함께 옮긴다 [setDeskPane] — 캔버스의 블록을
      눌러 들어오는 길처럼 시트 밖에서 시작한 이동은 칸을 누른 적이 없어 저절로 안 따라온다.
      그러면 서식이 밀린 칸 안에서 열려, 고치러 왔는데 고칠 데가 안 보인다. */
@@ -8558,7 +8610,6 @@ function renderFormat() {
     const host = el('div', 'sec');
     if (S.ui.newKind === 'image') {
       buildImageEditor(host, null, S.ui.newSrc || '');
-      S.ui.newSrc = '';
       wrap.appendChild(host);
     } else if (S.ui.newKind === 'music') {
       /* 음악 블록을 먼저 만들고 선택한 뒤 편집기를 연다 */
@@ -9287,13 +9338,23 @@ async function clearCacheAndReload(draft) {
 /* 자르기 틀 [원본 msgCropState / clampMsgCrop / onMsgCropZoom] */
 const arOf = r => { const q = String(r || 1).split(':').map(Number); return (q[1] ? q[0] / q[1] : q[0]) || 1; };
 
-function cropField(src, ratio) {
+function cropField(src, ratio, options = {}) {
   const box = el('div', 'crop');
   /* 비율은 CSS 변수로도 내려 준다 — 높이 제한(max-width)이 이 값을 곱해 쓴다 */
   const setAR = r => { box.style.aspectRatio = String(r).replace(':', '/'); box.style.setProperty('--ar', arOf(r)); };
-  setAR(ratio || 1);
+  let currentRatio = ratio || 1;
+  setAR(currentRatio === 'original' ? 1 : currentRatio);
   const st = { scale: 1, x: 0, y: 0, natW: 0, natH: 0, drag: false, pid: null, base: 1, touched: false };
   let img = null, grid = null;
+  let lastW = 0, lastH = 0, pendingCrop = options.crop || null;
+  const snapshot = () => {
+    if (!st.natW || !st.natH || !st.scale || !lastW || !lastH) return null;
+    if (currentRatio === 'original' && Math.abs(st.scale - st.base) < 0.000001)
+      return { x: 0, y: 0, width: 1, height: 1, ratio: st.natW / st.natH };
+    return { x: -st.x / (st.natW * st.scale), y: -st.y / (st.natH * st.scale),
+      width: lastW / (st.natW * st.scale), height: lastH / (st.natH * st.scale), ratio: lastW / lastH };
+  };
+  const changed = () => { if (box._onChange) box._onChange(); };
 
   const apply = () => { if (img) img.style.transform = `translate(${st.x}px,${st.y}px) scale(${st.scale})`; };
   const clampPos = () => {
@@ -9304,15 +9365,27 @@ function cropField(src, ratio) {
   };
   const refit = () => {
     if (!img || !st.natW) return;
+    if (currentRatio === 'original') setAR(st.natW / st.natH);
     const fw = box.clientWidth, fh = box.clientHeight;
     /* 아직 배치 전이면 0 이 나온다. 다음 프레임에 다시 잰다 — 0 으로 잡으면 배율이 0 이 되어 아무것도 안 보인다. */
     if (!fw || !fh) { requestAnimationFrame(refit); return; }
+    const saved = pendingCrop || (options.preserve && lastW && lastH ? snapshot() : null);
+    pendingCrop = null;
     st.base = Math.max(fw / st.natW, fh / st.natH);   /* 틀을 꽉 채우는 배율이 최소값 */
     st.scale = st.base; st.x = 0; st.y = 0;
+    if (saved && [saved.x, saved.y, saved.width, saved.height].every(Number.isFinite) && saved.width > 0) {
+      st.scale = Math.max(st.base, fw / (st.natW * saved.width));
+      st.x = -saved.x * st.natW * st.scale;
+      st.y = -saved.y * st.natH * st.scale;
+    }
+    lastW = fw; lastH = fh;
     clampPos(); apply();
-    if (box._onScale) box._onScale(st.base);
+    if (box._onScale) box._onScale(st.base, st.scale);
+    changed();
   };
   const setSrc = s => {
+    if (box._src && box._src !== s) pendingCrop = null;
+    lastW = lastH = 0; st.natW = st.natH = 0; st.touched = false;
     box.innerHTML = '';
     box._src = s || '';
     if (!s) { box.appendChild(el('div', 'crop-empty', '이미지를 선택하세요')); img = null; return; }
@@ -9327,7 +9400,12 @@ function cropField(src, ratio) {
     box.append(img, grid);
   };
   /* [원본 setMsgCropRatio] 비율을 바꾸면 틀만 바뀌고 이미지는 다시 꽉 차게 맞춘다 */
-  box._setRatio = r => { setAR(r); requestAnimationFrame(refit); };
+  box._setRatio = (r, reset = false) => {
+    if (reset || r !== currentRatio) { lastW = lastH = 0; pendingCrop = null; }
+    currentRatio = r;
+    setAR(r === 'original' && st.natW ? st.natW / st.natH : (r === 'original' ? 1 : r));
+    requestAnimationFrame(refit);
+  };
 
   box.addEventListener('pointerdown', e => {
     if (!img) return;
@@ -9342,6 +9420,7 @@ function cropField(src, ratio) {
     st.touched = true;
     st.x = st.ox + (e.clientX - st.sx); st.y = st.oy + (e.clientY - st.sy);
     clampPos(); apply();
+    changed();
   });
   const end = e => {
     if (!st.drag || (e && e.pointerId !== st.pid)) return;
@@ -9356,6 +9435,7 @@ function cropField(src, ratio) {
     const prev = st.scale, cx = box.clientWidth / 2, cy = box.clientHeight / 2, k = next / prev;
     st.x = cx - (cx - st.x) * k; st.y = cy - (cy - st.y) * k;
     st.scale = next; clampPos(); apply();
+    changed();
   };
   /* 틀 한가운데에 놓는다. 꽉 채우고 남는 쪽을 어디에 흘릴지를 refit 은 «왼쪽 위» 로 두는데,
      배경 이미지처럼 캔버스가 «가운데 정렬(50% 50%)» 로 그리는 자리는 첫 화면이 그와 같아야
@@ -9368,6 +9448,7 @@ function cropField(src, ratio) {
     clampPos(); apply();
   };
   box._state = st;
+  box._snapshot = snapshot;
   box._setSrc = setSrc;
   /* 창에 떨군 사진을 이 틀이 받는다 — 받은 뒤 무엇을 더 할지는 모달이 정한다(_onPick) */
   box._dropFile = f => readImageFile(f, d => { setSrc(d); if (box._onPick) box._onPick(d); });
@@ -9670,40 +9751,91 @@ function buildMusicEditor(host, block) {
    이제 서식 패널 안에 그대로 들어간다 — 한 블록의 일은 한 패널에서 끝난다. */
 function buildImageEditor(host, block, initialSrc) {
   const isNew = !block;
+  const previous = S.ui.imagePreview;
+  const source = previous && (block ? previous.blockId === block.id
+    : !previous.blockId && previous.initialSrc === (initialSrc || '')) ? previous.block : block;
   const draft = {
-    src: block ? block.src : (initialSrc || ''),
-    size: block ? (block.size ?? 60) : 60,
-    round: block ? block.round !== false : true,
-    ratio: '1:1'
+    src: source ? source.src : (initialSrc || ''),
+    size: source ? (source.size ?? 60) : 60,
+    round: source ? source.round !== false : true,
+    imageAlign: source && ['left', 'center', 'right'].includes(source.imageAlign) ? source.imageAlign : 'center',
+    ratio: source?.imageRatio || 'original'
+  };
+  let previewFrame = 0;
+  const preview = () => {
+    if (!host.isConnected || S.ui.stage !== 'format' ||
+      (block ? S.ui.selectedBlockId !== block.id : S.ui.newKind !== 'image')) return;
+    /* 입력은 즉시 보존하고 그리기만 한 프레임으로 묶는다. 중간 재렌더에도 마지막 클릭이 남는다. */
+    S.ui.imagePreview = draft.src ? { blockId: block?.id || null, initialSrc: initialSrc || '', block: {
+      id: block?.id || 'image-preview', type: 'image', src: draft.src,
+      size: draft.size, round: draft.round, imageAlign: draft.imageAlign,
+      imageCrop: crop._snapshot(), imageRatio: draft.ratio
+    } } : null;
+    if (!previewFrame) previewFrame = requestAnimationFrame(() => {
+      previewFrame = 0;
+      if (host.isConnected && S.ui.stage === 'format') renderCanvas();
+    });
   };
   /* 통일된 헤더 */
   buildEditHeader(host, block, () => doConfirm());
+  const confirmButton = host.querySelector('button[title="확인"]');
+  confirmButton.onclick = null;
+  bindStickyTap(confirmButton, () => doConfirm());
 
   /* 이미지 자르기 영역 */
   const wrap = el('div');
   wrap.style.cssText = 'padding:var(--sp-md);';
+
+  const alignField = el('div', 'field');
+  alignField.appendChild(el('label', 'lab', '정렬'));
+  const alignItems = [['left', '좌측'], ['center', '중앙'], ['right', '우측']];
+  const selectAlign = value => {
+    draft.imageAlign = value;
+    syncAlign();
+    preview();
+  };
+  const alignSeg = segment(alignItems, draft.imageAlign, selectAlign);
+  [...alignSeg.children].forEach((button, i) => {
+    button.onclick = null;
+    bindStickyTap(button, () => selectAlign(alignItems[i][0]));
+  });
+  const syncAlign = () => {
+    [...alignSeg.children].forEach((button, i) => {
+      const selected = alignItems[i][0] === draft.imageAlign;
+      button.classList.toggle('is-on', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    });
+  };
+  syncAlign();
+  alignSeg.setAttribute('role', 'group');
+  alignSeg.setAttribute('aria-label', '이미지 정렬');
+  alignField.appendChild(alignSeg);
+  wrap.appendChild(alignField);
 
   /* 상단: 모서리 둥글게 토글 (우측 정렬) */
   const topRow = el('div');
   topRow.style.cssText = 'display:flex;justify-content:flex-end;margin-bottom:var(--sp-md);';
   const roundToggle = toggleRow('모서리 둥글게', '', draft.round, v => {
     draft.round = v; crop.style.borderRadius = v ? '10px' : '0';
+    preview();
   });
   roundToggle.style.cssText = 'margin:0;padding:0;';
   roundToggle.querySelector('.tgl').classList.add('tgl-sm');
   topRow.appendChild(roundToggle);
   wrap.appendChild(topRow);
 
-  const crop = cropField(draft.src, draft.ratio);
+  const crop = cropField(draft.src, draft.ratio, { preserve: true, crop: source?.imageCrop });
+  crop._onChange = preview;
 
   const ratios = el('div', 'crop-ratios');
-  [['1:1', '정사각'], ['3:4', '세로'], ['4:3', '가로'], ['16:9', '와이드']].forEach(([r, sub]) => {
+  [['original', '원본'], ['1:1', '정사각'], ['3:4', '세로'], ['4:3', '가로'], ['16:9', '와이드']].forEach(([r, sub]) => {
     const b = el('button', draft.ratio === r ? 'on' : '');
-    b.innerHTML = `${r}<small>${sub}</small>`;
+    if (r === 'original') b.textContent = sub;
+    else b.innerHTML = `${r}<small>${sub}</small>`;
     b.onclick = () => {
       draft.ratio = r;
       [...ratios.children].forEach(x => x.classList.toggle('on', x === b));
-      crop._setRatio(r);
+      crop._setRatio(r, true);
     };
     ratios.appendChild(b);
   });
@@ -9712,7 +9844,7 @@ function buildImageEditor(host, block, initialSrc) {
   zoomWrap.appendChild(el('span', 'lab', '확대'));
   const zoom = el('input', 'rng'); zoom.type = 'range'; zoom.step = '0.01';
   zoomWrap.appendChild(zoom);
-  crop._onScale = base => { zoom.min = base; zoom.max = base * 3; zoom.value = base; };
+  crop._onScale = (base, current) => { zoom.min = base; zoom.max = Math.max(base * 3, current); zoom.value = current; };
   zoom.oninput = () => crop._zoom(parseFloat(zoom.value));
 
   /* 미리보기(자르기 틀)를 누르면 곧바로 이미지 선택으로 간다 — 별도 버튼을 두지 않는다 */
@@ -9733,13 +9865,13 @@ function buildImageEditor(host, block, initialSrc) {
   rmBtn.style.cssText = 'box-shadow:var(--shadow-pop);width:32px;height:32px;padding:0;';
   rmBtn.innerHTML = '<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
   rmBtn.title = '삭제';
-  rmBtn.onclick = e => { e.stopPropagation(); draft.src = ''; crop._setSrc(''); imgBtns.hidden = true; crop.style.cursor = 'pointer'; };
+  rmBtn.onclick = e => { e.stopPropagation(); draft.src = ''; crop._setSrc(''); imgBtns.hidden = true; crop.style.cursor = 'pointer'; preview(); };
   imgBtns.append(reBtn, rmBtn);
 
   const stage = el('div', 'crop-stage'); stage.style.position = 'relative';
   /* 크기(%)는 캔버스에서 차지할 폭이다. 틀을 그만큼 좁혀 실제 크기를 눈으로 보게 한다. */
   const sizer = el('div');
-  sizer.style.cssText = 'width:100%;position:relative;transition:width .12s';
+  sizer.style.cssText = 'width:100%;position:relative;';
   sizer.appendChild(crop);
   /* 버튼은 틀이 아니라 스테이지 기준으로 붙인다 — 크기를 줄이면 틀을 따라
      안쪽으로 끌려 들어와 엉뚱한 자리에 놓였다. */
@@ -9767,14 +9899,32 @@ function buildImageEditor(host, block, initialSrc) {
   host.appendChild(wrap);
   applySize();
 
-  const put = async src => {
-    /* '원본 사용' 으로 들어온 파일은 자르기를 거치지 않아 몇 MB 짜리 그대로다 — 여기서 굽는다 */
-    src = await shrinkImage(src, 1024);
+  let confirming = false;
+  const put = async () => {
+    if (confirming) return;
+    confirming = true;
+    if (!(await whenDrawable(crop.querySelector('img')))) {
+      confirming = false; toast('이미지를 불러온 뒤 다시 확인해주세요'); return;
+    }
+    await raf2();
+    const patch = { size: draft.size, round: draft.round, imageAlign: draft.imageAlign,
+      imageRatio: draft.ratio, imageCrop: crop._snapshot() };
+    /* 원본 하나와 작은 좌표만 보존한다. 편집 확정마다 자른 PNG를 중복 저장하지 않는다. */
+    const src = block && draft.src === block.src ? draft.src : await shrinkImage(draft.src, 1024);
+    if (S.ui.stage !== 'format' || (block ? S.ui.selectedBlockId !== block.id
+      : S.ui.newKind !== 'image' || (S.ui.newSrc || '') !== (initialSrc || ''))) {
+      confirming = false; return;
+    }
     if (isNew) {
-      addBlock({ type: 'image', src, size: draft.size, round: draft.round });
+      addBlock({ type: 'image', src, ...patch });
       /* 만든 그 블록을 이어서 고칠 수 있게 곧바로 고른 상태로 둔다 */
       S.ui.selectedBlockId = S.blocks[S.blocks.length - 1].id;
-    } else Object.assign(block, { src, size: draft.size, round: draft.round });
+    } else {
+      const current = S.blocks.find(b => b.id === block.id);
+      if (!current) { confirming = false; return; }
+      Object.assign(current, { src, ...patch });
+    }
+    S.ui.imagePreview = null;
     save();
     toast(isNew ? '이미지를 추가했습니다' : '이미지를 수정했습니다');
     backToDefault();          /* 넣었으면 끝난 일이다 */
@@ -9783,7 +9933,7 @@ function buildImageEditor(host, block, initialSrc) {
   /* 확정 동작 — 헤더의 저장 버튼이나 하단 확인 버튼에서 호출한다 */
   const doConfirm = () => {
     if (!draft.src) { toast('이미지를 먼저 선택하세요'); return; }
-    put(crop._export() || draft.src);
+    put();
   };
   /* 새 이미지 추가 시에만 하단 버튼이 쓰이고, 기존 블록은 헤더의 저장 버튼으로 확정한다 */
   _confirm = isNew ? doConfirm : null;
