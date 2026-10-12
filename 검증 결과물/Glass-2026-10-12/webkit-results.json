@@ -1,0 +1,102 @@
+[
+  {
+    "id": "ios",
+    "tag": "glass-bg",
+    "paint": [
+      {
+        "background": true,
+        "shadowCount": 10,
+        "uniqueShadows": 2,
+        "cleaned": true,
+        "restored": true
+      }
+    ],
+    "pages": 1,
+    "ms": 642,
+    "clock": true,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 2
+  },
+  {
+    "id": "ios",
+    "tag": "glass-solid",
+    "solid": true,
+    "paint": [
+      {
+        "background": false,
+        "shadowCount": 10,
+        "uniqueShadows": 2,
+        "cleaned": true,
+        "restored": true
+      }
+    ],
+    "pages": 1,
+    "ms": 320,
+    "clock": true,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 1
+  },
+  {
+    "id": "ios",
+    "tag": "cyan",
+    "color": "#8ce5fa",
+    "paint": [
+      {
+        "background": true,
+        "shadowCount": 10,
+        "uniqueShadows": 2,
+        "cleaned": true,
+        "restored": true
+      }
+    ],
+    "pages": 1,
+    "ms": 495,
+    "clock": true,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 2
+  },
+  {
+    "id": "ios",
+    "tag": "purple",
+    "color": "#d7baff",
+    "paint": [
+      {
+        "background": true,
+        "shadowCount": 10,
+        "uniqueShadows": 2,
+        "cleaned": true,
+        "restored": true
+      }
+    ],
+    "pages": 1,
+    "ms": 352,
+    "clock": true,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 2
+  },
+  {
+    "id": "ios",
+    "tag": "rotation",
+    "rotate": true,
+    "color": "#8ce5fa",
+    "paint": [
+      {
+        "background": true,
+        "shadowCount": 10,
+        "uniqueShadows": 2,
+        "cleaned": true,
+        "restored": true
+      }
+    ],
+    "pages": 1,
+    "ms": 767,
+    "clock": true,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 2
+  }
+]

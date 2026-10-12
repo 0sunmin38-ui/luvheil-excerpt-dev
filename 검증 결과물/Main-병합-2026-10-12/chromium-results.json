@@ -1,0 +1,130 @@
+{
+  "engine": "chromium",
+  "version": "151.0.7922.34",
+  "remotePresetsUnchanged": 17,
+  "migration": {
+    "bubbleCount": 1,
+    "edited": "#FEDCBA",
+    "custom": "#ABCDEF",
+    "schema": 16
+  },
+  "bubble": {
+    "leftTags": 2,
+    "rightTags": 0,
+    "leftRing": "linear-gradient(115deg, rgb(240, 128, 166), rgb(249, 204, 219))",
+    "rightRing": "none",
+    "avatar": "38px",
+    "weight": "700",
+    "nameRatio": 0.9,
+    "tagRatio": 0.9,
+    "number": "+ 1226",
+    "font": "\"IBM Plex Sans KR\", sans-serif",
+    "spacing": -0.008,
+    "presets": [
+      "plain",
+      "modern",
+      "imessage",
+      "kakaotalk",
+      "bubble"
+    ]
+  },
+  "controls": {
+    "on": [
+      {
+        "label": "아티스트 태그",
+        "col": "1",
+        "row": "1"
+      },
+      {
+        "label": "그림자",
+        "col": "2",
+        "row": "1"
+      },
+      {
+        "label": "태그 색",
+        "col": "1",
+        "row": "2"
+      },
+      {
+        "label": "좌측 프로필",
+        "col": "2",
+        "row": "2"
+      },
+      {
+        "label": "좌측 이름",
+        "col": "1",
+        "row": "3"
+      },
+      {
+        "label": "우측 프로필",
+        "col": "2",
+        "row": "3"
+      },
+      {
+        "label": "우측 이름",
+        "col": "1",
+        "row": "4"
+      }
+    ],
+    "off": [
+      {
+        "label": "아티스트 태그",
+        "col": "1",
+        "row": "1"
+      },
+      {
+        "label": "그림자",
+        "col": "2",
+        "row": "1"
+      },
+      {
+        "label": "좌측 프로필",
+        "col": "2",
+        "row": "2"
+      },
+      {
+        "label": "좌측 이름",
+        "col": "1",
+        "row": "2"
+      },
+      {
+        "label": "우측 프로필",
+        "col": "2",
+        "row": "3"
+      },
+      {
+        "label": "우측 이름",
+        "col": "1",
+        "row": "3"
+      }
+    ],
+    "placeholder": [
+      "예) 사해이",
+      "예) 1226"
+    ],
+    "number": "421",
+    "roundToggle": false,
+    "articleFallback": "이전 태그"
+  },
+  "image": {
+    "sameSource": true,
+    "align": "right",
+    "crop": true,
+    "ratio": "original"
+  },
+  "regressions": [
+    {
+      "header": "paper",
+      "pages": 1
+    },
+    {
+      "header": "imessage",
+      "pages": 1
+    },
+    {
+      "header": "lock-clock",
+      "pages": 1
+    }
+  ],
+  "errors": []
+}
