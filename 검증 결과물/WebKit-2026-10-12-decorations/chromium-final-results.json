@@ -1,0 +1,159 @@
+[
+  {
+    "id": "ios",
+    "tag": "glass-bg",
+    "pages": 1,
+    "ms": 519,
+    "clock": true,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 2
+  },
+  {
+    "id": "ios",
+    "tag": "glass-solid",
+    "solid": true,
+    "pages": 1,
+    "ms": 275,
+    "clock": true,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 1
+  },
+  {
+    "id": "ios",
+    "tag": "glass-off",
+    "off": true,
+    "pages": 1,
+    "ms": 296,
+    "clock": false,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 1
+  },
+  {
+    "id": "ios",
+    "tag": "rotation",
+    "rotate": true,
+    "pages": 1,
+    "ms": 579,
+    "clock": true,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 2
+  },
+  {
+    "id": "ios",
+    "tag": "fit",
+    "fit": true,
+    "pages": 1,
+    "ms": 339,
+    "clock": true,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 2
+  },
+  {
+    "id": "ios",
+    "tag": "multi",
+    "long": true,
+    "pages": 4,
+    "ms": 1748,
+    "clock": true,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 2
+  },
+  {
+    "id": "ios",
+    "tag": "columns",
+    "long": true,
+    "columns": 2,
+    "pages": 2,
+    "ms": 953,
+    "clock": true,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 2
+  },
+  {
+    "id": "ios",
+    "tag": "paper",
+    "paper": true,
+    "pages": 1,
+    "ms": 363,
+    "clock": true,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 2
+  },
+  {
+    "id": "ios",
+    "tag": "frame",
+    "frame": true,
+    "pages": 2,
+    "ms": 845,
+    "clock": false,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 1
+  },
+  {
+    "id": "insta-dm",
+    "tag": "bg",
+    "pages": 1,
+    "ms": 277,
+    "clock": false,
+    "restoredShadow": "rgba(0, 0, 0, 0.06) 0px 2px 8px 0px, rgba(0, 0, 0, 0.04) 0px 1px 2px 0px",
+    "cache": 1
+  },
+  {
+    "id": "insta-dm",
+    "tag": "solid",
+    "solid": true,
+    "pages": 1,
+    "ms": 229,
+    "clock": false,
+    "restoredShadow": "rgba(0, 0, 0, 0.06) 0px 2px 8px 0px, rgba(0, 0, 0, 0.04) 0px 1px 2px 0px",
+    "cache": 1
+  },
+  {
+    "id": "insta-dm",
+    "tag": "rotation",
+    "rotate": true,
+    "pages": 1,
+    "ms": 552,
+    "clock": false,
+    "restoredShadow": "rgba(0, 0, 0, 0.06) 0px 2px 8px 0px, rgba(0, 0, 0, 0.04) 0px 1px 2px 0px",
+    "cache": 1
+  },
+  {
+    "id": "insta-dm",
+    "tag": "multi",
+    "long": true,
+    "pages": 2,
+    "ms": 613,
+    "clock": false,
+    "restoredShadow": "rgba(0, 0, 0, 0.06) 0px 2px 8px 0px, rgba(0, 0, 0, 0.04) 0px 1px 2px 0px",
+    "cache": 1
+  },
+  {
+    "id": "insta-dm",
+    "tag": "frame",
+    "frame": true,
+    "pages": 1,
+    "ms": 355,
+    "clock": false,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 20px 0px",
+    "cache": 0
+  },
+  {
+    "id": "square-black",
+    "tag": "background",
+    "pages": 1,
+    "ms": 565,
+    "clock": false,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 20px 0px",
+    "cache": 0
+  }
+]

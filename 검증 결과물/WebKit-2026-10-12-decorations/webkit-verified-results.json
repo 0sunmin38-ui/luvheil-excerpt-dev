@@ -1,0 +1,336 @@
+[
+  {
+    "id": "ios",
+    "tag": "glass-bg",
+    "paint": [
+      {
+        "background": true,
+        "shadowCount": 10,
+        "uniqueShadows": 2,
+        "cleaned": true,
+        "restored": true
+      }
+    ],
+    "pages": 1,
+    "ms": 698,
+    "clock": true,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 2
+  },
+  {
+    "id": "ios",
+    "tag": "glass-solid",
+    "solid": true,
+    "paint": [
+      {
+        "background": false,
+        "shadowCount": 10,
+        "uniqueShadows": 2,
+        "cleaned": true,
+        "restored": true
+      }
+    ],
+    "pages": 1,
+    "ms": 293,
+    "clock": true,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 1
+  },
+  {
+    "id": "ios",
+    "tag": "glass-off",
+    "off": true,
+    "paint": [
+      {
+        "background": true,
+        "shadowCount": 10,
+        "uniqueShadows": 2,
+        "cleaned": true,
+        "restored": true
+      }
+    ],
+    "pages": 1,
+    "ms": 302,
+    "clock": false,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 1
+  },
+  {
+    "id": "ios",
+    "tag": "rotation",
+    "rotate": true,
+    "paint": [
+      {
+        "background": true,
+        "shadowCount": 10,
+        "uniqueShadows": 2,
+        "cleaned": true,
+        "restored": true
+      }
+    ],
+    "pages": 1,
+    "ms": 873,
+    "clock": true,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 2
+  },
+  {
+    "id": "ios",
+    "tag": "fit",
+    "fit": true,
+    "paint": [
+      {
+        "background": true,
+        "shadowCount": 10,
+        "uniqueShadows": 2,
+        "cleaned": true,
+        "restored": true
+      }
+    ],
+    "pages": 1,
+    "ms": 300,
+    "clock": true,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 2
+  },
+  {
+    "id": "ios",
+    "tag": "multi",
+    "long": true,
+    "paint": [
+      {
+        "background": true,
+        "shadowCount": 10,
+        "uniqueShadows": 2,
+        "cleaned": true,
+        "restored": true
+      },
+      {
+        "background": true,
+        "shadowCount": 10,
+        "uniqueShadows": 2,
+        "cleaned": true,
+        "restored": true
+      },
+      {
+        "background": true,
+        "shadowCount": 10,
+        "uniqueShadows": 2,
+        "cleaned": true,
+        "restored": true
+      },
+      {
+        "background": true,
+        "shadowCount": 6,
+        "uniqueShadows": 2,
+        "cleaned": true,
+        "restored": true
+      }
+    ],
+    "pages": 4,
+    "ms": 1838,
+    "clock": true,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 2
+  },
+  {
+    "id": "ios",
+    "tag": "columns",
+    "long": true,
+    "columns": 2,
+    "paint": [
+      {
+        "background": true,
+        "shadowCount": 20,
+        "uniqueShadows": 3,
+        "cleaned": true,
+        "restored": true
+      },
+      {
+        "background": true,
+        "shadowCount": 16,
+        "uniqueShadows": 3,
+        "cleaned": true,
+        "restored": true
+      }
+    ],
+    "pages": 2,
+    "ms": 914,
+    "clock": true,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 2
+  },
+  {
+    "id": "ios",
+    "tag": "paper",
+    "paper": true,
+    "paint": [
+      {
+        "background": true,
+        "shadowCount": 10,
+        "uniqueShadows": 2,
+        "cleaned": true,
+        "restored": true
+      }
+    ],
+    "pages": 1,
+    "ms": 435,
+    "clock": true,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 2
+  },
+  {
+    "id": "ios",
+    "tag": "frame",
+    "frame": true,
+    "paint": [
+      {
+        "background": true,
+        "shadowCount": 6,
+        "uniqueShadows": 3,
+        "cleaned": true,
+        "restored": true
+      },
+      {
+        "background": true,
+        "shadowCount": 4,
+        "uniqueShadows": 2,
+        "cleaned": true,
+        "restored": true
+      }
+    ],
+    "pages": 2,
+    "ms": 971,
+    "clock": false,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 12px 0px",
+    "restoredTint": "",
+    "cache": 1
+  },
+  {
+    "id": "insta-dm",
+    "tag": "bg",
+    "paint": [
+      {
+        "background": true,
+        "shadowCount": 3,
+        "uniqueShadows": 1,
+        "cleaned": true,
+        "restored": true
+      }
+    ],
+    "pages": 1,
+    "ms": 382,
+    "clock": false,
+    "restoredShadow": "rgba(0, 0, 0, 0.06) 0px 2px 8px 0px, rgba(0, 0, 0, 0.04) 0px 1px 2px 0px",
+    "cache": 1
+  },
+  {
+    "id": "insta-dm",
+    "tag": "solid",
+    "solid": true,
+    "paint": [
+      {
+        "background": false,
+        "shadowCount": 3,
+        "uniqueShadows": 1,
+        "cleaned": true,
+        "restored": true
+      }
+    ],
+    "pages": 1,
+    "ms": 260,
+    "clock": false,
+    "restoredShadow": "rgba(0, 0, 0, 0.06) 0px 2px 8px 0px, rgba(0, 0, 0, 0.04) 0px 1px 2px 0px",
+    "cache": 1
+  },
+  {
+    "id": "insta-dm",
+    "tag": "rotation",
+    "rotate": true,
+    "paint": [
+      {
+        "background": true,
+        "shadowCount": 3,
+        "uniqueShadows": 1,
+        "cleaned": true,
+        "restored": true
+      }
+    ],
+    "pages": 1,
+    "ms": 686,
+    "clock": false,
+    "restoredShadow": "rgba(0, 0, 0, 0.06) 0px 2px 8px 0px, rgba(0, 0, 0, 0.04) 0px 1px 2px 0px",
+    "cache": 1
+  },
+  {
+    "id": "insta-dm",
+    "tag": "multi",
+    "long": true,
+    "paint": [
+      {
+        "background": true,
+        "shadowCount": 3,
+        "uniqueShadows": 1,
+        "cleaned": true,
+        "restored": true
+      },
+      {
+        "background": true,
+        "shadowCount": 3,
+        "uniqueShadows": 1,
+        "cleaned": true,
+        "restored": true
+      }
+    ],
+    "pages": 2,
+    "ms": 704,
+    "clock": false,
+    "restoredShadow": "rgba(0, 0, 0, 0.06) 0px 2px 8px 0px, rgba(0, 0, 0, 0.04) 0px 1px 2px 0px",
+    "cache": 1
+  },
+  {
+    "id": "insta-dm",
+    "tag": "frame",
+    "frame": true,
+    "paint": [
+      {
+        "background": true,
+        "shadowCount": 0,
+        "uniqueShadows": 0,
+        "cleaned": true,
+        "restored": true
+      }
+    ],
+    "pages": 1,
+    "ms": 503,
+    "clock": false,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 20px 0px",
+    "cache": 0
+  },
+  {
+    "id": "square-black",
+    "tag": "background",
+    "paint": [
+      {
+        "background": true,
+        "shadowCount": 0,
+        "uniqueShadows": 0,
+        "cleaned": true,
+        "restored": true
+      }
+    ],
+    "pages": 1,
+    "ms": 568,
+    "clock": false,
+    "restoredShadow": "rgba(0, 0, 0, 0.1) 0px 2px 20px 0px",
+    "cache": 0
+  }
+]

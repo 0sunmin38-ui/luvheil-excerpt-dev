@@ -726,9 +726,8 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .hd-paper::after{content:"";position:absolute;left:36px;right:36px;bottom:0;height:1px;background:currentColor;opacity:.2}
 /* 배경 복제 층을 화면과 저장본에 공통으로 사용한다. 블러는 헤더 아래에서 페이드한다. */
 .hd-insta-dm,.cv-foot-insta-dm{backdrop-filter:none;-webkit-backdrop-filter:none;background:transparent}
-.insta-glass{position:absolute;inset:0 0 -32px;overflow:hidden;pointer-events:none;z-index:0;
-  mask-image:linear-gradient(to bottom,#000 0%,#000 calc(100% - 32px),transparent 100%);
-  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 calc(100% - 32px),transparent 100%)}
+.insta-glass{position:absolute;inset:0 0 -32px;overflow:hidden;pointer-events:none;z-index:0}
+.insta-glass img{display:block;width:100%;height:100%}
 .hd-insta-dm > .hd-row{position:relative;z-index:1}
 /* 시계의 원래 글꼴·크기·높이는 유지하고, 글래스 ON일 때만 표면과 윤곽을 분리한다. */
 .lock-time.is-glass{position:relative;text-shadow:none}
@@ -5374,9 +5373,9 @@ function blurPixels(context, w, h, radius, saturation = 1) {
   }
   context.putImageData(pixels, 0, 0);
 }
-async function glassBackground(cv, bg, W, H, blur, saturation) {
+async function glassBackground(cv, bg, W, H, blur, saturation, resolution = 1) {
   const sample = document.createElement('canvas');
-  const sampleScale = Math.min(1, 2048 / Math.max(W, H));
+  const sampleScale = Math.min(resolution, 2048 / Math.max(W, H));
   sample.width = Math.max(1, Math.ceil(W * sampleScale));
   sample.height = Math.max(1, Math.ceil(H * sampleScale));
   const b = sample.getContext('2d'); if (!b) throw new Error('배경 캔버스를 만들지 못했습니다');
@@ -5412,7 +5411,7 @@ async function glassBackground(cv, bg, W, H, blur, saturation) {
       }
     }
   }
-  if (imageNode) blurPixels(b, sample.width, sample.height, blur * sampleScale, saturation);
+  if (imageNode && blur > 0) blurPixels(b, sample.width, sample.height, blur * sampleScale, saturation);
   return sample;
 }
 function glassPosition(node, cv, H) {
@@ -5449,21 +5448,26 @@ async function paintLockGlass(cv, node, mask, background, W, H, layer) {
   g.setTransform(1, 0, 0, 1, 0, 0); g.globalCompositeOperation = 'source-over'; g.drawImage(rim, 0, 0);
   const img = new Image(); img.src = surface.toDataURL('image/png');
   img.alt = ''; img.setAttribute('aria-hidden', 'true');
-  await whenDrawable(img);
+  if (!(await whenDrawable(img))) throw new Error('글래스 시계 표면을 받지 못했습니다');
   // 비동기 로딩 사이 테마가 바뀌면 옛 노드에만 반영한다.
   if (layer.parentNode === node) { layer.replaceChildren(img); node.classList.add('is-raster'); }
 }
 
-async function paintNotificationGlass(cv, node, background, W, H, layer) {
+async function paintGlassSlice(cv, node, background, W, H, layer, tint = '', fade = 0) {
   const sample = await background, { x, y } = glassPosition(node, cv, H);
   const surface = document.createElement('canvas');
-  surface.width = node.offsetWidth; surface.height = node.offsetHeight;
+  surface.width = node.offsetWidth; surface.height = node.offsetHeight + fade;
   const g = surface.getContext('2d'); if (!g) return;
   g.drawImage(sample, -x, -y, W, H);
-  g.fillStyle = getComputedStyle(node).getPropertyValue('--notif-bg').trim() || 'rgba(255,255,255,.5)';
-  g.fillRect(0, 0, surface.width, surface.height);
+  if (tint) { g.fillStyle = tint; g.fillRect(0, 0, surface.width, surface.height); }
+  if (fade) {
+    const mask = g.createLinearGradient(0, surface.height - fade, 0, surface.height);
+    mask.addColorStop(0, '#000'); mask.addColorStop(1, 'transparent');
+    g.globalCompositeOperation = 'destination-in'; g.fillStyle = mask;
+    g.fillRect(0, 0, surface.width, surface.height);
+  }
   const img = new Image(); img.src = surface.toDataURL('image/png'); img.alt = '';
-  await whenDrawable(img);
+  if (!(await whenDrawable(img))) throw new Error('글래스 배경 표면을 받지 못했습니다');
   if (layer.parentNode === node) layer.replaceChildren(img);
 }
 
@@ -5498,26 +5502,17 @@ function syncCanvasBackgrounds(cv, pages = 1) {
     }
     return _glassBackgrounds.get(key);
   };
-  // 복제 층을 한 곳에서 배치하여 회전·확대·덮기와 장별 배경 좌표를 그대로 따른다.
-  const backgroundAt = (node, blur, tone = '') => {
-    const copy = bg ? bg.cloneNode(true) : el('div', 'cv-bg');
-    copy.classList.remove('bg-ghost');
-    let x = 0, y = 0;
-    for (let n = node; n && n !== cv; n = n.offsetParent) {
-      x += n.offsetLeft; y += n.offsetTop;
-    }
-    const localTop = ((y % H) + H) % H;
-    copy.style.cssText = 'position:absolute;left:' + (-x) + 'px;top:' + (-localTop)
-      + 'px;width:' + W + 'px;height:' + H
-      + 'px;overflow:hidden;filter:blur(' + blur + 'px)' + tone + ';background:var(--cv-bg);';
-    return copy;
-  };
+  const clocks = [];
   cv.querySelectorAll('.hd-insta-dm').forEach(node => {
+    if (!node.offsetWidth || !node.offsetHeight) return;
     const glass = el('div', 'insta-glass');
     glass.setAttribute('aria-hidden', 'true');
-    glass.appendChild(backgroundAt(node, 12)); node.prepend(glass);
+    node.prepend(glass);
+    clocks.push(paintGlassSlice(cv, node, blurred(12), W, H, glass, '', 32).catch(error => {
+      console.warn('인스타 헤더 배경 표면 생성 실패', error); glass.remove();
+    }));
   });
-  const clocks = [...cv.querySelectorAll('.lock-time.is-glass')].map(node => {
+  cv.querySelectorAll('.lock-time.is-glass').forEach(node => {
     node.classList.remove('is-raster');
     const face = node.querySelector('.lock-time-face');
     const mask = lockClockMask(face, node.offsetWidth, node.offsetHeight);
@@ -5525,17 +5520,18 @@ function syncCanvasBackgrounds(cv, pages = 1) {
     const glass = el('div', 'lock-glass');
     glass.setAttribute('aria-hidden', 'true');
     node.prepend(glass);
-    return paintLockGlass(cv, node, mask, blurred(20, .65), W, H, glass).catch(error => {
+    clocks.push(paintLockGlass(cv, node, mask, blurred(20, .65), W, H, glass).catch(error => {
       console.warn('글래스 시계 표면 생성 실패', error);
       // 실패한 투명 시계 대신 원래 시간 글자를 보이게 한다.
       if (glass.parentNode === node) { node.classList.remove('is-glass', 'is-raster'); glass.remove(); }
-    });
+    }));
   });
   cv.querySelectorAll('.n-row').forEach(node => {
-    if (!bg) return; // 단색은 기존 반투명 채움만으로 같은 결과다.
+    if (!bg || !node.offsetWidth || !node.offsetHeight) return; // 단색/숨긴 행은 표면 불필요.
     const layer = el('div', 'notif-glass'); layer.setAttribute('aria-hidden', 'true');
     node.prepend(layer);
-    clocks.push(paintNotificationGlass(cv, node, blurred(12), W, H, layer).catch(error => {
+    const tint = getComputedStyle(node).getPropertyValue('--notif-bg').trim() || 'rgba(255,255,255,.5)';
+    clocks.push(paintGlassSlice(cv, node, blurred(12), W, H, layer, tint).catch(error => {
       console.warn('알림 배경 표면 생성 실패', error); layer.remove();
     }));
   });
@@ -13155,6 +13151,73 @@ async function blockedImages(node) {
   }
   return out;
 }
+/* 페이지 배경은 SVG 안의 CSS 이미지 디코딩에 맡기지 않는다. 최종 출력 캔버스에
+   직접 합성할 표면을 만들고, SVG에서는 원래 배경 층만 감춘다. 글래스 좌표 계산은 공유한다. */
+async function prepareExportBackground(root) {
+  const layers = [...root.querySelectorAll(':scope > .cv-bg:not(.cv-tex)')];
+  if (!layers.length) return;
+  const W = root.offsetWidth, H = layers[0].offsetHeight;
+  let surface;
+  try { surface = await glassBackground(root, layers[0], W, H, 0, 1, exportRatio(W, H)); }
+  catch (error) {
+    const src = getComputedStyle(layers[0].querySelector('i')).backgroundImage.match(/url\(["']?([^"')]+)["']?\)/)?.[1];
+    if (!src || !isOutside(src)) throw error;
+    // 외부 CORS 실패는 기존 누락 안내 정책을 따른다. 업로드 실패는 저장을 중단한다.
+    surface = await glassBackground(root, null, W, H, 0, 1, exportRatio(W, H));
+  }
+  root._exportBackground = { surface, layers, height: H };
+}
+function roundedExportPath(g, x, y, w, h, radius) {
+  const r = Array.isArray(radius) ? radius : [radius, radius, radius, radius];
+  g.beginPath(); g.moveTo(x + r[0], y);
+  [[x + w, y, x + w, y + h, r[1]], [x + w, y + h, x, y + h, r[2]],
+   [x, y + h, x, y, r[3]], [x, y, x + w, y, r[0]]]
+    .forEach(corner => g.arcTo(...corner));
+  g.closePath();
+}
+/* iOS의 foreignObject box-shadow 밀림을 피한다. 실제 문제 요소의 계산된 그림자와
+   모서리만 작은 Canvas로 만든다. 같은 형상은 공유하고 PNG 재인코딩/디코딩은 하지 않는다. */
+function prepareDecorationShadows(root) {
+  const cache = new Map();
+  root._exportShadows = [];
+  const origin = root.getBoundingClientRect();
+  for (const node of root.querySelectorAll('.hd-insta-dm .hd-btn-circle, .n-row, .notif-badge')) {
+    const cs = getComputedStyle(node), shadow = cs.boxShadow;
+    if (shadow === 'none') continue;
+    const parts = shadow.split(/,(?![^()]*\))/).map(part => {
+      const color = part.match(/rgba?\([^)]*\)/)?.[0];
+      const values = part.replace(/rgba?\([^)]*\)/, '').trim().split(/\s+/).map(parseFloat);
+      return color && !part.includes('inset') && values.length >= 3
+        ? { color, x: values[0], y: values[1], blur: values[2], spread: values[3] || 0 } : null;
+    });
+    if (!parts.length || parts.some(p => !p || p.spread !== 0)) continue;
+    const w = node.offsetWidth, h = node.offsetHeight, dpr = 2;
+    if (!w || !h) continue;
+    const radii = [cs.borderTopLeftRadius, cs.borderTopRightRadius, cs.borderBottomRightRadius, cs.borderBottomLeftRadius]
+      .map(value => Math.min(w / 2, h / 2, parseFloat(value) * (value.includes('%') ? Math.min(w, h) / 100 : 1)));
+    const pad = Math.ceil(Math.max(...parts.map(p => Math.abs(p.x) + Math.abs(p.y) + p.blur * 2)) + 2);
+    const key = [w, h, shadow, ...radii].join('|');
+    let surface = cache.get(key);
+    if (!surface) {
+      surface = document.createElement('canvas');
+      surface.width = (w + pad * 2) * dpr; surface.height = (h + pad * 2) * dpr;
+      const g = surface.getContext('2d'); if (!g) throw new Error('그림자 캔버스를 만들지 못했습니다');
+      g.scale(dpr, dpr); g.fillStyle = '#000';
+      const shape = () => { roundedExportPath(g, pad, pad, w, h, radii); g.fill(); };
+      [...parts].reverse().forEach(p => {
+        g.shadowColor = p.color; g.shadowOffsetX = p.x * dpr; g.shadowOffsetY = p.y * dpr;
+        g.shadowBlur = p.blur * dpr; shape();
+      });
+      g.shadowColor = 'transparent'; g.globalCompositeOperation = 'destination-out'; shape();
+      cache.set(key, surface);
+    }
+    const rect = node.getBoundingClientRect();
+    root._exportShadows.push({ surface, x: rect.left - origin.left - pad, y: rect.top - origin.top - pad,
+      w: w + pad * 2, h: h + pad * 2, node,
+      previous: [node.style.getPropertyValue('box-shadow'), node.style.getPropertyPriority('box-shadow')] });
+    node.style.setProperty('box-shadow', 'none', 'important');
+  }
+}
 /* 저장용 복제본의 <img> 를 «화면에 있는 그 픽셀» 그대로 PNG 로 다시 굽는다.
    [왜 굽나] iOS 사파리는 화면에서 멀쩡히 보이던 WebP·HEIC·data URL 도 html-to-image 가
    세우는 SVG foreignObject 안에서는 다시 디코드하지 못하고, 저장 결과에서 그 <img> 만
@@ -13170,6 +13233,11 @@ async function bakeImagesForExport(root) {
   await Promise.all(imgs.map(async img => {
     const src = img.src || '';
     if (!src) return;
+    // 직접 합성할 글래스는 이미 PNG다. 같은 표면을 재인코딩하지 않는다.
+    if (img.closest('.lock-glass, .notif-glass, .insta-glass')) {
+      if (!(await whenDrawable(img))) throw new Error('저장용 글래스 표면을 받지 못했습니다');
+      return;
+    }
     let png = '';
     try {
       if (await whenDrawable(img)) png = pngDataURL(img, img.naturalWidth, img.naturalHeight);
@@ -13181,11 +13249,13 @@ async function bakeImagesForExport(root) {
     img.src = png;
     if (img.decode) await img.decode().catch(() => { });
   }));
+  await prepareExportBackground(root);
   /* 업로드 배경도 <img>와 같은 PNG 디코드 경로를 탄다. CSS 변수에만
      주소를 두면 라이브러리의 이미지 인라인/대기 대상에서 빠질 수 있다.
      URL별 약속을 공유해 시계·헤더 복제 배경을 여러 번 굽지 않는다. */
   const baked = new Map();
   await Promise.all([root, ...root.querySelectorAll('*')].map(async node => {
+    if (root._exportBackground?.layers.some(layer => layer.contains(node))) return;
     const background = getComputedStyle(node).backgroundImage;
     const urls = [...background.matchAll(/url\(["']?([^"')]+)["']?\)/g)];
     if (!urls.length) return;
@@ -13200,6 +13270,7 @@ async function bakeImagesForExport(root) {
     }
     node.style.setProperty('background-image', value, 'important');
   }));
+  prepareDecorationShadows(root);
 }
 
 /* 래스터는 검증된 toPng 을 그대로 쓴다. 원본이 toSvg 로 간 이유는 초대형 캔버스의
@@ -13219,6 +13290,26 @@ async function bakeImagesForExport(root) {
    말풍선 폭도 그대로다. pixelRatio 는 1 이 되어 더 늘릴 일이 없다. */
 async function renderExact(hti, node, w, h, scale, fontCss, bg) {
   const W = Math.max(1, Math.round(w * scale)), H = Math.max(1, Math.round(h * scale));
+  const background = node._exportBackground;
+  const shadows = node._exportShadows || [];
+  const origin = node.getBoundingClientRect();
+  const glass = [...node.querySelectorAll('.lock-glass, .notif-glass, .insta-glass')].flatMap(layer => {
+    const img = layer.querySelector('img'); if (!img?.naturalWidth) return [];
+    const rect = layer.getBoundingClientRect(), parent = layer.parentElement;
+    if (!rect.width || !rect.height) return [];
+    const card = layer.classList.contains('notif-glass');
+    const previous = card ? [parent.style.getPropertyValue('background-color'), parent.style.getPropertyPriority('background-color')] : null;
+    const radius = card ? parseFloat(getComputedStyle(parent).borderTopLeftRadius) || 0 : 0;
+    if (card) parent.style.setProperty('background-color', 'transparent', 'important');
+    return [{ layer, img, x: rect.left - origin.left, y: rect.top - origin.top,
+      w: rect.width, h: rect.height, radius, parent, previous }];
+  });
+  const composite = background || glass.length || shadows.length;
+  // 프레임·종이결은 글래스 아래에 놓인다. 효과가 있을 때만 별도로 그려 쌓임 순서를 보존한다.
+  const underlays = glass.length || shadows.length
+    ? [...node.querySelectorAll(':scope > .cv-frame, :scope > .cv-tex')] : [];
+  const baseColor = bg;
+  if (composite) bg = 'transparent';
   /* style 은 라이브러리가 제 복제본에 맨 마지막으로 대입한다 — 그 앞에서 width·height(W·H)
      로 덮인 상자 크기를 여기서 논리 크기로 되돌려야 transform 이 정확히 W×H 를 채운다. */
   const scaled = {
@@ -13251,8 +13342,43 @@ async function renderExact(hti, node, w, h, scale, fontCss, bg) {
        ...ordered.map(v => ({ ...v, skipFonts: true }))]
     : ordered.map(v => ({ ...v, skipFonts: true }));
   let last;
-  for (const opt of variants) { try { return await hti.toPng(node, opt); } catch (e) { last = e; } }
-  throw last || new Error('저장 실패');
+  try {
+    for (const opt of variants) {
+      try {
+        if (!composite) return await hti.toPng(node, opt);
+        opt.style.background = 'transparent';
+        opt.filter = element => !background?.layers.includes(element) && !underlays.includes(element)
+          && !glass.some(item => item.layer === element);
+        const output = await hti.toCanvas(node, opt), g = output.getContext('2d');
+        if (!g) throw new Error('출력 캔버스를 만들지 못했습니다');
+        const underneath = underlays.length ? await hti.toCanvas(node, { ...opt,
+          filter: element => underlays.some(layer => layer === element || layer.contains(element)) }) : null;
+        g.save(); g.globalCompositeOperation = 'destination-over';
+        g.scale(output.width / w, output.height / h);
+        for (const item of [...glass].reverse()) {
+          g.save();
+          if (item.radius) { roundedExportPath(g, item.x, item.y, item.w, item.h, item.radius); g.clip(); }
+          g.drawImage(item.img, item.x, item.y, item.w, item.h); g.restore();
+        }
+        for (const item of [...shadows].reverse()) g.drawImage(item.surface, item.x, item.y, item.w, item.h);
+        if (underneath) g.drawImage(underneath, 0, 0, w, h);
+        if (background) for (const layer of background.layers)
+          g.drawImage(background.surface, 0, layer.offsetTop, w, background.height);
+        else { g.fillStyle = baseColor; g.fillRect(0, 0, w, h); }
+        g.restore(); return output.toDataURL('image/png');
+      } catch (e) { last = e; }
+    }
+    throw last || new Error('저장 실패');
+  } finally {
+    const restore = (element, property, previous) => {
+      if (previous[0]) element.style.setProperty(property, previous[0], previous[1]);
+      else element.style.removeProperty(property);
+    };
+    shadows.forEach(item => restore(item.node, 'box-shadow', item.previous));
+    glass.forEach(item => { if (item.previous) restore(item.parent, 'background-color', item.previous); });
+    delete node._exportBackground;
+    delete node._exportShadows;
+  }
 }
 
 /* 브라우저 캔버스는 한 변과 전체 픽셀 수에 상한이 있다. 내용 맞춤이 아주 길어도
