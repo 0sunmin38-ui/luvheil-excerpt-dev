@@ -262,7 +262,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .blk.dragging{opacity:.45;outline:2px solid var(--c-primary);outline-offset:4px}
 .blk.drop-before{box-shadow:0 -3px 0 -1px var(--c-primary)}
 .blk.drop-after{box-shadow:0 3px 0 -1px var(--c-primary)}
-.blk.row-off{display:none}
+.blk.row-off,.cv-head.head-flow.row-off{display:none}
 /* 글 조각 하나만 키우고 줄이는 서식 [RICH.szUp · applyInline]. em 이라 블록의 크기
    단계[SIZE_LV]나 테마 글자 크기 위에 겹쳐 걸린다. 작성창과 캔버스가 같은 값을 쓴다. */
 /* 인라인 **굵게** 는 <b> 로 그려진다. 브라우저 기본값(700)을 그대로 두면 볼드 단추와
@@ -4072,6 +4072,7 @@ function htmlToMarkup(node) {
 
 /* 서식 버튼을 누르는 순간 작성창의 선택이 풀린다. 마지막 선택을 붙잡아 둔다. */
 let lastRange = null;
+let _composerComposing = false, _composerPendingInput = false;
 function trackSel() {
   const sel = window.getSelection();
   if (!sel || !sel.rangeCount) return;
@@ -4519,6 +4520,7 @@ function reflowComposer(saved) {
 /* 선택 영역에 거는 서식은 모두 이 길로 지나간다 — 선택 위치 기억 → 실행 → 마커 정규화 →
    블록에 반영 → 다시 그리기 → 선택 복구. 한 군데로 모아 두어야 서식마다 결과가 안 갈린다. */
 function formatSelection(run) {
+  if (_composerComposing) return;
   const b = selBlock();
   const saved = composerSelectionOffsets();
   run();
@@ -4716,6 +4718,12 @@ function initComposer() {
     e.preventDefault();
     const text = ((e.clipboardData || window.clipboardData) || { getData: () => '' }).getData('text/plain') || '';
     diag('paste:text-ready', { n: String(text).length });
+    /* plain text만 삽입하면서 브라우저 초안 실행취소에도 한 단계로 기록한다.
+       지원하지 않는 환경은 기존 Range 경로로 내려간다. */
+    if (document.execCommand('insertText', false, String(text))) {
+      diag('paste:inserted', { n: String(text).length });
+      return;
+    }
     const sel = window.getSelection(); if (!sel || !sel.rangeCount) { diag('paste:no-selection'); return; }
     const r = sel.getRangeAt(0); r.deleteContents();
     const frag = document.createDocumentFragment();
@@ -6975,7 +6983,7 @@ function renderPageMarks() {
   const dmh = dmFoot ? dmFoot.offsetHeight : 0;
   cv.classList.toggle('has-insta-dm', !!dmFoot);
   cv.style.setProperty('--insta-foot-h', dmh + 'px');
-  if (isFit() || !S.blocks.length) return 1;
+  if (!S.blocks.length) return 1;
 
   const gap = Math.round(fmt().blockGap ?? 10);
   const head = cv.querySelector('.cv-head:not(.head-ghost)');
@@ -6988,6 +6996,15 @@ function renderPageMarks() {
   /* 페이지 좌표와 같은 논리 높이로 잰다 — getBoundingClientRect 는 미리보기 배율을 탄다.
      offsetHeight 는 absolute 요소도 패딩을 포함한 높이를 돌려준다. */
   const ebh = ebFoot ? ebFoot.offsetHeight : 0;
+  if (isFit()) {
+    /* absolute 이북 푸터도 내용 맞춤의 자연 높이에 포함해야 한다.
+       인스타 입력창은 has-insta-dm의 기존 예약 규칙을 그대로 사용한다. */
+    if (ebFoot && !dmFoot) {
+      cv.style.setProperty('--foot-h', ebh + 'px');
+      cv.classList.add('foot-pinned');
+    }
+    return 1;
+  }
   /* 화면머리는 한 장이든 여러 장이든 늘 맨 위다 — 비율 지정이면 언제나 못 박는다.
      (서명과 다르다. 서명은 한 장에 들어가면 본문과 한 덩어리로 가운데에 놓는 편이 낫다.)
      title(1)·title(2)는 본문과 함께 이동한다. */
@@ -7448,6 +7465,7 @@ function junkStrip(root, kinds) {
 }
 /* 올리기 직전에 한 번 묻는다. 걸리는 것이 없으면 그냥 올린다 — 평소에는 아무 일도 없다. */
 function commitWithCleanup() {
+  if (_composerComposing) return;
   const ta = $('#ta');
   diag('commit-with-cleanup:start', { n: (ta.value || '').length, blocks: S.blocks.length });
   /* 묻는 자리는 «밖에서 복사해 온 글이 처음 들어오는 곳» 하나뿐이다 — 곧 새 블록을 적는
@@ -7480,6 +7498,7 @@ function commitWithCleanup() {
 }
 
 function commit() {
+  if (_composerComposing) return;
   const ta = $('#ta'), raw = ta.value;
   diag('commit:start', { n: raw.length, paragraphs: raw.split(/\n\s*\n/).filter(s => s.trim()).length, blocks: S.blocks.length });
   const b = selBlock();
@@ -12663,15 +12682,18 @@ async function fontEmbedCSS(text, weights) {
   const names = usedFonts();
   const ws = (weights && weights.length ? weights : [400]).slice().sort();
   const key = names.join(',') + '|' + ws.join(',') + '\u0000' + text;
-  if (_fontCSS && _fontCSS.key === key) return _fontCSS.css;
+  if (_fontCSS && _fontCSS.key === key && !_fontCSS.missing.length) return _fontCSS.css;
   _embedCut = 0;
-  const parts = await Promise.all(names.map(n => oneFontEmbedCSS(n, text, ws).catch(() => '')));
+  const results = {}, downloads = new Map();
+  const parts = await Promise.all(names.map(n => oneFontEmbedCSS(n, text, ws, results, downloads).catch(() => '')));
   const css = parts.filter(Boolean).join('\n');
   if (_embedCut) {
     console.warn('글꼴 임베드 한도 초과 — 서브셋 ' + _embedCut + '개를 못 심었습니다');
     toast('글자가 너무 많아 일부 글꼴을 못 심었습니다 · 나눠서 저장해주세요');
   }
-  _fontCSS = { key, css };
+  const missing = names.filter(n => !!fontOf(n).css && !results[n]?.complete);
+  _fontCSS = { key, css, missing };
+  if (missing.length) diag('export:font-incomplete', { fonts: missing, results });
   return css;
 }
 
@@ -12692,14 +12714,41 @@ function keepWoff2(block) {
   return block.replace(m[1], kept.join(','));
 }
 
-async function oneFontEmbedCSS(name, text, weights) {
+/* 같은 저장에서 중복 URL은 한 번만 읽고, 실제 디코딩 가능한 파일만 심는다.
+   FontFace는 문서에 추가하지 않으므로 화면 글꼴/측정에는 영향을 주지 않는다. */
+function exportFontData(url, downloads) {
+  if (downloads.has(url)) return downloads.get(url);
+  const job = (async () => {
+    const response = await fetch(url, { cache: 'force-cache' });
+    if (!response.ok) throw new Error('font HTTP ' + response.status);
+    const bytes = await response.arrayBuffer();
+    if (!bytes.byteLength) throw new Error('empty font');
+    const face = new FontFace('ExportValidation', bytes);
+    if (!await withTimeout(face.load().then(() => true, () => false), 6000, false))
+      throw new Error('font decode');
+    return await new Promise((res, rej) => {
+      const fr = new FileReader();
+      fr.onload = () => res(fr.result);
+      fr.onerror = () => rej(new Error('font read'));
+      fr.readAsDataURL(new Blob([bytes], { type: 'application/octet-stream' }));
+    });
+  })();
+  downloads.set(url, job);
+  return job;
+}
+
+async function oneFontEmbedCSS(name, text, weights, results = {}, downloads = new Map()) {
   const fnt = fontOf(name);
   /* 화면용과 저장용 CSS 가 다를 수 있다 — 화면은 빨리 뜨는 쪽, 저장은 통째로 덮는 쪽 */
   const ref = fnt.embedCss || fnt.css;
   const url = ref ? fontCssUrl({ css: ref }) : '';
   if (!url) return '';
   let src;
-  try { src = await (await fetch(url, { cache: 'force-cache' })).text(); } catch (e) { return ''; }
+  try {
+    const response = await fetch(url, { cache: 'force-cache' });
+    if (!response.ok) throw new Error('font CSS HTTP ' + response.status);
+    src = await response.text();
+  } catch (e) { return ''; }
   const codes = new Set([...text].map(ch => ch.codePointAt(0)));
   const blocks = src.match(/@font-face\s*\{[^}]*\}/g) || [];
   const wanted = blocks.filter(b => {
@@ -12730,21 +12779,17 @@ async function oneFontEmbedCSS(name, text, weights) {
     const b = keepWoff2(b0);
     let blk = b;
     for (const u of [...b.matchAll(/url\((['"]?)([^)'"\s]+)\1\)/gi)]) {
-      if (/^data:/i.test(u[2])) continue;
       try {
         const abs = new URL(u[2], url).href;
-        const blob = await (await fetch(abs, { cache: 'force-cache' })).blob();
-        const d = await new Promise((res, rej) => {
-          const fr = new FileReader();
-          fr.onload = () => res(fr.result);
-          fr.onerror = () => rej(new Error('font read'));   /* 안 걸면 영원히 안 끝난다 */
-          fr.readAsDataURL(blob);
-        });
+        const d = await exportFontData(abs, downloads);
         blk = blk.replace(u[0], `url(${d})`);
       } catch (e) { return ''; }
     }
-    return blk;
+    return /url\(/i.test(b) ? blk : '';
   }));
+  const embedded = out.filter(Boolean).length;
+  results[name] = { wanted: wanted.length, embedded,
+    complete: wanted.length > 0 && embedded === wanted.length };
   /* swap 이면 임베드 글꼴이 붙기 전에 대체 글꼴로 그려져 글자가 밀린다. block 으로 바꾼다. */
   return out.filter(Boolean).join('\n').replace(/font-display\s*:\s*[^;]+;/gi, 'font-display:block;');
 }
@@ -13028,6 +13073,10 @@ function exportMissing(node, css) {
   const embeddable = usedFonts().filter(n => !!fontOf(n).css);
   if (!embeddable.length) return '';
   if (!css) return '글꼴을 아직 못 심었습니다';
+  /* 이름만 있는 CSS나 일부 face 성공을 완전한 임베드로 취급하지 않는다. */
+  if (!_fontCSS || _fontCSS.css !== css) return '글꼴 임베드를 아직 확인하지 못했습니다';
+  const incomplete = _fontCSS.missing.find(n => embeddable.includes(n));
+  if (incomplete) return '글꼴(' + (fontOf(incomplete).label || incomplete) + ')을 아직 다 못 심었습니다';
   const late = embeddable.find(n => !css.includes(n));
   if (late) return '글꼴(' + (fontOf(late).label || late) + ')을 아직 못 심었습니다';
   return '';
@@ -13288,7 +13337,7 @@ async function bakeImagesForExport(root) {
    그래서 늘리는 단계 자체를 없앤다. SVG 를 처음부터 최종 크기로 세우고(width·height),
    내용은 CSS transform 으로 키운다 — transform 은 배치를 바꾸지 않으므로 줄바꿈도
    말풍선 폭도 그대로다. pixelRatio 는 1 이 되어 더 늘릴 일이 없다. */
-async function renderExact(hti, node, w, h, scale, fontCss, bg) {
+async function renderExact(hti, node, w, h, scale, fontCss, bg, status) {
   const W = Math.max(1, Math.round(w * scale)), H = Math.max(1, Math.round(h * scale));
   const background = node._exportBackground;
   const shadows = node._exportShadows || [];
@@ -13345,7 +13394,14 @@ async function renderExact(hti, node, w, h, scale, fontCss, bg) {
   try {
     for (const opt of variants) {
       try {
-        if (!composite) return await hti.toPng(node, opt);
+        const finish = url => {
+          if (opt.skipFonts && fontCss) {
+            if (status) status.fontFallback = true;
+            diag('export:font-fallback', { w, h });
+          }
+          return url;
+        };
+        if (!composite) return finish(await hti.toPng(node, opt));
         opt.style.background = 'transparent';
         opt.filter = element => !background?.layers.includes(element) && !underlays.includes(element)
           && !glass.some(item => item.layer === element);
@@ -13365,7 +13421,7 @@ async function renderExact(hti, node, w, h, scale, fontCss, bg) {
         if (background) for (const layer of background.layers)
           g.drawImage(background.surface, 0, layer.offsetTop, w, background.height);
         else { g.fillStyle = baseColor; g.fillRect(0, 0, w, h); }
-        g.restore(); return output.toDataURL('image/png');
+        g.restore(); return finish(output.toDataURL('image/png'));
       } catch (e) { last = e; }
     }
     throw last || new Error('저장 실패');
@@ -13418,7 +13474,9 @@ const clearSaved = () => { _saved.forEach(s => URL.revokeObjectURL(s.url)); _sav
 async function deliver(items) {
   if (!isHandheld()) {
     items.forEach((it, i) => setTimeout(() => download(it.url, it.name), i * 450));
-    toast(items.length > 1 ? `${items.length}장으로 저장했습니다` : '저장했습니다');
+    toast(items.length > 1
+      ? `${items.length}장 다운로드를 요청했습니다 · 자동 다운로드 허용과 목록을 확인해주세요`
+      : '다운로드를 요청했습니다 · 다운로드 목록을 확인해주세요');
     return;
   }
   /* 공유에 넘기려면 File 이어야 한다 — data URL 을 blob 으로 되돌린다 */
@@ -13499,6 +13557,8 @@ async function exportPNG() {
   const cv = $('#canvas');
   const wasSel = S.ui.selectedBlockId;
   let exportFontStyle = null;
+  const exportStatus = { fontFallback: false };
+  let exportFontWarning = '';
   S.ui.selectedBlockId = null;
   renderCanvas();
   toast('저장 준비 중…');
@@ -13514,9 +13574,12 @@ async function exportPNG() {
      저장본을 열어 보고서야 안다. */
   const blocked = await blockedImages(cv);
   if (blocked.length) diag('export:image-blocked', { n: blocked.length });
-  const tellBlocked = () => {
-    if (!blocked.length) return;
-    toast(`바깥 링크로 넣은 그림 ${blocked.length}장은 담기지 않았습니다 · 나머지는 저장했습니다`);
+  const tellExportWarnings = () => {
+    const warnings = [];
+    if (blocked.length) warnings.push(`바깥 링크 그림 ${blocked.length}장은 담기지 않았습니다`);
+    if (exportFontWarning) warnings.push(exportFontWarning);
+    else if (exportStatus.fontFallback) warnings.push('글꼴 보존 경로가 실패해 대체 경로로 이미지를 만들었습니다');
+    if (warnings.length) toast(warnings.join(' · ') + ' · 결과를 확인해주세요');
   };
   /* 미리보기용 표시만 걷어 낸다 — 못 박은 화면머리·서명(.head-pin/.foot-pin)과 그 자리
      (--head-h/--foot-h)는 저장할 그림 자체이므로 그대로 둔다. 구분선·사본·장마다 앉힌
@@ -13552,7 +13615,10 @@ async function exportPNG() {
       toast(miss + ' · 한 번 더 누르면 그대로 저장합니다');
       return;
     }
-    if (miss) toast(miss.replace(/습니다$/, '은 채로 저장합니다'));
+    if (miss) {
+      exportFontWarning = miss;
+      toast(miss.replace(/습니다$/, '은 채로 저장합니다'));
+    }
     _exportMissLast = '';
     /* iOS Safari 는 화면 폰트가 붙기 전의 대체 글꼴 치수로 페이지 분할·말풍선 폭을
        먼저 재 버리는 경우가 있다. 저장에 심을 @font-face 를 문서에도 잠깐 붙여,
@@ -13602,7 +13668,7 @@ async function exportPNG() {
           const w = Math.ceil(cv.offsetWidth), h = Math.ceil(cv.offsetHeight);
           const scale = exportRatio(w, h);
           diag('export:android-live', { w, h, scale: Number(scale.toFixed(3)), bubbles: bubbles.length });
-          return await renderExact(hti, cv, w, h, scale, css, bg);
+          return await renderExact(hti, cv, w, h, scale, css, bg, exportStatus);
         } finally {
           if (keepTransform && keepTransform !== 'none') cv.style.transform = keepTransform;
           bubbles.forEach((b, i) => {
@@ -13629,7 +13695,7 @@ async function exportPNG() {
           }
         }
         const scale = exportRatio(snap.w, snap.h);
-        return await renderExact(hti, snap.clone, snap.w, snap.h, scale, css, bg);
+        return await renderExact(hti, snap.clone, snap.w, snap.h, scale, css, bg, exportStatus);
       } finally { snap.host.remove(); }
     };
     if (!multi) {
@@ -13637,7 +13703,7 @@ async function exportPNG() {
       await raf2();
       const url = await shoot();
       await deliver([{ url, name: `발췌_${stamp}.png` }]);
-      tellBlocked();
+      tellExportWarnings();
       return;
     }
     const box = pageBox();
@@ -13660,7 +13726,7 @@ async function exportPNG() {
     }
     rows.forEach(n => n.classList.remove('row-off'));
     await deliver(urls.map((u, i) => ({ url: u, name: `발췌_${stamp}-${i + 1}.png` })));
-    tellBlocked();
+    tellExportWarnings();
   } catch (e) {
     console.error(e);
     /* «실패했습니다» 한 줄로는 누른 사람도, 전해 듣는 쪽도 손쓸 데가 없다. 넘어지는 자리는
@@ -14231,7 +14297,9 @@ let suppressBlockTapUntil = 0;
 })();
 
 /* ── 이벤트 ──────────────────────────────────────────────── */
-$('#ta').addEventListener('input', () => {
+function onComposerInput(e) {
+  if (_composerComposing || e?.isComposing) { _composerPendingInput = true; return; }
+  _composerPendingInput = false;
   diag('composer:input', { n: ($('#ta').value || '').length });
   /* 다 지워도 브라우저가 <br> 을 남겨 :empty 가 풀린다 — placeholder 가 안 보인다 */
   const ed = $('#ta');
@@ -14253,6 +14321,13 @@ $('#ta').addEventListener('input', () => {
   /* v2: 입력 내용에 따라 +/전송 버튼 상태 동기화 */
   syncBtnAddState();
   closeActionMenu();
+}
+$('#ta').addEventListener('input', onComposerInput);
+$('#ta').addEventListener('compositionstart', () => { _composerComposing = true; });
+$('#ta').addEventListener('compositionend', () => {
+  _composerComposing = false;
+  /* 브라우저가 마지막 input을 보내면 그 이벤트가 처리하고, 없으면 여기서 반영한다. */
+  queueMicrotask(() => { if (_composerPendingInput) onComposerInput(); });
 });
 $('#ta').addEventListener('focus', () => {
   syncViewportVars();
@@ -14291,6 +14366,7 @@ document.addEventListener('selectionchange', trackSel);
 $('#ta').addEventListener('keydown', e => {
   /* 그냥 Enter 는 줄바꿈이다 — 블록은 빈 줄로 나누므로 Enter 를 전송으로 쓰면 여러 줄을 못 쓴다.
      ⌘/Ctrl + Enter 를 '올리기' 로 둔다. 편집 중이면 편집을 끝낸다. */
+  if (e.isComposing || _composerComposing || e.keyCode === 229) return;
   if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); commit(); }
 });
 document.addEventListener('keydown', e => {
@@ -14389,13 +14465,17 @@ initSettingsPanelV2();
 load();
 /* 되돌리기의 «출발점» — 불러온 직후 상태가 첫 장이다 [histRecord] */
 setTimeout(() => { if (_histPrev === null) _histPrev = snapOf(); }, 0);
-/* 글을 치는 중에도 먹어야 한다 — 작성창은 contenteditable 이라 브라우저 기본 실행취소가
-   글자만 되돌리고 블록·테마는 못 되돌린다. 우리가 가로채 문서 전체를 되돌린다. */
+/* 새 초안과 설정 입력은 브라우저 편집 히스토리가 맡는다.
+   기존 블록 수정은 실시간 save()로 기록하므로 문서 히스토리를 유지한다. */
 window.addEventListener('keydown', e => {
-  const z = (e.key === 'z' || e.key === 'Z');
-  if (!z || !(e.metaKey || e.ctrlKey)) return;
+  if (e.defaultPrevented || e.isComposing || _composerComposing || e.keyCode === 229 || e.altKey) return;
+  const key = e.key.toLowerCase();
+  if (!(e.metaKey || e.ctrlKey) || (key !== 'z' && !(key === 'y' && e.ctrlKey))) return;
+  const target = e.target instanceof Element ? e.target : document.activeElement;
+  const editable = target?.closest('input,textarea,select,[contenteditable="true"]');
+  if (editable && (editable !== $('#ta') || !selBlock())) return;
   e.preventDefault();
-  if (e.shiftKey) histRedo(); else histUndo();
+  if (key === 'y' || e.shiftKey) histRedo(); else histUndo();
 });
 S.themes.forEach(ensureThemeFormat); /* 기존 전역 서식을 각 테마에 한 번 복사하는 호환 마이그레이션 */
 sortThemesByPreset();                /* 기본 테마의 차례는 코드가 정한다 [PRESET_THEMES] */

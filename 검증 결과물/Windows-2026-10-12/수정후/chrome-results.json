@@ -1,0 +1,1025 @@
+{
+  "browser": "chrome",
+  "version": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/154.0.8037.99",
+    "revision": "@45889d77830582727fe00dbfd614bcb7aac35caa",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+    "jsVersion": "15.4.80.20"
+  },
+  "initial": {
+    "blocks": 15,
+    "themes": 17,
+    "fonts": 20,
+    "canvas": {
+      "x": 212.5,
+      "y": 79,
+      "width": 560,
+      "height": 1494,
+      "top": 79,
+      "right": 772.5,
+      "bottom": 1573,
+      "left": 212.5
+    },
+    "secure": true,
+    "handheld": false,
+    "freeze": true,
+    "fontStatus": "loaded"
+  },
+  "layout": [
+    {
+      "width": 800,
+      "bodyScroll": 800,
+      "viewport": 800,
+      "composer": {
+        "x": 61,
+        "y": 961,
+        "width": 678,
+        "height": 20,
+        "top": 961,
+        "right": 739,
+        "bottom": 981,
+        "left": 61
+      },
+      "save": {
+        "x": 718.765625,
+        "y": 8,
+        "width": 65.234375,
+        "height": 30,
+        "top": 8,
+        "right": 784,
+        "bottom": 38,
+        "left": 718.765625
+      }
+    },
+    {
+      "width": 900,
+      "bodyScroll": 900,
+      "viewport": 900,
+      "composer": {
+        "x": 562,
+        "y": 86,
+        "width": 277,
+        "height": 20,
+        "top": 86,
+        "right": 839,
+        "bottom": 106,
+        "left": 562
+      },
+      "save": {
+        "x": 818.765625,
+        "y": 8,
+        "width": 65.234375,
+        "height": 30,
+        "top": 8,
+        "right": 884,
+        "bottom": 38,
+        "left": 818.765625
+      }
+    },
+    {
+      "width": 1024,
+      "bodyScroll": 1024,
+      "viewport": 1024,
+      "composer": {
+        "x": 686,
+        "y": 86,
+        "width": 277,
+        "height": 20,
+        "top": 86,
+        "right": 963,
+        "bottom": 106,
+        "left": 686
+      },
+      "save": {
+        "x": 942.765625,
+        "y": 8,
+        "width": 65.234375,
+        "height": 30,
+        "top": 8,
+        "right": 1008,
+        "bottom": 38,
+        "left": 942.765625
+      }
+    },
+    {
+      "width": 1440,
+      "bodyScroll": 1440,
+      "viewport": 1440,
+      "composer": {
+        "x": 1062,
+        "y": 86,
+        "width": 317,
+        "height": 20,
+        "top": 86,
+        "right": 1379,
+        "bottom": 106,
+        "left": 1062
+      },
+      "save": {
+        "x": 1358.765625,
+        "y": 8,
+        "width": 65.234375,
+        "height": 30,
+        "top": 8,
+        "right": 1424,
+        "bottom": 38,
+        "left": 1358.765625
+      }
+    }
+  ],
+  "undoBefore": {
+    "draft": "신규 초안 실행취소 검사",
+    "blocks": 15,
+    "canUndo": false
+  },
+  "undoAfter": {
+    "draft": "",
+    "blocks": 15
+  },
+  "draftRedo": "신규 초안 실행취소 검사",
+  "compositionLifecycle": {
+    "during": "<font size=\"4\">조합 중</font>",
+    "after": "<font>조합 중</font>",
+    "count": 15,
+    "protectedCount": 15,
+    "composing": false,
+    "pending": false
+  },
+  "historyOwnership": {
+    "before": 16,
+    "afterInput": 16,
+    "afterUndo": 15,
+    "afterRedo": 16,
+    "inputPrevented": false,
+    "draft": "초안 유지"
+  },
+  "paste": "붙여넣기 첫 줄\n둘째 줄",
+  "pasteUndo": "",
+  "compositionShortcut": {
+    "before": 16,
+    "after": 16,
+    "prevented": false,
+    "draft": "조합 중 검사"
+  },
+  "themeSmoke": [
+    {
+      "name": "simple(white)",
+      "preset": "simple-white",
+      "width": 560,
+      "height": 1494,
+      "rows": 16
+    },
+    {
+      "name": "simple(grey)",
+      "preset": "simple-grey",
+      "width": 560,
+      "height": 1494,
+      "rows": 16
+    },
+    {
+      "name": "simple(black)",
+      "preset": "simple-black",
+      "width": 560,
+      "height": 1494,
+      "rows": 16
+    },
+    {
+      "name": "kakaotalk",
+      "preset": "kakao",
+      "width": 560,
+      "height": 1494,
+      "rows": 16
+    },
+    {
+      "name": "LINE",
+      "preset": "line",
+      "width": 560,
+      "height": 1494,
+      "rows": 16
+    },
+    {
+      "name": "iMessage(light)",
+      "preset": "imessage-light",
+      "width": 560,
+      "height": 2241,
+      "rows": 16
+    },
+    {
+      "name": "iMessage(dark)",
+      "preset": "imessage-dark",
+      "width": 560,
+      "height": 2241,
+      "rows": 16
+    },
+    {
+      "name": "square(cream)",
+      "preset": "square-white",
+      "width": 560,
+      "height": 1680,
+      "rows": 16
+    },
+    {
+      "name": "square(slate)",
+      "preset": "square-black",
+      "width": 560,
+      "height": 1680,
+      "rows": 16
+    },
+    {
+      "name": "script",
+      "preset": "script",
+      "width": 747,
+      "height": 1120,
+      "rows": 16
+    },
+    {
+      "name": "cyworld",
+      "preset": "cyworld",
+      "width": 747,
+      "height": 1680,
+      "rows": 16
+    },
+    {
+      "name": "buddybuddy",
+      "preset": "buddy",
+      "width": 560,
+      "height": 2241,
+      "rows": 16
+    },
+    {
+      "name": "insta DM",
+      "preset": "insta-dm",
+      "width": 560,
+      "height": 1494,
+      "rows": 16
+    },
+    {
+      "name": "iOS",
+      "preset": "ios",
+      "width": 560,
+      "height": 2241,
+      "rows": 16
+    },
+    {
+      "name": "Twitter",
+      "preset": "twitter",
+      "width": 560,
+      "height": 1680,
+      "rows": 16
+    },
+    {
+      "name": "article",
+      "preset": "chapter",
+      "width": 560,
+      "height": 2240,
+      "rows": 16
+    },
+    {
+      "name": "journal",
+      "preset": "newspapers",
+      "width": 560,
+      "height": 1680,
+      "rows": 16
+    }
+  ],
+  "exports": [
+    {
+      "preset": "square-white",
+      "font": "Noto Sans KR",
+      "mode": "single",
+      "pages": 1,
+      "dimensions": [
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12.png"
+        }
+      ],
+      "captures": [
+        {
+          "header": false,
+          "display": null,
+          "height": 560,
+          "bodyBottom": 352.96875,
+          "inkBottom": 352.96875,
+          "footerTop": 505.515625,
+          "bottomMargin": 207.03125
+        }
+      ],
+      "ms": 785,
+      "fontStyleRemoved": true,
+      "hiddenRows": 0,
+      "toast": "저장 준비 중…"
+    },
+    {
+      "preset": "square-white",
+      "font": "Nanum Kyuri",
+      "mode": "single",
+      "pages": 1,
+      "dimensions": [
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12.png"
+        }
+      ],
+      "captures": [
+        {
+          "header": false,
+          "display": null,
+          "height": 560,
+          "bodyBottom": 340.171875,
+          "inkBottom": 340.171875,
+          "footerTop": 505.515625,
+          "bottomMargin": 219.828125
+        }
+      ],
+      "ms": 736,
+      "fontStyleRemoved": true,
+      "hiddenRows": 0,
+      "toast": "저장 준비 중…"
+    },
+    {
+      "preset": "square-white",
+      "font": "Nanum Summer",
+      "mode": "single",
+      "pages": 1,
+      "dimensions": [
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12.png"
+        }
+      ],
+      "captures": [
+        {
+          "header": false,
+          "display": null,
+          "height": 560,
+          "bodyBottom": 340.171875,
+          "inkBottom": 340.171875,
+          "footerTop": 505.515625,
+          "bottomMargin": 219.828125
+        }
+      ],
+      "ms": 804,
+      "fontStyleRemoved": true,
+      "hiddenRows": 0,
+      "toast": "저장 준비 중…"
+    },
+    {
+      "preset": "square-white",
+      "font": "Nanum Chulpil",
+      "mode": "single",
+      "pages": 1,
+      "dimensions": [
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12.png"
+        }
+      ],
+      "captures": [
+        {
+          "header": false,
+          "display": null,
+          "height": 560,
+          "bodyBottom": 340.171875,
+          "inkBottom": 340.171875,
+          "footerTop": 505.515625,
+          "bottomMargin": 219.828125
+        }
+      ],
+      "ms": 925,
+      "fontStyleRemoved": true,
+      "hiddenRows": 0,
+      "toast": "저장 준비 중…"
+    },
+    {
+      "preset": "square-white",
+      "font": "Pretendard",
+      "mode": "single",
+      "pages": 1,
+      "dimensions": [
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12.png"
+        }
+      ],
+      "captures": [
+        {
+          "header": false,
+          "display": null,
+          "height": 560,
+          "bodyBottom": 352.96875,
+          "inkBottom": 352.96875,
+          "footerTop": 505.515625,
+          "bottomMargin": 207.03125
+        }
+      ],
+      "ms": 415,
+      "fontStyleRemoved": true,
+      "hiddenRows": 0,
+      "toast": "저장 준비 중…"
+    },
+    {
+      "preset": "square-white",
+      "font": "Bookk Myungjo",
+      "mode": "single",
+      "pages": 1,
+      "dimensions": [
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12.png"
+        }
+      ],
+      "captures": [
+        {
+          "header": false,
+          "display": null,
+          "height": 560,
+          "bodyBottom": 352.96875,
+          "inkBottom": 352.96875,
+          "footerTop": 505.515625,
+          "bottomMargin": 207.03125
+        }
+      ],
+      "ms": 874,
+      "fontStyleRemoved": true,
+      "hiddenRows": 0,
+      "toast": "저장 준비 중…"
+    },
+    {
+      "preset": "ios",
+      "font": "Pretendard",
+      "mode": "single",
+      "pages": 1,
+      "dimensions": [
+        {
+          "width": 1440,
+          "height": 1920,
+          "name": "발췌_2026-10-12.png"
+        }
+      ],
+      "captures": [
+        {
+          "header": false,
+          "display": null,
+          "height": 747,
+          "bodyBottom": 401,
+          "inkBottom": 401,
+          "footerTop": 703.875,
+          "bottomMargin": 346
+        }
+      ],
+      "ms": 700,
+      "fontStyleRemoved": true,
+      "hiddenRows": 0,
+      "toast": "저장 준비 중…"
+    },
+    {
+      "preset": "insta-dm",
+      "font": "Pretendard",
+      "mode": "single",
+      "pages": 1,
+      "dimensions": [
+        {
+          "width": 1440,
+          "height": 1920,
+          "name": "발췌_2026-10-12.png"
+        }
+      ],
+      "captures": [
+        {
+          "header": false,
+          "display": null,
+          "height": 747,
+          "bodyBottom": 268.109375,
+          "inkBottom": 268.109375,
+          "footerTop": 634.953125,
+          "bottomMargin": 478.890625
+        }
+      ],
+      "ms": 699,
+      "fontStyleRemoved": true,
+      "hiddenRows": 0,
+      "toast": "저장 준비 중…"
+    },
+    {
+      "preset": "newspapers",
+      "font": "Pretendard",
+      "mode": "single",
+      "pages": 1,
+      "dimensions": [
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12.png"
+        }
+      ],
+      "captures": [
+        {
+          "header": true,
+          "off": false,
+          "display": "block",
+          "height": 560,
+          "bodyBottom": 308,
+          "inkBottom": 308,
+          "footerTop": null,
+          "bottomMargin": 252
+        }
+      ],
+      "ms": 391,
+      "fontStyleRemoved": true,
+      "hiddenRows": 0,
+      "toast": "저장 준비 중…"
+    },
+    {
+      "preset": "newspapers",
+      "font": "Pretendard",
+      "mode": "multi",
+      "pages": 6,
+      "dimensions": [
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12-1.png"
+        },
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12-2.png"
+        },
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12-3.png"
+        },
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12-4.png"
+        },
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12-5.png"
+        },
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12-6.png"
+        }
+      ],
+      "captures": [
+        {
+          "header": true,
+          "off": false,
+          "display": "block",
+          "height": 560,
+          "bodyBottom": 501,
+          "inkBottom": 501,
+          "footerTop": null,
+          "bottomMargin": 59
+        },
+        {
+          "header": true,
+          "off": true,
+          "display": "none",
+          "height": 560,
+          "bodyBottom": 482.5,
+          "inkBottom": 482.5,
+          "footerTop": null,
+          "bottomMargin": 77.5
+        },
+        {
+          "header": true,
+          "off": true,
+          "display": "none",
+          "height": 560,
+          "bodyBottom": 482.5,
+          "inkBottom": 482.5,
+          "footerTop": null,
+          "bottomMargin": 77.5
+        },
+        {
+          "header": true,
+          "off": true,
+          "display": "none",
+          "height": 560,
+          "bodyBottom": 482.5,
+          "inkBottom": 482.5,
+          "footerTop": null,
+          "bottomMargin": 77.5
+        },
+        {
+          "header": true,
+          "off": true,
+          "display": "none",
+          "height": 560,
+          "bodyBottom": 482.5,
+          "inkBottom": 482.5,
+          "footerTop": null,
+          "bottomMargin": 77.5
+        },
+        {
+          "header": true,
+          "off": true,
+          "display": "none",
+          "height": 560,
+          "bodyBottom": 193,
+          "inkBottom": 193,
+          "footerTop": null,
+          "bottomMargin": 367
+        }
+      ],
+      "ms": 2158,
+      "fontStyleRemoved": true,
+      "hiddenRows": 0,
+      "toast": "이미지 만드는 중… (6/6)"
+    },
+    {
+      "preset": "newspapers",
+      "font": "Pretendard",
+      "mode": "columns",
+      "pages": 5,
+      "dimensions": [
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12-1.png"
+        },
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12-2.png"
+        },
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12-3.png"
+        },
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12-4.png"
+        },
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12-5.png"
+        }
+      ],
+      "captures": [
+        {
+          "header": true,
+          "off": false,
+          "display": "block",
+          "height": 560,
+          "bodyBottom": 532,
+          "inkBottom": 532,
+          "footerTop": null,
+          "bottomMargin": 28
+        },
+        {
+          "header": true,
+          "off": true,
+          "display": "none",
+          "height": 560,
+          "bodyBottom": 519,
+          "inkBottom": 519,
+          "footerTop": null,
+          "bottomMargin": 41
+        },
+        {
+          "header": true,
+          "off": true,
+          "display": "none",
+          "height": 560,
+          "bodyBottom": 519,
+          "inkBottom": 519,
+          "footerTop": null,
+          "bottomMargin": 41
+        },
+        {
+          "header": true,
+          "off": true,
+          "display": "none",
+          "height": 560,
+          "bodyBottom": 519,
+          "inkBottom": 519,
+          "footerTop": null,
+          "bottomMargin": 41
+        },
+        {
+          "header": true,
+          "off": true,
+          "display": "none",
+          "height": 560,
+          "bodyBottom": 346,
+          "inkBottom": 346,
+          "footerTop": null,
+          "bottomMargin": 214
+        }
+      ],
+      "ms": 2326,
+      "fontStyleRemoved": true,
+      "hiddenRows": 0,
+      "toast": "이미지 만드는 중… (5/5)"
+    },
+    {
+      "preset": "square-white",
+      "font": "Pretendard",
+      "mode": "fit",
+      "pages": 1,
+      "dimensions": [
+        {
+          "width": 1440,
+          "height": 910,
+          "name": "발췌_2026-10-12.png"
+        }
+      ],
+      "captures": [
+        {
+          "header": false,
+          "display": null,
+          "height": 354,
+          "bodyBottom": 250.265625,
+          "inkBottom": 250.265625,
+          "footerTop": 299.515625,
+          "bottomMargin": 103.734375
+        }
+      ],
+      "ms": 339,
+      "fontStyleRemoved": true,
+      "hiddenRows": 0,
+      "toast": "저장 준비 중…"
+    },
+    {
+      "preset": "insta-dm",
+      "font": "Pretendard",
+      "mode": "fit",
+      "pages": 1,
+      "dimensions": [
+        {
+          "width": 1440,
+          "height": 1023,
+          "name": "발췌_2026-10-12.png"
+        }
+      ],
+      "captures": [
+        {
+          "header": false,
+          "display": null,
+          "height": 398,
+          "bodyBottom": 268.109375,
+          "inkBottom": 268.109375,
+          "footerTop": 286.109375,
+          "bottomMargin": 129.890625
+        }
+      ],
+      "ms": 416,
+      "fontStyleRemoved": true,
+      "hiddenRows": 0,
+      "toast": "저장 준비 중…"
+    },
+    {
+      "preset": "square-white",
+      "font": "Pretendard",
+      "mode": "fit-columns",
+      "pages": 1,
+      "dimensions": [
+        {
+          "width": 1440,
+          "height": 768,
+          "name": "발췌_2026-10-12.png"
+        }
+      ],
+      "captures": [
+        {
+          "header": false,
+          "display": null,
+          "height": 299,
+          "bodyBottom": 194.6875,
+          "inkBottom": 194.6875,
+          "footerTop": 244.515625,
+          "bottomMargin": 104.3125
+        }
+      ],
+      "ms": 357,
+      "fontStyleRemoved": true,
+      "hiddenRows": 0,
+      "toast": "저장 준비 중…"
+    },
+    {
+      "preset": "chapter",
+      "font": "Pretendard",
+      "mode": "multi",
+      "pages": 7,
+      "dimensions": [
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12-1.png"
+        },
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12-2.png"
+        },
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12-3.png"
+        },
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12-4.png"
+        },
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12-5.png"
+        },
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12-6.png"
+        },
+        {
+          "width": 1440,
+          "height": 1440,
+          "name": "발췌_2026-10-12-7.png"
+        }
+      ],
+      "captures": [
+        {
+          "header": true,
+          "off": false,
+          "display": "block",
+          "height": 560,
+          "bodyBottom": 460.28125,
+          "inkBottom": 460.28125,
+          "footerTop": 492.875,
+          "bottomMargin": 99.71875
+        },
+        {
+          "header": true,
+          "off": true,
+          "display": "none",
+          "height": 560,
+          "bodyBottom": 449.59375,
+          "inkBottom": 449.59375,
+          "footerTop": 492.875,
+          "bottomMargin": 110.40625
+        },
+        {
+          "header": true,
+          "off": true,
+          "display": "none",
+          "height": 560,
+          "bodyBottom": 449.59375,
+          "inkBottom": 449.59375,
+          "footerTop": 492.875,
+          "bottomMargin": 110.40625
+        },
+        {
+          "header": true,
+          "off": true,
+          "display": "none",
+          "height": 560,
+          "bodyBottom": 449.59375,
+          "inkBottom": 449.59375,
+          "footerTop": 492.875,
+          "bottomMargin": 110.40625
+        },
+        {
+          "header": true,
+          "off": true,
+          "display": "none",
+          "height": 560,
+          "bodyBottom": 449.59375,
+          "inkBottom": 449.59375,
+          "footerTop": 492.875,
+          "bottomMargin": 110.40625
+        },
+        {
+          "header": true,
+          "off": true,
+          "display": "none",
+          "height": 560,
+          "bodyBottom": 449.59375,
+          "inkBottom": 449.59375,
+          "footerTop": 492.875,
+          "bottomMargin": 110.40625
+        },
+        {
+          "header": true,
+          "off": true,
+          "display": "none",
+          "height": 560,
+          "bodyBottom": 398.8125,
+          "inkBottom": 398.8125,
+          "footerTop": 492.875,
+          "bottomMargin": 161.1875
+        }
+      ],
+      "ms": 2563,
+      "fontStyleRemoved": true,
+      "hiddenRows": 0,
+      "toast": "이미지 만드는 중… (7/7)"
+    },
+    {
+      "preset": "ios",
+      "font": "Pretendard",
+      "mode": "glass-bg",
+      "pages": 1,
+      "dimensions": [
+        {
+          "width": 1440,
+          "height": 1920,
+          "name": "발췌_2026-10-12.png"
+        }
+      ],
+      "captures": [
+        {
+          "header": false,
+          "display": null,
+          "height": 747,
+          "bodyBottom": 401,
+          "inkBottom": 401,
+          "footerTop": 703.875,
+          "bottomMargin": 346
+        }
+      ],
+      "ms": 1136,
+      "fontStyleRemoved": true,
+      "hiddenRows": 0,
+      "toast": "저장 준비 중…"
+    },
+    {
+      "preset": "insta-dm",
+      "font": "Pretendard",
+      "mode": "glass-bg",
+      "pages": 1,
+      "dimensions": [
+        {
+          "width": 1440,
+          "height": 1920,
+          "name": "발췌_2026-10-12.png"
+        }
+      ],
+      "captures": [
+        {
+          "header": false,
+          "display": null,
+          "height": 747,
+          "bodyBottom": 268.109375,
+          "inkBottom": 268.109375,
+          "footerTop": 634.953125,
+          "bottomMargin": 478.890625
+        }
+      ],
+      "ms": 1046,
+      "fontStyleRemoved": true,
+      "hiddenRows": 0,
+      "toast": "저장 준비 중…"
+    }
+  ],
+  "partialFontCheck": "글꼴 임베드를 아직 확인하지 못했습니다",
+  "fontFailures": [
+    {
+      "mode": "partial",
+      "first": "글꼴(프리텐다드)을 아직 다 못 심었습니다",
+      "missing": [
+        "Pretendard"
+      ],
+      "bytes": 1195913,
+      "retried": true
+    },
+    {
+      "mode": "http",
+      "first": "글꼴을 아직 못 심었습니다",
+      "missing": [
+        "Pretendard"
+      ],
+      "bytes": 0,
+      "retried": true
+    },
+    {
+      "mode": "decode",
+      "first": "글꼴을 아직 못 심었습니다",
+      "missing": [
+        "Pretendard"
+      ],
+      "bytes": 0,
+      "retried": true
+    }
+  ],
+  "errors": [],
+  "failedRequests": []
+}

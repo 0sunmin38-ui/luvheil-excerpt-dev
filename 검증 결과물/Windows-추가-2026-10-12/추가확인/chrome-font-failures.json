@@ -1,0 +1,29 @@
+[
+  {
+    "mode": "partial",
+    "first": "글꼴(프리텐다드)을 아직 다 못 심었습니다",
+    "missing": [
+      "Pretendard"
+    ],
+    "bytes": 1195913,
+    "retried": true
+  },
+  {
+    "mode": "http",
+    "first": "글꼴을 아직 못 심었습니다",
+    "missing": [
+      "Pretendard"
+    ],
+    "bytes": 0,
+    "retried": true
+  },
+  {
+    "mode": "decode",
+    "first": "글꼴을 아직 못 심었습니다",
+    "missing": [
+      "Pretendard"
+    ],
+    "bytes": 0,
+    "retried": true
+  }
+]

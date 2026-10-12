@@ -1,0 +1,7 @@
+{
+  "staleCharacterDraft": true,
+  "malformedSettingsAccepted": true,
+  "independentActionsUndoSteps": 1,
+  "inlineScriptsParse": 1,
+  "scope": "현재 소스의 함수 단위 검증. 브라우저 화면, IME, PNG 재현 결과가 아님."
+}
