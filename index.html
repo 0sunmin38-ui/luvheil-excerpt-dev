@@ -12929,6 +12929,19 @@ function captureCloneAt(cv) {
     /* 폭뿐 아니라 높이까지 고정한다. foreignObject 안에서 한 줄짜리 말풍선에
        빈 줄 높이가 덧붙는 일이 있어 상자 기하를 통째로 못 박는다. [원본 bubbleBoxes] */
     const r = f.getBoundingClientRect();
+    /* 내용 폭에 딱 맞춘 대사는 SVG의 글꼴 메트릭 차이만으로도 다시 줄바꿈된다.
+       높이를 고정한 한 줄 대사만 pre로 보존한다. 긴 대사·직접 줄바꿈은 제외한다. */
+    const fs = getComputedStyle(f);
+    const oneLineHeight = parseFloat(fs.lineHeight)
+      + parseFloat(fs.paddingTop) + parseFloat(fs.paddingBottom)
+      + parseFloat(fs.borderTopWidth) + parseFloat(fs.borderBottomWidth);
+    if (f.matches('.s-row .bub') && fs.whiteSpace === 'pre-wrap'
+        && !/[\r\n]/.test(f.textContent) && !f.querySelector('br')
+        && Number.isFinite(oneLineHeight) && r.height <= oneLineHeight + 0.5) {
+      c.style.setProperty('white-space', 'pre', 'important');
+      c.style.setProperty('word-break', 'normal', 'important');
+      c.style.setProperty('overflow-wrap', 'normal', 'important');
+    }
     if (r.width && r.height) {
       c.style.setProperty('box-sizing', 'border-box', 'important');
       ['width', 'min-width', 'max-width'].forEach(k => c.style.setProperty(k, r.width.toFixed(2) + 'px', 'important'));
