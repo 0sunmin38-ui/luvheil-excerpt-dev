@@ -1971,7 +1971,7 @@ body:has(.sheet.is-settling) .stage{transition:none}
 /* 슬라이더 가로 배치 .slideh (v2) */
 .slideh{display:flex;align-items:center;gap:var(--sp-md)}
 .slideh > .lab{margin:0;flex:0 0 auto;font-size:var(--fs-xs);color:var(--c-text-secondary)}
-.slideh .rng{flex:1;margin:0}
+.slideh .rng{flex:1;min-width:0;margin:0}
 .slideh .val{
   flex:0 0 40px;height:28px;padding:0 var(--sp-xs);
   text-align:center;font-size:var(--fs-sm);color:var(--c-text);
@@ -2096,6 +2096,59 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px}
 .grid2-sm{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px}
 .stack{display:flex;flex-direction:column;gap:11px}
+/* 설정의 위계: 그룹 사이와 그룹 안의 간격을 각각 컨테이너가 관리한다. */
+.section.open > .settings-flow{display:flex;flex-direction:column;gap:22px;padding:4px 0 22px}
+.settings-flow > .field,.settings-flow .setting-group > .field{margin:0}
+.setting-group{display:flex;flex-direction:column;gap:10px;min-width:0}
+.setting-title,.settings-flow > .field > .lab{font-size:12px;font-weight:700;color:var(--c-text);margin:0 0 8px;line-height:1.4}
+.setting-group > .setting-title{margin:0}
+.setting-head{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:24px}
+.setting-head > .setting-title{margin:0}
+.setting-assist{display:flex;align-items:center;gap:7px}
+.setting-assist > .lab{font-size:10px;font-weight:400;color:var(--c-text-secondary);margin:0}
+.setting-trigger{min-height:28px}
+.setting-trigger > .lab{font-size:12px;font-weight:700;color:var(--c-text);margin:0;line-height:1.4}
+.settings-stack{display:flex;flex-direction:column;gap:22px;min-width:0}
+.music-controls .slideh > .lab{min-width:72px}
+.bg-image-settings .bg-image-preview{width:min(100%,calc(260px * var(--preview-ratio,1)));margin-inline:auto}
+.bg-image-settings .setting-group > .field{margin:0}
+.bg-image-settings .pos-control{margin-inline:auto}
+.bg-image-settings .setting-group[hidden]{display:none}
+.bg-image-settings .bg-additional-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.25fr)}
+.bg-image-settings .bg-additional-grid .steph{gap:6px}
+.bg-image-settings .bg-additional-grid .steph > .lab{min-width:0}
+.bg-image-settings .bg-cover-toggle{min-height:28px}
+.setting-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px 16px}
+.setting-grid .field{margin:0}
+.setting-grid .lab,.setting-group .steph > .lab{color:var(--c-text-secondary)}
+.setting-grid .setting-title{color:var(--c-text)}
+.setting-side{display:flex;flex-direction:column;gap:10px;min-width:0}
+.setting-side > .lab{font-size:11px;font-weight:600;color:var(--c-text);margin:0 0 2px}
+.setting-side .tgl-inline{min-height:28px}
+.setting-group .steph{min-height:32px}
+.setting-group .steph.setting-single > .lab{font-size:12px;font-weight:700;color:var(--c-text)}
+.settings-flow .seg button{min-height:30px}
+.signature-settings .seg button{height:34px;min-height:34px;display:flex;align-items:center;justify-content:center}
+.settings-flow .seg button small{margin:3px 0 0}
+.image-editor{display:flex;flex-direction:column;gap:20px}
+.image-editor .crop-ratios,.bg-image-settings .crop-ratios{margin:0;gap:4px;padding:4px;border-radius:var(--r-sm);background:var(--c-surface)}
+.image-editor .crop-ratios button,.bg-image-settings .crop-ratios button{background:transparent;min-height:34px;font-size:11px}
+.image-editor .crop-ratios button.on,.bg-image-settings .crop-ratios button.on{background:var(--c-primary-muted);border-color:var(--c-primary);color:var(--c-primary-text)}
+.panel-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 20px}
+.panel-heading h3{font-size:var(--fs-title);font-weight:600;line-height:1.4;margin:0;color:var(--c-text)}
+.image-editor > .panel-heading{margin:0}
+.image-round .lab{font-size:10px;color:var(--c-text-secondary);font-weight:400}
+.image-round .row-between{gap:7px}
+.image-editor .image-content{display:flex;flex-direction:column;gap:10px}
+.image-editor > .field{margin:0}
+.image-editor .slideh > .lab{margin:0;min-width:48px}
+.image-editor .field > .lab{font-size:12px;font-weight:700;color:var(--c-text);margin-bottom:8px}
+@media(max-width:359px){
+  .setting-grid{column-gap:10px}
+  .setting-grid .steph{flex-direction:column;align-items:stretch;gap:5px}
+  .setting-grid .steph .step{flex:0 0 auto}
+  .settings-flow .seg button{padding-inline:2px;font-size:10px}
+}
 .divider{height:1px;background:var(--c-border);margin:11px 0}
 /* 도구·편집 카드 안의 구획 나눔.
    선 하나만 그으면 '한 덩어리 안의 줄' 로 읽혀서, 위아래가 서로 다른 설정이라는 게 안 보인다.
@@ -2285,6 +2338,8 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 
 /* ═══ 모달 (이미지 편집 · 아바타) ═════════════════════════════ */
 .modal{position:fixed;inset:0;z-index:80;background:rgba(20,20,24,.45);display:grid;place-items:center;padding:16px}
+/* 모달 안에서 연 색상 팝오버는 91, 그 팝오버에서 연 확인창은 그 위에 둔다. */
+.modal.over-pop{z-index:95}
 .modal-panel{
   background:var(--c-surface);border-radius:20px;width:min(420px,100%);
   max-height:88dvh;overflow-y:auto;padding:18px;box-shadow:var(--shadow-pop);
@@ -2753,12 +2808,12 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
                 <input type="text" class="inp" id="charNameV2" placeholder="예) 사해이">
               </div>
             </div>
-            <div class="tgl-inline" style="margin-top:var(--sp-md);padding:0 var(--sp-md);">
+            <div class="tgl-inline setting-trigger" style="margin-top:var(--sp-md);padding:0 var(--sp-md);">
               <span class="lab">말풍선 개별 설정</span>
               <div class="tgl tgl-sm" id="charBubbleToggleV2"></div>
             </div>
             <div id="charBubbleOptsV2" style="display:none;margin-top:var(--sp-md);padding:0 var(--sp-md)">
-              <div class="grid-2-sm">
+              <div class="setting-grid">
                 <div class="field">
                   <label class="lab">배경색</label>
                   <div class="colorf">
@@ -7398,18 +7453,10 @@ function titleHeaderControls(t, kind, up) {
   if (kind === 'paper') {
     const field = el('div', 'field');
     field.appendChild(el('label', 'lab', '정렬'));
-    const items = [['left', '좌측 정렬'], ['center', '중앙 정렬'], ['right', '우측 정렬']];
-    const align = segment(items, t.paperAlign || 'left', value => {
+    const align = alignmentSegment(t.paperAlign || 'left', value => {
       t.paperAlign = value;
-      [...align.children].forEach((button, i) => {
-        const active = items[i][0] === value;
-        button.classList.toggle('is-on', active);
-        button.setAttribute('aria-pressed', String(active));
-      });
       up();
-    });
-    align.setAttribute('role', 'group'); align.setAttribute('aria-label', 'article 정렬');
-    [...align.children].forEach((button, i) => button.setAttribute('aria-pressed', String(items[i][0] === (t.paperAlign || 'left'))));
+    }, { name: 'article 정렬' });
     field.appendChild(align); wrap.appendChild(field);
     wrap.appendChild(colorField('소제목 색', titleTagColor(t), v => { t.paperTagColor = v; up(); }));
   }
@@ -9476,7 +9523,7 @@ function closeModal() {
 function modal(title, sub) {
   closeModal();
   const root = $('#modalRoot');
-  const m = el('div', 'modal');
+  const m = el('div', 'modal' + ($('#popRoot').firstChild ? ' over-pop' : ''));
   m.onclick = e => { if (e.target === m) closeModal(); };
   const p = el('div', 'modal-panel');
   p.appendChild(el('h2', 'modal-title', title));
@@ -9882,7 +9929,7 @@ function buildFooterEditor(host, block) {
 
   const wrap = el('div');
   wrap.style.cssText = 'padding:var(--sp-md);';
-  const body = el('div', 'stack');
+  const body = el('div', 'stack signature-settings');
 
   /* 캐릭터 / 제작자 입력 */
   const mk = (label, key, ph) => {
@@ -9900,35 +9947,23 @@ function buildFooterEditor(host, block) {
   optGrid.style.marginTop = 'var(--sp-md)';
   /* 정렬 */
   const alignField = el('div', 'field');
-  alignField.appendChild(el('label', 'lab', '정렬'));
-  alignField.appendChild(segment([['left', '좌측 정렬'], ['center', '중앙 정렬'], ['right', '우측 정렬']],
-    block.align || 'right', v => { block.align = v; save(); renderCanvas(); }));
+  alignField.appendChild(alignmentSegment(block.align || 'right',
+    v => { block.align = v; save(); renderCanvas(); }, { name: '서명 정렬' }));
   optGrid.appendChild(alignField);
   /* 구분자 */
   const sepField = el('div', 'field');
   sepField.appendChild(el('label', 'lab', '구분 기호'));
-  sepField.appendChild(segment([['·', '·'], ['|', '|']],
-    block.sep || '·', v => { block.sep = v; save(); renderCanvas(); }));
+  sepField.appendChild(signatureSeparator(block.sep || '·',
+    v => { block.sep = v; save(); renderCanvas(); }));
   optGrid.appendChild(sepField);
   body.appendChild(optGrid);
 
-  /* 서식: 볼드 / 이탤릭 */
-  const fmtRow = el('div', 'fmt-row');
-  fmtRow.style.marginTop = 'var(--sp-md)';
-  const mkFmt = (label, key, icon) => {
-    const btn = el('button', 'icb' + (block[key] ? ' is-on' : ''));
-    btn.innerHTML = icon;
-    btn.title = label;
-    btn.onclick = () => {
-      block[key] = !block[key];
-      btn.classList.toggle('is-on', block[key]);
-      save(); renderCanvas();
-    };
-    return btn;
-  };
-  fmtRow.appendChild(mkFmt('볼드', 'bold', '<b>B</b>'));
-  fmtRow.appendChild(mkFmt('이탤릭', 'italic', '<i>I</i>'));
-  body.appendChild(fmtRow);
+  const formatField = el('div', 'field');
+  formatField.appendChild(el('span', 'lab', '서식'));
+  formatField.appendChild(signatureStyles(block.bold, block.italic, (key, value) => {
+    block[key] = value; save(); renderCanvas();
+  }));
+  body.appendChild(formatField);
 
   wrap.appendChild(body);
   host.appendChild(wrap);
@@ -9996,7 +10031,7 @@ function buildMusicEditor(host, block) {
   /* ── 상세 섹션 ─────────────────────────────────────────────────── */
   const details = el('div');
   details.style.cssText = 'border-top:1px solid var(--c-divider,#EBEBF0);padding:var(--sp-md,12px);';
-  const body = el('div', 'stack');
+  const body = el('div', 'stack music-controls');
   const th = theme();
   /* 글꼴 — 제목·가수에만 걸린다 [musicNode]. 안 고르면 본문 글꼴 그대로다.
      크기 손잡이는 일부러 안 둔다: 본문과 나란한 크기가 이 카드의 약속이다 [.mu-title].
@@ -10080,18 +10115,17 @@ function buildImageEditor(host, block, initialSrc) {
   bindStickyTap(confirmButton, () => doConfirm());
 
   /* 이미지 자르기 영역 */
-  const wrap = el('div');
+  const wrap = el('div', 'image-editor');
   wrap.style.cssText = 'padding:var(--sp-md);';
 
   const alignField = el('div', 'field');
-  alignField.appendChild(el('label', 'lab', '정렬'));
-  const alignItems = [['left', '좌측'], ['center', '중앙'], ['right', '우측']];
+  const alignItems = [['left', '좌측 정렬'], ['center', '중앙 정렬'], ['right', '우측 정렬']];
   const selectAlign = value => {
     draft.imageAlign = value;
     syncAlign();
     preview();
   };
-  const alignSeg = segment(alignItems, draft.imageAlign, selectAlign);
+  const alignSeg = alignmentSegment(draft.imageAlign, selectAlign, { name: '이미지 정렬' });
   [...alignSeg.children].forEach((button, i) => {
     button.onclick = null;
     bindStickyTap(button, () => selectAlign(alignItems[i][0]));
@@ -10107,11 +10141,13 @@ function buildImageEditor(host, block, initialSrc) {
   alignSeg.setAttribute('role', 'group');
   alignSeg.setAttribute('aria-label', '이미지 정렬');
   alignField.appendChild(alignSeg);
-  wrap.appendChild(alignField);
 
-  /* 상단: 모서리 둥글게 토글 (우측 정렬) */
+
+  /* 패널 제목 옆의 보조 조작 — 비율·정렬 필드와 위계를 구분한다. */
   const topRow = el('div');
-  topRow.style.cssText = 'display:flex;justify-content:flex-end;margin-bottom:var(--sp-md);';
+  topRow.className = 'image-round';
+  const panelHeading = el('div', 'panel-heading');
+  panelHeading.appendChild(el('h3', '', '삽입 이미지'));
   const roundToggle = toggleRow('모서리 둥글게', '', draft.round, v => {
     draft.round = v; crop.style.borderRadius = v ? '10px' : '0';
     preview();
@@ -10119,7 +10155,8 @@ function buildImageEditor(host, block, initialSrc) {
   roundToggle.style.cssText = 'margin:0;padding:0;';
   roundToggle.querySelector('.tgl').classList.add('tgl-sm');
   topRow.appendChild(roundToggle);
-  wrap.appendChild(topRow);
+  panelHeading.appendChild(topRow);
+
 
   const crop = cropField(draft.src, draft.ratio, { preserve: true, crop: source?.imageCrop });
   crop._onChange = preview;
@@ -10174,8 +10211,13 @@ function buildImageEditor(host, block, initialSrc) {
      안쪽으로 끌려 들어와 엉뚱한 자리에 놓였다. */
   stage.append(sizer, imgBtns);
 
-  const body = el('div', 'stack');
-  body.append(ratios, stage, zoomWrap);
+  const ratioField = el('div', 'field');
+  ratioField.appendChild(ratios);
+  ratios.setAttribute('role', 'group');
+  ratios.setAttribute('aria-label', '이미지 비율');
+  const body = el('div', 'image-content');
+  body.append(stage, zoomWrap);
+
 
   /* 크기 — 스테퍼가 아니라 슬라이더 */
   const szWrap = el('div', 'slideh');
@@ -10189,10 +10231,10 @@ function buildImageEditor(host, block, initialSrc) {
     requestAnimationFrame(() => crop._setRatio(draft.ratio));   /* 폭이 바뀌면 배율을 다시 맞춘다 */
   };
   sz.oninput = () => { draft.size = +sz.value; applySize(); };
-  szWrap.appendChild(sz); body.appendChild(szWrap);
+  szWrap.appendChild(sz);
 
   crop.style.borderRadius = draft.round ? '10px' : '0';
-  wrap.appendChild(body);
+  wrap.append(panelHeading, ratioField, alignField, body, szWrap);
   host.appendChild(wrap);
   applySize();
 
@@ -10247,6 +10289,9 @@ function buildHtmlEditor(host, block) {
   /* 컴포저 입력 영역 — inp-group 스타일 */
   const wrap = el('div');
   wrap.style.cssText = 'padding:var(--sp-md);';
+  const panelHeading = el('div', 'panel-heading');
+  panelHeading.appendChild(el('h3', '', 'HTML'));
+  wrap.appendChild(panelHeading);
 
   const grp = el('div', 'inp-group');
 
@@ -10304,14 +10349,17 @@ function buildDividerEditor(host, block) {
 
   const wrap = el('div');
   wrap.style.cssText = 'padding:var(--sp-md);';
+  const panelHeading = el('div', 'panel-heading');
+  panelHeading.appendChild(el('h3', '', '구분선'));
+  wrap.appendChild(panelHeading);
 
-  /* 구분선 종류 레이블 */
-  const lab = el('span', 'lab', '구분선 종류');
-  wrap.appendChild(lab);
+  /* 선택 항목 자체가 종류를 설명하므로 이름은 접근성 그룹에만 둔다. */
 
   /* segment 버튼들 */
   const seg = el('div', 'seg');
   seg.style.marginBottom = 'var(--sp-lg)';
+  seg.setAttribute('role', 'group');
+  seg.setAttribute('aria-label', '구분선 종류');
   DIVIDER_STYLES.forEach(ds => {
     const btn = el('button', draft.style === ds.key ? 'is-on' : '');
     btn.innerHTML = `<small>${ds.label}</small>${ds.symbol}`;
@@ -10674,7 +10722,7 @@ function openBgImageModal(cur, onDone, t) {
     renderCanvas();
   };
 
-  const body = el('div', 'stack');
+  const body = el('div', 'settings-flow settings-stack bg-image-settings');
   const RSUB = { '9:16': '스토리', '3:4': '세로', '1:1': '정사각', '4:3': '가로', '16:9': '와이드' };
 
   /* 테마가 주어지면 CSS 기반 미리보기, 아니면 기존 cropField */
@@ -10683,9 +10731,14 @@ function openBgImageModal(cur, onDone, t) {
 
   if (t) {
     /* ══ CSS 기반 미리보기 (캔버스와 동일한 렌더링) ══ */
-    const stage = el('div', 'crop-stage');
+    const stage = el('div', 'crop-stage bg-image-preview');
     stage.style.cssText = 'position:relative;overflow:hidden;border-radius:var(--r-md);background:' + (t.bg || '#fff');
-    stage.style.aspectRatio = String(c.ratio || '9:16').replace(':', '/');
+    const sizePreview = () => {
+      const [w, h] = String(c.ratio || '9:16').split(':').map(Number);
+      stage.style.aspectRatio = `${w} / ${h}`;
+      stage.style.setProperty('--preview-ratio', String(w / h));
+    };
+    sizePreview();
 
     /* 이미지 레이어 — 캔버스 .cv-bg i 와 동일한 스타일 */
     imgLayer = el('div');
@@ -10782,40 +10835,55 @@ function openBgImageModal(cur, onDone, t) {
       b.onclick = () => {
         c.mode = 'ratio'; c.ratio = r;
         [...ratios.children].forEach(x => x.classList.toggle('on', x === b));
-        stage.style.aspectRatio = r.replace(':', '/');
+        sizePreview();
         up();
       };
       ratios.appendChild(b);
     });
-    body.appendChild(ratios);
-    body.appendChild(stage);
+    const ratioGroup = settingGroup();
+    ratios.setAttribute('role', 'group');
+    ratios.setAttribute('aria-label', '배경 이미지 비율');
+    ratioGroup.appendChild(ratios);
+    const imageGroup = settingGroup();
+    imageGroup.appendChild(stage);
+    body.append(ratioGroup, imageGroup);
     previewEl = { syncPreview };
 
-    /* 확대 슬라이더 — bgSize 제어 */
-    const zoomWrap = el('div', 'slideh');
-    zoomWrap.appendChild(el('span', 'lab', '확대'));
-    const zoom = el('input', 'rng');
-    zoom.type = 'range'; zoom.min = '50'; zoom.max = '200'; zoom.step = '5'; zoom.value = t.bgSize ?? 100;
-    zoom.oninput = () => { t.bgSize = +zoom.value; syncPreview(); up(); };
-    zoomWrap.appendChild(zoom);
-    body.appendChild(zoomWrap);
+    imageGroup.appendChild(sliderH('확대', t.bgSize ?? 100, 50, 200, 5,
+      v => { t.bgSize = v; syncPreview(); up(); }, '%'));
 
-    /* 위치 — 9방향 그리드 */
-    const posWrap = posGrid9(t.bgX ?? 50, t.bgY ?? 50, (x, y) => { t.bgX = x; t.bgY = y; syncPreview(); up(); });
-    posWrap.style.marginTop = 'var(--sp-lg)';
-    body.appendChild(posWrap);
-
-    /* 회전·흐림·덮기 */
-    const opts = el('div', 'grid2'); opts.style.cssText = 'margin-top:var(--sp-md);row-gap:9px';
-    opts.appendChild(stepH('회전', t.bgRotation ?? 0, -180, 180, 90, v => { t.bgRotation = v; syncPreview(); up(); }));
-    opts.appendChild(stepH('흐림', t.bgBlur ?? 0, 0, 40, 1, v => { t.bgBlur = v; syncPreview(); up(); }));
-    opts.appendChild(stepH('덮는 색 불투명도', t.bgOverlay ?? 0, 0, 100, 5, v => { t.bgOverlay = v; syncPreview(); up(); }));
-    body.appendChild(opts);
-
-    /* 덮는 색 */
-    const colorWrap = colorField('덮기색', t.bgOverlayColor || '#000000', v => { t.bgOverlayColor = v; syncPreview(); up(); });
-    colorWrap.style.marginTop = 'var(--sp-md)';
-    body.appendChild(colorWrap);
+    const additional = settingGroup('추가 설정');
+    const columns = el('div', 'setting-grid bg-additional-grid');
+    columns.appendChild(posGrid9(t.bgX ?? 50, t.bgY ?? 50,
+      (x, y) => { t.bgX = x; t.bgY = y; syncPreview(); up(); }));
+    const adjustments = el('div', 'setting-group');
+    adjustments.appendChild(stepH('회전', t.bgRotation ?? 0, -180, 180, 90,
+      v => { t.bgRotation = v; syncPreview(); up(); }));
+    adjustments.appendChild(stepH('흐림', t.bgBlur ?? 0, 0, 40, 1,
+      v => { t.bgBlur = v; syncPreview(); up(); }));
+    let overlayAmount = t.bgOverlay > 0 ? t.bgOverlay : 30;
+    let overlayEnabled = (t.bgOverlay ?? 0) > 0;
+    const overlay = settingGroup();
+    overlay.hidden = !overlayEnabled;
+    overlay.appendChild(colorField('색', t.bgOverlayColor || '#000000',
+      v => { t.bgOverlayColor = v; syncPreview(); up(); }));
+    const opacity = sliderH('불투명도', overlayAmount, 0, 100, 5,
+      v => { overlayAmount = v; t.bgOverlay = overlayEnabled ? v : 0; syncPreview(); up(); }, '%');
+    overlay.appendChild(opacity);
+    const coverToggle = toggleRow('덮기', '', overlayEnabled, enabled => {
+      overlayEnabled = enabled;
+      if (enabled && overlayAmount === 0) overlayAmount = 30;
+      t.bgOverlay = enabled ? overlayAmount : 0;
+      opacity.querySelector('.rng').value = overlayAmount;
+      opacity.querySelector('input[type="text"]').value = overlayAmount;
+      overlay.hidden = !enabled;
+      syncPreview(); up();
+    });
+    coverToggle.classList.add('bg-cover-toggle');
+    adjustments.appendChild(coverToggle);
+    columns.appendChild(adjustments);
+    additional.append(columns, overlay);
+    body.appendChild(additional);
 
   } else {
     /* ══ 기존 cropField 방식 (테마 없이 호출될 때) ══ */
@@ -10863,7 +10931,13 @@ function openBgImageModal(cur, onDone, t) {
     imgBtns.append(reBtn, rmBtn);
     stage.append(crop, imgBtns);
 
-    body.append(ratios, stage, zoomWrap);
+    const ratioGroup = settingGroup();
+    ratios.setAttribute('role', 'group');
+    ratios.setAttribute('aria-label', '배경 이미지 비율');
+    ratioGroup.appendChild(ratios);
+    const imageGroup = settingGroup();
+    imageGroup.append(stage, zoomWrap);
+    body.append(ratioGroup, imageGroup);
     previewEl = { crop };
   }
 
@@ -11425,14 +11499,17 @@ function enhanceControls(root = document) {
     toggle.setAttribute('role', 'switch');
     if (toggle.tagName !== 'BUTTON') toggle.tabIndex = 0;
     toggle.setAttribute('aria-checked', String(toggle.classList.contains('is-on')));
-    const label = toggle.closest('.tgl-inline,.row-between,.field')?.querySelector('.lab');
-    if (label) toggle.setAttribute('aria-label', label.textContent.trim());
+    const label = toggle.closest('.tgl-inline,.row-between,.field,.setting-assist')?.querySelector('.lab');
+    const side = toggle.closest('.setting-side')?.querySelector(':scope > .lab')?.textContent.trim();
+    if (label) toggle.setAttribute('aria-label', [side, label.textContent.trim()].filter(Boolean).join(' '));
   });
   root.querySelectorAll('.field,.steph,.slideh,.colorf').forEach(field => {
-    const label = field.querySelector('.lab') || field.closest('.field')?.querySelector('.lab');
+    const label = field.querySelector('.lab') || field.closest('.field')?.querySelector('.lab') ||
+      (field.matches('.colorf') ? field.parentElement.querySelector(':scope > .lab') : null);
     if (!label) return;
     field.querySelectorAll('input,select,textarea').forEach(input => {
-      if (!input.hasAttribute('aria-label') && !input.hasAttribute('aria-labelledby')) input.setAttribute('aria-label', label.textContent.trim());
+      const side = field.closest('.setting-side')?.querySelector(':scope > .lab')?.textContent.trim();
+      if (!input.hasAttribute('aria-label') && !input.hasAttribute('aria-labelledby')) input.setAttribute('aria-label', [side, label.textContent.trim()].filter(Boolean).join(' '));
     });
     if (label.tagName === 'LABEL') {
       const input = field.querySelector('input,select,textarea');
@@ -11445,8 +11522,10 @@ function enhanceControls(root = document) {
   root.querySelectorAll('.sw').forEach(swatch => {
     if (typeof swatch.onclick !== 'function') return;
     swatch.setAttribute('role', 'button'); swatch.tabIndex = 0;
-    const label = swatch.closest('.field,.colorf')?.querySelector('.lab')?.textContent || '색상';
-    swatch.setAttribute('aria-label', label + ' 선택');
+    const color = swatch.closest('.field,.colorf');
+    const label = (color?.querySelector('.lab') || color?.parentElement.querySelector(':scope > .lab'))?.textContent || '색상';
+    const side = swatch.closest('.setting-side')?.querySelector(':scope > .lab')?.textContent.trim();
+    swatch.setAttribute('aria-label', [side, label + ' 선택'].filter(Boolean).join(' '));
   });
   root.querySelectorAll('.char-add,.theme-card.is-add').forEach(card => {
     card.setAttribute('role', 'button'); card.tabIndex = 0;
@@ -12210,7 +12289,7 @@ function syncThemeEditFormV2() {
   canvasHeader.onclick = () => { openSec.canvas = !openSec.canvas; canvasSection.classList.toggle('open'); };
   canvasSection.appendChild(canvasHeader);
 
-  const canvasBody = el('div', 'section-body');
+  const canvasBody = el('div', 'section-body settings-flow');
   const lockR = lockRatio();
 
   if (lockR) {
@@ -12234,7 +12313,7 @@ function syncThemeEditFormV2() {
     /* 내용 맞춤: 너비 */
     if (isFit()) {
       const widthField = el('div', 'field');
-      widthField.style.marginTop = 'var(--sp-md)';
+
       widthField.appendChild(el('label', 'lab', '너비'));
       const slideh = el('div', 'slideh');
       const rng = el('input', 'rng');
@@ -12256,7 +12335,7 @@ function syncThemeEditFormV2() {
     } else {
       /* 페이지 분할: 비율 */
       const ratioField = el('div', 'field');
-      ratioField.style.marginTop = 'var(--sp-md)';
+
       ratioField.appendChild(el('label', 'lab', '비율'));
       const RSUB = { '9:16': '스토리', '3:4': '세로', '1:1': '정사각', '4:3': '가로', '16:9': '와이드' };
       const ratioTabs = el('div', 'seg');
@@ -12272,21 +12351,19 @@ function syncThemeEditFormV2() {
   }
 
   /* 여백 설정 (함께 토글 + 상하좌우) */
-  const marginHead = el('div', 'tgl-inline');
-  marginHead.style.marginTop = 'var(--sp-lg)';
-  marginHead.appendChild(el('span', 'lab', '여백'));
-  const marginLinkWrap = el('div', 'tgl-inline');
-  marginLinkWrap.style.cssText = 'gap:6px;margin-left:auto';
+  const marginGroup = settingGroup();
+  const marginHead = el('div', 'setting-head');
+  marginHead.appendChild(el('span', 'lab setting-title', '여백'));
+  const marginLinkWrap = el('div', 'setting-assist');
   marginLinkWrap.appendChild(el('span', 'lab', '상하·좌우 함께'));
   if (c.marginLink == null) c.marginLink = true;
   const linkTgl = el('div', 'tgl tgl-sm' + (c.marginLink ? ' is-on' : ''));
   linkTgl.onclick = () => { c.marginLink = !c.marginLink; linkTgl.classList.toggle('is-on'); };
   marginLinkWrap.appendChild(linkTgl);
   marginHead.appendChild(marginLinkWrap);
-  canvasBody.appendChild(marginHead);
+  marginGroup.appendChild(marginHead);
 
-  const marginGrid = el('div', 'grid-2');
-  marginGrid.style.cssText = 'margin-top:var(--sp-sm);row-gap:9px';
+  const marginGrid = el('div', 'setting-grid');
   const mkMargin = (lab, key, linked) => {
     const sync = v => {
       c[key] = v;
@@ -12303,16 +12380,17 @@ function syncThemeEditFormV2() {
   marginGrid.appendChild(mkMargin('아래', 'mb', 'mt'));
   marginGrid.appendChild(mkMargin('좌측', 'ml', 'mr'));
   marginGrid.appendChild(mkMargin('우측', 'mr', 'ml'));
-  canvasBody.appendChild(marginGrid);
+  marginGroup.appendChild(marginGrid);
+  canvasBody.appendChild(marginGroup);
 
   /* 정렬 — 페이지 분할 모드에서 내용을 위에 붙일지 가운데에 둘지 */
   if (!isFit()) {
     const vAlignField = el('div', 'field');
-    vAlignField.style.marginTop = 'var(--sp-lg)';
+
     vAlignField.appendChild(el('label', 'lab', '정렬'));
     if (!t.fmt) t.fmt = Object.assign({}, S.format);
-    vAlignField.appendChild(segment([['top', '상단 정렬'], ['center', '중앙 정렬']], t.fmt.vAlign || 'center',
-      v => { t.fmt.vAlign = v; rerender(); }));
+    vAlignField.appendChild(alignmentSegment(t.fmt.vAlign || 'center',
+      v => { t.fmt.vAlign = v; rerender(); }, { vertical: true, name: '캔버스 세로 정렬' }));
     canvasBody.appendChild(vAlignField);
   }
 
@@ -12359,11 +12437,26 @@ function syncThemeEditFormV2() {
   bubbleHeader.innerHTML = '<h3>대사</h3><svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>';
   bubbleHeader.onclick = () => { openSec.bubble = !openSec.bubble; bubbleSection.classList.toggle('open'); };
   bubbleSection.appendChild(bubbleHeader);
-  const bubbleBody = el('div', 'section-body');
+  const bubbleBody = el('div', 'section-body settings-flow');
+  const shapeGroup = settingGroup();
+  shapeGroup.style.gap = '12px';
+  let radiusGroup;
+  bubbleBody.appendChild(shapeGroup);
 
   /* 스타일 */
   const styleField = el('div', 'field');
-  styleField.appendChild(el('label', 'lab', '스타일'));
+  const styleHead = el('div', 'setting-head');
+  styleHead.style.marginBottom = '8px';
+  styleHead.appendChild(el('span', 'lab setting-title', '스타일'));
+  if ((t.bubbleStyle || 'bubble') !== 'plain') {
+    const grouping = el('div', 'setting-assist');
+    grouping.appendChild(el('span', 'lab', '대사 묶기'));
+    const groupingToggle = el('button', 'tgl tgl-sm' + (t.groupRuns !== false ? ' is-on' : ''));
+    groupingToggle.onclick = () => { t.groupRuns = t.groupRuns === false; rerender(); };
+    grouping.appendChild(groupingToggle);
+    styleHead.appendChild(grouping);
+  }
+  styleField.appendChild(styleHead);
   const styleSeg = el('div', 'seg');
   [['bubble', '말풍선'], ['quote', '인용'], ['script', '각본'], ['notif', '알림'], ['sns', '트윗'], ['plain', '없음']].forEach(([v, l]) => {
     const b = el('button', (t.bubbleStyle || 'bubble') === v ? 'is-on' : '', l);
@@ -12378,7 +12471,7 @@ function syncThemeEditFormV2() {
     styleSeg.appendChild(b);
   });
   styleField.appendChild(styleSeg);
-  bubbleBody.appendChild(styleField);
+  shapeGroup.appendChild(styleField);
 
   const bs = t.bubbleStyle || 'bubble';
   const isBubble = bs === 'bubble';
@@ -12387,22 +12480,11 @@ function syncThemeEditFormV2() {
   const isSns = bs === 'sns';
   const isScript = bs === 'script';
 
-  /* 대사 묶기 — 말풍선·인용·각본·알림·SNS 적용 (plain 제외) */
-  if (bs !== 'plain') {
-    const grpTgl = el('div', 'tgl-inline');
-    grpTgl.style.marginTop = 'var(--sp-md)';
-    grpTgl.appendChild(el('span', 'lab', '대사 묶기'));
-    const grpBtn = el('div', 'tgl tgl-sm' + (t.groupRuns !== false ? ' is-on' : ''));
-    grpBtn.onclick = () => { t.groupRuns = t.groupRuns === false; rerender(); };
-    grpTgl.appendChild(grpBtn);
-    bubbleBody.appendChild(grpTgl);
-  }
-
   if (isBubble) {
     /* 말풍선 스타일 프리셋 — Plain / Modern / iMessage / Kakaotalk */
     const presetField = el('div', 'field');
-    presetField.style.marginTop = 'var(--sp-md)';
-    presetField.appendChild(el('label', 'lab', '말풍선'));
+
+    presetField.appendChild(el('label', 'lab setting-title', '말풍선 형태'));
     const presetOpts = Object.keys(BUBBLE_STYLES).map(k => [k, BUBBLE_STYLES[k].label]);
     const currentPreset = resolvePreset(t);
     presetField.appendChild(segment(presetOpts, currentPreset, v => {
@@ -12428,7 +12510,7 @@ function syncThemeEditFormV2() {
       }
       rerender();
     }));
-    bubbleBody.appendChild(presetField);
+    shapeGroup.appendChild(presetField);
 
     /* 모서리 둥글기 — 프리셋별로 UI가 다름:
        Plain: 함께 토글 + 4코너/1스텝퍼 전환
@@ -12438,14 +12520,13 @@ function syncThemeEditFormV2() {
     const isPlain = curPreset === 'plain';
     const isModern = curPreset === 'modern';
 
-    const radiusHead = el('div', 'tgl-inline');
-    radiusHead.style.marginTop = 'var(--sp-md)';
-    radiusHead.appendChild(el('span', 'lab', '모서리 둥글기'));
+    radiusGroup = settingGroup();
+    const radiusHead = el('div', 'setting-head');
+    radiusHead.appendChild(el('span', 'lab setting-title', '모서리 둥글기'));
 
     /* Plain만 함께 토글 표시 */
     if (isPlain) {
-      const radiusLinkWrap = el('div', 'tgl-inline');
-      radiusLinkWrap.style.cssText = 'gap:6px;margin-left:auto';
+      const radiusLinkWrap = el('div', 'setting-assist');
       radiusLinkWrap.appendChild(el('span', 'lab', '함께'));
       if (t.brLink == null) t.brLink = true;
       const radiusTgl = el('div', 'tgl tgl-sm' + (t.brLink ? ' is-on' : ''));
@@ -12467,7 +12548,7 @@ function syncThemeEditFormV2() {
       radiusHead.appendChild(radiusLinkWrap);
     }
     radiusHead.hidden = curPreset === 'bubble';
-    bubbleBody.appendChild(radiusHead);
+    radiusGroup.appendChild(radiusHead);
 
     /* 4개 값 초기화 — 없으면 bubbleRadius에서 가져옴 */
     const defR = t.bubbleRadius ?? 14;
@@ -12476,8 +12557,7 @@ function syncThemeEditFormV2() {
     if (t.brBL == null) t.brBL = defR;
     if (t.brBR == null) t.brBR = defR;
 
-    const radiusGrid = el('div', 'grid-2');
-    radiusGrid.style.cssText = 'margin-top:var(--sp-sm);row-gap:9px';
+    const radiusGrid = el('div', 'setting-grid');
 
     if (isPlain) {
       /* Plain: 함께 켜면 1스텝퍼, 끄면 4코너 (brLink와 brDetail 동기화됨) */
@@ -12523,86 +12603,110 @@ function syncThemeEditFormV2() {
       radiusGrid.appendChild(singleStep);
     }
     radiusGrid.hidden = curPreset === 'bubble';
-    bubbleBody.appendChild(radiusGrid);
+    if (curPreset !== 'bubble') {
+      if (!isPlain && !isModern) {
+        const single = radiusGrid.firstElementChild;
+        single.classList.add('setting-single');
+        single.querySelector('.lab').textContent = '모서리 둥글기';
+        radiusGroup.replaceChildren(single);
+      } else {
+        if (isPlain && t.brLink) {
+          const single = radiusGrid.firstElementChild;
+          const lab = single.querySelector('.lab');
+          lab.remove();
+          single.querySelector('input').setAttribute('aria-label', '모서리 둥글기');
+          single.style.justifyContent = 'flex-end';
+        }
+        radiusGroup.appendChild(radiusGrid);
+      }
+
+    }
   }
+
+  const mkTgl = (lab, val, on) => {
+    const row = el('div', 'tgl-inline');
+    row.appendChild(el('span', 'lab', lab));
+    const btn = el('div', 'tgl tgl-sm' + (val ? ' is-on' : ''));
+    btn.onclick = () => on(!val);
+    row.appendChild(btn);
+    return row;
+  };
+  if (radiusGroup && radiusGroup.childElementCount && resolvePreset(t) !== 'bubble') bubbleBody.appendChild(radiusGroup);
 
   /* 색상 설정 — 스타일별로 다른 UI */
   if (isBubble) {
-    /* 말풍선 색상 */
-    const colorGrid = el('div', 'grid-2');
-    colorGrid.style.marginTop = 'var(--sp-md)';
+    const colors = settingGroup('색상');
+    const colorGrid = el('div', 'setting-grid');
     colorGrid.appendChild(colorField('좌측 말풍선', t.bubbleBg, v => { t.bubbleBg = v; up(); }));
     colorGrid.appendChild(colorField('좌측 글자', t.bubbleFg, v => { t.bubbleFg = v; up(); }));
     colorGrid.appendChild(colorField('우측 말풍선', t.myBubbleBg || t.bubbleBg, v => { t.myBubbleBg = v; up(); }));
     colorGrid.appendChild(colorField('우측 글자', t.myBubbleFg || t.bubbleFg, v => { t.myBubbleFg = v; up(); }));
-    bubbleBody.appendChild(colorGrid);
+    colors.appendChild(colorGrid);
+    bubbleBody.appendChild(colors);
   }
   if (isQuote) {
     /* 인용 색상 — 좌측/우측 인용선 색만 (말풍선 색과 연동) */
-    const colorGrid = el('div', 'grid-2');
-    colorGrid.style.marginTop = 'var(--sp-md)';
+    const colorGrid = el('div', 'setting-grid');
+
     colorGrid.appendChild(colorField('좌측 인용선', t.bubbleBg, v => { t.bubbleBg = v; up(); }));
     colorGrid.appendChild(colorField('우측 인용선', t.myBubbleBg || t.bubbleBg, v => { t.myBubbleBg = v; up(); }));
-    bubbleBody.appendChild(colorGrid);
+    const colors = settingGroup('색상');
+    colors.appendChild(colorGrid);
+    bubbleBody.appendChild(colors);
   }
   if (isNotif) {
     /* 알림 배경색 — 기본 오퍼시티 50% 유지 */
-    const colorGrid = el('div', 'grid-2');
-    colorGrid.style.marginTop = 'var(--sp-md)';
+    const colorGrid = el('div', 'setting-grid');
+
     const notifHex = '#' + (hexOf(t.notifBg) || 'FFFFFF');
     colorGrid.appendChild(colorField('알림 배경', notifHex, v => { t.notifBg = rgbaOf(v, 50); up(); }));
-    bubbleBody.appendChild(colorGrid);
+    const colors = settingGroup('색상');
+    colors.appendChild(colorGrid);
+    bubbleBody.appendChild(colors);
   }
   if (isSns) {
     /* SNS 배경색 — 기본 투명 */
-    const colorGrid = el('div', 'grid-2');
-    colorGrid.style.marginTop = 'var(--sp-md)';
+    const colorGrid = el('div', 'setting-grid');
+
     colorGrid.appendChild(colorField('배경색', t.snsBg || 'transparent', v => { t.snsBg = v; up(); }));
-    bubbleBody.appendChild(colorGrid);
+    const colors = settingGroup('색상');
+    colors.appendChild(colorGrid);
+    bubbleBody.appendChild(colors);
   }
 
-  /* 추가 옵션 (라운드/그림자, 좌측 프로필·이름, 우측 프로필·이름)
-     각본은 이름이 대사 앞에 인라인으로 붙어서 프로필 이미지가 의미 없음
-     알림은 이미지·이름 무조건 표시라 추가 옵션 필요 없음 */
-  if (!isNotif) {
-    const extraLabel = el('label', 'lab', '추가 옵션');
-    extraLabel.style.marginTop = 'var(--sp-lg)';
-    bubbleBody.appendChild(extraLabel);
-    const extraGrid = el('div', 'grid-2');
-    extraGrid.style.cssText = 'gap:var(--sp-md) 14px;margin-top:var(--sp-sm)';
-    const mkTgl = (lab, val, on) => {
-      const row = el('div', 'tgl-inline');
-      row.appendChild(el('span', 'lab', lab));
-      const btn = el('div', 'tgl tgl-sm' + (val ? ' is-on' : ''));
-      btn.onclick = () => on(!val);
-      row.appendChild(btn);
-      return row;
-    };
-    if (isBubble && resolvePreset(t) === 'bubble') {
-      const place = (node, column, row) => {
-        node.style.gridColumn = String(column);
-        node.style.gridRow = String(row);
-        extraGrid.appendChild(node);
-      };
-      const tagOn = t.artistTag !== false;
-      place(mkTgl('아티스트 태그', tagOn, v => { t.artistTag = v; rerender(); }), 1, 1);
-      place(mkTgl('그림자', t.bubbleShadow, v => { t.bubbleShadow = v; rerender(); }), 2, 1);
-      if (tagOn) place(colorField('태그 색', t.artistTagColor || '#F080A6', v => { t.artistTagColor = v; up(); }), 1, 2);
-      place(mkTgl('좌측 프로필', t.showAvatar, v => { t.showAvatar = v; rerender(); }), 2, 2);
-      place(mkTgl('좌측 이름', t.showName, v => { t.showName = v; rerender(); }), 1, tagOn ? 3 : 2);
-      place(mkTgl('우측 프로필', !!t.myAvatar, v => { t.myAvatar = v; rerender(); }), 2, 3);
-      place(mkTgl('우측 이름', !!t.myName, v => { t.myName = v; rerender(); }), 1, tagOn ? 4 : 3);
-    } else {
-      if (!isScript && !isSns) extraGrid.appendChild(mkTgl('라운드 프로필', t.roundAvatar, v => { t.roundAvatar = v; rerender(); }));
-      if (isBubble) extraGrid.appendChild(mkTgl('그림자', t.bubbleShadow, v => { t.bubbleShadow = v; rerender(); }));
-      if (!isScript && !isSns) extraGrid.appendChild(mkTgl('좌측 프로필', t.showAvatar, v => { t.showAvatar = v; rerender(); }));
-      if (!isSns) extraGrid.appendChild(mkTgl('좌측 이름', t.showName, v => { t.showName = v; rerender(); }));
-      if (!isScript && !isSns) extraGrid.appendChild(mkTgl('우측 프로필', !!t.myAvatar, v => { t.myAvatar = v; rerender(); }));
-      if (!isSns) extraGrid.appendChild(mkTgl('우측 이름', !!t.myName, v => { t.myName = v; rerender(); }));
+  const artistBubble = isBubble && resolvePreset(t) === 'bubble';
+  if (!isNotif && !isSns) {
+    const profiles = settingGroup(isScript ? '이름 표시' : '프로필 / 이름');
+
+    const sides = el('div', 'setting-grid');
+    if (!isScript) {
+      sides.appendChild(mkTgl('좌측 프로필', t.showAvatar, v => { t.showAvatar = v; rerender(); }));
+      sides.appendChild(mkTgl('우측 프로필', !!t.myAvatar, v => { t.myAvatar = v; rerender(); }));
     }
-    bubbleBody.appendChild(extraGrid);
+    sides.appendChild(mkTgl('좌측 이름', t.showName, v => { t.showName = v; rerender(); }));
+    sides.appendChild(mkTgl('우측 이름', !!t.myName, v => { t.myName = v; rerender(); }));
+    profiles.appendChild(sides);
+    bubbleBody.appendChild(profiles);
   }
-
+  if (isBubble || (!isNotif && !isSns && !isScript)) {
+    const effects = settingGroup('효과');
+    const effectGrid = el('div', 'setting-grid');
+    if (!isScript && !artistBubble) effectGrid.appendChild(mkTgl('라운드 프로필', t.roundAvatar,
+      v => { t.roundAvatar = v; rerender(); }));
+    if (isBubble) effectGrid.appendChild(mkTgl('그림자', t.bubbleShadow, v => { t.bubbleShadow = v; rerender(); }));
+    effects.appendChild(effectGrid);
+    if (artistBubble) {
+      const tag = settingGroup();
+      const tagOn = t.artistTag !== false;
+      const tagToggle = mkTgl('아티스트 태그', tagOn, v => { t.artistTag = v; rerender(); });
+      tagToggle.classList.add('setting-trigger');
+      tag.appendChild(tagToggle);
+      if (tagOn) tag.appendChild(colorField('태그 색', t.artistTagColor || '#F080A6',
+        v => { t.artistTagColor = v; up(); }));
+      effects.appendChild(tag);
+    }
+    bubbleBody.appendChild(effects);
+  }
   bubbleSection.appendChild(bubbleBody);
   body.appendChild(bubbleSection);
 
@@ -12643,16 +12747,16 @@ function syncThemeEditFormV2() {
   signHeader.innerHTML = '<h3>서명</h3><svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>';
   signHeader.onclick = () => { openSec.sign = !openSec.sign; signSection.classList.toggle('open'); };
   signSection.appendChild(signHeader);
-  const signBody = el('div', 'section-body');
-  const signTgl = el('div', 'tgl-inline');
+  const signBody = el('div', 'section-body settings-flow signature-settings');
+  const signTgl = el('div', 'tgl-inline setting-trigger');
   signTgl.appendChild(el('span', 'lab', '서명 표시'));
   const signBtn = el('div', 'tgl tgl-sm' + (t.signShow ? ' is-on' : ''));
   signBtn.onclick = () => { t.signShow = !t.signShow; rerender(); };
   signTgl.appendChild(signBtn);
   signBody.appendChild(signTgl);
   if (t.signShow) {
-    const signGrid = el('div', 'grid-2');
-    signGrid.style.marginTop = 'var(--sp-md)';
+    const signDetails = el('div', 'settings-flow settings-stack');
+    const signGrid = el('div', 'setting-grid');
     const cf = el('div', 'field');
     cf.appendChild(el('label', 'lab', '캐릭터'));
     const ci = el('input', 'inp');
@@ -12669,60 +12773,29 @@ function syncThemeEditFormV2() {
     mi.oninput = () => { t.signMaker = mi.value; up(); };
     mf.appendChild(mi);
     signGrid.appendChild(mf);
-    signBody.appendChild(signGrid);
+    signDetails.appendChild(signGrid);
 
     /* 정렬 — segment 스타일 (버디버디는 만든이 영역에 서명이 들어가므로 정렬 선택 불필요) */
     if (frameKind(t) !== 'buddy') {
       const alignField = el('div', 'field');
-      alignField.style.marginTop = 'var(--sp-md)';
-      alignField.appendChild(el('label', 'lab', '정렬'));
-      alignField.appendChild(segment([['left', '좌측 정렬'], ['center', '중앙 정렬'], ['right', '우측 정렬']],
-        t.signAlign || 'right', v => { t.signAlign = v; rerender(); }));
-      signBody.appendChild(alignField);
+
+          alignField.appendChild(alignmentSegment(t.signAlign || 'right',
+        v => { t.signAlign = v; rerender(); }, { name: '서명 정렬' }));
+      signDetails.appendChild(alignField);
     }
 
-    /* 구분·서식 — 같은 줄에 icb 버튼 스타일로, 자동 배분 */
-    const fmtLine = el('div', 'tool-line');
-    fmtLine.style.cssText = 'margin-top:var(--sp-md);justify-content:space-evenly;';
-
-    /* 구분 */
-    const sepGrp = el('div', 'tool-grp');
-    sepGrp.appendChild(el('span', 'tool-lab', '구분 기호'));
-    const sepBtns = el('div', 'tool-grp');
-    sepBtns.style.gap = '6px';
-    const mkSepBtn = (val) => {
-      const btn = el('button', 'icb' + ((t.signSep || '·') === val ? ' is-on' : ''));
-      btn.style.boxShadow = 'none';
-      btn.textContent = val;
-      btn.title = val;
-      btn.onclick = () => { t.signSep = val; rerender(); };
-      return btn;
-    };
-    sepBtns.appendChild(mkSepBtn('·'));
-    sepBtns.appendChild(mkSepBtn('|'));
-    sepGrp.appendChild(sepBtns);
-    fmtLine.appendChild(sepGrp);
-    fmtLine.appendChild(el('div', 'tool-sep'));
-
-    /* 서식 */
-    const fmtGrp = el('div', 'tool-grp');
-    fmtGrp.appendChild(el('span', 'tool-lab', '서식'));
-    const fmtBtns = el('div', 'tool-grp');
-    fmtBtns.style.gap = '6px';
-    const mkSignFmt = (label, key, icon) => {
-      const btn = el('button', 'icb' + (t[key] ? ' is-on' : ''));
-      btn.style.boxShadow = 'none';
-      btn.innerHTML = icon;
-      btn.title = label;
-      btn.onclick = () => { t[key] = !t[key]; rerender(); };
-      return btn;
-    };
-    fmtBtns.appendChild(mkSignFmt('볼드', 'signBold', '<b style="font-weight:700">B</b>'));
-    fmtBtns.appendChild(mkSignFmt('이탤릭', 'signItalic', '<b style="font-style:italic">I</b>'));
-    fmtGrp.appendChild(fmtBtns);
-    fmtLine.appendChild(fmtGrp);
-
-    signBody.appendChild(fmtLine);
+    const formatGrid = el('div', 'setting-grid');
+    const separatorField = el('div', 'field');
+    separatorField.appendChild(el('span', 'lab setting-title', '구분 기호'));
+    separatorField.appendChild(signatureSeparator(t.signSep || '·', v => { t.signSep = v; rerender(); }));
+    const formatField = el('div', 'field');
+    formatField.appendChild(el('span', 'lab setting-title', '서식'));
+    formatField.appendChild(signatureStyles(t.signBold, t.signItalic, (key, value) => {
+      t[key === 'bold' ? 'signBold' : 'signItalic'] = value; rerender();
+    }));
+    formatGrid.append(separatorField, formatField);
+    signDetails.appendChild(formatGrid);
+    signBody.appendChild(signDetails);
   }
   signSection.appendChild(signBody);
   body.appendChild(signSection);
@@ -13793,6 +13866,48 @@ function themeEditor() {
 }
 
 /* ── 공용 조각 ───────────────────────────────────────────── */
+function settingGroup(title) {
+  const group = el('div', 'setting-group');
+  if (title) group.appendChild(el('span', 'lab setting-title', title));
+  return group;
+}
+function signatureSeparator(cur, on) {
+  const group = segment([['·', '·'], ['|', '|']], cur, value => {
+    [...group.children].forEach((button, i) => {
+      const selected = ['·', '|'][i] === value;
+      button.classList.toggle('is-on', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    });
+    on(value);
+  });
+  group.setAttribute('role', 'group');
+  group.setAttribute('aria-label', '구분 기호');
+  [...group.children].forEach((button, i) => {
+    button.setAttribute('aria-label', ['가운뎃점', '세로선'][i]);
+    button.setAttribute('aria-pressed', String(['·', '|'][i] === cur));
+  });
+  return group;
+}
+function signatureStyles(bold, italic, on) {
+  const group = el('div', 'seg');
+  group.setAttribute('role', 'group');
+  group.setAttribute('aria-label', '서식');
+  [['bold', '볼드', '<b>B</b>', bold], ['italic', '이탤릭', '<i>I</i>', italic]].forEach(([key, label, icon, value]) => {
+    const button = el('button', value ? 'is-on' : '');
+    button.innerHTML = icon;
+    button.title = label;
+    button.setAttribute('aria-label', label);
+    button.setAttribute('aria-pressed', String(!!value));
+    button.onclick = () => {
+      const selected = !button.classList.contains('is-on');
+      button.classList.toggle('is-on', selected);
+      button.setAttribute('aria-pressed', String(selected));
+      on(key, selected);
+    };
+    group.appendChild(button);
+  });
+  return group;
+}
 function segment(items, cur, on) {
   const s = el('div', 'seg');
   items.forEach(([v, l, isHtml]) => {
@@ -13802,6 +13917,32 @@ function segment(items, cur, on) {
     s.appendChild(b);
   });
   return s;
+}
+/* 글 정렬은 기존 글 정렬 SVG를 재사용하고, 세로 정렬은 별도 축으로 표시한다. */
+function alignmentSegment(cur, on, { vertical = false, name = '글 정렬' } = {}) {
+  const items = vertical ? [['top', '상단 정렬'], ['center', '중앙 정렬']] :
+    [['left', '좌측 정렬'], ['center', '중앙 정렬'], ['right', '우측 정렬']];
+  const paths = vertical ? {
+    top: 'M6 4h12M12 8v12M8 12l4-4 4 4',
+    center: 'M7 12h10M12 3v6M9 6l3 3 3-3M12 21v-6M9 18l3-3 3 3'
+  } : ALIGN_ICON;
+  const group = segment(items.map(([key]) => [key,
+    `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${paths[key]}"/></svg>`, true]), cur, value => {
+    [...group.children].forEach((button, i) => {
+      const selected = items[i][0] === value;
+      button.classList.toggle('is-on', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    });
+    on(value);
+  });
+  group.setAttribute('role', 'group');
+  group.setAttribute('aria-label', name);
+  [...group.children].forEach((button, i) => {
+    button.title = items[i][1];
+    button.setAttribute('aria-label', items[i][1]);
+    button.setAttribute('aria-pressed', String(items[i][0] === cur));
+  });
+  return group;
 }
 function toggleRow(label, sub, val, on) {
   const r = el('div', 'row-between');
@@ -13845,14 +13986,23 @@ function sliderH(label, val, min, max, step, on, suffix) {
   r.appendChild(el('span', 'lab', label));
   const i = el('input', 'rng');
   i.type = 'range'; i.min = min; i.max = max; i.step = step; i.value = val;
-  const v = el('span', 'val');
-  const paint = n => { v.textContent = `${Math.round(Number(n) || 0)}${suffix || ''}`; };
+  const valueWrap = el('div', 'slideh-val');
+  const v = el('input'); v.type = 'text'; v.inputMode = 'numeric';
+  v.setAttribute('aria-label', label + ' 값');
+  valueWrap.appendChild(v);
+  if (suffix) valueWrap.appendChild(el('span', 'unit', suffix));
+  const paint = n => { v.value = String(Math.round(Number(n) || 0)); };
   i.oninput = () => {
     const n = clamp(Number(i.value) || 0, min, max);
     paint(n); on(n);
   };
+  v.onchange = () => {
+    const entered = parseFloat(v.value);
+    const n = Number.isFinite(entered) ? clamp(min + Math.round((entered - min) / step) * step, min, max) : +i.value;
+    i.value = n; paint(n); on(n);
+  };
   paint(val);
-  r.append(i, v);
+  r.append(i, valueWrap);
   return r;
 }
 function normDeg(v) {
