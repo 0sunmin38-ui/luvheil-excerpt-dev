@@ -442,7 +442,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
    배경·글자색이 어떻게 바뀌어도 본문과 같은 색을 쓴다. 흐리게(opacity) 두면
    어두운 테마에서 배경에 잠겨 안 보인다. 크기만 줄인다. */
 .blk.is-footer{margin-top:auto}
-.blk-footer{font-size:.85em;text-align:right;padding-top:4px}
+.blk-footer{font-size:.85em;text-align:right;padding-top:4px;overflow-wrap:anywhere;min-width:0}
 /* 여러 장으로 나뉠 때 — 서명은 한 장에만 남는 것이 아니라 장마다 맨 아래에 온다.
    서명을 흐름에서 빼 캔버스 바닥에 못 박고(.foot-pin), 앞 장들의 같은 자리에는
    사본(.foot-ghost)을 깐다. 본문이 그 위로 겹치지 않게 서명이 쓸 높이만큼을
@@ -657,7 +657,8 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .cv-foot-ebook-modern .hd-nav{opacity:.5;display:flex;align-items:center;gap:3px;flex-shrink:0}
 .cv-foot-ebook-modern .hd-nav svg{width:.9em;height:.9em;fill:none;stroke:currentColor;stroke-width:2.5;
   stroke-linecap:round;stroke-linejoin:round}
-.cv-foot-ebook-modern .hd-sign{opacity:.5;flex-shrink:0;white-space:nowrap}
+/* 긴 서명도 이전·다음 영역을 밀지 않는다 — 가운데 칸 안에서 줄을 나눈다. */
+.cv-foot-ebook-modern .hd-sign{opacity:.5;flex:1;min-width:0;white-space:normal;overflow-wrap:anywhere;text-align:center;margin:0 8px}
 /* 여러 장일 때도 bottom:0 유지 — padding-bottom으로 내용 위치 조절 */
 .cv-foot-ebook-modern.eb-foot-pin{bottom:0}
 
@@ -726,7 +727,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .hd-paper{--title-pl:0px;--title-pr:0px;padding:0 0 calc(9em / 14);text-align:left;letter-spacing:0;overflow-wrap:anywhere}
 .hd-paper .paper-journal{font-size:calc(12em / 14);font-weight:600;padding-left:calc(3 * var(--title-u));line-height:1.3;margin-bottom:calc(2 * var(--title-u))}
 .hd-paper .paper-title{font-size:2em;font-weight:800;line-height:1.2;margin-bottom:calc(2 * var(--title-u))}
-.hd-paper .paper-authors{font-size:calc(10em / 14);font-weight:400;padding-left:calc(3 * var(--title-u));line-height:1.3;opacity:.6}
+.hd-paper .paper-authors{font-size:calc(10em / 14);font-weight:400;padding-left:calc(3 * var(--title-u));line-height:1.3;opacity:.6;overflow-wrap:anywhere}
 .hd-paper[data-align="center"] .paper-journal,
 .hd-paper[data-align="center"] .paper-authors{padding-left:0}
 .hd-paper[data-align="right"] .paper-journal,
@@ -744,6 +745,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 /* 시계의 원래 글꼴·크기·높이는 유지하고, 글래스 ON일 때만 표면과 윤곽을 분리한다. */
 .lock-time.is-glass{position:relative;text-shadow:none}
 .lock-time-face{position:relative;z-index:1}
+.lock-time-colon{position:relative;top:-.08em}
 .lock-glass{position:absolute;inset:0;overflow:hidden;pointer-events:none}
 .lock-time.is-raster .lock-time-face{opacity:0}
 .lock-glass > img{display:block;width:100%;height:100%;position:absolute;inset:0}
@@ -1557,6 +1559,8 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .tab-slider[data-active="1"]{transform:translateX(-100%)}
 .tab-slider[data-active="2"]{transform:translateX(-200%)}
 .tab-slider[data-active="3"]{transform:translateX(-300%)}
+.tab-slider[data-active="4"]{transform:translateX(-400%)}
+.tab-slider[data-active="5"]{transform:translateX(-500%)}
 .settings-content{
   flex:0 0 100%;min-width:0;padding:var(--sp-md);overflow-y:auto;
   max-height:calc(var(--sheet-settings-h,55dvh) - 60px);
@@ -1742,6 +1746,17 @@ body:has(.sheet.is-settling) .stage{transition:none}
 }
 .theme-card .nm{font-size:var(--fs-xs);line-height:1;color:var(--c-text-secondary,#636366);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .theme-card.is-on{border-color:var(--c-primary,#84BF93)}
+/* 서명 카드는 캐릭터 카드와 같은 줄 모양이고, 선택은 테마처럼 테두리로 표시한다.
+   내용이 길어도 카드 밖으로 넘치지 않는다. */
+.sign-card.is-on{border-color:var(--c-primary,#84BF93)}
+.sign-card .avatar{background:var(--c-surface-sunken);color:var(--c-text-secondary)}
+.sign-card .avatar svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+.sign-card:not(.sign-pick) .info{padding-right:28px}
+.sign-card .name{overflow-wrap:anywhere}
+/* 테마 편집의 서명 칸 — 고른 서명은 카드처럼, 없으면 추가 칸처럼 보이고 누르면 서명 탭으로 간다 */
+.sign-pick{width:100%;font:inherit;text-align:left}
+.sign-pick .chev{width:16px;height:16px;flex-shrink:0;stroke:var(--c-text-tertiary);fill:none;stroke-width:2}
+
 .theme-card .edit-btn{
   position:absolute;top:6px;right:6px;width:20px;height:20px;border-radius:50%;
   background:rgba(255,255,255,0.9);border:none;cursor:pointer;
@@ -2715,7 +2730,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 
            NAV      [칩들…] [+/×]   ← 작성창 바로 위. 닫히면 [+] 만 남는다.
                                        선택 삭제로 들어가면 NAV 는 닫히고 이 자리에 그 막대가 선다.
-           콘텐츠   작성창. 고른 블록이 있거나 사진·서명을 꽂는 중이면 그 아래에 서식·편집기가 붙는다
+           콘텐츠   작성창. 고른 블록이 있거나 사진을 꽂는 중이면 그 아래에 서식·편집기가 붙는다
            확정     그 콘텐츠를 확정하는 단추 하나 (묶음의 마지막)          -->
     <div class="dock" id="dock">
       <div class="sheet-head" id="sheetHead">
@@ -2744,7 +2759,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
         <div class="opt-row" id="optRow" hidden></div>
       </div>
 
-      <!-- 가운데 — 서식이거나, 사진·서명 편집기거나 -->
+      <!-- 가운데 — 서식이거나, 사진 편집기거나 -->
       <div id="formatWrap" hidden></div>
 
       <!-- 마지막 — 지금 내용을 확정하는 단추 하나 -->
@@ -2763,13 +2778,14 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
       </div>
 
       <!-- ═══════════════════════════════════════════════════════════════
-           v2 설정 패널 - 캐릭터/테마 탭 + 슬라이딩 뷰
+           v2 설정 패널 - 캐릭터/테마/서명 탭 + 슬라이딩 뷰
            ═══════════════════════════════════════════════════════════════ -->
       <div class="settings-panel" id="settingsPanel">
         <div class="tabs-line">
           <button type="button" class="tab-line is-on" data-tab="0">캐릭터</button>
           <button type="button" class="tab-line" data-tab="1">테마</button>
-          <span class="tab-indicator" id="tabIndicator" style="left:0;width:50%"></span>
+          <button type="button" class="tab-line" data-tab="2">서명</button>
+          <span class="tab-indicator" id="tabIndicator" style="left:0;width:33.333%"></span>
         </div>
         <div class="tab-slider" id="tabSlider" data-active="0">
           <!-- 0: 캐릭터 목록 -->
@@ -2840,6 +2856,32 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
           <!-- 3: 테마 편집 (동적 렌더링) -->
           <div class="settings-content" id="themeEditView">
             <div id="themeEditContent"></div>
+          </div>
+          <!-- 4: 서명 목록 / 5: 서명 편집 — 내용만 고르고 서식은 테마에 둔다 -->
+          <div class="settings-content" id="signListView">
+            <div class="settings-list" id="signListContainer"></div>
+          </div>
+          <div class="settings-content" id="signEditView">
+            <div class="edit-header">
+              <button type="button" class="back-btn" id="btnSignBack">
+                <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <span class="edit-title">편집</span>
+              <div style="flex:1"></div>
+              <button type="button" class="btn btn-outline" id="btnSignDupeV2" style="height:28px;width:28px;padding:0;" title="복사">
+                <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+              <button type="button" class="btn btn-danger" id="btnSignDeleteV2" style="height:28px;width:28px;padding:0;" title="삭제">
+                <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              </button>
+              <button type="button" class="btn btn-fill" id="btnSignSaveV2" style="height:28px;width:28px;padding:0;" title="저장">
+                <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M20 6L9 17l-5-5"/></svg>
+              </button>
+            </div>
+            <div class="setting-grid">
+              <div class="field"><label class="lab" for="signNameV2">이름</label><input type="text" class="inp" id="signNameV2" placeholder="예) 해이"></div>
+              <div class="field"><label class="lab" for="signMakerV2">제작자</label><input type="text" class="inp" id="signMakerV2" placeholder="예) @luvheil"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -3027,9 +3069,9 @@ const DEF_THEME = () => ({
      frameMood 는 미니홈피 왼쪽 쪽의 «TODAY IS ○○» 한 줄이다 — 프레임마다 제 몫의 칸이
      하나씩 생기면 여기서 갈래를 치지만, 아직은 그 하나뿐이라 이름 그대로 둔다. */
   frame: 'none', frameMood: '',
-  /* 서명 — 캔버스 맨 아래에 붙는 캐릭터·제작자 표시. v2 에서 테마 안으로 통합됐다.
-     기존 footer 블록과 병행하다가 완전히 테마로 옮긴다. */
-  signShow: true, signChar: '', signMaker: '', signAlign: 'right', signSep: '·'
+  /* 서명 — 캔버스 맨 아래에 붙는 캐릭터·제작자 표시. 내용과 표시 서식을 나누어 관리한다.
+     내용은 서명 탭에 저장하고 테마는 표시와 서식만 정한다. */
+  signShow: true, signAlign: 'right', signSep: '·'
 });
 
 /* [원본 builtinThemes · builtinThemesV2] 함께 딸려 오는 테마.
@@ -3079,8 +3121,6 @@ const PRESET_THEMES = [
     "frame": "none",
     "frameMood": "",
     "signShow": true,
-    "signChar": "해이",
-    "signMaker": "@luvheil",
     "signAlign": "right",
     "signSep": "·",
     "presetId": "kakao",
@@ -3153,8 +3193,6 @@ const PRESET_THEMES = [
     "frame": "none",
     "frameMood": "",
     "signShow": true,
-    "signChar": "해이",
-    "signMaker": "@luvheil",
     "signAlign": "right",
     "signSep": "·",
     "presetId": "line",
@@ -3227,8 +3265,6 @@ const PRESET_THEMES = [
     "frame": "none",
     "frameMood": "",
     "signShow": true,
-    "signChar": "해이",
-    "signMaker": "@luvheil",
     "signAlign": "right",
     "signSep": "·",
     "presetId": "imessage-light",
@@ -3298,8 +3334,6 @@ const PRESET_THEMES = [
     "frame": "none",
     "frameMood": "",
     "signShow": true,
-    "signChar": "해이",
-    "signMaker": "@luvheil",
     "signAlign": "right",
     "signSep": "·",
     "presetId": "imessage-dark",
@@ -3369,8 +3403,6 @@ const PRESET_THEMES = [
     "frame": "none",
     "frameMood": "",
     "signShow": true,
-    "signChar": "해이",
-    "signMaker": "@luvheil",
     "signAlign": "center",
     "signSep": "|",
     "presetId": "insta-dm",
@@ -3414,7 +3446,7 @@ const PRESET_THEMES = [
     showName: true, showAvatar: true, myName: true, myAvatar: true, roundAvatar: true,
     header: 'bubble', headerTitle: '대화상대', bubbleHeaderSubtitle: '1226',
     artistTag: true, artistTagColor: '#F080A6',
-    signShow: true, signChar: '해이', signMaker: '@luvheil',
+    signShow: true,
     bubbleShadow: false, useFont: true,
     fmt: { align: 'justify', weight: 400, font: 'Pretendard', size: 14, lineHeight: 1.6,
       letterSpacing: -0.008, blockGap: 30, vAlign: 'top', columns: 1, columnGap: 24 },
@@ -3461,8 +3493,6 @@ const PRESET_THEMES = [
     "frame": "none",
     "frameMood": "",
     "signShow": true,
-    "signChar": "해이",
-    "signMaker": "@luvheil",
     "signAlign": "right",
     "signSep": "·",
     "presetId": "ios",
@@ -3470,7 +3500,7 @@ const PRESET_THEMES = [
     "lockDate": "3월 12일 화요일",
     "lockTime": "3:08",
     "notifBg": "rgba(255,255,255,0.5)",
-    "lockGlass": false,
+    "lockGlass": true,
     "lockFg": "#404040",
     "fmt": {
       "align": "justify",
@@ -3535,8 +3565,6 @@ const PRESET_THEMES = [
     "frame": "buddy",
     "frameMood": "",
     "signShow": true,
-    "signChar": "해이",
-    "signMaker": "@luvheil",
     "signAlign": "right",
     "signSep": "·",
     "presetId": "buddy",
@@ -3608,8 +3636,6 @@ const PRESET_THEMES = [
     "frame": "cyworld",
     "frameMood": "#mood",
     "signShow": true,
-    "signChar": "해이",
-    "signMaker": "@luvheil",
     "signAlign": "right",
     "signSep": "·",
     "presetId": "cyworld",
@@ -3681,8 +3707,6 @@ const PRESET_THEMES = [
     "frame": "none",
     "frameMood": "",
     "signShow": true,
-    "signChar": "해이",
-    "signMaker": "@luvheil",
     "signAlign": "right",
     "signSep": "·",
     "presetId": "simple-white",
@@ -3751,8 +3775,6 @@ const PRESET_THEMES = [
     "frame": "none",
     "frameMood": "",
     "signShow": true,
-    "signChar": "해이",
-    "signMaker": "@luvheil",
     "signAlign": "right",
     "signSep": "·",
     "presetId": "simple-grey",
@@ -3821,8 +3843,6 @@ const PRESET_THEMES = [
     "frame": "none",
     "frameMood": "",
     "signShow": true,
-    "signChar": "해이",
-    "signMaker": "@luvheil",
     "signAlign": "right",
     "signSep": "·",
     "presetId": "simple-black",
@@ -3891,12 +3911,10 @@ const PRESET_THEMES = [
     "frame": "none",
     "frameMood": "",
     "signShow": true,
-    "signChar": "해이",
-    "signMaker": "@luvheil",
     "signAlign": "right",
     "signSep": "·",
     "presetId": "chapter",
-    "groupRuns": false,
+    "groupRuns": true,
     "paperJournal": "소제목",
     "paperTitle": "제목",
     "paperAuthors": "해이 | @luvheil",
@@ -3966,8 +3984,6 @@ const PRESET_THEMES = [
     "frame": "none",
     "frameMood": "",
     "signShow": true,
-    "signChar": "해이",
-    "signMaker": "@luvheil",
     "signAlign": "right",
     "signSep": "·",
     "presetId": "square-white",
@@ -4039,8 +4055,6 @@ const PRESET_THEMES = [
     "frame": "none",
     "frameMood": "",
     "signShow": true,
-    "signChar": "해이",
-    "signMaker": "@luvheil",
     "signAlign": "right",
     "signSep": "·",
     "presetId": "square-black",
@@ -4112,8 +4126,6 @@ const PRESET_THEMES = [
     "frame": "none",
     "frameMood": "",
     "signShow": true,
-    "signChar": "해이",
-    "signMaker": "@luvheil",
     "signAlign": "right",
     "signSep": "·",
     "presetId": "twitter",
@@ -4184,8 +4196,6 @@ const PRESET_THEMES = [
     "frame": "none",
     "frameMood": "",
     "signShow": true,
-    "signChar": "해이",
-    "signMaker": "@luvheil",
     "signAlign": "right",
     "signSep": "·",
     "canvas": {
@@ -4256,8 +4266,6 @@ const PRESET_THEMES = [
     "frame": "none",
     "frameMood": "",
     "signShow": true,
-    "signChar": "해이",
-    "signMaker": "@luvheil",
     "signAlign": "right",
     "signSep": "·",
     "presetId": "script",
@@ -4320,6 +4328,7 @@ function freshPreset(t) {
 
 const S = {
   blocks: [], characters: [], themes: [], activeThemeId: null,
+  signatures: [], activeSignId: null,
   /* [원본 lyLh · lyBlockGap · lyGap] 행간=줄 높이 배수 · 문단 간격=글 블록 사이 · 말풍선 간격=다른 화자 사이 */
   /* vAlign — 한 장 안에서 내용 묶음을 어디에 놓는가(위 / 가운데). 비율을 지정한 판형에서만
      쓸모가 있다 — 내용에 맞춤은 높이가 내용을 따라오므로 남는 자리가 없다. */
@@ -4337,7 +4346,8 @@ const S = {
     snap: null, snapLast: 45,
     selectedBlockId: null, editingCharacterId: null, charDraft: null,
     editingThemeId: null, themeDraft: null,
-    /* 새로 꽂을 사진·서명을 고르는 중인가 — 그때는 서식 패널이 그 편집기를 편다 */
+    editingSignId: null, signDraft: null,
+    /* 새로 꽂을 사진을 고르는 중인가 — 그때는 서식 패널이 그 편집기를 편다 */
     newKind: null, newSrc: '',
     draftImage: null, draftRound: true, draftSize: 60, draftMargin: 0,
     confirmDel: null
@@ -4386,16 +4396,8 @@ addEventListener('unhandledrejection', e => diag('window:unhandledrejection', {
   message: String(e && e.reason && (e.reason.message || e.reason) || '').slice(0, 180)
 }));
 /* 기본값을 바꾸면 올린다. 저장본의 판이 낮으면 내용은 지키고 기본값만 새로 잡는다. */
-const SCHEMA = 16;
-/* 제작자 서명은 늘 블록 목록의 맨 끝이어야 한다.
-   CSS 의 margin-top:auto 는 '자기 뒤에 아무것도 없을 때' 만 바닥에 붙는다. 서명을 넣은 뒤
-   글을 더 쓰면 새 블록이 서명 뒤로 붙어 서명이 가운데로 밀려 올라갔다.
-   화면 순서만 바꾸면 끌어 옮기기가 쓰는 배열 첨자와 어긋나므로 배열 자체를 정리한다. */
-function pinFooter() {
-  const rest = S.blocks.filter(b => b.type !== 'footer');
-  if (rest.length === S.blocks.length) return;
-  S.blocks = rest.concat(S.blocks.filter(b => b.type === 'footer'));
-}
+const SCHEMA = 17;
+const SIGNATURE_SCHEMA = 17;
 /* 저장이 조용히 실패하면 안 된다 — 특히 캐릭터 이미지처럼 큰 값을 넣은 직후에
    용량이 넘치면, 화면에는 멀쩡히 보이는데 새로고침하면 사라져 원인을 알 수 없다. */
 let _quotaWarned = false;
@@ -4408,7 +4410,7 @@ let _quotaWarned = false;
 const HIST_MAX = 80, HIST_MERGE_MS = 700;
 let _histPrev = null, _undoS = [], _redoS = [], _histAt = 0, _histLock = false;
 const snapOf = () => JSON.stringify({ v: SCHEMA, blocks: S.blocks, characters: S.characters,
-  themes: S.themes, activeThemeId: S.activeThemeId, format: S.format, canvas: S.canvas, colors: S.colors });
+  themes: S.themes, activeThemeId: S.activeThemeId, signatures: S.signatures, activeSignId: S.activeSignId, format: S.format, canvas: S.canvas, colors: S.colors });
 function histRecord() {
   if (_histLock) return;
   const now = Date.now();
@@ -4428,12 +4430,19 @@ function histApply(json) {
   try {
     S.blocks = d.blocks || []; S.characters = d.characters || [];
     S.themes = d.themes || []; S.activeThemeId = d.activeThemeId;
+    S.signatures = d.signatures || []; S.activeSignId = d.activeSignId ?? null;
     Object.assign(S.format, d.format || {});
     Object.assign(S.canvas, d.canvas || {});
     Object.assign(S.colors, d.colors || {});
     /* 되돌린 판에 없는 블록을 고르고 있으면 편집 대상을 놓는다 */
     if (!S.blocks.some(x => x.id === S.ui.selectedBlockId)) S.ui.selectedBlockId = null;
     S.ui.themeDraft = null; S.ui.charDraft = null; S.ui.imagePreview = null;
+    S.ui.editingSignId = null; S.ui.signDraft = null;
+    S.ui.editingThemeId = null; S.ui.editingCharacterId = null; S.ui.canvasSnapshot = null;
+    validateState();
+    const settingsTab = tabOfView(Number($('#tabSlider').dataset.active));
+    setSettingsView(settingsTab * 2);
+    SETTINGS_LISTS[settingsTab]();
     try {
       localStorage.setItem(KEY, json);
       _quotaWarned = false;
@@ -4490,6 +4499,8 @@ function validateState() {
   if (!S.themes.some(t => t.id === S.activeThemeId)) {
     S.activeThemeId = S.themes[0]?.id;
   }
+  /* 없는 선택은 서명 없음이다 — 빈 목록을 기본값으로 채우지 않는다. */
+  if (!S.signatures.some(x => x.id === S.activeSignId)) S.activeSignId = null;
   /* 3. selectedBlockId 검증: 존재하지 않으면 해제 */
   if (S.ui.selectedBlockId && !S.blocks.some(b => b.id === S.ui.selectedBlockId)) {
     S.ui.selectedBlockId = null;
@@ -4513,11 +4524,10 @@ function validateState() {
 
 const save = () => {
   validateState();
-  pinFooter();
   histRecord();
   syncHistBtns();
   try {
-    localStorage.setItem(KEY, JSON.stringify({ v: SCHEMA, blocks: S.blocks, characters: S.characters, themes: S.themes, activeThemeId: S.activeThemeId, format: S.format, canvas: S.canvas, colors: S.colors }));
+    localStorage.setItem(KEY, JSON.stringify({ v: SCHEMA, blocks: S.blocks, characters: S.characters, themes: S.themes, activeThemeId: S.activeThemeId, signatures: S.signatures, activeSignId: S.activeSignId, format: S.format, canvas: S.canvas, colors: S.colors }));
     _quotaWarned = false;
   } catch (e) {
     diag('save:error', { name: e && e.name ? e.name : 'unknown' });
@@ -4531,12 +4541,14 @@ const save = () => {
   }
 };
 function load() {
-  let loaded = null;
+  let loaded = null, signSource = null;
   try {
     const d = JSON.parse(localStorage.getItem(KEY) || 'null');
     loaded = d;
+    /* 테마 이전이 원본 배열도 고치므로 서명은 먼저 별도 복사해 둔다. */
+    signSource = d && JSON.parse(JSON.stringify(d));
     if (d) {
-      Object.assign(S, { blocks: d.blocks || [], characters: d.characters || [], themes: d.themes || [], activeThemeId: d.activeThemeId });
+      Object.assign(S, { blocks: d.blocks || [], characters: d.characters || [], themes: d.themes || [], activeThemeId: d.activeThemeId, signatures: [], activeSignId: null });
       /* 판이 낮은 저장본은 예전 기본값(행간 100 · 여백 30 …)을 그대로 들고 있다.
          블록·캐릭터·테마는 지키고 서식·캔버스만 새 기본값으로 되돌린다. */
       /* 판 8 부터는 서식·판형의 기본값이 지금과 같다 — 그 뒤로 판이 오른 것은 신문 테마
@@ -4649,8 +4661,7 @@ function load() {
       c.position = 'left';
     }
   });
-  /* 서명이 가운데 끼어 있는 채로 저장된 예전 작업본을 들여올 때 여기서 한 번 바로잡는다 */
-  pinFooter();
+  /* 예전 서명 블록은 아래 내용 이전이 끝난 뒤 블록 목록에서 제거한다 */
   /* 꼬리 미세 조정을 두던 시절의 값 — 지금은 프리셋이 전부 정하므로 남겨 두면 헷갈리기만 한다 */
   S.themes.forEach(t => { delete t.tailAdj; });
   /* 굵기 눈금을 400/600/800 에서 400/500/600 으로 좁혔다. 예전 값이 그대로 남으면
@@ -4706,6 +4717,17 @@ function load() {
     S.themes.forEach(t => { if (t.bubbleStyle === 'notif') t.groupRuns = true; });
   }
 
+  if (!loaded) {
+    S.signatures = [SIGN_SEED()];
+    S.activeSignId = S.signatures[0].id;
+  } else {
+    const converted = normalizeSignatureData(signSource, (loaded.v || 0) < SIGNATURE_SCHEMA);
+    S.signatures = converted.signatures;
+    S.activeSignId = converted.activeSignId;
+  }
+  S.blocks = S.blocks.filter(b => b.type !== 'footer');
+  S.themes.forEach(stripLegacySign);
+  validateState();
 }
 /* 테마를 고치는 동안에는 저장소가 아니라 초안을 돌려준다 — 캔버스가 곧 미리보기가 된다.
    저장소(S.themes)는 [저장] 을 누를 때까지 그대로 있으므로 되돌리기가 공짜다.
@@ -4717,6 +4739,67 @@ const theme = () => {
   /* S.themes가 비어있을 경우 DEF_THEME() fallback */
   return S.themes.find(t => t.id === S.activeThemeId) || S.themes[0] || DEF_THEME();
 };
+/* 서명 내용은 공통 목록, 표시와 서식은 테마다 — 초안은 확정 전 캔버스에 쓰지 않는다. */
+const SIGN_SEED = () => ({ id: uid(), charName: '해이', maker: '@luvheil' });
+const signField = x => typeof x === 'string' ? x.trim() : '';
+/* 옛 블록에 걸린 인라인 꾸밈도 벗긴다 — 화면에 보이던 글자만 내용으로 옮긴다. */
+function legacyFooterContent(value) {
+  const box = document.createElement('template');
+  box.innerHTML = applyInline(signField(value));
+  return box.content.textContent.trim();
+}
+const activeSign = () => S.signatures.find(x => x.id === S.activeSignId) || null;
+function signatureText(s, th) {
+  return s ? [signField(s.charName), signField(s.maker)].filter(Boolean)
+    .join(th.signSep === '|' ? ' | ' : ' · ') : '';
+}
+const signText = th => signatureText(activeSign(), th);
+const signIsDecor = th => frameKind(th) === 'buddy' || headKind(th) === 'ebook-modern';
+function stripLegacySign(t) { delete t.signChar; delete t.signMaker; return t; }
+/* 저장본과 설정 파일은 같은 입구에서 정규화한다 — 以後は古い内容フィールドを読まない。 */
+function normalizeSignatureData(d, legacy = true) {
+  const list = [], used = new Set(), ids = new Map();
+  const add = (c, m, id, dedup = false) => {
+    c = signField(c); m = signField(m);
+    if (!c && !m) return null;
+    let item = dedup && list.find(x => x.charName === c && x.maker === m);
+    if (!item) {
+      const next = typeof id === 'string' && id && !used.has(id) ? id : uid();
+      item = { id: next, charName: c, maker: m }; list.push(item); used.add(next);
+    }
+    if (typeof id === 'string' && !ids.has(id)) ids.set(id, item.id);
+    return item;
+  };
+  let selected = null;
+  if (Array.isArray(d?.signatures)) {
+    d.signatures.forEach(x => { if (x && typeof x === 'object') add(x.charName, x.maker, x.id); });
+    selected = ids.get(d.activeSignId) || null;
+  } else if (legacy) {
+    const themes = Array.isArray(d?.themes) ? d.themes.filter(x => x && typeof x === 'object') : [];
+    const blocks = Array.isArray(d?.blocks) ? d.blocks : [];
+    let fromBlock = null;
+    blocks.filter(b => b && b.type === 'footer').forEach(b => {
+      const c = legacyFooterContent(b.charName), m = legacyFooterContent(b.maker);
+      const item = add(c, m || (!c ? legacyFooterContent(b.text) : ''), null, true);
+      if (item) fromBlock = item;
+    });
+    themes.forEach(t => add(t.signChar, t.signMaker, null, true));
+    const t = themes.find(t => t.id === d.activeThemeId) || themes[0];
+    const fromTheme = t && add(t.signChar, t.signMaker, null, true);
+    selected = (fromBlock || fromTheme)?.id || null;
+  }
+  return { signatures: list, activeSignId: selected };
+}
+/* 구 설정 파일도 읽을 때 내용을 별도 갈래로 옮긴다 — 테마만 가져오면 선택은 유지된다. */
+function normalizeSettingsSignatures(d) {
+  if (!d || typeof d !== 'object') return d;
+  const copy = JSON.parse(JSON.stringify(d));
+  const old = Array.isArray(copy.themes) && copy.themes.some(t => t && (Object.hasOwn(t, 'signChar') || Object.hasOwn(t, 'signMaker')));
+  if (Array.isArray(copy.signatures) || old) Object.assign(copy, normalizeSignatureData(copy));
+  if (Array.isArray(copy.themes)) copy.themes.forEach(t => { if (t && typeof t === 'object') stripLegacySign(t); });
+  return copy;
+}
+
 /* 글자 서식은 테마가 소유한다. S.format은 예전 저장본과 설정 파일에서 테마 값을
    처음 채우기 위한 호환 기본값으로만 남긴다. */
 function ensureThemeFormat(t) {
@@ -4747,7 +4830,7 @@ const isTopAlign = () => (fmt().vAlign || 'center') === 'top';
 const charOf = id => S.characters.find(c => c.id === id);
 const selBlock = () => S.blocks.find(b => b.id === S.ui.selectedBlockId);
 /* 작성창에서 고칠 글자가 있는 종류 */
-/* 작성창에서 글을 직접 치는 블록. 서명은 칸이 둘(캐릭터·제작자)이라 여기 없다 —
+/* 작성창에서 글을 직접 치는 블록. 서명 내용은 설정 탭에서 고치므로 여기 없다 —
    사진·가로선처럼 따로 여는 창에서 고친다. */
 const HAS_TEXT = ['text', 'html'];
 
@@ -5883,6 +5966,7 @@ function closeSettingsPanel() {
 
   /* 테마/캐릭터 수정 중이면 확인 모달 표시 */
   const doClose = () => {
+    S.ui.editingSignId = null; S.ui.signDraft = null;
     toggleSettingsPanel(false);
     setSnap(null);
     /* 탭 UI 초기화 — 다음에 열 때 캐릭터 목록으로 */
@@ -5896,6 +5980,7 @@ function closeSettingsPanel() {
 
   if (confirmDiscardThemeDraft(doClose)) return;
   if (confirmDiscardCharDraft(doClose)) return;
+  if (confirmDiscardSignDraft(doClose)) return;
   doClose();
 }
 
@@ -5943,7 +6028,8 @@ function initComposerV2() {
   });
 
   /* btnAdd: 전송 모드면 커밋, 아니면 액션 메뉴 토글 — 다른 모든 UI 닫음 */
-  bindStickyTap(BTN_ADD, () => {
+  bindStickyTap(BTN_ADD, function toggleAddMenu() {
+    if (S.ui.stage === 'tools' && confirmDiscardSettingsDraft(toggleAddMenu)) return;
     syncBtnAddState();
     if (BTN_ADD.classList.contains('is-send')) {
       commitWithCleanup();
@@ -5955,6 +6041,7 @@ function initComposerV2() {
     if (S.ui.stage === 'tools') {
       if (confirmDiscardThemeDraft(() => { closeToolsToComposer(); })) return;
       if (confirmDiscardCharDraft(() => { closeToolsToComposer(); })) return;
+      if (confirmDiscardSignDraft(() => { closeToolsToComposer(); })) return;
       closeToolsToComposer();
     }
     /* 액션 메뉴 토글 */
@@ -5987,6 +6074,7 @@ function initComposerV2() {
       };
       if (confirmDiscardThemeDraft(doClose)) return;
       if (confirmDiscardCharDraft(doClose)) return;
+      if (confirmDiscardSignDraft(doClose)) return;
     }
     closeAllOverlays();
   });
@@ -6183,10 +6271,8 @@ function frameNode(th) {
       el('i', 'fbi fbi-emo'), el('i', 'fbi fbi-img'), el('i', 'fbi fbi-clip'));
     const input = el('div', 'fb-input');
     input.appendChild(frTxt('fb-send', '보내기(S)'));
-    /* 만든이 — 서명이 켜져 있으면 서명 내용, 아니면 대화명(headerTitle) */
-    const maker = th.signShow
-      ? [th.signChar, th.signMaker].filter(Boolean).join(th.signSep === '|' ? ' | ' : ' · ')
-      : (name || '버디버디');
+    /* 만든이 — 선택 서명을 표시하고, 없으면 대화명으로 채운다 */
+    const maker = signText(th) || name || '버디버디';
     panel.append(chat, icons, input,
       frRow('fb-status', frTxt('', '만든이 : ' + maker)));
     body.appendChild(panel);
@@ -6256,7 +6342,7 @@ function renderCanvas() {
     (preview.blockId ? S.ui.selectedBlockId === preview.blockId : S.ui.newKind === 'image');
   const blocks = previewActive
     ? (preview.blockId ? S.blocks.map(b => b.id === preview.blockId ? { ...b, ...preview.block } : b)
-      : [...S.blocks.filter(b => b.type !== 'footer'), preview.block, ...S.blocks.filter(b => b.type === 'footer')])
+      : [...S.blocks, preview.block])
     : S.blocks;
   /* 이전 렌더의 중앙 정렬과 서명 자리가 페이지 높이 계산에 섞이지 않게 먼저 푼다. */
   cv.classList.remove('ratio-center', 'foot-pinned');
@@ -6410,22 +6496,17 @@ function renderCanvas() {
     const hd = headerNode(th);
     if (hd) cv.appendChild(hd);
     blocks.forEach((b, i) => cv.appendChild(renderBlock(b, th, f, blocks[i - 1], blocks[i + 1])));
-    /* ── 테마 서명 (v2) ──────────────────────────────────────────
-       footer 블록이 없고 테마에 서명이 켜져 있으면 테마 서명을 그린다.
-       기존 footer 블록이 있으면 그쪽이 우선한다 — 호환을 위해 둘 다 쓸 수 있게 둔다.
-       버디버디 프레임은 만든이 영역에 서명이 들어가므로 본문 서명은 그리지 않는다.
-       이북 헤더는 하단 푸터에 서명이 들어가므로 여기서는 그리지 않는다. */
-    const hasFooterBlock = S.blocks.some(b => b.type === 'footer');
+    /* 서명 내용은 선택된 목록에서 읽고, 배치와 서식은 테마를 따른다. */
     const isBuddyFrame = frameKind(th) === 'buddy';
     const hdKind = headKind(th);
     const isEbookHead = hdKind === 'ebook-modern';
     const isPaperHead = hdKind === 'paper'; /* 통합 제목는 서명을 저자 위치에 표시 */
-    if (!hasFooterBlock && th.signShow && !isBuddyFrame && !isEbookHead && !isPaperHead) {
-      const signText = [th.signChar, th.signMaker].filter(Boolean).join(th.signSep === '|' ? ' | ' : ' · ');
-      if (signText) {
+    if (th.signShow && !isBuddyFrame && !isEbookHead && !isPaperHead) {
+      const text = signText(th);
+      if (text) {
         const signWrap = el('div', 'blk is-footer');
         const signEl = el('div', 'blk-footer');
-        signEl.textContent = signText;
+        signEl.textContent = text;
         signEl.style.textAlign = th.signAlign || 'right';
         signEl.style.fontSize = (f.size * 0.85) + 'px';
         signEl.style.color = th.fg;
@@ -6488,14 +6569,17 @@ function lockClockMask(face, w, h) {
   const y = (h - ascent - descent) / 2 + ascent;
   // tabular-nums의 글자 폭은 Canvas 기본 숫자 폭과 다르므로 실제 DOM 위치를 따른다.
   const box = face.parentElement.getBoundingClientRect(), scale = box.width / w || 1;
-  const range = document.createRange(), source = face.firstChild;
-  let offset = 0;
+  const range = document.createRange();
+  const walker = document.createTreeWalker(face, NodeFilter.SHOW_TEXT);
+  let source = walker.nextNode(), offset = 0;
   g.fillStyle = '#fff';
   chars.forEach(ch => {
+    while (source && offset >= source.length) { source = walker.nextNode(); offset = 0; }
+    if (!source) return;
     range.setStart(source, offset); offset += ch.length; range.setEnd(source, offset);
     const r = range.getBoundingClientRect(), glyphW = g.measureText(ch).width;
     const x = (r.left - box.left) / scale + (r.width / scale - spacing - glyphW) / 2;
-    g.fillText(ch, x, y);
+    g.fillText(ch, x, y - (ch === ':' ? px * .08 : 0));
   });
   return c.toDataURL('image/png');
 }
@@ -6855,7 +6939,7 @@ function renderBlock(b, th, f, prev, next) {
       d.style.cssText = 'height:0;border-top:1px dashed currentColor;background:transparent;opacity:0.18;';
     } else {
       /* star, wave — 텍스트 */
-      const sym = st === 'star' ? '✦ ✦ ✦' : st === 'wave' ? '〰〰〰' : '───';
+      const sym = st === 'star' ? '✦ ✦ ✦' : st === 'wave' ? '〰︎〰︎〰︎' : '───';
       d.style.cssText = 'height:auto;background:transparent;text-align:center;opacity:0.4;font-size:14px;letter-spacing:4px;';
       d.textContent = sym;
     }
@@ -6902,17 +6986,6 @@ function renderBlock(b, th, f, prev, next) {
     /* 크기 단계 [SIZE_LV] — 말풍선은 여백·모서리 상한이 모두 em 이라 함께 따라 커진다 */
     if (b.sizeLv) t.style.fontSize = (f.size * (SIZE_LV[b.sizeLv] || 1)) + 'px';
   };
-
-  if (b.type === 'footer') {
-    /* 서명은 캔버스 맨 아래 오른쪽에 고정한다. flex column 이라 margin-top:auto 면 바닥으로 밀린다. */
-    wrap.classList.add('is-footer');
-    const d = el('div', 'blk-footer');
-    d.innerHTML = applyInline(footerText(b));
-    /* 예전에는 style() 앞에서 돌려보내 정렬·굵기·색이 하나도 안 먹었다 */
-    style(d);
-    if (!b.align) d.style.textAlign = 'right';   /* 서명의 기본 자리는 오른쪽이다 */
-    wrap.appendChild(d); return wrap;
-  }
 
   if (b.asBubble) {
     const ch = charOf(b.speakerId);
@@ -7536,21 +7609,24 @@ function headerNode(th) {
     const classes = kind === 'lock-clock' ? ['lock-date', 'lock-time'] : ['paper-journal', 'paper-title'];
     TITLE_HEADER_FIELDS[kind].forEach(([key], i) => {
       const node = Object.assign(el('div', classes[i]), { textContent: titleHeaderValue(th, key) });
-      if (kind === 'lock-clock' && i === 1 && th.lockGlass) {
-        node.classList.add('is-glass');
+      if (kind === 'lock-clock' && i === 1) {
+        node.classList.toggle('is-glass', !!th.lockGlass);
         if (th.lockFg) {
           node.style.setProperty('--lock-glass-color', th.lockFg);
         }
-        const face = el('span', 'lock-time-face', node.textContent);
+        const face = el('span', 'lock-time-face');
+        node.textContent.split(/(:)/).forEach(part => {
+          face.append(part === ':' ? el('span', 'lock-time-colon', part) : document.createTextNode(part));
+        });
         node.replaceChildren(face);
       }
       if (kind === 'paper' && i === 0) node.style.color = titleTagColor(th);
       head.appendChild(node);
     });
     /* 통합 제목: 서명을 저자 위치에 표시 */
-    if (kind === 'paper' && th.signShow && (th.signChar || th.signMaker)) {
+    if (kind === 'paper' && th.signShow && signText(th)) {
       const authors = el('div', 'paper-authors');
-      authors.textContent = [th.signChar, th.signMaker].filter(Boolean).join(th.signSep === '|' ? ' | ' : ' · ');
+      authors.textContent = signText(th);
       head.appendChild(authors);
     }
     return head;
@@ -7741,36 +7817,6 @@ function headerNode(th) {
   return head;
 }
 
-/* 이북 푸터 — 하단 네비게이션 바.
-   구조: 구분선 + «< 이전권» + 서명(캐릭터·제작자) + «다음권 >»
-   장식 용도라 기능 없이 모양만 갖춘다. */
-function ebookFooterNode(th) {
-  const foot = el('div', 'cv-foot-ebook');
-  foot.style.color = th.fg;
-  /* 선 색상 → 배경색 (선 색상의 옅은 버전) */
-  if (th.ebookColor) {
-    foot.style.setProperty('--hd-ebook-line', th.ebookColor);
-    foot.style.setProperty('--hd-ebook-bg', rgbaOf(th.ebookColor, 12));
-  }
-  /* 상단 구분선 */
-  foot.appendChild(el('i', 'hd-rule'));
-  /* 3열 그리드: 이전권 / 서명 / 다음권 */
-  const row = el('div', 'hd-row');
-  const left = el('div', 'hd-nav');
-  left.appendChild(hdIcon('back'));
-  left.appendChild(Object.assign(el('span'), { textContent: '이전권' }));
-  const signText = [th.signChar, th.signMaker].filter(Boolean).join(th.signSep === '|' ? ' | ' : ' · ');
-  const mid = Object.assign(el('div', 'hd-sign'), { textContent: signText });
-  const right = el('div', 'hd-nav right');
-  right.appendChild(Object.assign(el('span'), { textContent: '다음권' }));
-  const fwdIcon = hdIcon('back');
-  fwdIcon.style.transform = 'scaleX(-1)';
-  right.appendChild(fwdIcon);
-  row.append(left, mid, right);
-  foot.appendChild(row);
-  return foot;
-}
-
 /* 이북 모던 푸터 — 하단 네비게이션.
    구조: «< 이전» + 서명 + «다음 >» */
 function ebookModernFooterNode(th) {
@@ -7784,8 +7830,8 @@ function ebookModernFooterNode(th) {
   const left = el('div', 'hd-nav');
   left.appendChild(hdIcon('back'));
   left.appendChild(Object.assign(el('span'), { textContent: '이전' }));
-  const signText = [th.signChar, th.signMaker].filter(Boolean).join(th.signSep === '|' ? ' | ' : ' · ');
-  const mid = Object.assign(el('div', 'hd-sign'), { textContent: signText });
+  const text = signText(th);
+  const mid = Object.assign(el('div', 'hd-sign'), { textContent: text });
   const right = el('div', 'hd-nav');
   right.appendChild(Object.assign(el('span'), { textContent: '다음' }));
   const fwdIcon = hdIcon('back');
@@ -8400,6 +8446,7 @@ function setStage(st, keepNav) {
   /* 나가는 길이면 먼저 묻는다 — 답을 받고 나서 같은 자리로 다시 온다 */
   if (closesTools && confirmDiscardThemeDraft(() => setStage(st, keepNav))) return;
   if (closesTools && confirmDiscardCharDraft(() => setStage(st, keepNav))) return;
+  if (closesTools && confirmDiscardSignDraft(() => setStage(st, keepNav))) return;
   S.ui.newKind = null;
   /* NAV 는 그 안에서 벌어진 일일 때만 열려 있는다. 자리를 옮기는 것은 NAV 밖의 일이다 —
      칩을 눌러 들어온 길은 그 핸들러가 다시 열어 준다. NAV 단추가 스스로 자리를 옮기는
@@ -8415,6 +8462,7 @@ function setStage(st, keepNav) {
   S.ui.panel = (st === 'tools' || st === 'format') ? 'full' : (S.ui.panel || 'compact');
   if (closesTools) {
     S.ui.editingCharacterId = null; S.ui.charDraft = null;
+    S.ui.editingSignId = null; S.ui.signDraft = null;
     S.ui.editingThemeId = null; S.ui.themeDraft = null; S.ui.canvasSnapshot = null;
     /* 탭 UI 초기화 — 다음에 열 때 캐릭터 목록으로 */
     resetSettingsTabUI();
@@ -8564,6 +8612,7 @@ function closeToolsToComposer() {
   };
   if (confirmDiscardThemeDraft(doClose)) return;
   if (confirmDiscardCharDraft(doClose)) return;
+  if (confirmDiscardSignDraft(doClose)) return;
   doClose();
 }
 function syncDesktopFloatNav() {
@@ -8597,7 +8646,7 @@ window.addEventListener('resize', () => {
   _wasWide = now;
   /* 넓을 때는 도구가 늘 떠 있어 다른 단계에서도 초안을 안고 있을 수 있다. 좁아지면 그
      편집기가 화면에서 사라지므로, 고치던 것이 있으면 도구 단계로 데려가 눈앞에 남긴다. */
-  if (!now && themeDraftDirty() && S.ui.stage !== 'tools') { setStage('tools'); return; }
+  if (!now && (themeDraftDirty() || charDraftDirty() || signDraftDirty()) && S.ui.stage !== 'tools') { setStage('tools'); return; }
   render();
   /* 2패널로 넓어지면 설정 패널을 연다 */
   if (is2Panel()) toggleSettingsPanel(true);
@@ -8630,7 +8679,7 @@ function autoGrow() { measureSheet(); }
 
 /* ── 삽입 ────────────────────────────────────────────────── */
 /* 그림 하나 + 이름. 좁은 화면에서는 이름이 접히고 그림만 남는다 [CSS .chip-word] */
-/* v2: 서명은 테마 설정으로 이동, 선택 삭제는 상단바 버튼으로 이동 */
+/* v2: 서명은 설정의 서명 탭으로 이동, 선택 삭제는 상단바 버튼으로 이동 */
 const INSERTS = [
   { k: 'image',   ic: '🖼️', label: '이미지', on: '이미지 변경' },
   { k: 'html',    ic: '🧩', label: 'HTML',   on: 'HTML 편집' },
@@ -8638,7 +8687,7 @@ const INSERTS = [
   { k: 'divider', ic: '➖', label: '구분선', on: '구분선' }
 ];
 
-/* NAV 안에서 벌어진 일인가 — 사진·HTML·서명을 꽂는 중이면 NAV 는 열린 채로 둔다.
+/* NAV 안에서 벌어진 일인가 — 사진·HTML을 꽂는 중이면 NAV 는 열린 채로 둔다.
    그래야 [×] 로 되돌아올 길이 남는다. 블록을 고르는 것처럼 NAV 밖 일이면 닫는다. */
 const navBusy = () => !!S.ui.newKind || S.ui.insertMode === 'html';
 /* 작성 묶음이 손 안 댄 처음 상태인가. 아니라면 NAV 단추는 '닫고 기본으로'(×) 가 된다 —
@@ -8665,9 +8714,9 @@ function renderComposer() {
   if (toolsNarrow) { $('#optRow').hidden = true; }
 
   const b = selBlock();
-  /* 사진·서명·음악·HTML·구분선은 칸이 따로 있어 작성창을 쓰지 않는다 — 그동안 작성창은 쉰다.
+  /* 사진·음악·HTML·구분선은 칸이 따로 있어 작성창을 쓰지 않는다 — 그동안 작성창은 쉰다.
      텍스트 블록은 기존 #ta를 사용해야 hasSel(), formatSelection() 등이 동작한다. */
-  const editorOn = !!S.ui.newKind || (!!b && (b.type === 'image' || b.type === 'footer' || b.type === 'music' || b.type === 'html' || b.type === 'divider'));
+  const editorOn = !!S.ui.newKind || (!!b && (b.type === 'image' || b.type === 'music' || b.type === 'html' || b.type === 'divider'));
   $('#composerInput').hidden = editorOn;
 
   ta.placeholder = S.ui.insertMode === 'html'
@@ -8888,7 +8937,7 @@ function renderFormat() {
      아무 블록에도 안 걸린 «전체 기본값» 이라, 쓰는 사람 눈에는 '지금 쓰는 글의 서식'
      처럼 보이면서 실제로는 그렇지 않은 손잡이였다. 전체 기본값은 도구 › 서식 설정에 있다.
        · 블록을 고른 동안        — 그 블록의 서식
-       · 사진·서명을 꽂는 동안   — 그 편집기
+       · 사진을 꽂는 동안   — 그 편집기
        · HTML 을 적는 동안       — 아무것도 (태그를 그대로 넣는 자리라 글자 서식이 낄 데가 없다) */
   const b = selBlock();
   const on = S.ui.insertMode !== 'html' && (!!b || !!S.ui.newKind);
@@ -8926,7 +8975,7 @@ function renderFormat() {
   }
 
   /* 글자가 없는 블록에는 글자 서식을 띄우지 않는다 */
-  const isText = !b || b.type === 'text' || b.type === 'footer';
+  const isText = !b || b.type === 'text';
 
   /* 텍스트 블록은 전용 편집기를 쓴다 — v2 구조: 입력란 + 대사/서술 탭 + 캐릭터 + 서식 */
   if (b && b.type === 'text') {
@@ -8964,17 +9013,7 @@ function renderFormat() {
     wrap.appendChild(host);
     return;
   }
-  /* 서명은 두 칸을 먼저 두고, 그 아래에 글자 서식(글꼴·정렬·서식)을 이어 붙인다.
-     한 블록의 일을 한 패널에서 끝낸다 — 예전처럼 취소를 눌러야 서식이 보이지 않는다. */
-  if (b && b.type === 'footer') {
-    const host = el('div', 'sec');
-    buildFooterEditor(host, b);
-    /* 위는 '무엇을 적는가', 아래는 '어떻게 보이는가' — 성격이 갈리므로 선으로 끊는다 */
-    host.appendChild(el('div', 'divider'));
-    wrap.appendChild(host);
-  } else if (!isText) {
-    return;
-  }
+  if (!isText) return;
 
   /* 줄 순서는 '이 블록이 무엇인가' → '어떻게 보이는가' 순이다.
      글꼴과 말풍선 여부가 블록의 성격을 정하고, 정렬·색·서식·주석은 그 안의 꾸밈이다.
@@ -9151,9 +9190,7 @@ function renderFormat() {
     });
     g4.appendChild(btn);
   });
-  /* 서명에 윗주석·아랫주석을 달 일은 없다 — 이름 한 줄이다. 글꼴·정렬·서식·색만 남긴다. */
-  if (b && b.type === 'footer') l2.appendChild(g3);
-  else l2.append(g3, el('div', 'tool-sep'), g4);
+  l2.append(g3, el('div', 'tool-sep'), g4);
 
   /* 이 시트는 '고른 블록 하나' 를 고친다. 도구 › 서식 설정은 '전체 기본값' 이다.
      여기서 한 번이라도 건드린 항목은 그 블록의 값이 되어, 그 뒤로 전체 설정을 바꿔도
@@ -9579,12 +9616,14 @@ function pickerModal(title, sub, items, actLabel, actClass, onApply, extra) {
 }
 
 function openResetModal() {
+  if (confirmDiscardSettingsDraft(openResetModal)) return;
   pickerModal(
     '초기화할 항목을 선택하세요',
     '선택한 항목만 기본 상태로 되돌립니다. 선택하지 않은 항목은 그대로 유지됩니다.',
     [
       ['characters', '캐릭터 프리셋', '등록한 캐릭터 목록을 삭제합니다.'],
       ['themes', '테마 프리셋', `추가 · 수정한 테마를 없애고 기본 테마 ${PRESET_THEMES.length}종으로 복원합니다.`],
+      ['signatures', '서명 프리셋', '저장한 서명을 기본 서명으로 되돌립니다.'],
       ['colors', '색상', '색상 팔레트를 초기화합니다.'],
       /* 유일하게 «지우지 않는» 항목이다 — 브라우저가 들고 있던 예전 판만 버린다.
          고친 것이 화면에 안 나올 때 쓰는 자리라, 초기화를 찾아 들어온 손이 여기서 만난다. */
@@ -9611,6 +9650,11 @@ function openResetModal() {
       Object.assign(S.canvas, DEF_CANVAS);
       S.ui.canvasSnapshot = null;
       reset.push('테마 프리셋');
+    }
+    if (selected.has('signatures')) {
+      S.signatures = [SIGN_SEED()]; S.activeSignId = S.signatures[0].id;
+      S.ui.editingSignId = null; S.ui.signDraft = null;
+      reset.push('서명 프리셋');
     }
     if (selected.has('colors')) {
       userPalette = [];
@@ -9817,20 +9861,6 @@ function cropField(src, ratio, options = {}) {
   return box;
 }
 
-/* ═══ 제작자 서명 ═══════════════════════════════════════════
-   서명은 거의 언제나 '누구의 이야기인가 · 누가 만들었나' 두 조각으로 적힌다.
-   한 줄로 받으면 가운뎃점을 사람이 매번 손으로 찍어야 하고, 한쪽만 쓸 때
-   점이 남거나 빠지는 것도 사람 몫이 된다. 칸을 둘로 나누고 잇는 일은 여기서 한다. */
-const FOOTER_SEP = ' · ';
-function footerText(b) {
-  const parts = [b.charName, b.maker].map(x => (x || '').trim()).filter(Boolean);
-  if (parts.length) {
-    const sep = b.sep === '|' ? ' | ' : ' · ';
-    return parts.join(sep);
-  }
-  return b.text || '';        /* 한 줄로만 적던 시절의 저장본 */
-}
-
 /* ═══ 블록 편집 헤더 ═══════════════════════════════════════════
    [<][>] 실행취소/다시실행 + [복사][삭제][저장]
    모든 블록 편집 패널 상단에 통일된 헤더로 사용한다. */
@@ -9918,58 +9948,7 @@ function buildEditHeader(host, block, onConfirm) {
   return { btnSave };  /* 필요하면 저장 버튼 상태 제어 가능 */
 }
 
-/* 서명 편집 — 칸이 둘뿐이라 확정 단추를 둘 이유가 없다. 적는 대로 캔버스에 반영된다.
-   그만두려면 위 [×] 로 블록에서 손을 떼면 되고, 지우려면 아래 [블록 삭제] 다. */
-function buildFooterEditor(host, block) {
-  /* 통일된 헤더 */
-  buildEditHeader(host, block, () => backToDefault());
-
-  /* 예전 한 줄짜리 서명은 '제작자' 로 옮겨 놓고 시작한다 — 지우고 다시 쓰게 하지 않는다 */
-  if (!block.charName && !block.maker && block.text) { block.maker = block.text; block.text = ''; }
-
-  const wrap = el('div');
-  wrap.style.cssText = 'padding:var(--sp-md);';
-  const body = el('div', 'stack signature-settings');
-
-  /* 캐릭터 / 제작자 입력 */
-  const mk = (label, key, ph) => {
-    const w = el('div');
-    w.appendChild(el('span', 'lab', label));
-    const i = el('input', 'inp'); i.value = block[key] || ''; i.placeholder = ph;
-    i.oninput = () => { block[key] = i.value; save(); renderCanvas(); };
-    w.appendChild(i);
-    return w;
-  };
-  body.append(mk('캐릭터', 'charName', '예) 해이'), mk('제작자', 'maker', '예) @luvheil'));
-
-  /* 정렬 + 구분자 */
-  const optGrid = el('div', 'grid2');
-  optGrid.style.marginTop = 'var(--sp-md)';
-  /* 정렬 */
-  const alignField = el('div', 'field');
-  alignField.appendChild(alignmentSegment(block.align || 'right',
-    v => { block.align = v; save(); renderCanvas(); }, { name: '서명 정렬' }));
-  optGrid.appendChild(alignField);
-  /* 구분자 */
-  const sepField = el('div', 'field');
-  sepField.appendChild(el('label', 'lab', '구분 기호'));
-  sepField.appendChild(signatureSeparator(block.sep || '·',
-    v => { block.sep = v; save(); renderCanvas(); }));
-  optGrid.appendChild(sepField);
-  body.appendChild(optGrid);
-
-  const formatField = el('div', 'field');
-  formatField.appendChild(el('span', 'lab', '서식'));
-  formatField.appendChild(signatureStyles(block.bold, block.italic, (key, value) => {
-    block[key] = value; save(); renderCanvas();
-  }));
-  body.appendChild(formatField);
-
-  wrap.appendChild(body);
-  host.appendChild(wrap);
-}
-
-/* 음악 편집 — 서명과 같은 방식이다. 확정 단추 없이 적는 대로 캔버스에 반영된다.
+/* 음악 편집 — 확정 단추 없이 적는 대로 캔버스에 반영된다.
    그만두려면 위 [×] 로 블록에서 손을 떼고, 지우려면 아래 [블록 삭제] 다. */
 function buildMusicEditor(host, block) {
   /* 통일된 헤더 추가 — 음악은 적는 대로 반영되므로 저장 버튼은 '확인(닫기)' 역할 */
@@ -10336,7 +10315,7 @@ function buildHtmlEditor(host, block) {
 const DIVIDER_STYLES = [
   { key: 'solid', label: '실선', symbol: '───' },
   { key: 'star', label: '별', symbol: '✦ ✦ ✦' },
-  { key: 'wave', label: '물결', symbol: '〰〰' },
+  { key: 'wave', label: '물결', symbol: '〰︎〰︎' },
   { key: 'double', label: '이중', symbol: '══' },
   { key: 'dash', label: '대시', symbol: '- - -' }
 ];
@@ -11411,6 +11390,8 @@ function panelTheme(p) {
      1 = 캐릭터 편집
      2 = 테마 목록
      3 = 테마 편집
+     4 = 서명 목록
+     5 = 서명 편집
 */
 
 /* 설정 패널 열기/닫기 */
@@ -11424,12 +11405,12 @@ function syncSettingsViews() {
     view.setAttribute('aria-hidden', String(view.inert));
   });
   panel.querySelectorAll('.tab-line').forEach((tab, i) => {
-    tab.classList.toggle('is-on', i === (active < 2 ? 0 : 1));
-    tab.setAttribute('aria-pressed', String(i === (active < 2 ? 0 : 1)));
+    tab.classList.toggle('is-on', i === tabOfView(active));
+    tab.setAttribute('aria-pressed', String(i === tabOfView(active)));
   });
   const indicator = $('#tabIndicator');
-  indicator.style.left = (active < 2 ? 0 : 50) + '%';
-  indicator.style.width = '50%';
+  indicator.style.left = (tabOfView(active) * 100 / SETTINGS_LISTS.length) + '%';
+  indicator.style.width = (100 / SETTINGS_LISTS.length) + '%';
   BTN_SETTINGS.setAttribute('aria-expanded', String(visible));
   const focused = document.activeElement;
   if (focused !== document.body && focused.closest('#settingsPanel [inert]')) {
@@ -11437,7 +11418,9 @@ function syncSettingsViews() {
     (focusableIn(view)[0] || panel.querySelector('.tab-line')).focus({ preventScroll: true });
   }
 }
-const settingsEditReturn = { character: null, theme: null };
+const tabOfView = v => Math.floor(v / 2);
+const SETTINGS_LISTS = [renderCharListV2, renderThemeGridV2, renderSignListV2];
+const settingsEditReturn = { character: null, theme: null, sign: null };
 function setSettingsView(index) {
   const previous = Number($('#tabSlider').dataset.active || 0);
   $('#tabSlider').dataset.active = String(index);
@@ -11445,11 +11428,11 @@ function setSettingsView(index) {
   $('#settingsPanel').scrollLeft = 0;
   $('#sheetBody').scrollLeft = 0;
   syncSettingsViews();
-  if ((index === 0 && previous === 1) || (index === 2 && previous === 3)) {
+  if (index % 2 === 0 && previous === index + 1) {
     queueMicrotask(() => {
       if (Number($('#tabSlider').dataset.active) !== index || $('#settingsPanel').inert) return;
-      const id = index === 0 ? settingsEditReturn.character : settingsEditReturn.theme;
-      const view = index === 0 ? $('#charListView') : $('#themeListView');
+      const id = [settingsEditReturn.character, settingsEditReturn.theme, settingsEditReturn.sign][tabOfView(index)];
+      const view = [$('#charListView'), $('#themeListView'), $('#signListView')][tabOfView(index)];
       const card = [...view.querySelectorAll('[data-item-id]')].find(item => item.dataset.itemId === id);
       (card?.querySelector('.edit-btn') || focusableIn(view)[0] || $('#settingsPanel .tab-line')).focus({ preventScroll: true });
     });
@@ -11469,7 +11452,7 @@ function copyEditor(view, apply) {
   const scroll = view.scrollTop;
   apply();
   view.scrollTop = scroll;
-  const buttons = [...view.querySelectorAll('button')].filter(button => button.title === '복제');
+  const buttons = [...view.querySelectorAll('button')].filter(button => ['복제', '복사'].includes(button.title));
   buttons.forEach(button => { button.disabled = true; });
   const done = () => {
     view.classList.remove('is-copying');
@@ -11529,16 +11512,16 @@ function enhanceControls(root = document) {
   });
   root.querySelectorAll('.char-add,.theme-card.is-add').forEach(card => {
     card.setAttribute('role', 'button'); card.tabIndex = 0;
-    card.setAttribute('aria-label', card.matches('.char-add') ? '캐릭터 추가' : '테마 추가');
+    card.setAttribute('aria-label', card.matches('.sign-add') ? '서명 추가' : card.matches('.char-add') ? '캐릭터 추가' : '테마 추가');
   });
-  root.querySelectorAll('.char-card').forEach(card => {
+  root.querySelectorAll('.char-card:not(.sign-card)').forEach(card => {
     const name = card.querySelector('.name')?.textContent || '캐릭터';
     const info = card.querySelector('.info');
     info.setAttribute('role', 'button'); info.tabIndex = 0;
     info.setAttribute('aria-label', name + ' 편집');
     card.querySelector('.edit-btn')?.setAttribute('aria-label', name + ' 편집');
   });
-  root.querySelectorAll('.theme-card:not(.is-add)').forEach(card => {
+  root.querySelectorAll('.theme-card:not(.is-add):not(.sign-card)').forEach(card => {
     const name = card.querySelector('.nm')?.textContent || '테마';
     const preview = card.querySelector('.preview');
     preview.setAttribute('role', 'button'); preview.tabIndex = 0;
@@ -11573,63 +11556,169 @@ function toggleSettingsPanel(open) {
     /* 열릴 때 현재 탭 데이터 갱신 */
     const slider = $('#tabSlider');
     const active = Number(slider?.dataset.active || 0);
-    if (active === 0 || active === 1) renderCharListV2();
-    else renderThemeGridV2();
+    SETTINGS_LISTS[tabOfView(active)]?.();
   }
   syncSettingsViews();
 }
 
-/* 탭 전환 (0=캐릭터, 1=테마) */
+/* 탭 이동도 편집기 이탈이다 — 같은 탭을 다시 눌러 목록으로 갈 때도 초안을 확인한다. */
 function switchSettingsTab(tabIndex) {
-  const tabs = document.querySelectorAll('.tabs-line .tab-line');
-  const indicator = $('#tabIndicator');
-  const slider = $('#tabSlider');
-  if (!tabs.length || !slider) return;
-
-  /* 저장하지 않은 변경사항 확인 */
+  if (!SETTINGS_LISTS[tabIndex]) return;
   const doSwitch = () => {
-    /* 탭 버튼 상태 */
-    tabs.forEach((t, i) => t.classList.toggle('is-on', i === tabIndex));
-
-    /* 인디케이터 위치 — 탭 개수에 따라 너비 계산 */
-    if (indicator) {
-      indicator.style.left = `${tabIndex * (100 / tabs.length)}%`;
-      indicator.style.width = `${100 / tabs.length}%`;
-    }
-
-    /* 슬라이더: 탭 0 → 뷰 0 (캐릭터목록), 탭 1 → 뷰 2 (테마목록) */
-    const viewIndex = tabIndex === 0 ? 0 : 2;
-    setSettingsView(viewIndex);
-
-    /* 편집 중이던 draft 정리 */
-    if (tabIndex === 0) {
-      renderCharListV2();
-    } else {
-      renderThemeGridV2();
-    }
+    S.ui.editingThemeId = null; S.ui.themeDraft = null; S.ui.canvasSnapshot = null;
+    S.ui.editingCharacterId = null; S.ui.charDraft = null;
+    S.ui.editingSignId = null; S.ui.signDraft = null;
+    SETTINGS_LISTS[tabIndex]();
+    setSettingsView(tabIndex * 2);
+    renderCanvas();
   };
-
-  /* 캐릭터 탭으로 갈 때 테마 수정 확인, 테마 탭으로 갈 때 캐릭터 수정 확인 */
-  if (tabIndex === 0 && confirmDiscardThemeDraft(doSwitch)) return;
-  if (tabIndex === 1 && confirmDiscardCharDraft(doSwitch)) return;
-
-  /* 확인 없이 바로 전환 */
-  S.ui.editingThemeId = null;
-  S.ui.themeDraft = null;
-  S.ui.canvasSnapshot = null; /* 캔버스 스냅샷도 정리 */
-  S.ui.editingCharacterId = null;
-  S.ui.charDraft = null;
+  if (confirmDiscardSettingsDraft(doSwitch)) return;
   doSwitch();
 }
+function resetSettingsTabUI() { setSettingsView(0); }
 
-/* 설정 패널 탭 UI를 캐릭터 목록으로 초기화 (슬라이더 + 탭버튼 + 인디케이터) */
-function resetSettingsTabUI() {
-  const tabs = document.querySelectorAll('.tabs-line .tab-line');
-  const indicator = $('#tabIndicator');
-  const slider = $('#tabSlider');
-  if (slider) setSettingsView(0);
-  if (tabs.length) tabs.forEach((t, i) => t.classList.toggle('is-on', i === 0));
-  if (indicator) { indicator.style.left = '0'; indicator.style.width = '50%'; }
+/* 서명 편집은 저장 버튼과 이탈 확인이 같은 확정 함수를 사용한다. */
+function signDraftDirty() {
+  const d = S.ui.signDraft;
+  if (!d || d.__for !== S.ui.editingSignId) return false;
+  if (d.__for === 'new') return !!(signField(d.charName) || signField(d.maker));
+  const src = S.signatures.find(x => x.id === d.id);
+  return !!src && (d.charName !== src.charName || d.maker !== src.maker);
+}
+function commitSignDraft() {
+  const d = S.ui.signDraft;
+  if (!d) return false;
+  const charName = signField(d.charName), maker = signField(d.maker);
+  if (!charName && !maker) { toast('이름 또는 제작자를 입력하세요'); return false; }
+  const item = { id: d.id, charName, maker };
+  if (d.__for === 'new') {
+    S.signatures.push(item); S.activeSignId = item.id;
+  } else {
+    const i = S.signatures.findIndex(x => x.id === d.id);
+    if (i < 0) return false;
+    S.signatures[i] = item;
+  }
+  settingsEditReturn.sign = item.id;
+  S.ui.editingSignId = null; S.ui.signDraft = null;
+  save(); return true;
+}
+function confirmDiscardSignDraft(onDone) {
+  if (!signDraftDirty()) return false;
+  const p = modal('저장하지 않은 서명 수정이 있습니다', '저장하지 않을 경우, 지금까지 입력한 내용은 삭제됩니다.');
+  const foot = el('div', 'modal-foot');
+  const resume = el('button', 'btn btn-quiet', '계속 편집'); resume.onclick = closeModal;
+  const leave = el('button', 'btn btn-danger', '나가기');
+  leave.onclick = () => {
+    closeModal(); S.ui.editingSignId = null; S.ui.signDraft = null; onDone();
+  };
+  const keep = el('button', 'btn btn-primary', '저장');
+  keep.onclick = () => {
+    if (!commitSignDraft()) return;
+    closeModal(); onDone(); toast('서명을 저장했습니다');
+  };
+  foot.append(resume, leave, keep); p.appendChild(foot); return true;
+}
+function confirmDiscardSettingsDraft(onDone) {
+  return confirmDiscardThemeDraft(onDone) || confirmDiscardCharDraft(onDone) || confirmDiscardSignDraft(onDone);
+}
+const SIGN_ICON = '<svg viewBox="0 0 24 24"><path d="M3 17c3-1 4-9 7-9 2 0-1 9 2 9 2 0 2-3 4-3s1 3 5 3"/><path d="M3 21h18"/></svg>';
+const SIGN_NONE_ICON = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg>';
+/* 서명 목록 — 캐릭터 목록과 같은 카드 줄이다. 카드를 누르면 적용, 연필은 편집이다. */
+function renderSignListV2() {
+  const container = $('#signListContainer');
+  container.replaceChildren();
+  [null, ...S.signatures].forEach(s => {
+    const selected = (s?.id ?? null) === S.activeSignId;
+    const card = el('div', 'char-card sign-card' + (selected ? ' is-on' : ''));
+    card.dataset.itemId = s?.id || '';
+    const av = el('div', 'avatar'); av.innerHTML = s ? SIGN_ICON : SIGN_NONE_ICON;
+    card.appendChild(av);
+    const text = s ? signatureText(s, theme()) : '서명 없음';
+    const info = el('div', 'info');
+    info.appendChild(el('div', 'name', text));
+    info.appendChild(el('div', 'colors-hint', selected ? '적용 중' : s ? '' : '캔버스에 서명을 표시하지 않습니다'));
+    if (!info.lastChild.textContent) info.lastChild.remove();
+    info.setAttribute('role', 'button'); info.tabIndex = 0;
+    info.setAttribute('aria-pressed', String(selected));
+    info.setAttribute('aria-label', text + ' 적용');
+    card.appendChild(info);
+    const apply = () => {
+      S.activeSignId = s?.id ?? null;
+      save(); renderSignListV2(); renderCanvas();
+      [...container.children].find(x => x.dataset.itemId === (s?.id || ''))?.querySelector('.info').focus({ preventScroll: true });
+    };
+    card.onclick = apply;
+    if (s) {
+      const edit = el('button', 'edit-btn'); edit.type = 'button';
+      edit.setAttribute('aria-label', text + ' 편집');
+      edit.innerHTML = '<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+      edit.onclick = e => { e.stopPropagation(); openSignEditV2(s.id); };
+      card.appendChild(edit);
+    }
+    container.appendChild(card);
+  });
+  const add = el('div', 'char-add sign-add');
+  add.innerHTML = '<span class="icon">+</span><span>서명 추가</span>';
+  add.onclick = () => openSignEditV2('new');
+  container.appendChild(add);
+}
+function openSignEditV2(id) {
+  const src = id === 'new' ? { id: uid(), charName: '', maker: '' } : S.signatures.find(x => x.id === id);
+  if (!src) return;
+  settingsEditReturn.sign = id;
+  S.ui.editingSignId = id; S.ui.signDraft = { ...src, __for: id };
+  setSettingsView(5); syncSignEditFormV2(); focusSettingsEditor($('#signEditView'));
+}
+function syncSignEditFormV2() {
+  const d = S.ui.signDraft; if (!d) return;
+  $('#signNameV2').value = d.charName; $('#signMakerV2').value = d.maker;
+  const isNew = d.__for === 'new';
+  $('#btnSignDeleteV2').hidden = isNew;
+  $('#btnSignDupeV2').hidden = isNew;
+}
+function signListAfterEdit() {
+  S.ui.editingSignId = null; S.ui.signDraft = null;
+  renderSignListV2(); setSettingsView(4); renderCanvas();
+}
+function saveSignEditV2() {
+  if (!commitSignDraft()) return;
+  signListAfterEdit(); toast('서명을 저장했습니다');
+}
+function deleteSignEditV2() {
+  const d = S.ui.signDraft; if (!d || d.__for === 'new') return;
+  confirmDelete('서명 삭제', '이 서명을 삭제하시겠습니까?', () => {
+    const i = S.signatures.findIndex(x => x.id === d.id);
+    if (i < 0) return;
+    S.signatures.splice(i, 1);
+    if (S.activeSignId === d.id) S.activeSignId = null;
+    settingsEditReturn.sign = S.signatures[Math.min(i, S.signatures.length - 1)]?.id || '';
+    S.ui.editingSignId = null; S.ui.signDraft = null;
+    save(); signListAfterEdit(); toast('서명을 삭제했습니다');
+  });
+}
+function initSignatureEditorV2() {
+  $('#btnSignBack').onclick = () => {
+    if (confirmDiscardSignDraft(signListAfterEdit)) return;
+    signListAfterEdit();
+  };
+  $('#btnSignSaveV2').onclick = saveSignEditV2;
+  $('#btnSignDeleteV2').onclick = deleteSignEditV2;
+  $('#btnSignDupeV2').onclick = () => {
+    const d = S.ui.signDraft;
+    if (!d || d.__for === 'new') return;
+    const charName = signField(d.charName), maker = signField(d.maker);
+    if (!charName && !maker) { toast('이름 또는 제작자를 입력하세요'); return; }
+    copyEditor($('#signEditView'), () => {
+      const copy = { id: uid(), charName, maker };
+      const i = S.signatures.findIndex(x => x.id === d.id);
+      S.signatures.splice(i + 1, 0, copy); S.activeSignId = copy.id;
+      save(); openSignEditV2(copy.id); renderCanvas(); toast('서명을 복사했습니다');
+    });
+  };
+  [['#signNameV2', 'charName'], ['#signMakerV2', 'maker']].forEach(([selector, key]) => {
+    $(selector).oninput = e => { if (S.ui.signDraft) S.ui.signDraft[key] = e.target.value; };
+  });
+  $('#btnSignSaveV2').setAttribute('aria-keyshortcuts', 'Control+Enter Meta+Enter');
 }
 
 /* 캐릭터 목록 렌더링 */
@@ -12748,54 +12837,55 @@ function syncThemeEditFormV2() {
   signHeader.onclick = () => { openSec.sign = !openSec.sign; signSection.classList.toggle('open'); };
   signSection.appendChild(signHeader);
   const signBody = el('div', 'section-body settings-flow signature-settings');
-  const signTgl = el('div', 'tgl-inline setting-trigger');
-  signTgl.appendChild(el('span', 'lab', '서명 표시'));
-  const signBtn = el('div', 'tgl tgl-sm' + (t.signShow ? ' is-on' : ''));
-  signBtn.onclick = () => { t.signShow = !t.signShow; rerender(); };
-  signTgl.appendChild(signBtn);
-  signBody.appendChild(signTgl);
-  if (t.signShow) {
+  const decor = signIsDecor(t);
+  /* 서명 칸 — 고른 서명이 있으면 카드로, 없으면 추가 칸으로 보인다. 누르면 서명 탭으로 간다. */
+  const sign = activeSign();
+  const pick = el('button', (sign ? 'char-card sign-card' : 'char-add') + ' sign-pick');
+  pick.type = 'button';
+  if (sign) {
+    const av = el('span', 'avatar'); av.innerHTML = SIGN_ICON;
+    const info = el('span', 'info'); info.appendChild(el('span', 'name', signText(t)));
+    pick.append(av, info);
+    pick.insertAdjacentHTML('beforeend', '<svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>');
+    pick.setAttribute('aria-label', signText(t) + ' — 서명 탭에서 변경');
+  } else {
+    pick.innerHTML = '<span class="icon">+</span><span>' + (S.signatures.length ? '서명 선택하기' : '서명 추가하기') + '</span>';
+  }
+  pick.onclick = () => switchSettingsTab(2);
+  signBody.appendChild(pick);
+  if (!sign) {
+    if (decor) signBody.appendChild(el('div', 'lab-sub', frameKind(t) === 'buddy'
+      ? '서명이 없으면 대화명이 표시됩니다.' : '서명이 없으면 가운데 칸이 비어 있습니다.'));
+  } else if (!decor) {
+    const signTgl = el('div', 'tgl-inline setting-trigger');
+    signTgl.appendChild(el('span', 'lab', '서명 표시'));
+    const signBtn = el('div', 'tgl tgl-sm' + (t.signShow ? ' is-on' : ''));
+    signBtn.onclick = () => { t.signShow = !t.signShow; rerender(); };
+    signTgl.appendChild(signBtn); signBody.appendChild(signTgl);
+  }
+  if (sign && (decor || t.signShow)) {
     const signDetails = el('div', 'settings-flow settings-stack');
-    const signGrid = el('div', 'setting-grid');
-    const cf = el('div', 'field');
-    cf.appendChild(el('label', 'lab', '캐릭터'));
-    const ci = el('input', 'inp');
-    ci.placeholder = '예) 해이';
-    ci.value = t.signChar || '';
-    ci.oninput = () => { t.signChar = ci.value; up(); };
-    cf.appendChild(ci);
-    signGrid.appendChild(cf);
-    const mf = el('div', 'field');
-    mf.appendChild(el('label', 'lab', '제작자'));
-    const mi = el('input', 'inp');
-    mi.placeholder = '예) @luvheil';
-    mi.value = t.signMaker || '';
-    mi.oninput = () => { t.signMaker = mi.value; up(); };
-    mf.appendChild(mi);
-    signGrid.appendChild(mf);
-    signDetails.appendChild(signGrid);
-
-    /* 정렬 — segment 스타일 (버디버디는 만든이 영역에 서명이 들어가므로 정렬 선택 불필요) */
-    if (frameKind(t) !== 'buddy') {
+    const standard = !decor && headKind(t) !== 'paper';
+    if (standard) {
       const alignField = el('div', 'field');
-
-          alignField.appendChild(alignmentSegment(t.signAlign || 'right',
+      alignField.appendChild(alignmentSegment(t.signAlign || 'right',
         v => { t.signAlign = v; rerender(); }, { name: '서명 정렬' }));
       signDetails.appendChild(alignField);
     }
-
     const formatGrid = el('div', 'setting-grid');
     const separatorField = el('div', 'field');
     separatorField.appendChild(el('span', 'lab setting-title', '구분 기호'));
     separatorField.appendChild(signatureSeparator(t.signSep || '·', v => { t.signSep = v; rerender(); }));
-    const formatField = el('div', 'field');
-    formatField.appendChild(el('span', 'lab setting-title', '서식'));
-    formatField.appendChild(signatureStyles(t.signBold, t.signItalic, (key, value) => {
-      t[key === 'bold' ? 'signBold' : 'signItalic'] = value; rerender();
-    }));
-    formatGrid.append(separatorField, formatField);
-    signDetails.appendChild(formatGrid);
-    signBody.appendChild(signDetails);
+    formatGrid.appendChild(separatorField);
+    if (standard) {
+      const formatField = el('div', 'field');
+      formatField.appendChild(el('span', 'lab setting-title', '서식'));
+      formatField.appendChild(signatureStyles(t.signBold, t.signItalic, (key, value) => {
+        t[key === 'bold' ? 'signBold' : 'signItalic'] = value; rerender();
+      }));
+      formatGrid.appendChild(formatField);
+    }
+    signDetails.appendChild(formatGrid); signBody.appendChild(signDetails);
   }
   signSection.appendChild(signBody);
   body.appendChild(signSection);
@@ -13461,58 +13551,6 @@ function themeEditor() {
   }
   cvBox.appendChild(marginSection(c));
   box.appendChild(cvBox);
-
-  /* ═══ 서명 (v2: 테마 안으로 통합) ═══════════════════════════════
-     예전에는 footer 블록으로 관리했지만 v2 부터는 테마 설정이다.
-     기존 footer 블록이 있으면 그것이 우선하고, 없으면 테마 서명을 쓴다. */
-  box.appendChild(el('div', 'divider'));
-  box.appendChild(el('div', 'sec-title', '서명'));
-  const signBox = el('div', 'stack');
-  /* 서명 표시 토글 — 토글하면 하위 설정이 나타나거나 사라지므로 render() 를 부른다 */
-  const signTgl = el('div', 'tgl-row');
-  const signTglLab = el('span', 'lab', '서명 표시');
-  const signTglBtn = el('div', 'tgl tgl-sm' + (t.signShow ? ' is-on' : ''));
-  signTglBtn.onclick = () => { t.signShow = !t.signShow; render(); };
-  signTgl.append(signTglLab, signTglBtn);
-  signBox.appendChild(signTgl);
-  /* 서명이 켜져 있을 때만 세부 설정을 보여 준다 */
-  if (t.signShow) {
-    const signFields = el('div', 'grid2'); signFields.style.marginTop = '12px';
-    /* 캐릭터 이름 */
-    const charField = el('div', 'field');
-    charField.appendChild(el('label', 'lab', '캐릭터'));
-    const charInp = el('input', 'inp');
-    charInp.placeholder = '예) 해이';
-    charInp.value = t.signChar || '';
-    charInp.oninput = () => { t.signChar = charInp.value; up(); };
-    charField.appendChild(charInp);
-    signFields.appendChild(charField);
-    /* 제작자 */
-    const makerField = el('div', 'field');
-    makerField.appendChild(el('label', 'lab', '제작자'));
-    const makerInp = el('input', 'inp');
-    makerInp.placeholder = '예) @luvheil';
-    makerInp.value = t.signMaker || '';
-    makerInp.oninput = () => { t.signMaker = makerInp.value; up(); };
-    makerField.appendChild(makerInp);
-    signFields.appendChild(makerField);
-    signBox.appendChild(signFields);
-    /* 위치와 구분자 (버디버디는 만든이 영역에 서명이 들어가므로 위치 선택 불필요) */
-    const signOpts = el('div', 'grid2'); signOpts.style.marginTop = '12px';
-    if (frameKind(t) !== 'buddy') {
-      const alignField = el('div', 'field');
-      alignField.appendChild(el('label', 'lab', '위치'));
-      alignField.appendChild(segment([['left', '좌'], ['center', '중앙'], ['right', '우']],
-        t.signAlign || 'right', v => { t.signAlign = v; up(); }));
-      signOpts.appendChild(alignField);
-    }
-    const sepField = el('div', 'field');
-    sepField.appendChild(el('label', 'lab', '구분'));
-    sepField.appendChild(segment([['·', '·'], ['|', '|']], t.signSep || '·', v => { t.signSep = v; up(); }));
-    signOpts.appendChild(sepField);
-    signBox.appendChild(signOpts);
-  }
-  box.appendChild(signBox);
 
   /* 배경 — «캔버스를 무엇으로 채우나» 를 한 구획에 모은다. 색 두 칸과 그 위에 까는
      이미지는 같은 것을 정한다 — 이미지는 색을 덮는 것이지 딴 이야기가 아니다.
@@ -15536,11 +15574,13 @@ const SETTINGS_TYPE = 'chat-excerpt/settings';
 const SETTINGS_PARTS = [
   ['characters', '캐릭터', '저장한 캐릭터와 프로필 이미지'],
   ['themes', '테마', '테마 목록'],
+  ['signatures', '서명', '저장한 서명 목록과 선택'],
   ['colors', '색상', '추가한 색상 프리셋']
 ];
 /* 파일 안에 그 갈래가 실제로 들어 있는가 — 불러오기 모달이 고를 수 있는 것만 켜 준다 */
 function settingsHas(d, key) {
   if (key === 'characters') return Array.isArray(d.characters);
+  if (key === 'signatures') return Array.isArray(d.signatures);
   /* 테마와 캔버스는 한 묶음 — 둘 중 하나라도 있으면 테마로 친다 */
   if (key === 'themes') return (Array.isArray(d.themes) && d.themes.length > 0) || (!!d.canvas && typeof d.canvas === 'object');
   if (key === 'colors') return Array.isArray(d.palette) || (!!d.colors && typeof d.colors === 'object');
@@ -15557,7 +15597,8 @@ function openExportModal() {
 }
 
 function exportSettings(picked) {
-  const data = { __type: SETTINGS_TYPE, __v: 1 };
+  const data = { __type: SETTINGS_TYPE, __v: 2 };
+  if (picked.has('signatures')) { data.signatures = S.signatures; data.activeSignId = S.activeSignId; }
   if (picked.has('characters')) data.characters = S.characters;
   if (picked.has('themes')) {
     /* 테마별 캔버스 — 각 테마에 canvas가 없으면 전역 캔버스를 복사해 넣는다 */
@@ -15579,10 +15620,12 @@ function exportSettings(picked) {
    캐릭터·테마·색은 목록이라 더할 수 있지만, 캔버스는 테마와 함께 들어온다. */
 const IMPORT_MODES = [['merge', '기존 항목 유지'], ['replace', '덮어쓰기']];
 const IMPORT_NOTE = {
-  merge: '기존 캐릭터 · 테마 · 색을 유지하고 새로운 항목을 추가합니다.',
-  replace: '새 항목을 추가하고, 지금 캐릭터 · 테마 · 색을 지웁니다.'
+  merge: '기존 캐릭터 · 테마 · 서명 · 색을 유지하고 새로운 항목을 추가합니다.',
+  replace: '새 항목을 추가하고, 지금 캐릭터 · 테마 · 서명 · 색을 지웁니다.'
 };
 function openImportModal(d) {
+  if (confirmDiscardSettingsDraft(() => openImportModal(d))) return;
+  d = normalizeSettingsSignatures(d);
   let mode = 'merge';
   const wrap = el('div');
   wrap.appendChild(el('span', 'lab', '방식'));
@@ -15634,9 +15677,17 @@ function mergeById(mine, incoming) {
    mode 가 'merge' 면 지금 것을 그대로 두고 뒤에 더하고, 'replace' 면 지금 것 대신 넣는다.
    돌려주는 것은 «실제로 반영된 갈래의 이름» 이다 — 파일에 없던 갈래는 빠진다. */
 function applySettings(d, picked, mode) {
+  d = normalizeSettingsSignatures(d);
   if (!validSettings(d)) return [];
   const merge = mode !== 'replace';
   const done = [];
+  if (picked.has('signatures') && Array.isArray(d.signatures)) {
+    /* 더하기에서는 null 선택도 지킨다 — 덮어쓰기에서만 파일의 선택을 적용한다. */
+    S.signatures = merge ? mergeById(S.signatures, d.signatures) : d.signatures;
+    if (!merge) S.activeSignId = d.activeSignId;
+    if (!S.signatures.some(x => x.id === S.activeSignId)) S.activeSignId = null;
+    done.push(partName('signatures'));
+  }
   if (picked.has('colors')) {
     /* 색 팔레트는 별도 저장소를 쓴다 — 같이 담아 왔으면 그쪽에 되돌려 놓는다 */
     if (Array.isArray(d.palette)) {
@@ -15677,7 +15728,8 @@ function applySettings(d, picked, mode) {
   /* 들여온 캐릭터가 사라진 발화자를 가리키지 않게 정리한다 */
   const ids = new Set(S.characters.map(c => c.id));
   S.blocks.forEach(b => { if (b.speakerId && !ids.has(b.speakerId)) b.speakerId = null; });
-  S.ui.editingCharacterId = null; S.ui.charDraft = null; S.ui.editingThemeId = null; S.ui.themeDraft = null;
+  S.ui.editingCharacterId = null; S.ui.charDraft = null;
+  S.ui.editingSignId = null; S.ui.signDraft = null; S.ui.editingThemeId = null; S.ui.themeDraft = null;
   return done;
 }
 
@@ -15696,10 +15748,11 @@ $('#settingsPick').onchange = e => {
   r.readAsText(f);
 };
 
-/* 새로 꽂을 것(사진·서명)을 고르는 상태로 들어간다.
+/* 새로 꽂을 것(사진)을 고르는 상태로 들어간다.
    setStage 는 '자리를 옮기면 하던 것을 접는다' 는 뜻이라 이 값을 지운다 —
    그러니 자리를 먼저 옮기고 나서 세워야 한다. 순서를 바꾸면 세우자마자 지워진다. */
 function startNew(kind, src) {
+  if (!isWide() && confirmDiscardSettingsDraft(() => startNew(kind, src))) return;
   setStage('format');
   S.ui.newKind = kind;
   S.ui.newSrc = src || '';
@@ -15721,6 +15774,11 @@ function renderFoot() {
 
 /* ── 렌더 ────────────────────────────────────────────────── */
 function render() {
+  const settingsView = Number($('#tabSlider').dataset.active);
+  if (settingsView % 2 === 0) SETTINGS_LISTS[tabOfView(settingsView)]?.();
+  else if (settingsView === 5 && !S.ui.signDraft) { renderSignListV2(); setSettingsView(4); }
+  else if (settingsView === 3 && !S.ui.themeDraft) { renderThemeGridV2(); setSettingsView(2); }
+  else if (settingsView === 1 && !S.ui.charDraft) { renderCharListV2(); setSettingsView(0); }
   renderCanvas();
   renderTools();
   renderFormat();
@@ -15929,6 +15987,7 @@ function revealEditedBlock() {
   stage.scrollTop += r.top - target;
 }
 function editCanvasBlock(id) {
+  if (!isWide() && confirmDiscardSettingsDraft(() => editCanvasBlock(id))) return;
   const block = S.blocks.find(item => item.id === id);
   if (!block) return;
   closeAllOverlays('format');
@@ -16299,6 +16358,7 @@ document.addEventListener('keydown', e => {
     if (target?.closest('#settingsPanel')) {
       if ($('#tabSlider').dataset.active === '1') { e.preventDefault(); saveCharEditV2(); }
       else if ($('#tabSlider').dataset.active === '3') { e.preventDefault(); saveThemeEditV2(); }
+      else if ($('#tabSlider').dataset.active === '5' && !e.isComposing && e.keyCode !== 229) { e.preventDefault(); saveSignEditV2(); }
     }
   }
   if (e.key === 'Escape') {
@@ -16330,7 +16390,7 @@ bindStickyTap(NAV_BTN, () => {
      좁은 화면에서는 작성 묶음이 통째로 숨은 상태라[renderComposer] 칩이 설 자리가 없고
      시트만 compact 로 접혀 «다 닫혔다» 로 보였다. */
   if (S.ui.stage === 'tools') {
-    if (confirmDiscardThemeDraft(navToComposer)) return;
+    if (confirmDiscardSettingsDraft(navToComposer)) return;
     navToComposer();
     return;
   }
@@ -16348,9 +16408,10 @@ $('#btnBulkDel').onclick = () => toggleBulk(!S.ui.bulk);
 $('#btnGearInTabs').onclick = closeToolsToComposer;
 document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
   /* 탭을 넘기면 테마 편집기가 화면에서 사라진다 — 초안도 함께 사라지므로 먼저 묻는다 */
-  if (confirmDiscardThemeDraft(() => t.onclick())) return;
+  if (confirmDiscardSettingsDraft(() => t.onclick())) return;
   S.ui.tool = t.dataset.tool;
   S.ui.editingCharacterId = null; S.ui.charDraft = null;
+  S.ui.editingSignId = null; S.ui.signDraft = null;
   S.ui.editingThemeId = null; S.ui.themeDraft = null;
   /* 도구로 넘어가면 아래쪽(작성)은 처음 상태로 되돌린다 — 고르던 블록도, 꽂던 것도,
      열어 둔 삽입 메뉴도 놓는다. 넓은 화면에서는 둘이 함께 보이므로, 안 놓으면
@@ -16394,6 +16455,7 @@ loadPalette();
 initComposer();
 initComposerV2();
 initSettingsPanelV2();
+initSignatureEditorV2();
 load();
 /* 되돌리기의 «출발점» — 불러온 직후 상태가 첫 장이다 [histRecord] */
 setTimeout(() => { if (_histPrev === null) _histPrev = snapOf(); }, 0);

@@ -1,0 +1,454 @@
+[
+  {
+    "engine": "chromium",
+    "width": 320,
+    "checks": [
+      {
+        "name": "탭 순서와 기본 서명 선택",
+        "passed": true
+      },
+      {
+        "name": "서명 추가 및 확정 전 내용 보호",
+        "passed": true
+      },
+      {
+        "name": "선택 없음 및 테마 요약의 편집 이동",
+        "passed": true
+      },
+      {
+        "name": "서명 편집 초안 이탈 취소/버리기/저장",
+        "passed": true
+      },
+      {
+        "name": "빈 편집 저장 차단 및 확인창 유지",
+        "passed": true
+      },
+      {
+        "name": "복사 즉시 선택·삭제·포커스 복귀",
+        "passed": true
+      },
+      {
+        "name": "단축키 저장·IME 저장 방지",
+        "passed": true
+      },
+      {
+        "name": "좁은 배치·숨은 뷰 inert·긴 문자열",
+        "passed": true
+      },
+      {
+        "name": "콘솔 오류 없음",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "checks": [
+      {
+        "name": "탭 순서와 기본 서명 선택",
+        "passed": true
+      },
+      {
+        "name": "서명 추가 및 확정 전 내용 보호",
+        "passed": true
+      },
+      {
+        "name": "선택 없음 및 테마 요약의 편집 이동",
+        "passed": true
+      },
+      {
+        "name": "서명 편집 초안 이탈 취소/버리기/저장",
+        "passed": true
+      },
+      {
+        "name": "빈 편집 저장 차단 및 확인창 유지",
+        "passed": true
+      },
+      {
+        "name": "복사 즉시 선택·삭제·포커스 복귀",
+        "passed": true
+      },
+      {
+        "name": "단축키 저장·IME 저장 방지",
+        "passed": true
+      },
+      {
+        "name": "좁은 배치·숨은 뷰 inert·긴 문자열",
+        "passed": true
+      },
+      {
+        "name": "콘솔 오류 없음",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "width": 1000,
+    "checks": [
+      {
+        "name": "탭 순서와 기본 서명 선택",
+        "passed": true
+      },
+      {
+        "name": "서명 추가 및 확정 전 내용 보호",
+        "passed": true
+      },
+      {
+        "name": "선택 없음 및 테마 요약의 편집 이동",
+        "passed": true
+      },
+      {
+        "name": "서명 편집 초안 이탈 취소/버리기/저장",
+        "passed": true
+      },
+      {
+        "name": "빈 편집 저장 차단 및 확인창 유지",
+        "passed": true
+      },
+      {
+        "name": "복사 즉시 선택·삭제·포커스 복귀",
+        "passed": true
+      },
+      {
+        "name": "단축키 저장·IME 저장 방지",
+        "passed": true
+      },
+      {
+        "name": "좁은 배치·숨은 뷰 inert·긴 문자열",
+        "passed": true
+      },
+      {
+        "name": "콘솔 오류 없음",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "width": 1500,
+    "checks": [
+      {
+        "name": "탭 순서와 기본 서명 선택",
+        "passed": true
+      },
+      {
+        "name": "서명 추가 및 확정 전 내용 보호",
+        "passed": true
+      },
+      {
+        "name": "선택 없음 및 테마 요약의 편집 이동",
+        "passed": true
+      },
+      {
+        "name": "서명 편집 초안 이탈 취소/버리기/저장",
+        "passed": true
+      },
+      {
+        "name": "빈 편집 저장 차단 및 확인창 유지",
+        "passed": true
+      },
+      {
+        "name": "복사 즉시 선택·삭제·포커스 복귀",
+        "passed": true
+      },
+      {
+        "name": "단축키 저장·IME 저장 방지",
+        "passed": true
+      },
+      {
+        "name": "좁은 배치·숨은 뷰 inert·긴 문자열",
+        "passed": true
+      },
+      {
+        "name": "콘솔 오류 없음",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "width": "data-render-export",
+    "checks": [
+      {
+        "name": "구 설정 파일 이전과 선택 독립·ID 충돌",
+        "passed": true
+      },
+      {
+        "name": "실행취소·재실행 목록과 선택 복원",
+        "passed": true
+      },
+      {
+        "name": "일반·paper·buddy·ebook 서명과 서식",
+        "passed": true
+      },
+      {
+        "name": "다중 장·단·이미지 미리보기 서명 배치",
+        "passed": true
+      },
+      {
+        "name": "설정 JSON 내보내기 갈래와 새 버전",
+        "passed": true
+      },
+      {
+        "name": "콘솔 오류 없음",
+        "passed": true
+      },
+      {
+        "name": "v16 복수 footer·중복·우선 선택",
+        "passed": true
+      },
+      {
+        "name": "공백 footer의 text 보존",
+        "passed": true
+      },
+      {
+        "name": "숨긴 테마의 문구 선택 유지",
+        "passed": true
+      },
+      {
+        "name": "v13 프리셋 덮어쓰기 전 원문 보존",
+        "passed": true
+      },
+      {
+        "name": "v17 빈 목록 재시드 방지",
+        "passed": true
+      },
+      {
+        "name": "미래 버전 기존 목록 보존",
+        "passed": true
+      },
+      {
+        "name": "잘못된 서명 타입·선택 정규화",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "width": 320,
+    "checks": [
+      {
+        "name": "탭 순서와 기본 서명 선택",
+        "passed": true
+      },
+      {
+        "name": "서명 추가 및 확정 전 내용 보호",
+        "passed": true
+      },
+      {
+        "name": "선택 없음 및 테마 요약의 편집 이동",
+        "passed": true
+      },
+      {
+        "name": "서명 편집 초안 이탈 취소/버리기/저장",
+        "passed": true
+      },
+      {
+        "name": "빈 편집 저장 차단 및 확인창 유지",
+        "passed": true
+      },
+      {
+        "name": "복사 즉시 선택·삭제·포커스 복귀",
+        "passed": true
+      },
+      {
+        "name": "단축키 저장·IME 저장 방지",
+        "passed": true
+      },
+      {
+        "name": "좁은 배치·숨은 뷰 inert·긴 문자열",
+        "passed": true
+      },
+      {
+        "name": "콘솔 오류 없음",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "checks": [
+      {
+        "name": "탭 순서와 기본 서명 선택",
+        "passed": true
+      },
+      {
+        "name": "서명 추가 및 확정 전 내용 보호",
+        "passed": true
+      },
+      {
+        "name": "선택 없음 및 테마 요약의 편집 이동",
+        "passed": true
+      },
+      {
+        "name": "서명 편집 초안 이탈 취소/버리기/저장",
+        "passed": true
+      },
+      {
+        "name": "빈 편집 저장 차단 및 확인창 유지",
+        "passed": true
+      },
+      {
+        "name": "복사 즉시 선택·삭제·포커스 복귀",
+        "passed": true
+      },
+      {
+        "name": "단축키 저장·IME 저장 방지",
+        "passed": true
+      },
+      {
+        "name": "좁은 배치·숨은 뷰 inert·긴 문자열",
+        "passed": true
+      },
+      {
+        "name": "콘솔 오류 없음",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "width": 1000,
+    "checks": [
+      {
+        "name": "탭 순서와 기본 서명 선택",
+        "passed": true
+      },
+      {
+        "name": "서명 추가 및 확정 전 내용 보호",
+        "passed": true
+      },
+      {
+        "name": "선택 없음 및 테마 요약의 편집 이동",
+        "passed": true
+      },
+      {
+        "name": "서명 편집 초안 이탈 취소/버리기/저장",
+        "passed": true
+      },
+      {
+        "name": "빈 편집 저장 차단 및 확인창 유지",
+        "passed": true
+      },
+      {
+        "name": "복사 즉시 선택·삭제·포커스 복귀",
+        "passed": true
+      },
+      {
+        "name": "단축키 저장·IME 저장 방지",
+        "passed": true
+      },
+      {
+        "name": "좁은 배치·숨은 뷰 inert·긴 문자열",
+        "passed": true
+      },
+      {
+        "name": "콘솔 오류 없음",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "width": 1500,
+    "checks": [
+      {
+        "name": "탭 순서와 기본 서명 선택",
+        "passed": true
+      },
+      {
+        "name": "서명 추가 및 확정 전 내용 보호",
+        "passed": true
+      },
+      {
+        "name": "선택 없음 및 테마 요약의 편집 이동",
+        "passed": true
+      },
+      {
+        "name": "서명 편집 초안 이탈 취소/버리기/저장",
+        "passed": true
+      },
+      {
+        "name": "빈 편집 저장 차단 및 확인창 유지",
+        "passed": true
+      },
+      {
+        "name": "복사 즉시 선택·삭제·포커스 복귀",
+        "passed": true
+      },
+      {
+        "name": "단축키 저장·IME 저장 방지",
+        "passed": true
+      },
+      {
+        "name": "좁은 배치·숨은 뷰 inert·긴 문자열",
+        "passed": true
+      },
+      {
+        "name": "콘솔 오류 없음",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "width": "data-render-export",
+    "checks": [
+      {
+        "name": "구 설정 파일 이전과 선택 독립·ID 충돌",
+        "passed": true
+      },
+      {
+        "name": "실행취소·재실행 목록과 선택 복원",
+        "passed": true
+      },
+      {
+        "name": "일반·paper·buddy·ebook 서명과 서식",
+        "passed": true
+      },
+      {
+        "name": "다중 장·단·이미지 미리보기 서명 배치",
+        "passed": true
+      },
+      {
+        "name": "설정 JSON 내보내기 갈래와 새 버전",
+        "passed": true
+      },
+      {
+        "name": "콘솔 오류 없음",
+        "passed": true
+      },
+      {
+        "name": "v16 복수 footer·중복·우선 선택",
+        "passed": true
+      },
+      {
+        "name": "공백 footer의 text 보존",
+        "passed": true
+      },
+      {
+        "name": "숨긴 테마의 문구 선택 유지",
+        "passed": true
+      },
+      {
+        "name": "v13 프리셋 덮어쓰기 전 원문 보존",
+        "passed": true
+      },
+      {
+        "name": "v17 빈 목록 재시드 방지",
+        "passed": true
+      },
+      {
+        "name": "미래 버전 기존 목록 보존",
+        "passed": true
+      },
+      {
+        "name": "잘못된 서명 타입·선택 정규화",
+        "passed": true
+      }
+    ]
+  }
+]

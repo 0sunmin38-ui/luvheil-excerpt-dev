@@ -1,0 +1,338 @@
+[
+  {
+    "engine": "chromium",
+    "scenario": "normal-multi",
+    "preview": {
+      "pages": 3,
+      "text": "해이 · @luvheil",
+      "foot": true,
+      "ghosts": 2
+    },
+    "pages": 3,
+    "captures": [
+      [
+        "해이 · @luvheil"
+      ],
+      [
+        "해이 · @luvheil"
+      ],
+      [
+        "해이 · @luvheil"
+      ]
+    ],
+    "pngs": [
+      {
+        "name": "chromium-normal-multi-1.png",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 250814
+      },
+      {
+        "name": "chromium-normal-multi-2.png",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 252041
+      },
+      {
+        "name": "chromium-normal-multi-3.png",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 193042
+      }
+    ],
+    "passed": true
+  },
+  {
+    "engine": "chromium",
+    "scenario": "columns",
+    "preview": {
+      "pages": 1,
+      "text": "해이 · @luvheil",
+      "foot": true,
+      "ghosts": 0
+    },
+    "pages": 1,
+    "captures": [
+      [
+        "해이 · @luvheil"
+      ]
+    ],
+    "pngs": [
+      {
+        "name": "chromium-columns-1.png",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 279638
+      }
+    ],
+    "passed": true
+  },
+  {
+    "engine": "chromium",
+    "scenario": "paper",
+    "preview": {
+      "pages": 1,
+      "text": "해이 · @luvheil",
+      "foot": false,
+      "ghosts": 0
+    },
+    "pages": 1,
+    "captures": [
+      [
+        "해이 · @luvheil"
+      ]
+    ],
+    "pngs": [
+      {
+        "name": "chromium-paper-1.png",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 127008
+      }
+    ],
+    "passed": true
+  },
+  {
+    "engine": "chromium",
+    "scenario": "buddy",
+    "preview": {
+      "pages": 1,
+      "text": "해이 · @luvheil",
+      "foot": false,
+      "ghosts": 0
+    },
+    "pages": 1,
+    "captures": [
+      [
+        "만든이 : 해이 · @luvheil"
+      ]
+    ],
+    "pngs": [
+      {
+        "name": "chromium-buddy-1.png",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 219103
+      }
+    ],
+    "passed": true
+  },
+  {
+    "engine": "chromium",
+    "scenario": "ebook",
+    "preview": {
+      "pages": 1,
+      "text": "해이 · @luvheil",
+      "foot": false,
+      "ghosts": 0
+    },
+    "pages": 1,
+    "captures": [
+      [
+        "해이 · @luvheil"
+      ]
+    ],
+    "pngs": [
+      {
+        "name": "chromium-ebook-1.png",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 151819
+      }
+    ],
+    "passed": true
+  },
+  {
+    "engine": "chromium",
+    "scenario": "insta-dm",
+    "preview": {
+      "pages": 1,
+      "text": "해이 · @luvheil",
+      "foot": true,
+      "ghosts": 0
+    },
+    "pages": 1,
+    "captures": [
+      [
+        "해이 · @luvheil"
+      ]
+    ],
+    "pngs": [
+      {
+        "name": "chromium-insta-dm-1.png",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 189183
+      }
+    ],
+    "passed": true
+  },
+  {
+    "engine": "webkit",
+    "scenario": "normal-multi",
+    "preview": {
+      "pages": 3,
+      "text": "해이 · @luvheil",
+      "foot": true,
+      "ghosts": 2
+    },
+    "pages": 3,
+    "captures": [
+      [
+        "해이 · @luvheil"
+      ],
+      [
+        "해이 · @luvheil"
+      ],
+      [
+        "해이 · @luvheil"
+      ]
+    ],
+    "pngs": [
+      {
+        "name": "webkit-normal-multi-1.png",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 233238
+      },
+      {
+        "name": "webkit-normal-multi-2.png",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 234368
+      },
+      {
+        "name": "webkit-normal-multi-3.png",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 179286
+      }
+    ],
+    "passed": true
+  },
+  {
+    "engine": "webkit",
+    "scenario": "columns",
+    "preview": {
+      "pages": 1,
+      "text": "해이 · @luvheil",
+      "foot": true,
+      "ghosts": 0
+    },
+    "pages": 1,
+    "captures": [
+      [
+        "해이 · @luvheil"
+      ]
+    ],
+    "pngs": [
+      {
+        "name": "webkit-columns-1.png",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 306087
+      }
+    ],
+    "passed": true
+  },
+  {
+    "engine": "webkit",
+    "scenario": "paper",
+    "preview": {
+      "pages": 1,
+      "text": "해이 · @luvheil",
+      "foot": false,
+      "ghosts": 0
+    },
+    "pages": 1,
+    "captures": [
+      [
+        "해이 · @luvheil"
+      ]
+    ],
+    "pngs": [
+      {
+        "name": "webkit-paper-1.png",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 117016
+      }
+    ],
+    "passed": true
+  },
+  {
+    "engine": "webkit",
+    "scenario": "buddy",
+    "preview": {
+      "pages": 1,
+      "text": "해이 · @luvheil",
+      "foot": false,
+      "ghosts": 0
+    },
+    "pages": 1,
+    "captures": [
+      [
+        "만든이 : 해이 · @luvheil"
+      ]
+    ],
+    "pngs": [
+      {
+        "name": "webkit-buddy-1.png",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 219433
+      }
+    ],
+    "passed": true
+  },
+  {
+    "engine": "webkit",
+    "scenario": "ebook",
+    "preview": {
+      "pages": 1,
+      "text": "해이 · @luvheil",
+      "foot": false,
+      "ghosts": 0
+    },
+    "pages": 1,
+    "captures": [
+      [
+        "해이 · @luvheil"
+      ]
+    ],
+    "pngs": [
+      {
+        "name": "webkit-ebook-1.png",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 180013
+      }
+    ],
+    "passed": true
+  },
+  {
+    "engine": "webkit",
+    "scenario": "insta-dm",
+    "preview": {
+      "pages": 1,
+      "text": "해이 · @luvheil",
+      "foot": true,
+      "ghosts": 0
+    },
+    "pages": 1,
+    "captures": [
+      [
+        "해이 · @luvheil"
+      ]
+    ],
+    "pngs": [
+      {
+        "name": "webkit-insta-dm-1.png",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 163547
+      }
+    ],
+    "passed": true
+  }
+]
