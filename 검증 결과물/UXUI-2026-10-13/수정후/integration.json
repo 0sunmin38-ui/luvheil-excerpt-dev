@@ -1,0 +1,40 @@
+[
+  {
+    "engine": "chromium",
+    "pages": 1,
+    "busy": false,
+    "locked": true,
+    "overlay": true,
+    "focus": true,
+    "toast": "이미지가 완성됐습니다",
+    "after": {
+      "focus": "btnSave",
+      "inert": false,
+      "selection": null
+    },
+    "autoScroll": {
+      "scroll": 216,
+      "first": "drag-0"
+    },
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "pages": 1,
+    "busy": false,
+    "locked": true,
+    "overlay": true,
+    "focus": true,
+    "toast": "이미지가 완성됐습니다",
+    "after": {
+      "focus": "btnSave",
+      "inert": false,
+      "selection": null
+    },
+    "autoScroll": {
+      "scroll": 209,
+      "first": "drag-0"
+    },
+    "errors": []
+  }
+]

@@ -1,0 +1,128 @@
+[
+  {
+    "width": 320,
+    "height": 740,
+    "grab": 16,
+    "sheet": 333,
+    "inactiveFocusables": 8,
+    "buttons": [
+      {
+        "title": "",
+        "label": null,
+        "height": 28
+      },
+      {
+        "title": "초기화",
+        "label": null,
+        "height": 28
+      },
+      {
+        "title": "복제",
+        "label": null,
+        "height": 28
+      },
+      {
+        "title": "삭제",
+        "label": null,
+        "height": 28
+      },
+      {
+        "title": "저장",
+        "label": null,
+        "height": 28
+      }
+    ],
+    "inputFont": "12px",
+    "discardActions": [
+      "저장",
+      "버리고 나가기"
+    ],
+    "dragHeight": 441,
+    "releasedHeight": 518,
+    "snap": 70,
+    "reducedCopy": "slide-copy"
+  },
+  {
+    "width": 768,
+    "height": 1024,
+    "grab": 16,
+    "sheet": 460.796875,
+    "inactiveFocusables": 8,
+    "buttons": [
+      {
+        "title": "",
+        "label": null,
+        "height": 28
+      },
+      {
+        "title": "초기화",
+        "label": null,
+        "height": 28
+      },
+      {
+        "title": "복제",
+        "label": null,
+        "height": 28
+      },
+      {
+        "title": "삭제",
+        "label": null,
+        "height": 28
+      },
+      {
+        "title": "저장",
+        "label": null,
+        "height": 28
+      }
+    ],
+    "inputFont": "12px",
+    "discardActions": [
+      "저장",
+      "버리고 나가기"
+    ],
+    "dragHeight": 568.796875,
+    "releasedHeight": 460.796875,
+    "snap": 45,
+    "reducedCopy": "slide-copy"
+  },
+  {
+    "width": 1920,
+    "height": 1080,
+    "grab": 0,
+    "sheet": 1033,
+    "inactiveFocusables": 8,
+    "buttons": [
+      {
+        "title": "",
+        "label": null,
+        "height": 28
+      },
+      {
+        "title": "초기화",
+        "label": null,
+        "height": 28
+      },
+      {
+        "title": "복제",
+        "label": null,
+        "height": 28
+      },
+      {
+        "title": "삭제",
+        "label": null,
+        "height": 28
+      },
+      {
+        "title": "저장",
+        "label": null,
+        "height": 28
+      }
+    ],
+    "inputFont": "12px",
+    "discardActions": [
+      "저장",
+      "버리고 나가기"
+    ],
+    "reducedCopy": "slide-copy"
+  }
+]

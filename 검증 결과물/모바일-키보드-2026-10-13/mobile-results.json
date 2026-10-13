@@ -1,0 +1,2228 @@
+[
+  {
+    "engine": "chromium",
+    "width": 320,
+    "checks": [
+      {
+        "name": "keyboard",
+        "geometry": {
+          "sheet": {
+            "top": 144,
+            "bottom": 480,
+            "height": 336
+          },
+          "stage": {
+            "top": 47,
+            "bottom": 144,
+            "height": 97
+          },
+          "quick": {
+            "top": 300.390625,
+            "bottom": 352.390625,
+            "height": 52
+          },
+          "foot": {
+            "top": 0,
+            "bottom": 0,
+            "height": 0
+          },
+          "head": {
+            "top": 184,
+            "bottom": 300.390625,
+            "height": 116.390625
+          },
+          "dock": {
+            "top": 184,
+            "bottom": 480,
+            "height": 296
+          },
+          "wrap": {
+            "top": 352.390625,
+            "bottom": 480,
+            "height": 127.609375
+          },
+          "grab": {
+            "top": 144,
+            "bottom": 184,
+            "height": 40
+          },
+          "vv": {
+            "height": 480,
+            "offsetTop": 0
+          },
+          "padding": "16px",
+          "snap": 70,
+          "stagePadding": "20px",
+          "docHeight": 844,
+          "windowHeight": 844
+        },
+        "end": {
+          "lastBottom": 464.390625,
+          "wrapBottom": 480,
+          "canvasBottom": 124,
+          "stageBottom": 144
+        }
+      },
+      {
+        "name": "pan",
+        "geometry": {
+          "sheet": {
+            "top": 172,
+            "bottom": 480,
+            "height": 308
+          },
+          "stage": {
+            "top": 87,
+            "bottom": 172,
+            "height": 85
+          },
+          "quick": {
+            "top": 321.1875,
+            "bottom": 373.1875,
+            "height": 52
+          },
+          "foot": {
+            "top": 0,
+            "bottom": 0,
+            "height": 0
+          },
+          "head": {
+            "top": 212,
+            "bottom": 321.1875,
+            "height": 109.1875
+          },
+          "dock": {
+            "top": 212,
+            "bottom": 480,
+            "height": 268
+          },
+          "wrap": {
+            "top": 373.1875,
+            "bottom": 480,
+            "height": 106.8125
+          },
+          "grab": {
+            "top": 172,
+            "bottom": 212,
+            "height": 40
+          },
+          "vv": {
+            "height": 440,
+            "offsetTop": 40
+          },
+          "padding": "16px",
+          "snap": 70,
+          "stagePadding": "20px",
+          "docHeight": 844,
+          "windowHeight": 844
+        },
+        "end": {
+          "lastBottom": 464.1875,
+          "wrapBottom": 480,
+          "canvasBottom": 152,
+          "stageBottom": 172
+        }
+      },
+      {
+        "name": "small",
+        "geometry": {
+          "sheet": {
+            "top": 108,
+            "bottom": 360,
+            "height": 252
+          },
+          "stage": {
+            "top": 47,
+            "bottom": 108,
+            "height": 61
+          },
+          "quick": {
+            "top": 242.796875,
+            "bottom": 294.796875,
+            "height": 52
+          },
+          "foot": {
+            "top": 0,
+            "bottom": 0,
+            "height": 0
+          },
+          "head": {
+            "top": 148,
+            "bottom": 242.796875,
+            "height": 94.796875
+          },
+          "dock": {
+            "top": 148,
+            "bottom": 360,
+            "height": 212
+          },
+          "wrap": {
+            "top": 294.796875,
+            "bottom": 360,
+            "height": 65.203125
+          },
+          "grab": {
+            "top": 108,
+            "bottom": 148,
+            "height": 40
+          },
+          "vv": {
+            "height": 360,
+            "offsetTop": 0
+          },
+          "padding": "16px",
+          "snap": 70,
+          "stagePadding": "20px",
+          "docHeight": 844,
+          "windowHeight": 844
+        },
+        "end": {
+          "lastBottom": 343.796875,
+          "wrapBottom": 360,
+          "canvasBottom": 88,
+          "stageBottom": 108
+        }
+      }
+    ],
+    "formatted": {
+      "html": "<b>키보드</b> 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.",
+      "selected": "키보드",
+      "text": "**키보드** 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.",
+      "focus": "ta"
+    },
+    "restored": {
+      "sheet": {
+        "top": 253.203125,
+        "bottom": 844,
+        "height": 590.796875
+      },
+      "stage": {
+        "top": 47,
+        "bottom": 253.203125,
+        "height": 206.203125
+      },
+      "quick": {
+        "top": 443.203125,
+        "bottom": 495.203125,
+        "height": 52
+      },
+      "foot": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "head": {
+        "top": 293.203125,
+        "bottom": 443.203125,
+        "height": 150
+      },
+      "dock": {
+        "top": 293.203125,
+        "bottom": 844,
+        "height": 550.796875
+      },
+      "wrap": {
+        "top": 495.203125,
+        "bottom": 844,
+        "height": 348.796875
+      },
+      "grab": {
+        "top": 253.203125,
+        "bottom": 293.203125,
+        "height": 40
+      },
+      "vv": {
+        "height": 844,
+        "offsetTop": 0
+      },
+      "padding": "16px",
+      "snap": 70,
+      "stagePadding": "20px",
+      "docHeight": 844,
+      "windowHeight": 844
+    },
+    "settings": {
+      "height": 179,
+      "bottom": 500,
+      "lastBottom": 488,
+      "sheetBottom": 500,
+      "overflow": "auto"
+    },
+    "composer": {
+      "sheet": {
+        "top": 384,
+        "bottom": 480,
+        "height": 96
+      },
+      "stage": {
+        "top": 47,
+        "bottom": 384,
+        "height": 337
+      },
+      "quick": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "foot": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "head": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "dock": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "wrap": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "grab": {
+        "top": 384,
+        "bottom": 424,
+        "height": 40
+      },
+      "vv": {
+        "height": 480,
+        "offsetTop": 0
+      },
+      "padding": "16px",
+      "snap": null,
+      "stagePadding": "20px",
+      "docHeight": 844,
+      "windowHeight": 844
+    },
+    "html": {
+      "sheet": {
+        "top": 384,
+        "bottom": 480,
+        "height": 96
+      },
+      "stage": {
+        "top": 47,
+        "bottom": 384,
+        "height": 337
+      },
+      "quick": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "foot": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "head": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "dock": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "wrap": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "grab": {
+        "top": 384,
+        "bottom": 424,
+        "height": 40
+      },
+      "vv": {
+        "height": 480,
+        "offsetTop": 0
+      },
+      "padding": "16px",
+      "snap": null,
+      "stagePadding": "20px",
+      "docHeight": 844,
+      "windowHeight": 844
+    },
+    "pop": {
+      "x": 30,
+      "y": 25.390625,
+      "width": 280,
+      "height": 269.359375
+    },
+    "popMoved": {
+      "x": 30,
+      "y": 151,
+      "width": 280,
+      "height": 269.359375
+    },
+    "modal": {
+      "x": 16,
+      "y": 198,
+      "width": 288,
+      "height": 84
+    },
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "checks": [
+      {
+        "name": "keyboard",
+        "geometry": {
+          "sheet": {
+            "top": 144,
+            "bottom": 480,
+            "height": 336
+          },
+          "stage": {
+            "top": 47,
+            "bottom": 144,
+            "height": 97
+          },
+          "quick": {
+            "top": 300.390625,
+            "bottom": 352.390625,
+            "height": 52
+          },
+          "foot": {
+            "top": 0,
+            "bottom": 0,
+            "height": 0
+          },
+          "head": {
+            "top": 184,
+            "bottom": 300.390625,
+            "height": 116.390625
+          },
+          "dock": {
+            "top": 184,
+            "bottom": 480,
+            "height": 296
+          },
+          "wrap": {
+            "top": 352.390625,
+            "bottom": 480,
+            "height": 127.609375
+          },
+          "grab": {
+            "top": 144,
+            "bottom": 184,
+            "height": 40
+          },
+          "vv": {
+            "height": 480,
+            "offsetTop": 0
+          },
+          "padding": "16px",
+          "snap": 70,
+          "stagePadding": "20px",
+          "docHeight": 844,
+          "windowHeight": 844
+        },
+        "end": {
+          "lastBottom": 464.390625,
+          "wrapBottom": 480,
+          "canvasBottom": 124,
+          "stageBottom": 144
+        }
+      },
+      {
+        "name": "pan",
+        "geometry": {
+          "sheet": {
+            "top": 172,
+            "bottom": 480,
+            "height": 308
+          },
+          "stage": {
+            "top": 87,
+            "bottom": 172,
+            "height": 85
+          },
+          "quick": {
+            "top": 321.1875,
+            "bottom": 373.1875,
+            "height": 52
+          },
+          "foot": {
+            "top": 0,
+            "bottom": 0,
+            "height": 0
+          },
+          "head": {
+            "top": 212,
+            "bottom": 321.1875,
+            "height": 109.1875
+          },
+          "dock": {
+            "top": 212,
+            "bottom": 480,
+            "height": 268
+          },
+          "wrap": {
+            "top": 373.1875,
+            "bottom": 480,
+            "height": 106.8125
+          },
+          "grab": {
+            "top": 172,
+            "bottom": 212,
+            "height": 40
+          },
+          "vv": {
+            "height": 440,
+            "offsetTop": 40
+          },
+          "padding": "16px",
+          "snap": 70,
+          "stagePadding": "20px",
+          "docHeight": 844,
+          "windowHeight": 844
+        },
+        "end": {
+          "lastBottom": 464.1875,
+          "wrapBottom": 480,
+          "canvasBottom": 152,
+          "stageBottom": 172
+        }
+      },
+      {
+        "name": "small",
+        "geometry": {
+          "sheet": {
+            "top": 108,
+            "bottom": 360,
+            "height": 252
+          },
+          "stage": {
+            "top": 47,
+            "bottom": 108,
+            "height": 61
+          },
+          "quick": {
+            "top": 242.796875,
+            "bottom": 294.796875,
+            "height": 52
+          },
+          "foot": {
+            "top": 0,
+            "bottom": 0,
+            "height": 0
+          },
+          "head": {
+            "top": 148,
+            "bottom": 242.796875,
+            "height": 94.796875
+          },
+          "dock": {
+            "top": 148,
+            "bottom": 360,
+            "height": 212
+          },
+          "wrap": {
+            "top": 294.796875,
+            "bottom": 360,
+            "height": 65.203125
+          },
+          "grab": {
+            "top": 108,
+            "bottom": 148,
+            "height": 40
+          },
+          "vv": {
+            "height": 360,
+            "offsetTop": 0
+          },
+          "padding": "16px",
+          "snap": 70,
+          "stagePadding": "20px",
+          "docHeight": 844,
+          "windowHeight": 844
+        },
+        "end": {
+          "lastBottom": 343.796875,
+          "wrapBottom": 360,
+          "canvasBottom": 88,
+          "stageBottom": 108
+        }
+      }
+    ],
+    "formatted": {
+      "html": "<b>키보드</b> 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.",
+      "selected": "키보드",
+      "text": "**키보드** 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.",
+      "focus": "ta"
+    },
+    "restored": {
+      "sheet": {
+        "top": 253.203125,
+        "bottom": 844,
+        "height": 590.796875
+      },
+      "stage": {
+        "top": 47,
+        "bottom": 253.203125,
+        "height": 206.203125
+      },
+      "quick": {
+        "top": 443.203125,
+        "bottom": 495.203125,
+        "height": 52
+      },
+      "foot": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "head": {
+        "top": 293.203125,
+        "bottom": 443.203125,
+        "height": 150
+      },
+      "dock": {
+        "top": 293.203125,
+        "bottom": 844,
+        "height": 550.796875
+      },
+      "wrap": {
+        "top": 495.203125,
+        "bottom": 844,
+        "height": 348.796875
+      },
+      "grab": {
+        "top": 253.203125,
+        "bottom": 293.203125,
+        "height": 40
+      },
+      "vv": {
+        "height": 844,
+        "offsetTop": 0
+      },
+      "padding": "16px",
+      "snap": 70,
+      "stagePadding": "20px",
+      "docHeight": 844,
+      "windowHeight": 844
+    },
+    "settings": {
+      "height": 191,
+      "bottom": 500,
+      "lastBottom": 488,
+      "sheetBottom": 500,
+      "overflow": "auto"
+    },
+    "composer": {
+      "sheet": {
+        "top": 384,
+        "bottom": 480,
+        "height": 96
+      },
+      "stage": {
+        "top": 47,
+        "bottom": 384,
+        "height": 337
+      },
+      "quick": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "foot": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "head": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "dock": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "wrap": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "grab": {
+        "top": 384,
+        "bottom": 424,
+        "height": 40
+      },
+      "vv": {
+        "height": 480,
+        "offsetTop": 0
+      },
+      "padding": "16px",
+      "snap": null,
+      "stagePadding": "20px",
+      "docHeight": 844,
+      "windowHeight": 844
+    },
+    "html": {
+      "sheet": {
+        "top": 384,
+        "bottom": 480,
+        "height": 96
+      },
+      "stage": {
+        "top": 47,
+        "bottom": 384,
+        "height": 337
+      },
+      "quick": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "foot": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "head": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "dock": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "wrap": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "grab": {
+        "top": 384,
+        "bottom": 424,
+        "height": 40
+      },
+      "vv": {
+        "height": 480,
+        "offsetTop": 0
+      },
+      "padding": "16px",
+      "snap": null,
+      "stagePadding": "20px",
+      "docHeight": 844,
+      "windowHeight": 844
+    },
+    "pop": {
+      "x": 93,
+      "y": 25.390625,
+      "width": 280,
+      "height": 269.359375
+    },
+    "popMoved": {
+      "x": 93,
+      "y": 151,
+      "width": 280,
+      "height": 269.359375
+    },
+    "modal": {
+      "x": 16,
+      "y": 198,
+      "width": 358,
+      "height": 84
+    },
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "width": 768,
+    "checks": [
+      {
+        "name": "keyboard",
+        "geometry": {
+          "sheet": {
+            "top": 144,
+            "bottom": 480,
+            "height": 336
+          },
+          "stage": {
+            "top": 47,
+            "bottom": 144,
+            "height": 97
+          },
+          "quick": {
+            "top": 300.390625,
+            "bottom": 354.390625,
+            "height": 54
+          },
+          "foot": {
+            "top": 0,
+            "bottom": 0,
+            "height": 0
+          },
+          "head": {
+            "top": 184,
+            "bottom": 300.390625,
+            "height": 116.390625
+          },
+          "dock": {
+            "top": 184,
+            "bottom": 480,
+            "height": 296
+          },
+          "wrap": {
+            "top": 354.390625,
+            "bottom": 480,
+            "height": 125.609375
+          },
+          "grab": {
+            "top": 144,
+            "bottom": 184,
+            "height": 40
+          },
+          "vv": {
+            "height": 480,
+            "offsetTop": 0
+          },
+          "padding": "16px",
+          "snap": 70,
+          "stagePadding": "20px",
+          "docHeight": 844,
+          "windowHeight": 844
+        },
+        "end": {
+          "lastBottom": 464.390625,
+          "wrapBottom": 480,
+          "canvasBottom": 124,
+          "stageBottom": 144
+        }
+      },
+      {
+        "name": "pan",
+        "geometry": {
+          "sheet": {
+            "top": 172,
+            "bottom": 480,
+            "height": 308
+          },
+          "stage": {
+            "top": 87,
+            "bottom": 172,
+            "height": 85
+          },
+          "quick": {
+            "top": 321.1875,
+            "bottom": 375.1875,
+            "height": 54
+          },
+          "foot": {
+            "top": 0,
+            "bottom": 0,
+            "height": 0
+          },
+          "head": {
+            "top": 212,
+            "bottom": 321.1875,
+            "height": 109.1875
+          },
+          "dock": {
+            "top": 212,
+            "bottom": 480,
+            "height": 268
+          },
+          "wrap": {
+            "top": 375.1875,
+            "bottom": 480,
+            "height": 104.8125
+          },
+          "grab": {
+            "top": 172,
+            "bottom": 212,
+            "height": 40
+          },
+          "vv": {
+            "height": 440,
+            "offsetTop": 40
+          },
+          "padding": "16px",
+          "snap": 70,
+          "stagePadding": "20px",
+          "docHeight": 844,
+          "windowHeight": 844
+        },
+        "end": {
+          "lastBottom": 464.1875,
+          "wrapBottom": 480,
+          "canvasBottom": 152,
+          "stageBottom": 172
+        }
+      },
+      {
+        "name": "small",
+        "geometry": {
+          "sheet": {
+            "top": 108,
+            "bottom": 360,
+            "height": 252
+          },
+          "stage": {
+            "top": 47,
+            "bottom": 108,
+            "height": 61
+          },
+          "quick": {
+            "top": 242.796875,
+            "bottom": 296.796875,
+            "height": 54
+          },
+          "foot": {
+            "top": 0,
+            "bottom": 0,
+            "height": 0
+          },
+          "head": {
+            "top": 148,
+            "bottom": 242.796875,
+            "height": 94.796875
+          },
+          "dock": {
+            "top": 148,
+            "bottom": 360,
+            "height": 212
+          },
+          "wrap": {
+            "top": 296.796875,
+            "bottom": 360,
+            "height": 63.203125
+          },
+          "grab": {
+            "top": 108,
+            "bottom": 148,
+            "height": 40
+          },
+          "vv": {
+            "height": 360,
+            "offsetTop": 0
+          },
+          "padding": "16px",
+          "snap": 70,
+          "stagePadding": "20px",
+          "docHeight": 844,
+          "windowHeight": 844
+        },
+        "end": {
+          "lastBottom": 343.796875,
+          "wrapBottom": 360,
+          "canvasBottom": 88,
+          "stageBottom": 108
+        }
+      }
+    ],
+    "formatted": {
+      "html": "<b>키보드</b> 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.",
+      "selected": "키보드",
+      "text": "**키보드** 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.",
+      "focus": "ta"
+    },
+    "restored": {
+      "sheet": {
+        "top": 253.203125,
+        "bottom": 844,
+        "height": 590.796875
+      },
+      "stage": {
+        "top": 47,
+        "bottom": 253.203125,
+        "height": 206.203125
+      },
+      "quick": {
+        "top": 443.203125,
+        "bottom": 497.203125,
+        "height": 54
+      },
+      "foot": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "head": {
+        "top": 293.203125,
+        "bottom": 443.203125,
+        "height": 150
+      },
+      "dock": {
+        "top": 293.203125,
+        "bottom": 844,
+        "height": 550.796875
+      },
+      "wrap": {
+        "top": 497.203125,
+        "bottom": 844,
+        "height": 346.796875
+      },
+      "grab": {
+        "top": 253.203125,
+        "bottom": 293.203125,
+        "height": 40
+      },
+      "vv": {
+        "height": 844,
+        "offsetTop": 0
+      },
+      "padding": "16px",
+      "snap": 70,
+      "stagePadding": "20px",
+      "docHeight": 844,
+      "windowHeight": 844
+    },
+    "settings": {
+      "height": 191,
+      "bottom": 500,
+      "lastBottom": 488,
+      "sheetBottom": 500,
+      "overflow": "auto"
+    },
+    "composer": {
+      "sheet": {
+        "top": 384,
+        "bottom": 480,
+        "height": 96
+      },
+      "stage": {
+        "top": 47,
+        "bottom": 384,
+        "height": 337
+      },
+      "quick": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "foot": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "head": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "dock": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "wrap": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "grab": {
+        "top": 384,
+        "bottom": 424,
+        "height": 40
+      },
+      "vv": {
+        "height": 480,
+        "offsetTop": 0
+      },
+      "padding": "16px",
+      "snap": null,
+      "stagePadding": "20px",
+      "docHeight": 844,
+      "windowHeight": 844
+    },
+    "html": {
+      "sheet": {
+        "top": 384,
+        "bottom": 480,
+        "height": 96
+      },
+      "stage": {
+        "top": 47,
+        "bottom": 384,
+        "height": 337
+      },
+      "quick": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "foot": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "head": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "dock": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "wrap": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "grab": {
+        "top": 384,
+        "bottom": 424,
+        "height": 40
+      },
+      "vv": {
+        "height": 480,
+        "offsetTop": 0
+      },
+      "padding": "16px",
+      "snap": null,
+      "stagePadding": "20px",
+      "docHeight": 844,
+      "windowHeight": 844
+    },
+    "pop": {
+      "x": 105,
+      "y": 25.390625,
+      "width": 280,
+      "height": 269.359375
+    },
+    "popMoved": {
+      "x": 105,
+      "y": 151,
+      "width": 280,
+      "height": 269.359375
+    },
+    "modal": {
+      "x": 174,
+      "y": 198,
+      "width": 420,
+      "height": 84
+    },
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "width": 320,
+    "checks": [
+      {
+        "name": "keyboard",
+        "geometry": {
+          "sheet": {
+            "top": 144,
+            "bottom": 480,
+            "height": 336
+          },
+          "stage": {
+            "top": 47,
+            "bottom": 144,
+            "height": 97
+          },
+          "quick": {
+            "top": 300.390625,
+            "bottom": 352.390625,
+            "height": 52
+          },
+          "foot": {
+            "top": 0,
+            "bottom": 0,
+            "height": 0
+          },
+          "head": {
+            "top": 184,
+            "bottom": 300.390625,
+            "height": 116.390625
+          },
+          "dock": {
+            "top": 184,
+            "bottom": 480,
+            "height": 296
+          },
+          "wrap": {
+            "top": 352.390625,
+            "bottom": 480,
+            "height": 127.609375
+          },
+          "grab": {
+            "top": 144,
+            "bottom": 184,
+            "height": 40
+          },
+          "vv": {
+            "height": 480,
+            "offsetTop": 0
+          },
+          "padding": "16px",
+          "snap": 70,
+          "stagePadding": "20px",
+          "docHeight": 844,
+          "windowHeight": 844
+        },
+        "end": {
+          "lastBottom": 464.390625,
+          "wrapBottom": 480,
+          "canvasBottom": 124,
+          "stageBottom": 144
+        }
+      },
+      {
+        "name": "pan",
+        "geometry": {
+          "sheet": {
+            "top": 172,
+            "bottom": 480,
+            "height": 308
+          },
+          "stage": {
+            "top": 87,
+            "bottom": 172,
+            "height": 85
+          },
+          "quick": {
+            "top": 321.1875,
+            "bottom": 373.1875,
+            "height": 52
+          },
+          "foot": {
+            "top": 0,
+            "bottom": 0,
+            "height": 0
+          },
+          "head": {
+            "top": 212,
+            "bottom": 321.1875,
+            "height": 109.1875
+          },
+          "dock": {
+            "top": 212,
+            "bottom": 480,
+            "height": 268
+          },
+          "wrap": {
+            "top": 373.1875,
+            "bottom": 480,
+            "height": 106.8125
+          },
+          "grab": {
+            "top": 172,
+            "bottom": 212,
+            "height": 40
+          },
+          "vv": {
+            "height": 440,
+            "offsetTop": 40
+          },
+          "padding": "16px",
+          "snap": 70,
+          "stagePadding": "20px",
+          "docHeight": 844,
+          "windowHeight": 844
+        },
+        "end": {
+          "lastBottom": 464.1875,
+          "wrapBottom": 480,
+          "canvasBottom": 152,
+          "stageBottom": 172
+        }
+      },
+      {
+        "name": "small",
+        "geometry": {
+          "sheet": {
+            "top": 108,
+            "bottom": 360,
+            "height": 252
+          },
+          "stage": {
+            "top": 47,
+            "bottom": 108,
+            "height": 61
+          },
+          "quick": {
+            "top": 242.796875,
+            "bottom": 294.796875,
+            "height": 52
+          },
+          "foot": {
+            "top": 0,
+            "bottom": 0,
+            "height": 0
+          },
+          "head": {
+            "top": 148,
+            "bottom": 242.796875,
+            "height": 94.796875
+          },
+          "dock": {
+            "top": 148,
+            "bottom": 360,
+            "height": 212
+          },
+          "wrap": {
+            "top": 294.796875,
+            "bottom": 360,
+            "height": 65.203125
+          },
+          "grab": {
+            "top": 108,
+            "bottom": 148,
+            "height": 40
+          },
+          "vv": {
+            "height": 360,
+            "offsetTop": 0
+          },
+          "padding": "16px",
+          "snap": 70,
+          "stagePadding": "20px",
+          "docHeight": 844,
+          "windowHeight": 844
+        },
+        "end": {
+          "lastBottom": 343.796875,
+          "wrapBottom": 360,
+          "canvasBottom": 88,
+          "stageBottom": 108
+        }
+      }
+    ],
+    "formatted": {
+      "html": "<b>키보드</b> 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.",
+      "selected": "키보드",
+      "text": "**키보드** 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.",
+      "focus": "ta"
+    },
+    "restored": {
+      "sheet": {
+        "top": 253.203125,
+        "bottom": 844,
+        "height": 590.796875
+      },
+      "stage": {
+        "top": 47,
+        "bottom": 253.203125,
+        "height": 206.203125
+      },
+      "quick": {
+        "top": 443.203125,
+        "bottom": 495.203125,
+        "height": 52
+      },
+      "foot": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "head": {
+        "top": 293.203125,
+        "bottom": 443.203125,
+        "height": 150
+      },
+      "dock": {
+        "top": 293.203125,
+        "bottom": 844,
+        "height": 550.796875
+      },
+      "wrap": {
+        "top": 495.203125,
+        "bottom": 844,
+        "height": 348.796875
+      },
+      "grab": {
+        "top": 253.203125,
+        "bottom": 293.203125,
+        "height": 40
+      },
+      "vv": {
+        "height": 844,
+        "offsetTop": 0
+      },
+      "padding": "16px",
+      "snap": 70,
+      "stagePadding": "20px",
+      "docHeight": 844,
+      "windowHeight": 844
+    },
+    "settings": {
+      "height": 179,
+      "bottom": 500,
+      "lastBottom": 488,
+      "sheetBottom": 500,
+      "overflow": "auto"
+    },
+    "composer": {
+      "sheet": {
+        "top": 384,
+        "bottom": 480,
+        "height": 96
+      },
+      "stage": {
+        "top": 47,
+        "bottom": 384,
+        "height": 337
+      },
+      "quick": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "foot": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "head": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "dock": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "wrap": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "grab": {
+        "top": 384,
+        "bottom": 424,
+        "height": 40
+      },
+      "vv": {
+        "height": 480,
+        "offsetTop": 0
+      },
+      "padding": "16px",
+      "snap": null,
+      "stagePadding": "20px",
+      "docHeight": 844,
+      "windowHeight": 844
+    },
+    "html": {
+      "sheet": {
+        "top": 384,
+        "bottom": 480,
+        "height": 96
+      },
+      "stage": {
+        "top": 47,
+        "bottom": 384,
+        "height": 337
+      },
+      "quick": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "foot": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "head": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "dock": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "wrap": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "grab": {
+        "top": 384,
+        "bottom": 424,
+        "height": 40
+      },
+      "vv": {
+        "height": 480,
+        "offsetTop": 0
+      },
+      "padding": "16px",
+      "snap": null,
+      "stagePadding": "20px",
+      "docHeight": 844,
+      "windowHeight": 844
+    },
+    "pop": {
+      "x": 30,
+      "y": 25.390625,
+      "width": 280,
+      "height": 268.5625
+    },
+    "popMoved": {
+      "x": 30,
+      "y": 151,
+      "width": 280,
+      "height": 268.5625
+    },
+    "modal": {
+      "x": 16,
+      "y": 198,
+      "width": 288,
+      "height": 84
+    },
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "checks": [
+      {
+        "name": "keyboard",
+        "geometry": {
+          "sheet": {
+            "top": 144,
+            "bottom": 480,
+            "height": 336
+          },
+          "stage": {
+            "top": 47,
+            "bottom": 144,
+            "height": 97
+          },
+          "quick": {
+            "top": 300.390625,
+            "bottom": 352.390625,
+            "height": 52
+          },
+          "foot": {
+            "top": 0,
+            "bottom": 0,
+            "height": 0
+          },
+          "head": {
+            "top": 184,
+            "bottom": 300.390625,
+            "height": 116.390625
+          },
+          "dock": {
+            "top": 184,
+            "bottom": 480,
+            "height": 296
+          },
+          "wrap": {
+            "top": 352.390625,
+            "bottom": 480,
+            "height": 127.609375
+          },
+          "grab": {
+            "top": 144,
+            "bottom": 184,
+            "height": 40
+          },
+          "vv": {
+            "height": 480,
+            "offsetTop": 0
+          },
+          "padding": "16px",
+          "snap": 70,
+          "stagePadding": "20px",
+          "docHeight": 844,
+          "windowHeight": 844
+        },
+        "end": {
+          "lastBottom": 464.390625,
+          "wrapBottom": 480,
+          "canvasBottom": 124,
+          "stageBottom": 144
+        }
+      },
+      {
+        "name": "pan",
+        "geometry": {
+          "sheet": {
+            "top": 172,
+            "bottom": 480,
+            "height": 308
+          },
+          "stage": {
+            "top": 87,
+            "bottom": 172,
+            "height": 85
+          },
+          "quick": {
+            "top": 321.1875,
+            "bottom": 373.1875,
+            "height": 52
+          },
+          "foot": {
+            "top": 0,
+            "bottom": 0,
+            "height": 0
+          },
+          "head": {
+            "top": 212,
+            "bottom": 321.1875,
+            "height": 109.1875
+          },
+          "dock": {
+            "top": 212,
+            "bottom": 480,
+            "height": 268
+          },
+          "wrap": {
+            "top": 373.1875,
+            "bottom": 480,
+            "height": 106.8125
+          },
+          "grab": {
+            "top": 172,
+            "bottom": 212,
+            "height": 40
+          },
+          "vv": {
+            "height": 440,
+            "offsetTop": 40
+          },
+          "padding": "16px",
+          "snap": 70,
+          "stagePadding": "20px",
+          "docHeight": 844,
+          "windowHeight": 844
+        },
+        "end": {
+          "lastBottom": 464.1875,
+          "wrapBottom": 480,
+          "canvasBottom": 152,
+          "stageBottom": 172
+        }
+      },
+      {
+        "name": "small",
+        "geometry": {
+          "sheet": {
+            "top": 108,
+            "bottom": 360,
+            "height": 252
+          },
+          "stage": {
+            "top": 47,
+            "bottom": 108,
+            "height": 61
+          },
+          "quick": {
+            "top": 242.796875,
+            "bottom": 294.796875,
+            "height": 52
+          },
+          "foot": {
+            "top": 0,
+            "bottom": 0,
+            "height": 0
+          },
+          "head": {
+            "top": 148,
+            "bottom": 242.796875,
+            "height": 94.796875
+          },
+          "dock": {
+            "top": 148,
+            "bottom": 360,
+            "height": 212
+          },
+          "wrap": {
+            "top": 294.796875,
+            "bottom": 360,
+            "height": 65.203125
+          },
+          "grab": {
+            "top": 108,
+            "bottom": 148,
+            "height": 40
+          },
+          "vv": {
+            "height": 360,
+            "offsetTop": 0
+          },
+          "padding": "16px",
+          "snap": 70,
+          "stagePadding": "20px",
+          "docHeight": 844,
+          "windowHeight": 844
+        },
+        "end": {
+          "lastBottom": 343.796875,
+          "wrapBottom": 360,
+          "canvasBottom": 88,
+          "stageBottom": 108
+        }
+      }
+    ],
+    "formatted": {
+      "html": "<b>키보드</b> 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.",
+      "selected": "키보드",
+      "text": "**키보드** 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.",
+      "focus": "ta"
+    },
+    "restored": {
+      "sheet": {
+        "top": 253.203125,
+        "bottom": 844,
+        "height": 590.796875
+      },
+      "stage": {
+        "top": 47,
+        "bottom": 253.203125,
+        "height": 206.203125
+      },
+      "quick": {
+        "top": 443.203125,
+        "bottom": 495.203125,
+        "height": 52
+      },
+      "foot": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "head": {
+        "top": 293.203125,
+        "bottom": 443.203125,
+        "height": 150
+      },
+      "dock": {
+        "top": 293.203125,
+        "bottom": 844,
+        "height": 550.796875
+      },
+      "wrap": {
+        "top": 495.203125,
+        "bottom": 844,
+        "height": 348.796875
+      },
+      "grab": {
+        "top": 253.203125,
+        "bottom": 293.203125,
+        "height": 40
+      },
+      "vv": {
+        "height": 844,
+        "offsetTop": 0
+      },
+      "padding": "16px",
+      "snap": 70,
+      "stagePadding": "20px",
+      "docHeight": 844,
+      "windowHeight": 844
+    },
+    "settings": {
+      "height": 191,
+      "bottom": 500,
+      "lastBottom": 488,
+      "sheetBottom": 500,
+      "overflow": "auto"
+    },
+    "composer": {
+      "sheet": {
+        "top": 384,
+        "bottom": 480,
+        "height": 96
+      },
+      "stage": {
+        "top": 47,
+        "bottom": 384,
+        "height": 337
+      },
+      "quick": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "foot": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "head": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "dock": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "wrap": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "grab": {
+        "top": 384,
+        "bottom": 424,
+        "height": 40
+      },
+      "vv": {
+        "height": 480,
+        "offsetTop": 0
+      },
+      "padding": "16px",
+      "snap": null,
+      "stagePadding": "20px",
+      "docHeight": 844,
+      "windowHeight": 844
+    },
+    "html": {
+      "sheet": {
+        "top": 384,
+        "bottom": 480,
+        "height": 96
+      },
+      "stage": {
+        "top": 47,
+        "bottom": 384,
+        "height": 337
+      },
+      "quick": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "foot": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "head": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "dock": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "wrap": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "grab": {
+        "top": 384,
+        "bottom": 424,
+        "height": 40
+      },
+      "vv": {
+        "height": 480,
+        "offsetTop": 0
+      },
+      "padding": "16px",
+      "snap": null,
+      "stagePadding": "20px",
+      "docHeight": 844,
+      "windowHeight": 844
+    },
+    "pop": {
+      "x": 93,
+      "y": 25.390625,
+      "width": 280,
+      "height": 268.5625
+    },
+    "popMoved": {
+      "x": 93,
+      "y": 151,
+      "width": 280,
+      "height": 268.5625
+    },
+    "modal": {
+      "x": 16,
+      "y": 198,
+      "width": 358,
+      "height": 84
+    },
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "width": 768,
+    "checks": [
+      {
+        "name": "keyboard",
+        "geometry": {
+          "sheet": {
+            "top": 144,
+            "bottom": 480,
+            "height": 336
+          },
+          "stage": {
+            "top": 47,
+            "bottom": 144,
+            "height": 97
+          },
+          "quick": {
+            "top": 300.390625,
+            "bottom": 354.390625,
+            "height": 54
+          },
+          "foot": {
+            "top": 0,
+            "bottom": 0,
+            "height": 0
+          },
+          "head": {
+            "top": 184,
+            "bottom": 300.390625,
+            "height": 116.390625
+          },
+          "dock": {
+            "top": 184,
+            "bottom": 480,
+            "height": 296
+          },
+          "wrap": {
+            "top": 354.390625,
+            "bottom": 480,
+            "height": 125.609375
+          },
+          "grab": {
+            "top": 144,
+            "bottom": 184,
+            "height": 40
+          },
+          "vv": {
+            "height": 480,
+            "offsetTop": 0
+          },
+          "padding": "16px",
+          "snap": 70,
+          "stagePadding": "20px",
+          "docHeight": 844,
+          "windowHeight": 844
+        },
+        "end": {
+          "lastBottom": 464.390625,
+          "wrapBottom": 480,
+          "canvasBottom": 124,
+          "stageBottom": 144
+        }
+      },
+      {
+        "name": "pan",
+        "geometry": {
+          "sheet": {
+            "top": 172,
+            "bottom": 480,
+            "height": 308
+          },
+          "stage": {
+            "top": 87,
+            "bottom": 172,
+            "height": 85
+          },
+          "quick": {
+            "top": 321.1875,
+            "bottom": 375.1875,
+            "height": 54
+          },
+          "foot": {
+            "top": 0,
+            "bottom": 0,
+            "height": 0
+          },
+          "head": {
+            "top": 212,
+            "bottom": 321.1875,
+            "height": 109.1875
+          },
+          "dock": {
+            "top": 212,
+            "bottom": 480,
+            "height": 268
+          },
+          "wrap": {
+            "top": 375.1875,
+            "bottom": 480,
+            "height": 104.8125
+          },
+          "grab": {
+            "top": 172,
+            "bottom": 212,
+            "height": 40
+          },
+          "vv": {
+            "height": 440,
+            "offsetTop": 40
+          },
+          "padding": "16px",
+          "snap": 70,
+          "stagePadding": "20px",
+          "docHeight": 844,
+          "windowHeight": 844
+        },
+        "end": {
+          "lastBottom": 464.1875,
+          "wrapBottom": 480,
+          "canvasBottom": 152,
+          "stageBottom": 172
+        }
+      },
+      {
+        "name": "small",
+        "geometry": {
+          "sheet": {
+            "top": 108,
+            "bottom": 360,
+            "height": 252
+          },
+          "stage": {
+            "top": 47,
+            "bottom": 108,
+            "height": 61
+          },
+          "quick": {
+            "top": 242.796875,
+            "bottom": 296.796875,
+            "height": 54
+          },
+          "foot": {
+            "top": 0,
+            "bottom": 0,
+            "height": 0
+          },
+          "head": {
+            "top": 148,
+            "bottom": 242.796875,
+            "height": 94.796875
+          },
+          "dock": {
+            "top": 148,
+            "bottom": 360,
+            "height": 212
+          },
+          "wrap": {
+            "top": 296.796875,
+            "bottom": 360,
+            "height": 63.203125
+          },
+          "grab": {
+            "top": 108,
+            "bottom": 148,
+            "height": 40
+          },
+          "vv": {
+            "height": 360,
+            "offsetTop": 0
+          },
+          "padding": "16px",
+          "snap": 70,
+          "stagePadding": "20px",
+          "docHeight": 844,
+          "windowHeight": 844
+        },
+        "end": {
+          "lastBottom": 343.796875,
+          "wrapBottom": 360,
+          "canvasBottom": 88,
+          "stageBottom": 108
+        }
+      }
+    ],
+    "formatted": {
+      "html": "<b>키보드</b> 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.<br>키보드 아래쪽까지 확인하는 긴 문장입니다.",
+      "selected": "키보드",
+      "text": "**키보드** 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.\n키보드 아래쪽까지 확인하는 긴 문장입니다.",
+      "focus": "ta"
+    },
+    "restored": {
+      "sheet": {
+        "top": 253.203125,
+        "bottom": 844,
+        "height": 590.796875
+      },
+      "stage": {
+        "top": 47,
+        "bottom": 253.203125,
+        "height": 206.203125
+      },
+      "quick": {
+        "top": 443.203125,
+        "bottom": 497.203125,
+        "height": 54
+      },
+      "foot": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "head": {
+        "top": 293.203125,
+        "bottom": 443.203125,
+        "height": 150
+      },
+      "dock": {
+        "top": 293.203125,
+        "bottom": 844,
+        "height": 550.796875
+      },
+      "wrap": {
+        "top": 497.203125,
+        "bottom": 844,
+        "height": 346.796875
+      },
+      "grab": {
+        "top": 253.203125,
+        "bottom": 293.203125,
+        "height": 40
+      },
+      "vv": {
+        "height": 844,
+        "offsetTop": 0
+      },
+      "padding": "16px",
+      "snap": 70,
+      "stagePadding": "20px",
+      "docHeight": 844,
+      "windowHeight": 844
+    },
+    "settings": {
+      "height": 191,
+      "bottom": 500,
+      "lastBottom": 488,
+      "sheetBottom": 500,
+      "overflow": "auto"
+    },
+    "composer": {
+      "sheet": {
+        "top": 384,
+        "bottom": 480,
+        "height": 96
+      },
+      "stage": {
+        "top": 47,
+        "bottom": 384,
+        "height": 337
+      },
+      "quick": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "foot": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "head": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "dock": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "wrap": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "grab": {
+        "top": 384,
+        "bottom": 424,
+        "height": 40
+      },
+      "vv": {
+        "height": 480,
+        "offsetTop": 0
+      },
+      "padding": "16px",
+      "snap": null,
+      "stagePadding": "20px",
+      "docHeight": 844,
+      "windowHeight": 844
+    },
+    "html": {
+      "sheet": {
+        "top": 384,
+        "bottom": 480,
+        "height": 96
+      },
+      "stage": {
+        "top": 47,
+        "bottom": 384,
+        "height": 337
+      },
+      "quick": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "foot": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "head": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "dock": {
+        "top": 424,
+        "bottom": 480,
+        "height": 56
+      },
+      "wrap": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0
+      },
+      "grab": {
+        "top": 384,
+        "bottom": 424,
+        "height": 40
+      },
+      "vv": {
+        "height": 480,
+        "offsetTop": 0
+      },
+      "padding": "16px",
+      "snap": null,
+      "stagePadding": "20px",
+      "docHeight": 844,
+      "windowHeight": 844
+    },
+    "pop": {
+      "x": 105,
+      "y": 25.390625,
+      "width": 280,
+      "height": 268.5625
+    },
+    "popMoved": {
+      "x": 105,
+      "y": 151,
+      "width": 280,
+      "height": 268.5625
+    },
+    "modal": {
+      "x": 174,
+      "y": 198,
+      "width": 420,
+      "height": 84
+    },
+    "errors": []
+  }
+]

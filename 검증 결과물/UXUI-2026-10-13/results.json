@@ -1,0 +1,374 @@
+[
+  {
+    "engine": "chromium",
+    "width": 390,
+    "height": 844,
+    "initial": {
+      "grabHeight": 16,
+      "sheetTransition": "transform 0.26s cubic-bezier(0.22, 0.61, 0.36, 1)",
+      "horizontalOverflow": false,
+      "toastRole": null
+    },
+    "modal": {
+      "focus": "ta",
+      "role": null,
+      "ariaModal": null,
+      "afterEnter": 1,
+      "tabInModal": false,
+      "restoredFocus": "btnAdd"
+    },
+    "charCopy": {
+      "animation": "slide-copy"
+    },
+    "themeCopy": {
+      "animation": "none"
+    },
+    "focusLeaks": 26,
+    "reduced": {
+      "slider": "0.25s",
+      "copy": "none"
+    },
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "width": 844,
+    "height": 390,
+    "initial": {
+      "grabHeight": 16,
+      "sheetTransition": "transform 0.26s cubic-bezier(0.22, 0.61, 0.36, 1)",
+      "horizontalOverflow": false,
+      "toastRole": null
+    },
+    "modal": {
+      "focus": "ta",
+      "role": null,
+      "ariaModal": null,
+      "afterEnter": 1,
+      "tabInModal": false,
+      "restoredFocus": "btnAdd"
+    },
+    "charCopy": {
+      "animation": "slide-copy"
+    },
+    "themeCopy": {
+      "animation": "none"
+    },
+    "focusLeaks": 26,
+    "reduced": {
+      "slider": "0.25s",
+      "copy": "none"
+    },
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "width": 899,
+    "height": 800,
+    "initial": {
+      "grabHeight": 16,
+      "sheetTransition": "transform 0.26s cubic-bezier(0.22, 0.61, 0.36, 1)",
+      "horizontalOverflow": false,
+      "toastRole": null
+    },
+    "modal": {
+      "focus": "ta",
+      "role": null,
+      "ariaModal": null,
+      "afterEnter": 1,
+      "tabInModal": false,
+      "restoredFocus": "btnAdd"
+    },
+    "charCopy": {
+      "animation": "slide-copy"
+    },
+    "themeCopy": {
+      "animation": "none"
+    },
+    "focusLeaks": 26,
+    "reduced": {
+      "slider": "0.25s",
+      "copy": "none"
+    },
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "width": 900,
+    "height": 800,
+    "initial": {
+      "grabHeight": 0,
+      "sheetTransition": "transform 0.26s cubic-bezier(0.22, 0.61, 0.36, 1)",
+      "horizontalOverflow": false,
+      "toastRole": null
+    },
+    "modal": {
+      "focus": "ta",
+      "role": null,
+      "ariaModal": null,
+      "afterEnter": 1,
+      "tabInModal": false,
+      "restoredFocus": "btnAdd"
+    },
+    "charCopy": {
+      "animation": "slide-copy"
+    },
+    "themeCopy": {
+      "animation": "none"
+    },
+    "focusLeaks": 2,
+    "reduced": {
+      "slider": "0.25s",
+      "copy": "none"
+    },
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "height": 900,
+    "initial": {
+      "grabHeight": 0,
+      "sheetTransition": "transform 0.26s cubic-bezier(0.22, 0.61, 0.36, 1)",
+      "horizontalOverflow": false,
+      "toastRole": null
+    },
+    "modal": {
+      "focus": "ta",
+      "role": null,
+      "ariaModal": null,
+      "afterEnter": 1,
+      "tabInModal": false,
+      "restoredFocus": "btnAdd"
+    },
+    "charCopy": {
+      "animation": "slide-copy"
+    },
+    "themeCopy": {
+      "animation": "none"
+    },
+    "focusLeaks": 0,
+    "reduced": {
+      "slider": "0.25s",
+      "copy": "none"
+    },
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "width": 1500,
+    "height": 900,
+    "initial": {
+      "grabHeight": 0,
+      "sheetTransition": "transform 0.26s cubic-bezier(0.22, 0.61, 0.36, 1)",
+      "horizontalOverflow": false,
+      "toastRole": null
+    },
+    "modal": {
+      "focus": "ta",
+      "role": null,
+      "ariaModal": null,
+      "afterEnter": 1,
+      "tabInModal": false,
+      "restoredFocus": "btnAdd"
+    },
+    "charCopy": {
+      "animation": "slide-copy"
+    },
+    "themeCopy": {
+      "animation": "none"
+    },
+    "focusLeaks": 0,
+    "reduced": {
+      "slider": "0.25s",
+      "copy": "none"
+    },
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "height": 844,
+    "initial": {
+      "grabHeight": 16,
+      "sheetTransition": "transform 0.26s cubic-bezier(0.22, 0.61, 0.36, 1)",
+      "horizontalOverflow": false,
+      "toastRole": null
+    },
+    "modal": {
+      "focus": "ta",
+      "role": null,
+      "ariaModal": null,
+      "afterEnter": 1,
+      "tabInModal": false,
+      "restoredFocus": "btnAdd"
+    },
+    "charCopy": {
+      "animation": "slide-copy"
+    },
+    "themeCopy": {
+      "animation": "none"
+    },
+    "focusLeaks": 26,
+    "reduced": {
+      "slider": "0.25s",
+      "copy": "none"
+    },
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "width": 844,
+    "height": 390,
+    "initial": {
+      "grabHeight": 16,
+      "sheetTransition": "transform 0.26s cubic-bezier(0.22, 0.61, 0.36, 1)",
+      "horizontalOverflow": false,
+      "toastRole": null
+    },
+    "modal": {
+      "focus": "ta",
+      "role": null,
+      "ariaModal": null,
+      "afterEnter": 1,
+      "tabInModal": false,
+      "restoredFocus": "btnAdd"
+    },
+    "charCopy": {
+      "animation": "slide-copy"
+    },
+    "themeCopy": {
+      "animation": "none"
+    },
+    "focusLeaks": 26,
+    "reduced": {
+      "slider": "0.25s",
+      "copy": "none"
+    },
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "width": 899,
+    "height": 800,
+    "initial": {
+      "grabHeight": 16,
+      "sheetTransition": "transform 0.26s cubic-bezier(0.22, 0.61, 0.36, 1)",
+      "horizontalOverflow": false,
+      "toastRole": null
+    },
+    "modal": {
+      "focus": "ta",
+      "role": null,
+      "ariaModal": null,
+      "afterEnter": 1,
+      "tabInModal": false,
+      "restoredFocus": "btnAdd"
+    },
+    "charCopy": {
+      "animation": "slide-copy"
+    },
+    "themeCopy": {
+      "animation": "none"
+    },
+    "focusLeaks": 26,
+    "reduced": {
+      "slider": "0.25s",
+      "copy": "none"
+    },
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "width": 900,
+    "height": 800,
+    "initial": {
+      "grabHeight": 0,
+      "sheetTransition": "transform 0.26s cubic-bezier(0.22, 0.61, 0.36, 1)",
+      "horizontalOverflow": false,
+      "toastRole": null
+    },
+    "modal": {
+      "focus": "ta",
+      "role": null,
+      "ariaModal": null,
+      "afterEnter": 1,
+      "tabInModal": false,
+      "restoredFocus": "btnAdd"
+    },
+    "charCopy": {
+      "animation": "slide-copy"
+    },
+    "themeCopy": {
+      "animation": "none"
+    },
+    "focusLeaks": 2,
+    "reduced": {
+      "slider": "0.25s",
+      "copy": "none"
+    },
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "width": 1440,
+    "height": 900,
+    "initial": {
+      "grabHeight": 0,
+      "sheetTransition": "transform 0.26s cubic-bezier(0.22, 0.61, 0.36, 1)",
+      "horizontalOverflow": false,
+      "toastRole": null
+    },
+    "modal": {
+      "focus": "ta",
+      "role": null,
+      "ariaModal": null,
+      "afterEnter": 1,
+      "tabInModal": false,
+      "restoredFocus": "btnAdd"
+    },
+    "charCopy": {
+      "animation": "slide-copy"
+    },
+    "themeCopy": {
+      "animation": "none"
+    },
+    "focusLeaks": 0,
+    "reduced": {
+      "slider": "0.25s",
+      "copy": "none"
+    },
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "width": 1500,
+    "height": 900,
+    "initial": {
+      "grabHeight": 0,
+      "sheetTransition": "transform 0.26s cubic-bezier(0.22, 0.61, 0.36, 1)",
+      "horizontalOverflow": false,
+      "toastRole": null
+    },
+    "modal": {
+      "focus": "ta",
+      "role": null,
+      "ariaModal": null,
+      "afterEnter": 1,
+      "tabInModal": false,
+      "restoredFocus": "btnAdd"
+    },
+    "charCopy": {
+      "animation": "slide-copy"
+    },
+    "themeCopy": {
+      "animation": "none"
+    },
+    "focusLeaks": 0,
+    "reduced": {
+      "slider": "0.25s",
+      "copy": "none"
+    },
+    "errors": []
+  }
+]

@@ -1334,7 +1334,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
      뒤가 이긴다. 클래스를 하나 더 물어 여기서 이긴다. */
   .sheet .sheet-grab{
     display:block;order:0;flex:0 0 auto;
-    padding:9px 0 3px;touch-action:none;cursor:grab;-webkit-user-select:none;user-select:none;
+    padding:18px 0;touch-action:none;cursor:grab;-webkit-user-select:none;user-select:none;
   }
   .sheet-grab i{
     display:block;width:38px;height:4px;margin:0 auto;border-radius:99px;
@@ -1372,21 +1372,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
     height:auto;max-height:calc(60dvh - 76px);overflow-y:auto;
     white-space:pre-wrap;text-overflow:clip
   }
-  /* 키보드가 열린 일반 글자 블록 편집에서만, 서식 도구를 끝까지 올려 볼 수 있게 한다.
-     시트 자체는 움직이지 않고 서식 스크롤 영역의 끝에만 여유를 붙인다. */
-  .sheet.is-normal-writing #formatWrap{
-    padding-bottom:calc(var(--keyboard-inset,0px) + 84px)
-  }
-  /* HTML 을 적는 동안에는 서식 도구가 없어 시트가 작성창 한 줄짜리로 남는다. 그대로 두면
-     화면 맨 아래에 붙은 채 키보드에 통째로 가려 무엇을 적는지 안 보인다.
-     서식이 있을 때 도구 밑에 붙이던 여유를, 여기서는 작성 묶음 아래에 붙여 작성창을
-     키보드 위로 밀어 올린다. 시트는 그대로 바닥에 붙어 있어 NAV·확정 단추의 자리
-     계산(--sheet-h)도 저절로 따라온다. */
-  .sheet.is-normal-writing.is-compact{max-height:none}
-  /* 확정 단추가 작성창 아래로 내려온 뒤로는, 새 블록을 그냥 적는 동안에도 같은 여유가
-     있어야 한다 — 없으면 그 단추만 키보드에 가려 «올릴 데가 없는» 꼴이 된다. */
-  .sheet.is-normal-writing.is-compact .dock,
-  .sheet.is-writing.is-compact .dock{padding-bottom:var(--keyboard-inset,0px)}
   /* 삽입 버튼의 모양은 그대로 두고, 줄 전체만 시트 바로 위에 띄운다. */
   .nav-slot{height:0;overflow:visible}
   .nav-row{
@@ -1528,11 +1513,12 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
    v2 컴포넌트: 액션 메뉴
    ═══════════════════════════════════════════════════════════════ */
 .action-menu{
+  position:fixed;max-width:calc(100vw - 20px);overflow-y:auto;overscroll-behavior:contain;
   background:var(--c-surface);border:1px solid var(--c-border);
   border-radius:var(--r-md,12px);box-shadow:var(--shadow-lg,0 8px 24px rgba(0,0,0,.12));
   padding:var(--sp-xs,4px) 0;
-  min-width:140px;overflow:hidden;
-  z-index:200;
+  min-width:140px;overflow-x:hidden;overflow-y:auto;
+  z-index:70;
 }
 .action-menu-item{
   display:flex;align-items:center;gap:var(--sp-sm,8px);
@@ -1549,7 +1535,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 /* ═══════════════════════════════════════════════════════════════
    v2 컴포넌트: 언더라인 탭
    ═══════════════════════════════════════════════════════════════ */
-.tabs-line{display:flex;border-bottom:1px solid var(--c-divider,#EBEBF0);position:relative}
+.tabs-line{display:flex;flex:0 0 auto;border-bottom:1px solid var(--c-divider,#EBEBF0);position:relative}
 .tab-line{
   flex:1;height:44px;display:flex;align-items:center;justify-content:center;
   font-size:var(--fs-sm);font-weight:var(--fw-medium);color:var(--c-text-secondary,#636366);
@@ -1564,7 +1550,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 /* ═══════════════════════════════════════════════════════════════
    v2 컴포넌트: 설정 패널
    ═══════════════════════════════════════════════════════════════ */
-.settings-panel{overflow:hidden;max-height:0;transition:max-height var(--dur-normal) var(--ease-out)}
+.settings-panel{overflow:clip;max-height:0;transition:max-height var(--dur-normal) var(--ease-out)}
 .settings-panel.is-open{max-height:var(--sheet-settings-h,55dvh)}
 .tab-slider{display:flex;transition:transform var(--dur-normal) var(--ease-out)}
 .tab-slider[data-active="0"]{transform:translateX(0)}
@@ -1583,6 +1569,33 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   100%{transform:translateX(0);opacity:1}
 }
 .settings-content.is-copying{animation:slide-copy 0.35s var(--ease-out)}
+.section-header{width:100%;text-align:left}
+.savesheet-warning{padding:10px 12px;margin:0 0 12px;background:var(--c-danger-bg);border-radius:8px;font-size:12px;line-height:1.5}
+.toast.is-persistent{pointer-events:auto;white-space:normal;line-height:1.5;padding-right:40px}
+.toast.is-persistent button{position:absolute;right:4px;top:2px;width:32px;height:32px;font-size:20px}
+.save-spinner{display:inline-block;animation:save-spin 1s linear infinite}
+@keyframes save-spin{to{transform:rotate(360deg)}}
+body:has(.sheet.is-dragging) .sheet-float-nav,
+body:has(.sheet.is-settling) .sheet-float-nav,body:has(.sheet.is-dragging) .nav-row,
+body:has(.sheet.is-settling) .nav-row,body:has(.sheet.is-dragging) .stage,
+body:has(.sheet.is-settling) .stage{transition:none}
+@media (max-width:899.98px){
+  .sheet.has-snap .sheet-body{display:flex;flex-direction:column;overflow:hidden}
+  .sheet.has-snap .settings-panel.is-open{display:flex;flex-direction:column;flex:1;min-height:0;max-height:none}
+  .sheet.has-snap .tab-slider{flex:1;min-height:0}
+  .sheet.has-snap .settings-content{height:100%;max-height:none;overscroll-behavior:contain}
+}
+/* 모양을 늘리지 않고 작은 헤더 버튼 사이의 빈 공간까지 누를 수 있게 한다. */
+@media (pointer:coarse){
+  .edit-header button{position:relative}
+  .edit-header button::after{content:"";position:absolute;inset:-6px -3px}
+}
+@media (prefers-reduced-motion:reduce){
+  .settings-content.is-copying{animation:none}
+  .save-spinner{animation:none}
+  .tab-slider,.settings-panel,.tab-indicator,.sheet-float-nav,.nav-row,.stage,
+  .section-header .caret,.tgl,.tgl::after{transition:none!important}
+}
 .settings-list{display:flex;flex-direction:column;gap:var(--sp-sm)}
 
 /* ═══════════════════════════════════════════════════════════════
@@ -2433,6 +2446,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   /* 가르는 선은 «아래 칸의 윗변» 이다 — 위아래를 뒤집었으니 선도 따라 옮겨 온다 */
   .sheet-body{
     order:2;flex:0 0 20%;min-height:60px;overflow-y:auto;
+    display:flex;flex-direction:column;overflow:clip;
     border-top:2px solid var(--c-border-strong);
     transition:flex-basis .22s cubic-bezier(.22,.61,.36,1)
   }
@@ -2456,14 +2470,14 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   #btnGear,#btnGearInTabs{display:none}
   .composer-input{padding-left:14px}
   /* 액션 메뉴는 PC 에서 아래로 열린다 — 위로 열면 작성창 위 내용을 가린다 */
-  #actionMenu{bottom:auto !important;top:100%;margin-bottom:0;margin-top:var(--sp-sm,8px)}
+
   /* HTML 입력 칸은 PC 에서 더 크게 늘릴 수 있다 — 코드가 길면 120px 은 모자란다 */
   .inp-group .composer-ta{max-height:400px}
   /* PC에서 설정 패널은 항상 열림 + 높이 제한 해제 — 모바일의 55dvh 제한을 푼다 */
-  .settings-panel{max-height:none !important;overflow:visible;display:flex;flex-direction:column;flex:1 1 auto}
+  .settings-panel{max-height:none !important;overflow:clip;display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
   .settings-panel.is-open{max-height:none !important}
   .tab-slider{flex:1 1 auto;min-height:0}
-  .settings-content{max-height:none;height:100%}
+  .settings-content{max-height:none;height:100%;overscroll-behavior:contain}
 
   /* 화면은 넓어도 시트는 400px(2단이면 360px)짜리 좁은 기둥이다.
      접는 기준을 화면 폭으로만 잡아 두면 여기서는 영영 안 접혀 칩과 탭이 줄을 넘긴다.
@@ -2506,7 +2520,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
      못 박힌 탭 줄[.tabs position:sticky] 위로 글이 지나가 보인다. */
   /* 여기서는 좌우로 갈라지므로 «가르는 선» 도 위가 아니라 옆이다 [한 기둥 배치의 border-top] */
   .sheet-body{grid-column:2;grid-row:1;border-top:0;border-left:1px solid var(--c-border);
-    display:flex;flex-direction:column;min-height:0;overflow-y:auto}
+    display:flex;flex-direction:column;min-height:0;overflow:clip}
   .sheet-body .tabs{padding-top:16px}
   .savesheet{z-index:100}
 }
@@ -2558,6 +2572,36 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 .bubble-artist-tag{display:inline-block;flex-shrink:0;white-space:nowrap;background:linear-gradient(115deg,var(--artist-color,#F080A6),var(--artist-light,#F9CCDC));color:#fff;
   border-radius:999px;padding:.15em .65em;font-size:.9em;font-weight:700;line-height:1.25;letter-spacing:.025em}
 
+/* 모바일 레이아웃: 키보드 위치를 따라 앱이나 패널을 이동시키지 않는다.
+   U03/U04 손잡이와 정착 모션, U12 설정 본문의 단일 스크롤을 유지한다. */
+@media (max-width:899.98px){
+  html,body{overflow:hidden}
+  .shell{position:fixed;top:0;left:0;right:0;
+    height:var(--app-vh,100dvh);min-height:0}
+  .stage{padding-bottom:20px;margin-bottom:var(--sheet-visible-h,150px);transition:none}
+  .sheet{bottom:0;max-height:var(--sheet-limit,92dvh);overflow:clip}
+  .sheet.is-format,.sheet.is-tools,.sheet.is-full,.sheet.is-normal-writing{
+    max-height:min(var(--sheet-limit,92dvh),calc(var(--app-vh,100dvh) * .70))}
+  .sheet.has-snap:not(.is-compact){max-height:var(--sheet-limit,92dvh)}
+  .sheet.has-snap:not(.is-compact):not(.is-tools):not(.is-format){
+    height:auto;max-height:min(var(--snap-h),var(--sheet-limit,92dvh))}
+  .sheet.is-format .dock{flex:1;overflow:hidden}
+  .sheet.is-format #ta,.sheet.has-snap:not(.is-compact) #ta,
+  .sheet.has-snap:not(.is-compact) .composer-input:focus-within #ta,
+  .sheet.is-normal-writing .composer-input:focus-within #ta{
+    max-height:var(--composer-max-h,120px)}
+  #formatWrap{padding-bottom:16px;overflow-x:hidden;flex:1 1 auto}
+  .sheet-body{display:flex;flex-direction:column;overflow:hidden}
+  .sheet:not(.is-tools) .sheet-body:has(.settings-panel:not(.is-open)){display:none}
+  .settings-panel.is-open{display:flex;flex-direction:column;flex:1;min-height:0;max-height:none}
+  .tab-slider{flex:1;min-height:0}
+  .settings-content{height:100%;max-height:none;overscroll-behavior:contain}
+  .nav-row .insert-bar{max-height:max(48px,calc(var(--app-vh,100dvh) - var(--sheet-visible-h,80px) - 150px))}
+  .modal,.savesheet{top:var(--viewport-top,0px);bottom:var(--viewport-bottom,0px)}
+  .modal-panel{max-height:max(48px,calc(var(--app-vh,100dvh) - 32px))}
+  .savesheet-panel{max-height:calc(var(--app-vh,100dvh) * .92)}
+}
+
 </style>
 </head>
 <body>
@@ -2608,7 +2652,8 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
     <!-- 손잡이 — 끌어서 시트 높이를 바꾼다. 손을 떼면 정해 둔 지점으로 붙는다 [SNAPS].
          짧게 누르면 접힘↔직전 크기. 넓은 화면에는 안 나온다(시트가 옆 기둥이라 끌 데가 없다). -->
     <div class="sheet-grab" id="sheetGrab" role="separator" aria-label="시트 높이 조절"
-         title="끌어서 높이 조절 · 누르면 접기"><i></i></div>
+         tabindex="0" aria-orientation="horizontal" aria-valuemin="0" aria-valuemax="70" aria-valuenow="0"
+         title="끌어서 높이 조절 · 눌러 기본/직전 크기 전환 · ↑↓ 높이 선택"><i></i></div>
 
     <!-- ── 작성 묶음(독) ────────────────────────────────────────────
          언제나 같은 세 칸이다. 무엇을 하든 자리는 안 바뀌고 가운데 내용만 갈린다.
@@ -2636,13 +2681,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
             </button>
           </div>
-          <div class="action-menu" id="actionMenu" style="position: absolute; bottom: 100%; right: var(--pad); margin-bottom: var(--sp-sm, 8px);" hidden>
-            <button class="action-menu-item" data-action="image"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></span> 이미지</button>
-            <button class="action-menu-item" data-action="html"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7"/></svg></span> HTML</button>
-            <button class="action-menu-item" data-action="music"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span> 재생음악</button>
-            <div class="action-menu-divider"></div>
-            <button class="action-menu-item" data-action="divider"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><path d="M5 12h14"/></svg></span> 구분선</button>
-          </div>
+
           </div><!-- /composerInput -->
         </div>
         <!-- 작성창에 붙는 한 줄. 평소엔 단축키, 블록을 고르면 그 블록에 무엇이 걸려 있는지. -->
@@ -2754,8 +2793,15 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 </div>
 </div>
 
-<div class="toast" id="toast"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <div class="savesheet" id="saveSheet"></div>
+<div class="action-menu" id="actionMenu" hidden>
+            <button class="action-menu-item" data-action="image"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></span> 이미지</button>
+            <button class="action-menu-item" data-action="html"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7"/></svg></span> HTML</button>
+            <button class="action-menu-item" data-action="music"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span> 재생음악</button>
+            <div class="action-menu-divider"></div>
+            <button class="action-menu-item" data-action="divider"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><path d="M5 12h14"/></svg></span> 구분선</button>
+          </div>
 <div id="popRoot"></div>
 <div id="modalRoot"></div>
 <input type="file" id="filePick" accept="image/*" hidden>
@@ -4233,9 +4279,7 @@ const S = {
     deskPane: 'dock',
     /* 손잡이로 정한 시트 높이 [SNAPS · setSnap]. null 은 «원본 크기» — 단계마다 제 높이를
        그대로 쓴다(작성 중이면 한 줄, 서식이 떠 있으면 그만큼). snapLast 는 직전 크기다. */
-    snap: null, snapLast: 60,
-    /* 작성창을 눌러 «자동으로» 올려 둔 상태 [autoSnapForWriting] — 되돌릴 자리를 안고 있다 */
-    snapAuto: null,
+    snap: null, snapLast: 45,
     selectedBlockId: null, editingCharacterId: null, charDraft: null,
     editingThemeId: null, themeDraft: null,
     /* 새로 꽂을 사진·서명을 고르는 중인가 — 그때는 서식 패널이 그 편집기를 편다 */
@@ -5119,6 +5163,7 @@ function resetComposerValue() {
       if (document.queryCommandState && document.queryCommandState(cmd)) document.execCommand(cmd, false, null);
     } catch (_) { }
   });
+  syncBtnAddState();
 }
 function liveRange() {
   const ta = $('#ta'), sel = window.getSelection();
@@ -5771,12 +5816,7 @@ const ICON_SEND = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
 function closeActionMenu() {
   if (!ACTION_MENU) return;
   ACTION_MENU.hidden = true;
-  if (BTN_ADD) {
-    BTN_ADD.classList.remove('is-on');
-    if (!BTN_ADD.classList.contains('is-send')) {
-      BTN_ADD.innerHTML = ICON_PLUS;
-    }
-  }
+  syncBtnAddState();
 }
 
 /* 설정 패널만 닫기 (내부용) — 2패널에서는 닫지 않음 */
@@ -5822,14 +5862,14 @@ function closeAllOverlays(except) {
 function syncBtnAddState() {
   if (!BTN_ADD) return;
   const ta = $('#ta');
-  const hasText = (ta.innerText || ta.textContent || '').replace(/\u00A0/g, ' ').trim();
-  if (hasText) {
-    BTN_ADD.classList.add('is-send');
-    BTN_ADD.innerHTML = ICON_SEND;
-  } else {
-    BTN_ADD.classList.remove('is-send');
-    BTN_ADD.innerHTML = ICON_PLUS;
-  }
+  const hasText = !!(ta.innerText || ta.textContent || '').replace(/\u00A0/g, ' ').trim();
+  const open = !!ACTION_MENU && !ACTION_MENU.hidden;
+  BTN_ADD.classList.toggle('is-send', hasText);
+  BTN_ADD.classList.toggle('is-on', open && !hasText);
+  BTN_ADD.innerHTML = hasText ? ICON_SEND : (open ? ICON_X : ICON_PLUS);
+  BTN_ADD.setAttribute('aria-label', hasText ? '작성 확정' : (open ? '요소 메뉴 닫기' : '요소 추가'));
+  BTN_ADD.setAttribute('aria-expanded', String(open && !hasText));
+  BTN_ADD.title = hasText ? '작성 확정 (Ctrl/⌘+Enter)' : (open ? '요소 메뉴 닫기' : '요소 추가');
 }
 
 /* v2 컴포저 이벤트 초기화 */
@@ -5843,11 +5883,13 @@ function initComposerV2() {
       closeToolsToComposer();
     } else {
       setStage('tools');
+      if (!isWide() && S.ui.stage === 'tools') setSnap(70);
     }
   });
 
   /* btnAdd: 전송 모드면 커밋, 아니면 액션 메뉴 토글 — 다른 모든 UI 닫음 */
   bindStickyTap(BTN_ADD, () => {
+    syncBtnAddState();
     if (BTN_ADD.classList.contains('is-send')) {
       commitWithCleanup();
       return;
@@ -5863,8 +5905,8 @@ function initComposerV2() {
     /* 액션 메뉴 토글 */
     const isOpen = !ACTION_MENU.hidden;
     ACTION_MENU.hidden = isOpen;
-    BTN_ADD.classList.toggle('is-on', !isOpen);
-    BTN_ADD.innerHTML = isOpen ? ICON_PLUS : ICON_X;
+    syncBtnAddState();
+    placeActionMenu();
   });
 
   /* 바깥 클릭 시 액션 메뉴 닫기 */
@@ -5917,47 +5959,77 @@ function initComposerV2() {
   });
 }
 
-function syncViewportVars() {
-  const vv = window.visualViewport;
-  const h = vv ? vv.height : window.innerHeight;
-  const active = document.activeElement;
-  const block = selBlock();
-  /* 작성창에 손이 가 있는가. 사진·서명 편집기가 뜬 동안에는 작성창 자체가 없다. */
-  const writing = !isWide() && active === $('#ta') && !$('#composerInput').hidden;
-  const textBlockInput = writing
-    && ((block && block.type === 'text') || S.ui.insertMode === 'html');
-  const rawInset = vv ? Math.max(0, window.innerHeight - vv.height - vv.offsetTop) : 0;
-  /* 확정 단추가 작성창 아래에 서므로, 무엇을 적든 키보드만큼의 여유가 필요하다 */
-  const inset = writing && rawInset > 80 ? rawInset : 0;
-  document.documentElement.style.setProperty('--app-vh', h + 'px');
-  document.documentElement.style.setProperty('--keyboard-inset', inset + 'px');
-  $('#sheet').classList.toggle('is-normal-writing', !!textBlockInput);
-  /* 접힌 상태에서 '캔버스에 올리기' 를 펴는 열쇠 — 손을 떼면 도로 접힌다 */
-  $('#sheet').classList.toggle('is-writing', writing);
-  /* v2: 인풋 포커스로 자동 스냅 비활성화 — 손잡이로만 조절 */
-  requestAnimationFrame(measureSheet);
+function visibleViewport() {
+  const vv = window.visualViewport, layoutHeight = window.innerHeight;
+  const visual = vv && Math.abs(vv.scale - 1) < .02;
+  const height = visual ? Math.min(layoutHeight, vv.height) : layoutHeight;
+  // Safari 전환 중 height가 먼저 복구되고 offsetTop이 늦게 내려와도 화면 밖으로 밀지 않는다.
+  const top = visual ? clamp(vv.offsetTop, 0, Math.max(0, layoutHeight - height)) : 0;
+  return { height, top, bottom: top + height, inset: Math.max(0, layoutHeight - height - top) };
 }
-
-/* 작성창을 누르면 시트를 가장 크게 펴고, 키보드가 내려가면 있던 자리로 되돌린다 [setSnap].
-   글을 적는 동안에는 «적는 칸» 이 화면의 대부분이어야 한다 — 키보드가 아래 절반을 먹는데
-   시트까지 한 줄로 접혀 있으면 방금 친 글이 두어 줄밖에 안 보인다.
-   손잡이를 직접 끌거나 누른 경우에는 이 되돌리기가 끼어들지 않는다 — 사람이 정한 자리가
-   먼저다 [initSheetGrab 이 snapAuto 를 놓는다].
-   자동으로 올린 90% 는 «직전 크기» 로 치지 않는다 — 탭 한 번으로 돌아갈 자리는 사람이
-   손잡이로 골랐던 그 크기여야 한다. 그래서 snapLast 를 안팎으로 그대로 지켜 준다. */
-function autoSnapForWriting(writing) {
-  if (isWide()) return;
-  if (writing) {
-    if (S.ui.snapAuto) return;
-    S.ui.snapAuto = { back: S.ui.snap, last: S.ui.snapLast };
-    setSnap(90);
-    S.ui.snapLast = S.ui.snapAuto.last;
-  } else if (S.ui.snapAuto) {
-    const a = S.ui.snapAuto;
-    S.ui.snapAuto = null;
-    setSnap(a.back);
-    S.ui.snapLast = a.last;
+function placeActionMenu() {
+  if (!ACTION_MENU || ACTION_MENU.hidden) return;
+  const bounds = visibleViewport(), anchor = BTN_ADD.getBoundingClientRect();
+  ACTION_MENU.style.maxHeight = Math.max(48, bounds.height - 20) + 'px';
+  const width = ACTION_MENU.offsetWidth, height = ACTION_MENU.offsetHeight;
+  const above = anchor.top - height - 8, below = anchor.bottom + 8;
+  const preferred = isWide() ? below : above;
+  const alternate = isWide() ? above : below;
+  const fits = top => top >= bounds.top + 10 && top + height <= bounds.bottom - 10;
+  ACTION_MENU.style.left = clamp(anchor.right - width, 10, Math.max(10, innerWidth - width - 10)) + 'px';
+  ACTION_MENU.style.top = clamp(fits(preferred) ? preferred : alternate,
+    bounds.top + 10, Math.max(bounds.top + 10, bounds.bottom - height - 10)) + 'px';
+}
+function syncComposerHeight() {
+  if (isWide()) {
+    document.documentElement.style.removeProperty('--composer-max-h');
+    return;
   }
+  document.documentElement.style.setProperty('--composer-max-h', '120px');
+}
+// 키보드는 visual viewport만 줄인다. 편집 중에는 layout viewport 높이를 유지한다.
+let layoutHeight = document.documentElement.clientHeight || window.innerHeight;
+let layoutWidth = window.innerWidth;
+let viewportFrame = 0;
+function syncViewportVars() {
+  if (viewportFrame) return;
+  viewportFrame = requestAnimationFrame(() => {
+    viewportFrame = 0;
+    const root = document.documentElement;
+    const editing = document.activeElement?.matches('input,textarea,[contenteditable="true"]');
+    if (isWide() || !editing || layoutWidth !== window.innerWidth) {
+      layoutHeight = document.documentElement.clientHeight || window.innerHeight;
+      layoutWidth = window.innerWidth;
+    }
+    const h = layoutHeight, top = 0, bottom = 0;
+    const sheet = $('#sheet'), active = document.activeElement, block = selBlock();
+    const stage = $('.stage'), scroll = stage.scrollTop;
+    const atEnd = stage.scrollHeight - stage.clientHeight - scroll < 3;
+    const moved = root.style.getPropertyValue('--app-vh') !== h + 'px'
+      || root.style.getPropertyValue('--viewport-top') !== top + 'px'
+      || root.style.getPropertyValue('--viewport-bottom') !== (isWide() ? 0 : bottom) + 'px';
+    const writing = !isWide() && active === $('#ta') && !$('#composerInput').hidden;
+    root.style.setProperty('--app-vh', h + 'px');
+    root.style.setProperty('--viewport-top', top + 'px');
+    root.style.setProperty('--viewport-bottom', (isWide() ? 0 : bottom) + 'px');
+    const available = Math.max(0, h - $('.topbar').offsetHeight);
+    const preview = clamp(available * .25, 48, 96);
+    root.style.setProperty('--sheet-limit', Math.max(44, available - preview) + 'px');
+    sheet.classList.toggle('is-normal-writing', writing
+      && ((block && block.type === 'text') || S.ui.insertMode === 'html'));
+    sheet.classList.toggle('is-writing', writing);
+    syncComposerHeight();
+    // 키보드 열림/닫힘만으로 사용자가 선택한 스냅 상태를 바꾸지 않는다.
+    if (!sheet.classList.contains('is-dragging') && (moved || !sheetMotion)) {
+      if (moved) stopSheetMotion();
+      applySnap();
+    }
+    measureSheet();
+    if (!isWide()) stage.scrollTop = atEnd ? stage.scrollHeight : scroll;
+    if (moved && S.ui.stage === 'format') revealEditedBlock();
+    placeActionMenu();
+    if (colorPopPlace) colorPopPlace();
+  });
 }
 
 /* ── 캔버스 렌더 ─────────────────────────────────────────── */
@@ -8335,7 +8407,12 @@ function commitCharDraft() {
   const d = S.ui.charDraft;
   if (!d) return false;
   if (S.ui.editingCharacterId === 'new') {
+    if (!(d.name || '').trim() && !d.avatar) {
+      toast('이름 또는 이미지를 입력하세요');
+      return false;
+    }
     d.id = uid();
+    delete d.__for;
     S.characters.push(d);
     S.ui.charDraft = null;
     save();
@@ -8356,22 +8433,24 @@ function confirmDiscardCharDraft(onDiscard) {
   const p = modal('저장하지 않은 캐릭터 수정이 있습니다',
     '저장하지 않을 경우, 지금까지 입력한 내용은 삭제됩니다.');
   const foot = el('div', 'modal-foot');
+  const resume = el('button', 'btn btn-quiet', '계속 편집');
+  resume.onclick = closeModal;
   const keep = el('button', 'btn btn-primary', '저장');
   keep.onclick = () => {
+    if (!commitCharDraft()) return;
     closeModal();
-    commitCharDraft();
     S.ui.editingCharacterId = null;
     onDiscard();
     toast('캐릭터를 저장했습니다');
   };
-  const close = el('button', 'btn btn-danger', '버리고 나가기');
+  const close = el('button', 'btn btn-danger', '나가기');
   close.onclick = () => {
     closeModal();
     S.ui.editingCharacterId = null;
     S.ui.charDraft = null;
     onDiscard();
   };
-  foot.append(keep, close);
+  foot.append(resume, close, keep);
   p.appendChild(foot);
   return true;
 }
@@ -8400,9 +8479,8 @@ function confirmDiscardThemeDraft(onDiscard) {
   const p = modal('저장하지 않은 테마 수정이 있습니다',
     '저장하지 않을 경우, 지금까지 입력한 내용은 삭제됩니다.');
   const foot = el('div', 'modal-foot');
-  /* 나가는 길목마다 «취소» 를 눌러 되돌아가서 [저장] 을 다시 찾아 누르게 하는 것은,
-     하려던 일(저장하고 나가기)을 두 걸음으로 쪼개 놓은 것뿐이다 — 여기서 바로 담는다.
-     돌아가는 길은 창 바깥 누르기로 남아 있다 [modal]. */
+  const resume = el('button', 'btn btn-quiet', '계속 편집');
+  resume.onclick = closeModal;
   const keep = el('button', 'btn btn-primary', '저장');
   keep.onclick = () => {
     closeModal();
@@ -8413,7 +8491,7 @@ function confirmDiscardThemeDraft(onDiscard) {
     onDiscard();
     toast('테마를 저장했습니다');
   };
-  const close = el('button', 'btn btn-danger', '버리고 나가기');
+  const close = el('button', 'btn btn-danger', '나가기');
   close.onclick = () => {
     closeModal();
     /* 캔버스를 스냅샷으로 복원 */
@@ -8426,7 +8504,7 @@ function confirmDiscardThemeDraft(onDiscard) {
     S.ui.themeDraft = null;
     onDiscard();
   };
-  foot.append(keep, close);
+  foot.append(resume, close, keep);
   p.appendChild(foot);
   return true;
 }
@@ -8453,8 +8531,16 @@ function syncDesktopFloatNav() {
   root.style.setProperty('--desktop-float-top', Math.round(r.top + r.height / 2) + 'px');
 }
 const measureSheet = () => {
-  document.documentElement.style.setProperty('--sheet-h', $('#sheet').offsetHeight + 'px');
+  syncComposerHeight();
+  const root = document.documentElement, sheet = $('#sheet'), stage = $('.stage');
+  const atEnd = stage.scrollHeight - stage.clientHeight - stage.scrollTop < 3;
+  const before = stage.scrollTop;
+  const h = sheet.getBoundingClientRect().height;
+  root.style.setProperty('--sheet-visible-h', h + 'px');
+  root.style.setProperty('--sheet-h', h + 'px');
+  if (!isWide()) stage.scrollTop = atEnd ? stage.scrollHeight : before;
   syncDesktopFloatNav();
+  placeActionMenu();
 };
 /* 좁음↔넓음을 넘나들면 무엇을 띄울지가 통째로 달라진다 — 그 경계에서만 다시 그린다 */
 let _wasWide = isWide();
@@ -8471,10 +8557,24 @@ window.addEventListener('resize', () => {
 });
 window.addEventListener('resize', syncViewportVars);
 document.addEventListener('focusin', syncViewportVars);
-document.addEventListener('focusout', () => setTimeout(syncViewportVars, 0));
+let viewportSettleTimer;
+document.addEventListener('focusout', () => {
+  syncViewportVars();
+  clearTimeout(viewportSettleTimer);
+  viewportSettleTimer = setTimeout(syncViewportVars, 350);
+});
+window.addEventListener('scroll', syncViewportVars, { passive: true });
+document.addEventListener('scroll', () => {
+  placeActionMenu();
+  if (colorPopPlace) colorPopPlace();
+}, { capture: true, passive: true });
 if (window.visualViewport) {
-  visualViewport.addEventListener('resize', syncViewportVars);
-  visualViewport.addEventListener('scroll', syncViewportVars);
+  const placeOverlays = () => {
+    placeActionMenu();
+    if (colorPopPlace) colorPopPlace();
+  };
+  visualViewport.addEventListener('resize', placeOverlays);
+  visualViewport.addEventListener('scroll', placeOverlays);
 }
 
 /* contenteditable 은 내용만큼 스스로 늘어난다(높이 상한은 CSS max-height).
@@ -8529,6 +8629,7 @@ function renderComposer() {
 
   $('#optRow').hidden = true;
   renderComposerHint(b, editorOn);
+  syncBtnAddState();
 }
 /* 작성창 바로 아래 한 줄.
    · 평소       — 단축키 안내
@@ -8729,6 +8830,12 @@ function syncComposer(b) {
 
 function renderFormat() {
   const wrap = $('#formatWrap');
+  const blockId = S.ui.selectedBlockId, scroll = wrap.scrollTop;
+  requestAnimationFrame(() => {
+    if (S.ui.selectedBlockId !== blockId) return;
+    wrap.scrollTop = scroll;
+    measureSheet();
+  });
   /* 서식은 '고친다' 는 뜻이다 — 고칠 것이 정해졌을 때만 편다.
      처음 상태(그냥 새 글을 쓰는 중)에는 작성창 하나만 남긴다. 그때 여기 서 있던 서식은
      아무 블록에도 안 걸린 «전체 기본값» 이라, 쓰는 사람 눈에는 '지금 쓰는 글의 서식'
@@ -9147,7 +9254,8 @@ function colorBtn(label, val, title, onPick, clearable) {
   return b;
 }
 
-function closePop() { $('#popRoot').innerHTML = ''; }
+let colorPopPlace = null;
+function closePop() { colorPopPlace = null; $('#popRoot').innerHTML = ''; }
 
 function openColorPop(anchor, cur, title, onPick, clearable) {
   closePop();
@@ -9305,16 +9413,65 @@ function openColorPop(anchor, cur, title, onPick, clearable) {
   }
 
   function place() {
+    if (!pop.isConnected) return;
+    const bounds = visibleViewport(), top = bounds.top, bottom = bounds.bottom;
+    pop.style.maxHeight = Math.max(48, bottom - top - 20) + 'px';
+    pop.style.overflowY = 'auto';
     const r = anchor.getBoundingClientRect();
     const w = pop.offsetWidth || 250, h = pop.offsetHeight || 240;
     pop.style.left = clamp(r.left + r.width / 2 - w / 2, 10, window.innerWidth - w - 10) + 'px';
-    pop.style.top = (r.top - h - 10 > 10 ? r.top - h - 10 : Math.min(r.bottom + 10, window.innerHeight - h - 10)) + 'px';
+    const preferred = r.top - h - 10 >= top + 10 ? r.top - h - 10 : r.bottom + 10;
+    pop.style.top = clamp(preferred, top + 10, Math.max(top + 10, bottom - h - 10)) + 'px';
   }
+  colorPopPlace = place;
   stage1();
 }
 
 /* ═══ 모달 ═══════════════════════════════════════════════════ */
-function closeModal() { $('#modalRoot').innerHTML = ''; }
+/* 모달과 저장 결과창은 같은 포커스 규칙을 쓴다. 배경은 화면 그대로 두고 조작만 막는다. */
+const overlayFocus = new Map();
+const focusableIn = node => [...node.querySelectorAll('button,input,select,textarea,a[href],[tabindex],[contenteditable="true"]')]
+  .filter(n => !n.disabled && n.tabIndex >= 0 && !n.closest('[inert],[hidden]') && n.getClientRects().length);
+function activeOverlay() {
+  if ($('#saveSheet').classList.contains('is-on')) return $('#saveSheet');
+  if ($('#modalRoot').firstChild) return $('#modalRoot');
+  return null;
+}
+function syncOverlayLocks() {
+  const active = activeOverlay();
+  $('.shell').inert = !!active || exportBusy;
+  $('#modalRoot').inert = !!active && active.id !== 'modalRoot';
+  $('#popRoot').inert = !!active || exportBusy;
+  ACTION_MENU.inert = !!active || exportBusy;
+}
+function enterOverlay(root, panel, title) {
+  overlayFocus.set(root, exportBusy ? exportFocus : document.activeElement);
+  panel.setAttribute('role', 'dialog');
+  panel.setAttribute('aria-modal', 'true');
+  panel.setAttribute('aria-label', title);
+  panel.tabIndex = -1;
+  syncOverlayLocks();
+  queueMicrotask(() => {
+    if (!panel.isConnected || activeOverlay() !== root) return;
+    const controls = focusableIn(panel);
+    const safe = panel.querySelector('.btn-quiet:not(:disabled)');
+    const first = panel.querySelector('.btn-danger') ? safe : controls[0];
+    (first || panel).focus({ preventScroll: true });
+  });
+}
+function leaveOverlay(root) {
+  const previous = overlayFocus.get(root);
+  overlayFocus.delete(root);
+  syncOverlayLocks();
+  if (previous?.isConnected && !previous.closest('[inert],[hidden]')) previous.focus({ preventScroll: true });
+  else if (!activeOverlay()) $('#btnSettings').focus({ preventScroll: true });
+}
+function closeModal() {
+  const root = $('#modalRoot');
+  if (!root.firstChild) return;
+  root.innerHTML = '';
+  leaveOverlay(root);
+}
 
 function modal(title, sub) {
   closeModal();
@@ -9325,6 +9482,7 @@ function modal(title, sub) {
   p.appendChild(el('h2', 'modal-title', title));
   if (sub) p.appendChild(el('p', 'modal-sub', sub));
   m.appendChild(p); root.appendChild(m);
+  enterOverlay(root, p, title);
   return p;
 }
 
@@ -10407,7 +10565,7 @@ function buildTextEditor(host, block) {
     const st = key === 'italic' ? 'font-style:italic' : key === 'underline' ? 'text-decoration:underline' : key === 'strike' ? 'text-decoration:line-through' : 'font-weight:700';
     btn.innerHTML = `<b style="${st}">${label}</b>`;
     btn.title = title;
-    btn.onclick = () => { formatSelection(() => applyRich(key)); };
+    bindFormatAction(btn, () => { formatSelection(() => applyRich(key)); });
     styleGrp.appendChild(btn);
   });
   /* 윗주석/아랫주석도 서식에 통합 */
@@ -11182,6 +11340,147 @@ function panelTheme(p) {
 */
 
 /* 설정 패널 열기/닫기 */
+function syncSettingsViews() {
+  const panel = $('#settingsPanel'), slider = $('#tabSlider');
+  const visible = isWide() || panel.classList.contains('is-open');
+  panel.inert = !visible;
+  const active = Number(slider.dataset.active || 0);
+  [...slider.children].forEach((view, i) => {
+    view.inert = !visible || i !== active;
+    view.setAttribute('aria-hidden', String(view.inert));
+  });
+  panel.querySelectorAll('.tab-line').forEach((tab, i) => {
+    tab.classList.toggle('is-on', i === (active < 2 ? 0 : 1));
+    tab.setAttribute('aria-pressed', String(i === (active < 2 ? 0 : 1)));
+  });
+  const indicator = $('#tabIndicator');
+  indicator.style.left = (active < 2 ? 0 : 50) + '%';
+  indicator.style.width = '50%';
+  BTN_SETTINGS.setAttribute('aria-expanded', String(visible));
+  const focused = document.activeElement;
+  if (focused !== document.body && focused.closest('#settingsPanel [inert]')) {
+    const view = slider.children[active];
+    (focusableIn(view)[0] || panel.querySelector('.tab-line')).focus({ preventScroll: true });
+  }
+}
+const settingsEditReturn = { character: null, theme: null };
+function setSettingsView(index) {
+  const previous = Number($('#tabSlider').dataset.active || 0);
+  $('#tabSlider').dataset.active = String(index);
+  /* 전환 중 포커스가 화면 밖 폼으로 이동해도 바깥 상자를 가로로 밀지 않는다. */
+  $('#settingsPanel').scrollLeft = 0;
+  $('#sheetBody').scrollLeft = 0;
+  syncSettingsViews();
+  if ((index === 0 && previous === 1) || (index === 2 && previous === 3)) {
+    queueMicrotask(() => {
+      if (Number($('#tabSlider').dataset.active) !== index || $('#settingsPanel').inert) return;
+      const id = index === 0 ? settingsEditReturn.character : settingsEditReturn.theme;
+      const view = index === 0 ? $('#charListView') : $('#themeListView');
+      const card = [...view.querySelectorAll('[data-item-id]')].find(item => item.dataset.itemId === id);
+      (card?.querySelector('.edit-btn') || focusableIn(view)[0] || $('#settingsPanel .tab-line')).focus({ preventScroll: true });
+    });
+  }
+}
+function focusSettingsEditor(view) {
+  if (activeOverlay() || view.inert) return;
+  if (document.activeElement === document.body || document.activeElement.closest('[inert]')) {
+    focusableIn(view)[0]?.focus({ preventScroll: true });
+  }
+}
+
+/* 복제 상태는 즉시 확정하고, 두 편집기 모두 같은 완료 모션을 끝까지 재생한다. */
+function copyEditor(view, apply) {
+  if (!view || view.dataset.copyBusy === 'true') return;
+  view.dataset.copyBusy = 'true';
+  const scroll = view.scrollTop;
+  apply();
+  view.scrollTop = scroll;
+  const buttons = [...view.querySelectorAll('button')].filter(button => button.title === '복제');
+  buttons.forEach(button => { button.disabled = true; });
+  const done = () => {
+    view.classList.remove('is-copying');
+    delete view.dataset.copyBusy;
+    buttons.forEach(button => { if (button.isConnected) button.disabled = false; });
+  };
+  if (matchMedia('(prefers-reduced-motion:reduce)').matches) { done(); return; }
+  view.classList.add('is-copying');
+  const motion = view.getAnimations().find(animation => animation.animationName === 'slide-copy');
+  if (motion) motion.finished.catch(() => {}).then(done);
+  else done();
+}
+
+/* 컨트롤의 외형을 유지하며 이름·상태·키보드 조작을 보완한다. */
+let controlSerial = 0;
+function enhanceControls(root = document) {
+  root.querySelectorAll('button').forEach(button => {
+    if (!button.hasAttribute('aria-label') && button.title) button.setAttribute('aria-label', button.title);
+    if (button.matches('.back-btn') && !button.title && !button.textContent.trim()) button.setAttribute('aria-label', '목록으로 돌아가기');
+    if (button.matches('.seg button,.tgl-text button')) button.setAttribute('aria-pressed', String(button.classList.contains('is-on')));
+  });
+  root.querySelectorAll('.section-header').forEach(header => {
+    header.setAttribute('role', 'button'); header.tabIndex = 0;
+    header.setAttribute('aria-expanded', String(header.closest('.section').classList.contains('open')));
+  });
+  root.querySelectorAll('.tgl').forEach(toggle => {
+    toggle.setAttribute('role', 'switch');
+    if (toggle.tagName !== 'BUTTON') toggle.tabIndex = 0;
+    toggle.setAttribute('aria-checked', String(toggle.classList.contains('is-on')));
+    const label = toggle.closest('.tgl-inline,.row-between,.field')?.querySelector('.lab');
+    if (label) toggle.setAttribute('aria-label', label.textContent.trim());
+  });
+  root.querySelectorAll('.field,.steph,.slideh,.colorf').forEach(field => {
+    const label = field.querySelector('.lab') || field.closest('.field')?.querySelector('.lab');
+    if (!label) return;
+    field.querySelectorAll('input,select,textarea').forEach(input => {
+      if (!input.hasAttribute('aria-label') && !input.hasAttribute('aria-labelledby')) input.setAttribute('aria-label', label.textContent.trim());
+    });
+    if (label.tagName === 'LABEL') {
+      const input = field.querySelector('input,select,textarea');
+      if (input) {
+        if (!input.id) input.id = 'ux-control-' + (++controlSerial);
+        label.htmlFor = input.id;
+      }
+    }
+  });
+  root.querySelectorAll('.sw').forEach(swatch => {
+    if (typeof swatch.onclick !== 'function') return;
+    swatch.setAttribute('role', 'button'); swatch.tabIndex = 0;
+    const label = swatch.closest('.field,.colorf')?.querySelector('.lab')?.textContent || '색상';
+    swatch.setAttribute('aria-label', label + ' 선택');
+  });
+  root.querySelectorAll('.char-add,.theme-card.is-add').forEach(card => {
+    card.setAttribute('role', 'button'); card.tabIndex = 0;
+    card.setAttribute('aria-label', card.matches('.char-add') ? '캐릭터 추가' : '테마 추가');
+  });
+  root.querySelectorAll('.char-card').forEach(card => {
+    const name = card.querySelector('.name')?.textContent || '캐릭터';
+    const info = card.querySelector('.info');
+    info.setAttribute('role', 'button'); info.tabIndex = 0;
+    info.setAttribute('aria-label', name + ' 편집');
+    card.querySelector('.edit-btn')?.setAttribute('aria-label', name + ' 편집');
+  });
+  root.querySelectorAll('.theme-card:not(.is-add)').forEach(card => {
+    const name = card.querySelector('.nm')?.textContent || '테마';
+    const preview = card.querySelector('.preview');
+    preview.setAttribute('role', 'button'); preview.tabIndex = 0;
+    preview.setAttribute('aria-label', name + (card.classList.contains('is-on') ? ' 편집' : ' 적용'));
+    preview.setAttribute('aria-pressed', String(card.classList.contains('is-on')));
+    card.querySelector('.edit-btn')?.setAttribute('aria-label', name + ' 편집');
+  });
+}
+
+document.addEventListener('keydown', e => {
+  if (e.defaultPrevented || e.isComposing || e.keyCode === 229 || e.ctrlKey || e.metaKey || e.altKey) return;
+  const target = e.target.closest('[role="button"],[role="switch"]');
+  if (!target || target.tagName === 'BUTTON' || !['Enter', ' '].includes(e.key)) return;
+  e.preventDefault(); target.click();
+  enhanceControls(target.parentElement);
+});
+document.addEventListener('click', e => {
+  const section = e.target.closest('.section-header,.tgl,.seg');
+  if (section) enhanceControls(section.parentElement);
+});
+
 function toggleSettingsPanel(open) {
   const panel = $('#settingsPanel');
   if (!panel) return;
@@ -11198,6 +11497,7 @@ function toggleSettingsPanel(open) {
     if (active === 0 || active === 1) renderCharListV2();
     else renderThemeGridV2();
   }
+  syncSettingsViews();
 }
 
 /* 탭 전환 (0=캐릭터, 1=테마) */
@@ -11220,7 +11520,7 @@ function switchSettingsTab(tabIndex) {
 
     /* 슬라이더: 탭 0 → 뷰 0 (캐릭터목록), 탭 1 → 뷰 2 (테마목록) */
     const viewIndex = tabIndex === 0 ? 0 : 2;
-    slider.dataset.active = viewIndex;
+    setSettingsView(viewIndex);
 
     /* 편집 중이던 draft 정리 */
     if (tabIndex === 0) {
@@ -11248,7 +11548,7 @@ function resetSettingsTabUI() {
   const tabs = document.querySelectorAll('.tabs-line .tab-line');
   const indicator = $('#tabIndicator');
   const slider = $('#tabSlider');
-  if (slider) slider.dataset.active = '0';
+  if (slider) setSettingsView(0);
   if (tabs.length) tabs.forEach((t, i) => t.classList.toggle('is-on', i === 0));
   if (indicator) { indicator.style.left = '0'; indicator.style.width = '50%'; }
 }
@@ -11261,6 +11561,7 @@ function renderCharListV2() {
 
   S.characters.forEach(c => {
     const card = el('div', 'char-card' + (S.ui.editingCharacterId === c.id ? ' is-on' : ''));
+    card.dataset.itemId = c.id;
     /* 아바타 */
     const av = el('div', 'avatar');
     if (c.avatar) {
@@ -11311,6 +11612,7 @@ function openCharEditV2(charId) {
   if (!slider) return;
 
   const isNew = charId === 'new';
+  settingsEditReturn.character = charId;
   S.ui.editingCharacterId = charId;
 
   /* 초안 생성/로드 */
@@ -11322,8 +11624,9 @@ function openCharEditV2(charId) {
   }
 
   /* 뷰 1로 슬라이드 */
-  slider.dataset.active = '1';
+  setSettingsView(1);
   syncCharEditFormV2();
+  focusSettingsEditor($('#charEditView'));
 }
 
 /* 캐릭터 편집 폼 동기화 */
@@ -11409,6 +11712,7 @@ function saveCharEditV2() {
   toast('저장되었습니다');
 
   /* 목록으로 돌아가기 */
+  settingsEditReturn.character = c.id;
   resetSettingsTabUI();
   renderCharListV2();
   renderCanvas();
@@ -11445,6 +11749,7 @@ function renderThemeGridV2() {
 
   S.themes.forEach(t => {
     const card = el('div', 'theme-card' + (t.id === S.activeThemeId ? ' is-on' : ''));
+    card.dataset.itemId = t.id;
     /* 수정 버튼 */
     const editBtn = el('button', 'edit-btn');
     editBtn.type = 'button';
@@ -11531,6 +11836,7 @@ function openThemeEditV2(themeId) {
 
   const src = S.themes.find(x => x.id === themeId);
   if (!src) return;
+  settingsEditReturn.theme = themeId;
 
   S.activeThemeId = themeId; /* theme()가 초안을 반환하도록 */
   S.ui.editingThemeId = themeId;
@@ -11543,15 +11849,53 @@ function openThemeEditV2(themeId) {
   }
 
   /* 뷰 3으로 슬라이드 */
-  slider.dataset.active = '3';
+  setSettingsView(3);
   syncThemeEditFormV2();
   renderCanvas(); /* 캔버스도 초안으로 갱신 */
+  focusSettingsEditor($('#themeEditView'));
+}
+
+/* 구조가 바뀌는 옵션도 편집하던 섹션·스크롤·커서로 돌아온다. */
+function formControlKey(control, container) {
+  if (control.id && !control.id.startsWith('ux-control-')) return '#' + control.id;
+  const section = control.closest('.section')?.querySelector('h3')?.textContent || '머리';
+  const label = control.getAttribute('aria-label') || control.title || control.closest('.field,.steph,.slideh')?.querySelector('.lab')?.textContent || '';
+  const peers = [...container.querySelectorAll(control.tagName)].filter(item =>
+    (item.closest('.section')?.querySelector('h3')?.textContent || '머리') === section &&
+    (item.getAttribute('aria-label') || item.title || item.closest('.field,.steph,.slideh')?.querySelector('.lab')?.textContent || '') === label);
+  return [section, control.tagName, label, peers.indexOf(control)].join('|');
+}
+function rememberThemeForm(container) {
+  const active = document.activeElement;
+  return {
+    key: container.contains(active) ? formControlKey(active, container) : null,
+    start: active.selectionStart, end: active.selectionEnd,
+    scroll: $('#themeEditView').scrollTop,
+    outer: $('#sheetBody').scrollTop,
+    id: container.dataset.themeId
+  };
+}
+function restoreThemeForm(container, state, id) {
+  container.dataset.themeId = id;
+  enhanceControls(container);
+  if (state.id !== id) { $('#themeEditView').scrollTop = 0; return; }
+  const next = state.key && [...container.querySelectorAll('button,input,select,textarea,[tabindex]')]
+    .find(control => formControlKey(control, container) === state.key);
+  if (next) {
+    next.focus({ preventScroll: true });
+    if (state.start != null && next.setSelectionRange) {
+      try { next.setSelectionRange(state.start, state.end); } catch (_) { }
+    }
+  }
+  $('#themeEditView').scrollTop = state.scroll;
+  $('#sheetBody').scrollTop = state.outer;
 }
 
 /* 테마 편집 폼 렌더링 (v2 퍼블리싱 스타일) */
 function syncThemeEditFormV2() {
   const container = $('#themeEditContent');
   if (!container) return;
+  const formState = rememberThemeForm(container);
 
   /* 섹션 열림 상태 저장 (rerender 시 유지) */
   if (!S.ui.themeEditSections) S.ui.themeEditSections = { frame: true, canvas: false, bg: false, bubble: false, text: false, sign: false };
@@ -11579,7 +11923,7 @@ function syncThemeEditFormV2() {
       S.ui.themeDraft = null;
       S.ui.canvasSnapshot = null;
       const slider = $('#tabSlider');
-      if (slider) slider.dataset.active = '2';
+      if (slider) setSettingsView(2);
       renderThemeGridV2();
       renderCanvas();
     };
@@ -11612,7 +11956,7 @@ function syncThemeEditFormV2() {
   dupeBtn.style.cssText = 'height:28px;width:28px;padding:0';
   dupeBtn.title = '복제';
   dupeBtn.innerHTML = '<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
-  dupeBtn.onclick = () => {
+  dupeBtn.onclick = () => copyEditor($('#themeEditView'), () => {
     const copy = JSON.parse(JSON.stringify(t));
     copy.id = uid();
     copy.name = (t.name || '테마') + ' 사본';
@@ -11623,7 +11967,7 @@ function syncThemeEditFormV2() {
     save();
     openThemeEditV2(copy.id);
     toast('테마를 복제했습니다');
-  };
+  });
   header.appendChild(dupeBtn);
 
   /* 삭제 버튼 */
@@ -11640,7 +11984,7 @@ function syncThemeEditFormV2() {
         S.ui.themeDraft = null;
         save();
         const slider = $('#tabSlider');
-        if (slider) slider.dataset.active = '2';
+        if (slider) setSettingsView(2);
         renderThemeGridV2();
         renderCanvas();
         toast('테마를 삭제했습니다');
@@ -11652,16 +11996,10 @@ function syncThemeEditFormV2() {
   /* 저장 버튼 */
   const saveBtn = el('button', 'btn btn-fill');
   saveBtn.style.cssText = 'height:28px;width:28px;padding:0';
-  saveBtn.title = '저장';
+  saveBtn.title = '테마 저장 (Ctrl/⌘+Enter)';
+  saveBtn.setAttribute('aria-keyshortcuts', 'Control+Enter Meta+Enter');
   saveBtn.innerHTML = '<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M20 6L9 17l-5-5"/></svg>';
-  saveBtn.onclick = () => {
-    commitThemeDraft();
-    const slider = $('#tabSlider');
-    if (slider) slider.dataset.active = '2';
-    renderThemeGridV2();
-    renderCanvas();
-    toast('테마를 저장했습니다');
-  };
+  saveBtn.onclick = saveThemeEditV2;
   header.appendChild(saveBtn);
   container.appendChild(header);
 
@@ -12390,6 +12728,7 @@ function syncThemeEditFormV2() {
   body.appendChild(signSection);
 
   container.appendChild(body);
+  restoreThemeForm(container, formState, t.id);
 }
 
 /* 테마 저장 */
@@ -12410,7 +12749,7 @@ function saveThemeEditV2() {
 
   /* 목록으로 돌아가기 */
   const slider = $('#tabSlider');
-  if (slider) slider.dataset.active = '2';
+  if (slider) setSettingsView(2);
   renderThemeGridV2();
   renderCanvas();
 }
@@ -12440,7 +12779,7 @@ function deleteThemeEditV2() {
       toast('삭제되었습니다');
 
       const slider = $('#tabSlider');
-      if (slider) slider.dataset.active = '2';
+      if (slider) setSettingsView(2);
       renderThemeGridV2();
       renderCanvas();
     }
@@ -12480,7 +12819,7 @@ function initSettingsPanelV2() {
   /* 캐릭터 복제 */
   const btnCharDupe = $('#btnCharDupeV2');
   if (btnCharDupe) {
-    btnCharDupe.onclick = () => {
+    btnCharDupe.onclick = () => copyEditor($('#charEditView'), () => {
       const c = S.ui.charDraft;
       if (!c || S.ui.editingCharacterId === 'new') return;
       const copy = Object.assign({}, c);
@@ -12488,22 +12827,13 @@ function initSettingsPanelV2() {
       copy.id = uid();
       copy.name = (c.name || '캐릭터') + ' 사본';
       const stored = charOf(S.ui.editingCharacterId);
-      const idx = S.characters.indexOf(stored);
-      S.characters.splice(idx + 1, 0, copy);
+      S.characters.splice(S.characters.indexOf(stored) + 1, 0, copy);
       save();
-      /* 편집창 내 슬라이드 애니메이션 */
-      const editView = $('#charEditView');
-      if (editView) {
-        editView.classList.add('is-copying');
-        setTimeout(() => {
-          S.ui.editingCharacterId = copy.id;
-          S.ui.charDraft = null;
-          openCharEditV2(copy.id);
-          editView.classList.remove('is-copying');
-        }, 175);
-      }
+      S.ui.editingCharacterId = copy.id;
+      S.ui.charDraft = null;
+      openCharEditV2(copy.id);
       toast('캐릭터를 복제했습니다');
-    };
+    });
   }
 
   /* 캐릭터 저장/삭제 */
@@ -12609,7 +12939,7 @@ function initSettingsPanelV2() {
     btnThemeBack.onclick = () => {
       const goBack = () => {
         const slider = $('#tabSlider');
-        if (slider) slider.dataset.active = '2';
+        if (slider) setSettingsView(2);
         renderThemeGridV2();
       };
       /* 저장하지 않은 수정이 있으면 확인 */
@@ -12623,30 +12953,21 @@ function initSettingsPanelV2() {
   /* 테마 복제 */
   const btnThemeDupe = $('#btnThemeDupeV2');
   if (btnThemeDupe) {
-    btnThemeDupe.onclick = () => {
+    btnThemeDupe.onclick = () => copyEditor($('#themeEditView'), () => {
       const t = S.ui.themeDraft;
       if (!t) return;
       const copy = JSON.parse(JSON.stringify(t));
       copy.id = uid();
       copy.name = (t.name || '테마') + ' 사본';
       const src = S.themes.find(x => x.id === t.id);
-      const idx = S.themes.indexOf(src);
-      S.themes.splice(idx + 1, 0, copy);
+      S.themes.splice(S.themes.indexOf(src) + 1, 0, copy);
       S.activeThemeId = copy.id;
       save();
-      /* 편집창 내 슬라이드 애니메이션 */
-      const editView = $('#themeEditView');
-      if (editView) {
-        editView.classList.add('is-copying');
-        setTimeout(() => {
-          S.ui.editingThemeId = copy.id;
-          S.ui.themeDraft = null;
-          openThemeEditV2(copy.id);
-          editView.classList.remove('is-copying');
-        }, 175);
-      }
+      S.ui.editingThemeId = copy.id;
+      S.ui.themeDraft = null;
+      openThemeEditV2(copy.id);
       toast('테마를 복제했습니다');
-    };
+    });
   }
 
   /* 테마 저장/삭제 */
@@ -13755,9 +14076,16 @@ $('#filePick').onchange = e => {
 })();
 
 let _toastT;
-function toast(msg) {
+function toast(msg, duration = 1800) {
   const t = $('#toast'); t.textContent = msg; t.classList.add('is-on');
-  clearTimeout(_toastT); _toastT = setTimeout(() => t.classList.remove('is-on'), 1800);
+  t.classList.toggle('is-persistent', duration === 0);
+  clearTimeout(_toastT);
+  if (duration === 0) {
+    const dismiss = el('button', '', '×');
+    dismiss.setAttribute('aria-label', '알림 닫기');
+    dismiss.onclick = () => { t.classList.remove('is-on'); t.classList.remove('is-persistent'); };
+    t.appendChild(dismiss);
+  } else _toastT = setTimeout(() => t.classList.remove('is-on'), duration);
 }
 
 /* ═══ 내보내기 ═══════════════════════════════════════════════ */
@@ -14754,6 +15082,7 @@ async function deliver(items) {
 }
 
 function openSaveSheet(items) {
+  if ($('#saveSheet').classList.contains('is-on')) closeSaveSheet();
   clearSaved();
   _saved = items;
   const root = $('#saveSheet');
@@ -14789,11 +15118,14 @@ function openSaveSheet(items) {
   root.appendChild(panel);
   root.classList.add('is-on');
   root.onclick = e => { if (e.target === root) closeSaveSheet(); };
+  enterOverlay(root, panel, panel.querySelector('.savesheet-title').textContent);
+  toast('이미지가 완성됐습니다');
 }
 function closeSaveSheet() {
   const root = $('#saveSheet');
   root.classList.remove('is-on'); root.innerHTML = ''; root.onclick = null;
   clearSaved();
+  leaveOverlay(root);
 }
 /* 공유는 사용자가 누른 그 순간에 불러야 한다 — 앞에 await 를 두면 iOS 가 제스처로 안 쳐준다 */
 function shareSaved() {
@@ -14817,7 +15149,43 @@ function copySaved() {
     .catch(e => { console.warn(e); toast('브라우저가 이미지 복사를 막았습니다'); });
 }
 
+let exportBusy = false, exportFocus = null;
+function reportExportWarning(message) {
+  const panel = $('#saveSheet .savesheet-panel');
+  if (panel) {
+    let notice = panel.querySelector('.savesheet-warning');
+    if (!notice) { notice = el('p', 'savesheet-warning'); panel.insertBefore(notice, panel.querySelector('.savesheet-prev')); }
+    notice.textContent = message;
+  }
+  toast(message, 0);
+}
 async function exportPNG() {
+  if (exportBusy) return;
+  if (!S.blocks.length) { toast('내보낼 블록이 없습니다'); return; }
+  const button = $('#btnSave'), original = button.innerHTML;
+  const focus = document.activeElement;
+  const selection = S.ui.selectedBlockId;
+  exportBusy = true;
+  exportFocus = focus;
+  button.disabled = true;
+  button.setAttribute('aria-busy', 'true');
+  button.setAttribute('aria-label', '이미지 만드는 중');
+  button.innerHTML = '<span class="save-spinner" aria-hidden="true">◌</span><span class="btn-word"> 만드는 중</span>';
+  syncOverlayLocks();
+  try { await buildPNG(); }
+  catch (error) { console.error(error); reportExportWarning('저장에 실패했습니다 · 다시 저장을 눌러주세요'); }
+  finally {
+    exportBusy = false;
+    button.disabled = false; button.removeAttribute('aria-busy');
+    button.innerHTML = original; button.setAttribute('aria-label', '캔버스를 PNG로 저장');
+    S.ui.selectedBlockId = selection; renderCanvas();
+    syncOverlayLocks();
+    if (!activeOverlay() && focus?.isConnected && !focus.closest('[inert],[hidden]')) focus.focus({ preventScroll: true });
+    exportFocus = null;
+  }
+}
+
+async function buildPNG() {
   if (!S.blocks.length) { toast('내보낼 블록이 없습니다'); return; }
   const cv = $('#canvas');
   const wasSel = S.ui.selectedBlockId;
@@ -14844,7 +15212,7 @@ async function exportPNG() {
     if (blocked.length) warnings.push(`바깥 링크 그림 ${blocked.length}장은 담기지 않았습니다`);
     if (exportFontWarning) warnings.push(exportFontWarning);
     else if (exportStatus.fontFallback) warnings.push('글꼴 보존 경로가 실패해 대체 경로로 이미지를 만들었습니다');
-    if (warnings.length) toast(warnings.join(' · ') + ' · 결과를 확인해주세요');
+    if (warnings.length) reportExportWarning(warnings.join(' · ') + ' · 결과를 확인해주세요');
   };
   /* 미리보기용 표시만 걷어 낸다 — 못 박은 화면머리·서명(.head-pin/.foot-pin)과 그 자리
      (--head-h/--foot-h)는 저장할 그림 자체이므로 그대로 둔다. 구분선·사본·장마다 앉힌
@@ -14877,7 +15245,7 @@ async function exportPNG() {
     const miss = exportMissing(cv, css);
     if (miss && _exportMissLast !== miss) {
       _exportMissLast = miss;
-      toast(miss + ' · 한 번 더 누르면 그대로 저장합니다');
+      reportExportWarning(miss + ' · 한 번 더 누르면 그대로 저장합니다');
       return;
     }
     if (miss) {
@@ -14997,7 +15365,7 @@ async function exportPNG() {
     /* «실패했습니다» 한 줄로는 누른 사람도, 전해 듣는 쪽도 손쓸 데가 없다. 넘어지는 자리는
        거의 늘 바깥에서 받아 오는 것(html-to-image · 글꼴)이 막힌 데라, 까닭을 붙여 둔다. */
     const why = (e && (e.message || e.name)) || '';
-    toast('저장에 실패했습니다' + (why ? ' · ' + why : ''));
+    reportExportWarning('저장에 실패했습니다' + (why ? ' · ' + why : ''));
   } finally {
     if (exportFontStyle) exportFontStyle.remove();
     flowRows().forEach(n => n.classList.remove('row-off'));
@@ -15219,112 +15587,139 @@ function render() {
   requestAnimationFrame(measureSheet);
 }
 
-/* ═══ 시트 손잡이 ═══════════════════════════════════════════════
-   v2: 손잡이를 끌어서 시트 높이를 바꾸고, 손을 떼면 정해 둔 지점에 붙는다.
-   짧게 누르면 설정 패널을 토글한다 — 열려 있으면 닫고, 닫혀 있으면 45% 에 연다.
-
-   지점은 셋이다 — «0 · 45% · 70%».
-   0 은 설정 패널을 완전히 닫는 것이고, 45% 는 기본 열림, 70% 는 크게 열림이다. */
+/* ═══ 시트 손잡이 — 원래 크기·45%·70%의 실제 높이로 스냅한다. ═══ */
 const SNAPS = [0, 45, 70];
-/* 지점을 재는 기준 높이. --app-vh 는 키보드가 열리면 «보이는 만큼» 으로 줄어드는데,
-   그 값을 쓰면 키보드를 여는 순간 90% 로 열어 둔 시트가 키보드 높이에 맞춰 쪼그라들고,
-   그 뒤로는 위로 끌어도 그 줄어든 화면의 92% 가 상한이라 다시 커지지 않는다.
-   [아이폰에서 «90% 로 열었다가 키보드 뜨면 돌아가고 다시 안 올라간다» 가 이것이다.]
-   시트는 화면 바닥에 못 박힌 상자라 키보드는 그 «위에» 덮일 뿐이므로, 높이는 키보드와
-   무관한 창 높이로 잰다. 가려지는 몫은 --keyboard-inset 이 따로 밀어 올린다. */
-const snapVH = () => window.innerHeight || 800;
+const snapVH = () => parseFloat(document.documentElement.style.getPropertyValue('--app-vh')) || window.innerHeight || 800;
+const sheetLimit = () => parseFloat(document.documentElement.style.getPropertyValue('--sheet-limit')) || snapVH() * .92;
+function snapHeight(n) {
+  // 주요 조작부 + 옵션 한 줄을 보장하되 가시 영역 경계를 넘지 않는다.
+  const fixed = ['#sheetGrab', '#sheetHead', '#sheetFoot']
+    .reduce((sum, selector) => sum + $(selector).getBoundingClientRect().height, 0);
+  return Math.min(sheetLimit(), Math.max(snapVH() * n / 100, fixed + 48));
+}
+let sheetMotion = null;
+function syncSheetGrab() {
+  const grab = $('#sheetGrab');
+  const current = S.ui.snap == null ? 0 : S.ui.snap;
+  grab.setAttribute('aria-valuenow', String(current));
+  grab.setAttribute('aria-valuetext', current ? `화면 높이의 ${current}%` : '기본 크기');
+  grab.title = '끌어서 높이 조절 · ' + (current ? '눌러 기본 크기로' : '눌러 직전 크기로') + ' · ↑↓ 높이 선택';
+}
 function applySnap() {
   const sheet = $('#sheet'), n = S.ui.snap;
   sheet.classList.toggle('has-snap', n != null);
-  /* dvh 하나만 쓴다 — --app-vh 로 한 번 더 조이면 키보드가 열릴 때 같이 줄어든다 */
-  if (n != null) sheet.style.setProperty('--snap-h', n + 'dvh');
+  if (n != null) sheet.style.setProperty('--snap-h', snapHeight(n) + 'px');
   else sheet.style.removeProperty('--snap-h');
+  syncSheetGrab();
 }
-/* 높이만 바꾼다 — render() 를 부르면 패널이 통째로 새로 그려져 치던 자리와 선택 영역을 잃는다.
-   원본(null)으로 돌아갈 때는 접힘 여부도 그 단계가 원래 쓰던 값으로 되돌린다 [setStage 와 같은 셈]. */
-function setSnap(n) {
+function stopSheetMotion() {
+  if (sheetMotion) sheetMotion.cancel();
+  sheetMotion = null;
+  $('#sheet').classList.remove('is-settling');
+}
+function setSnap(n, animate = false) {
+  const sheet = $('#sheet');
+  const from = sheet.getBoundingClientRect().height;
+  stopSheetMotion();
   S.ui.snap = n;
   if (n != null) { S.ui.snapLast = n; S.ui.panel = 'full'; }
   else S.ui.panel = (S.ui.stage === 'tools' || S.ui.stage === 'format') ? 'full' : 'compact';
-  $('#sheet').classList.toggle('is-compact', S.ui.panel === 'compact');
+  sheet.classList.toggle('is-compact', S.ui.panel === 'compact');
   applySnap();
+  const to = sheet.getBoundingClientRect().height;
+  if (animate && !isWide() && !matchMedia('(prefers-reduced-motion:reduce)').matches && Math.abs(from - to) > 1) {
+    sheet.classList.add('is-settling');
+    const motion = sheet.animate([
+      { height: from + 'px', maxHeight: from + 'px' },
+      { height: to + 'px', maxHeight: to + 'px' }
+    ], { duration: 220, easing: 'cubic-bezier(.22,.61,.36,1)' });
+    sheetMotion = motion;
+    const track = () => {
+      if (sheetMotion !== motion) return;
+      measureSheet();
+      if (motion.playState === 'running') requestAnimationFrame(track);
+    };
+    requestAnimationFrame(track);
+    motion.finished.catch(() => {}).then(() => {
+      if (sheetMotion !== motion) return;
+      sheetMotion = null; sheet.classList.remove('is-settling'); measureSheet();
+    });
+  }
   requestAnimationFrame(measureSheet);
 }
 (function initSheetGrab() {
   const grab = $('#sheetGrab'), sheet = $('#sheet');
-  const MIN_PX = 44, MOVE_TOL = 4;
-  let st = null;
-  /* 키보드가 열려 있으면 «접힌» 시트의 작성 묶음이 키보드 높이만큼 아래 여백을 갖는다
-     [.is-writing.is-compact .dock{padding-bottom:--keyboard-inset}]. 그 몫은 «시트가 그만큼
-     크다» 가 아니라 «키보드에 가린 만큼 밀어 올린 것» 이라, 높이를 잴 때는 빼야 한다.
-     [키보드를 켠 채로 끌면 시트가 손끝보다 키보드 높이만큼 더 올라가던 것이 이것이다 —
-      끌기 시작 높이에 이미 그 여백이 얹혀 있었다.] */
-  const kbInset = () => (sheet.classList.contains('is-compact')
-    ? (parseFloat(getComputedStyle(document.documentElement)
-        .getPropertyValue('--keyboard-inset')) || 0) : 0);
-  const liveH = () => sheet.getBoundingClientRect().height - kbInset();
-  /* 손잡이가 쥔 높이를 잠깐 놓고 «원래 높이» 를 재 본다. 한 프레임 안에서 재고 되돌리므로
-     화면에 그려질 틈이 없다(전부 동기) [captureClone 이 축소를 잠깐 푸는 것과 같은 수법]. */
+  const MOVE_TOL = 5;
+  let st = null, frame = 0;
   const naturalPx = () => {
-    const had = sheet.classList.contains('has-snap');
-    if (had) sheet.classList.remove('has-snap');
-    const h = liveH();
-    if (had) sheet.classList.add('has-snap');
+    const had = sheet.classList.contains('has-snap'), compact = sheet.classList.contains('is-compact');
+    sheet.classList.remove('has-snap');
+    sheet.classList.toggle('is-compact', S.ui.stage !== 'tools' && S.ui.stage !== 'format');
+    const h = sheet.getBoundingClientRect().height;
+    sheet.classList.toggle('has-snap', had); sheet.classList.toggle('is-compact', compact);
     return h;
   };
+  const draw = () => {
+    frame = 0;
+    if (!st || !st.moved) return;
+    sheet.classList.remove('is-compact'); sheet.classList.add('has-snap');
+    sheet.style.setProperty('--snap-h', st.next + 'px');
+    measureSheet();
+  };
   grab.addEventListener('pointerdown', e => {
-    if (isWide()) return;
+    if (isWide() || st || (e.button != null && e.button !== 0)) return;
     e.preventDefault();
-    /* «원본» 이 몇 px 인지는 단계마다 다르다 — 손잡이가 쥔 높이를 잠깐 걷어 내고 재 둔다.
-       끌기가 끝나고 어느 지점에 붙일지 고를 때 이 값이 세 번째 후보가 된다. */
-    st = { id: e.pointerId, y: e.clientY, h: liveH(), nat: naturalPx(), moved: false };
+    const h = sheet.getBoundingClientRect().height;
+    stopSheetMotion();
+    if (Math.abs(sheet.getBoundingClientRect().height - h) > 1) {
+      sheet.classList.remove('is-compact'); sheet.classList.add('has-snap');
+      sheet.style.setProperty('--snap-h', h + 'px');
+    }
+    const nat = naturalPx();
+    st = { id: e.pointerId, y: e.clientY, h, nat, previous: S.ui.snap, moved: false, next: h };
     try { grab.setPointerCapture(e.pointerId); } catch (_) { }
     sheet.classList.add('is-dragging');
   });
   grab.addEventListener('pointermove', e => {
     if (!st || e.pointerId !== st.id) return;
-    const dy = st.y - e.clientY;                   /* 위로 끌면 커진다 */
+    const dy = st.y - e.clientY;
     if (Math.abs(dy) > MOVE_TOL) st.moved = true;
     if (!st.moved) return;
-    /* 끄는 동안은 지점을 안 본다 — 손끝 그대로 따라온다. 다만 «갈 수 있는 데» 는 지점의
-       양 끝을 넘지 않는다: 위로는 가장 큰 지점(90%), 아래로는 원본(그보다 크면 60%)이다.
-       예전에는 위 상한이 92% 라 손을 떼기 전까지 90% 보다 커 보였고, 아래는 44px 이라
-       원본보다도 작게 눌렸다 — 붙을 자리가 없는 데까지 끌리면 «튕겨 돌아가는» 것처럼 보인다. */
-    const MAX = snapVH() * SNAPS[SNAPS.length - 1] / 100;
-    const MIN = Math.max(MIN_PX, Math.min(st.nat, snapVH() * SNAPS[0] / 100));
-    const h = clamp(st.h + dy, MIN, MAX);
-    sheet.classList.remove('is-compact');
-    sheet.classList.add('has-snap');
-    sheet.style.setProperty('--snap-h', h + 'px');
-    measureSheet();
+    const sizes = [st.nat, snapHeight(45), snapHeight(70)];
+    st.next = clamp(st.h + dy, Math.min(...sizes), Math.max(...sizes));
+    if (!frame) frame = requestAnimationFrame(draw);
   });
   const end = e => {
-    if (!st || (e && e.pointerId !== st.id)) return;
-    sheet.classList.remove('is-dragging');
-    S.ui.snapAuto = null;
-
-    if (!st.moved) {
-      /* 짧게 누른 것 — 접힘↔직전 크기 토글 (설정 패널과 무관) */
-      const panel = $('#settingsPanel');
-      const isOpen = panel && panel.classList.contains('is-open');
-      if (S.ui.snap != null && S.ui.snap > 0) {
-        /* 열려 있으면 접기 */
-        setSnap(null);
-      } else if (S.ui.snapLast) {
-        /* 접혀 있으면 직전 크기로 */
-        setSnap(S.ui.snapLast);
-      }
-    } else {
-      /* 드래그로 끝낸 경우 — 가장 가까운 지점에 붙인다 (설정 패널과 무관) */
-      const pct = liveH() / snapVH() * 100;
-      let best = SNAPS[0], bestD = Math.abs(SNAPS[0] - pct);
-      SNAPS.forEach(v => { const d = Math.abs(v - pct); if (d < bestD) { best = v; bestD = d; } });
-      setSnap(best === 0 ? null : best);
-    }
+    if (!st || e.pointerId !== st.id) return;
+    if (frame) { cancelAnimationFrame(frame); frame = 0; draw(); }
+    const previous = st;
     st = null;
+    sheet.classList.remove('is-dragging');
+    if (e.type === 'pointercancel' || e.type === 'lostpointercapture') {
+      setSnap(previous.previous, true);
+    } else if (!previous.moved) {
+      setSnap(S.ui.snap == null ? (S.ui.snapLast || 45) : null, true);
+    } else {
+      const targets = [{ snap: null, px: previous.nat }, { snap: 45, px: snapHeight(45) }, { snap: 70, px: snapHeight(70) }];
+      targets.sort((a, b) => Math.abs(a.px - previous.next) - Math.abs(b.px - previous.next));
+      setSnap(targets[0].snap, true);
+    }
   };
   grab.addEventListener('pointerup', end);
   grab.addEventListener('pointercancel', end);
+  grab.addEventListener('lostpointercapture', end);
+  grab.addEventListener('keydown', e => {
+    if (isWide() || e.isComposing || e.ctrlKey || e.metaKey || e.altKey) return;
+    let next;
+    const current = S.ui.snap || 0;
+    if (e.key === 'ArrowUp') next = SNAPS[Math.min(SNAPS.length - 1, SNAPS.indexOf(current) + 1)] || 45;
+    else if (e.key === 'ArrowDown') next = SNAPS[Math.max(0, SNAPS.indexOf(current) - 1)];
+    else if (e.key === 'Home') next = 0;
+    else if (e.key === 'End') next = 70;
+    else if (e.key === 'Enter' || e.key === ' ') next = current ? 0 : (S.ui.snapLast || 45);
+    else return;
+    e.preventDefault(); setSnap(next || null, true);
+  });
 })();
 
 /* 데스크톱 한 기둥 배치에서 어느 칸을 열어 둘 것인가 [.sheet.pane-tools].
@@ -15343,16 +15738,81 @@ function setDeskPane(p) {
    1500px 부터는 좌우로 갈라져 둘 다 늘 보인다. */
 (function initDeskPanes() {
   const split = () => window.matchMedia('(min-width:900px) and (max-width:1499.98px)').matches;
+  let pointerFocus = false;
+  document.addEventListener('pointerdown', () => { pointerFocus = true; }, true);
+  document.addEventListener('pointerup', () => { pointerFocus = false; }, true);
+  document.addEventListener('pointercancel', () => { pointerFocus = false; }, true);
+  document.addEventListener('keydown', () => { pointerFocus = false; }, true);
   const bind = (sel, pane) => {
     const node = $(sel);
-    ['pointerdown', 'focusin'].forEach(ev =>
-      node.addEventListener(ev, () => { if (split()) setDeskPane(pane); }, true));
+    /* 클릭이 확정된 뒤 넓힌다. 포인터를 누르는 도중 버튼이 움직이지 않게 한다. */
+    node.addEventListener('click', e => {
+      // 설정 버튼이 연 tools를 같은 클릭의 버블링으로 dock으로 되돌리지 않는다.
+      if (pane === 'dock' && e.target.closest('#btnSettings')) return;
+      if (split()) setDeskPane(pane);
+    });
+    node.addEventListener('focusin', e => {
+      if (split() && !pointerFocus && e.target.matches(':focus-visible')) setDeskPane(pane);
+    });
   };
   bind('#sheetBody', 'tools');
   bind('#dock', 'dock');
 })();
 
 let suppressBlockTapUntil = 0;
+function revealEditedBlock() {
+  const stage = $('#stage'), id = S.ui.selectedBlockId;
+  if (!id || S.ui.stage !== 'format') return;
+  const bounds = stage.getBoundingClientRect();
+  const candidates = [...$('#canvas').querySelectorAll('.blk:not(.row-off)')]
+    .filter(row => row.dataset.id === id);
+  const center = bounds.top + bounds.height / 2;
+  candidates.sort((a, b) => {
+    const ar = a.getBoundingClientRect(), br = b.getBoundingClientRect();
+    return Math.abs(ar.top + ar.height / 2 - center) - Math.abs(br.top + br.height / 2 - center);
+  });
+  const row = candidates[0];
+  if (!row || bounds.height <= 0) return;
+  const r = row.getBoundingClientRect();
+  const target = r.height > bounds.height - 24 ? bounds.top + 12 : center - r.height / 2;
+  // 문서 전체 scrollIntoView는 Safari의 화면 이동을 유발할 수 있어 캔버스 안에서만 이동한다.
+  stage.scrollTop += r.top - target;
+}
+function editCanvasBlock(id) {
+  const block = S.blocks.find(item => item.id === id);
+  if (!block) return;
+  closeAllOverlays('format');
+  S.ui.selectedBlockId = block.id;
+  $('#ta').value = HAS_TEXT.includes(block.type) ? blockSource(block) : '';
+  setStage('format'); autoGrow();
+  requestAnimationFrame(() => {
+    if (S.ui.selectedBlockId !== block.id) return;
+    measureSheet(); revealEditedBlock();
+  });
+}
+function syncCanvasKeyboard() {
+  const rows = [...$('#canvas').querySelectorAll('.blk:not(.row-off)')];
+  const blocks = new Map(S.blocks.map(block => [block.id, block]));
+  const selected = rows.find(row => row.dataset.id === S.ui.selectedBlockId) || rows[0];
+  rows.forEach((row, i) => {
+    row.tabIndex = row === selected ? 0 : -1;
+    row.setAttribute('role', 'group');
+    const block = blocks.get(row.dataset.id);
+    row.setAttribute('aria-label', `${i + 1}번 블록 · ${String(block?.text || block?.title || block?.type || '').slice(0, 80)} · Enter로 편집`);
+  });
+}
+$('#canvas').addEventListener('keydown', e => {
+  const row = e.target.closest('.blk');
+  if (!row || e.target !== row || e.isComposing || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault(); editCanvasBlock(row.dataset.id);
+    (focusableIn($('#formatWrap'))[0] || $('#ta')).focus({ preventScroll: true });
+  } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+    const rows = [...$('#canvas').querySelectorAll('.blk:not(.row-off)')];
+    const next = rows[clamp(rows.indexOf(row) + (e.key === 'ArrowDown' ? 1 : -1), 0, rows.length - 1)];
+    e.preventDefault(); row.tabIndex = -1; next.tabIndex = 0; next.focus();
+  }
+});
 /* ═══════════════════════════════════════════════════════════════
    [원본 initBlockInteractions]
    짧게 탭 = 수정 · 420ms 꾹 = 그 자리에서 끌어 순서 이동.
@@ -15361,12 +15821,13 @@ let suppressBlockTapUntil = 0;
 (function initBlockInteractions() {
   const cv = $('#canvas');
   const LONG_MS = 420, MOVE_TOL = 8;
-  let st = null, timer = null;
+  let st = null, timer = null, scrollFrame = 0;
 
   const clearMarks = () => cv.querySelectorAll('.drop-before,.drop-after')
     .forEach(r => r.classList.remove('drop-before', 'drop-after'));
 
   function reset() {
+    cancelAnimationFrame(scrollFrame); scrollFrame = 0;
     clearTimeout(timer); timer = null;
     if (st) st.row.classList.remove('dragging');
     document.body.style.userSelect = ''; cv.style.userSelect = '';
@@ -15406,6 +15867,32 @@ let suppressBlockTapUntil = 0;
     try { const s = window.getSelection(); if (s && s.removeAllRanges) s.removeAllRanges(); } catch (_) { }
     try { cv.setPointerCapture(st.pid); } catch (_) { }
     try { if (navigator.vibrate) navigator.vibrate(12); } catch (_) { }
+    const scroll = () => {
+      if (!st?.long) return;
+      const stage = $('#stage'), rect = stage.getBoundingClientRect();
+      const bottom = isWide() ? rect.bottom : Math.min(rect.bottom, $('#sheet').getBoundingClientRect().top);
+      const y = st.clientY ?? st.y;
+      const amount = y < rect.top + 48 ? -Math.min(12, (rect.top + 48 - y) / 4)
+        : y > bottom - 48 ? Math.min(12, (y - bottom + 48) / 4) : 0;
+      if (amount && st.moved) { stage.scrollTop += amount; markTarget(y); }
+      scrollFrame = requestAnimationFrame(scroll);
+    };
+    scrollFrame = requestAnimationFrame(scroll);
+  }
+
+  function markTarget(y) {
+    clearMarks(); st.target = null;
+    const rows = pageRows().filter(r => r !== st.row);
+    let best = null, bd = Infinity;
+    rows.forEach(r => {
+      const rc = r.getBoundingClientRect(), mid = rc.top + rc.height / 2;
+      const d = Math.abs(y - mid);
+      if (d < bd) { bd = d; best = { r, before: y < mid }; }
+    });
+    if (best) {
+      best.r.classList.add(best.before ? 'drop-before' : 'drop-after');
+      st.target = best.r; st.pos = best.before ? 'before' : 'after';
+    }
   }
 
   cv.addEventListener('pointermove', e => {
@@ -15417,24 +15904,14 @@ let suppressBlockTapUntil = 0;
       clearTimeout(timer); timer = null;
       beginDrag();
     }
-    st.moved = true; clearMarks(); st.target = null;
-    const rows = pageRows().filter(r => r !== st.row);
-    let best = null, bd = Infinity;
-    rows.forEach(r => {
-      const rc = r.getBoundingClientRect(), mid = rc.top + rc.height / 2;
-      const d = Math.abs(e.clientY - mid);
-      if (d < bd) { bd = d; best = { r, before: e.clientY < mid }; }
-    });
-    if (best) {
-      best.r.classList.add(best.before ? 'drop-before' : 'drop-after');
-      st.target = best.r; st.pos = best.before ? 'before' : 'after';
-    }
+    st.moved = true; st.clientY = e.clientY; markTarget(e.clientY);
   });
 
   function finish(e) {
     if (!st || (e && e.pointerId != null && e.pointerId !== st.pid)) return;
     if (performance.now() < suppressBlockTapUntil) { reset(); return; }
     const s = st;
+    cancelAnimationFrame(scrollFrame); scrollFrame = 0;
     clearTimeout(timer); timer = null; st = null;
     clearMarks();
     s.row.classList.remove('dragging');
@@ -15445,10 +15922,7 @@ let suppressBlockTapUntil = 0;
       /* 이미 고른 블록을 다시 누르면 놓는다 — 고르는 동작과 같은 손짓으로 풀 수 있어야 한다 */
       if (S.ui.selectedBlockId === b.id) { setStage('composer'); return; }
       /* 블록 선택 시 다른 모든 UI 닫기 — 상호 배타 */
-      closeAllOverlays('format');
-      S.ui.selectedBlockId = b.id;
-      $('#ta').value = HAS_TEXT.includes(b.type) ? blockSource(b) : '';
-      setStage('format'); autoGrow();
+      editCanvasBlock(b.id);
       if (HAS_TEXT.includes(b.type) && window.matchMedia('(pointer:fine)').matches) focusComposerEnd();
       return;
     }
@@ -15631,14 +16105,57 @@ document.addEventListener('selectionchange', trackSel);
 $('#ta').addEventListener('keydown', e => {
   /* 그냥 Enter 는 줄바꿈이다 — 블록은 빈 줄로 나누므로 Enter 를 전송으로 쓰면 여러 줄을 못 쓴다.
      ⌘/Ctrl + Enter 를 '올리기' 로 둔다. 편집 중이면 편집을 끝낸다. */
-  if (e.isComposing || _composerComposing || e.keyCode === 229) return;
+  if (e.isComposing || _composerComposing || e.keyCode === 229 || activeOverlay()) return;
   if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); commit(); }
 });
 document.addEventListener('keydown', e => {
+  if (e.isComposing || _composerComposing || e.keyCode === 229) return;
+  const overlay = activeOverlay();
+  if (!overlay) return;
+  if (e.key === 'Escape') {
+    e.preventDefault(); e.stopImmediatePropagation();
+    overlay.id === 'saveSheet' ? closeSaveSheet() : closeModal();
+    return;
+  }
+  if (e.key === 'Tab') {
+    const items = focusableIn(overlay);
+    const current = items.indexOf(document.activeElement);
+    e.preventDefault(); e.stopImmediatePropagation();
+    if (items.length) {
+      const next = current < 0 ? (e.shiftKey ? items.length - 1 : 0)
+        : (current + (e.shiftKey ? -1 : 1) + items.length) % items.length;
+      items[next].focus();
+    }
+    else overlay.querySelector('[role="dialog"]').focus();
+    return;
+  }
+  if ((e.metaKey || e.ctrlKey) && ['Enter', 'z', 'Z', 'y', 'Y'].includes(e.key)) {
+    /* 모달 입력칸의 텍스트 undo는 브라우저에 맡기고 문서 단축키 전파만 막는다. */
+    e.stopImmediatePropagation();
+    if (e.key === 'Enter') e.preventDefault();
+    return;
+  }
+  if (e.key === 'Enter' && !e.altKey && !e.metaKey && !e.ctrlKey && !e.shiftKey) {
+    const target = e.target;
+    if (target.closest('button,textarea,[contenteditable="true"],select')) return;
+    const apply = overlay.querySelector('.btn-primary:not(.btn-danger):not(:disabled),.btn-fill:not(.btn-danger):not(:disabled)');
+    if (apply) { e.preventDefault(); e.stopImmediatePropagation(); apply.click(); }
+  }
+}, true);
+document.addEventListener('keydown', e => {
+  if (e.defaultPrevented || e.isComposing || _composerComposing || e.keyCode === 229 || exportBusy) return;
+  if ((e.metaKey || e.ctrlKey) && e.key === 'Enter' && !e.altKey && !activeOverlay()) {
+    const target = e.target instanceof Element ? e.target : document.activeElement;
+    if (target?.closest('#settingsPanel')) {
+      if ($('#tabSlider').dataset.active === '1') { e.preventDefault(); saveCharEditV2(); }
+      else if ($('#tabSlider').dataset.active === '3') { e.preventDefault(); saveThemeEditV2(); }
+    }
+  }
   if (e.key === 'Escape') {
     if ($('#saveSheet').classList.contains('is-on')) closeSaveSheet();
     else if ($('#modalRoot').firstChild) closeModal();
     else if ($('#popRoot').firstChild) closePop();
+    else if (!ACTION_MENU.hidden) closeActionMenu();
     else if (S.ui.stage !== 'composer') setStage('composer');
   }
 });
@@ -15733,7 +16250,7 @@ setTimeout(() => { if (_histPrev === null) _histPrev = snapOf(); }, 0);
 /* 새 초안과 설정 입력은 브라우저 편집 히스토리가 맡는다.
    기존 블록 수정은 실시간 save()로 기록하므로 문서 히스토리를 유지한다. */
 window.addEventListener('keydown', e => {
-  if (e.defaultPrevented || e.isComposing || _composerComposing || e.keyCode === 229 || e.altKey) return;
+  if (e.defaultPrevented || e.isComposing || _composerComposing || e.keyCode === 229 || e.altKey || activeOverlay() || exportBusy) return;
   const key = e.key.toLowerCase();
   if (!(e.metaKey || e.ctrlKey) || (key !== 'z' && !(key === 'y' && e.ctrlKey))) return;
   const target = e.target instanceof Element ? e.target : document.activeElement;
@@ -15748,6 +16265,37 @@ save();
 ensureFontCss(fmt().font);
 syncViewportVars();
 render();
+/* 화면에 설명을 더 노출하지 않고 기존 컨트롤의 접근 가능한 이름과 상태를 연결한다. */
+const confirmShortcut = /Mac|iPhone|iPad/.test(navigator.platform) ? '⌘+Enter' : 'Ctrl+Enter';
+$('#ta').setAttribute('aria-label', '블록 내용');
+$('#ta').setAttribute('aria-keyshortcuts', 'Control+Enter Meta+Enter');
+$('#ta').title = 'Enter 줄바꿈 · ' + confirmShortcut + ' 확정';
+$('#btnSettings').setAttribute('aria-label', '캐릭터·테마 설정');
+$('#btnSettings').setAttribute('aria-controls', 'settingsPanel');
+$('#btnAdd').setAttribute('aria-controls', 'actionMenu');
+syncBtnAddState();
+$('#charNameV2').setAttribute('aria-label', '캐릭터 이름');
+$('#btnCharAvatarV2').setAttribute('role', 'button');
+$('#btnCharAvatarV2').tabIndex = 0;
+$('#btnCharAvatarV2').setAttribute('aria-label', '캐릭터 이미지 편집');
+$('#btnCharSaveV2').title = '캐릭터 저장 (' + confirmShortcut + ')';
+$('#btnCharSaveV2').setAttribute('aria-keyshortcuts', 'Control+Enter Meta+Enter');
+enhanceControls();
+syncSettingsViews();
+const controlObserver = new MutationObserver(records => {
+  const roots = new Set();
+  records.forEach(record => {
+    const node = record.target instanceof Element ? record.target : record.target.parentElement;
+    if (node) roots.add(node.closest('.settings-content,#formatWrap,#modalRoot,#popRoot,#saveSheet') || node);
+  });
+  roots.forEach(root => { if (root.isConnected) enhanceControls(root); });
+});
+['#settingsPanel','#formatWrap','#modalRoot','#popRoot','#saveSheet'].forEach(selector => {
+  controlObserver.observe($(selector), { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+});
+window.matchMedia('(min-width:900px)').addEventListener('change', syncSettingsViews);
+syncCanvasKeyboard();
+new MutationObserver(syncCanvasKeyboard).observe($('#canvas'), { childList: true });
 /* 2패널에서는 설정 패널을 처음부터 연다 */
 if (is2Panel()) toggleSettingsPanel(true);
 /* 캐시를 비우며 맡아 둔 «치던 글» 을 돌려준다 [clearCacheAndReload]. render() 뒤라야 한다 —

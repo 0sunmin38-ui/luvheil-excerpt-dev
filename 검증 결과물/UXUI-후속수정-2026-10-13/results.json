@@ -1,0 +1,1592 @@
+[
+  {
+    "engine": "chromium",
+    "width": 320,
+    "checks": [
+      {
+        "name": "삭제 요청 컨트롤·모달 코드 없음",
+        "passed": true
+      },
+      {
+        "name": "설정 버튼 실제 클릭·입력 초기화·버튼 상태",
+        "passed": true
+      },
+      {
+        "name": "작성 Enter 줄바꿈·Ctrl Enter 확정",
+        "passed": true
+      },
+      {
+        "name": "액션 메뉴 최상위 오버레이·화면 경계·선택",
+        "passed": true
+      },
+      {
+        "name": "미저장 확인 이름과 계속 편집",
+        "passed": true
+      },
+      {
+        "name": "서식 원래 위치·이동 버튼 제거·부분 선택 적용",
+        "passed": true
+      },
+      {
+        "name": "키보드+패널 빈 영역·캔버스 터치·전환 오프셋",
+        "passed": true
+      },
+      {
+        "name": "블록 편집 시 캔버스 위치·키보드 전환 중 입력 높이 유지",
+        "passed": true
+      },
+      {
+        "name": "키보드 열린 액션 메뉴·색상 오버레이 경계",
+        "passed": true
+      }
+    ],
+    "details": {
+      "삭제 요청 컨트롤·모달 코드 없음": {
+        "size": false,
+        "moving": "undefined",
+        "quick": false,
+        "menu": "\n             이미지\n             HTML\n             재생음악\n            \n             구분선\n          "
+      },
+      "설정 버튼 실제 클릭·입력 초기화·버튼 상태": {
+        "stage": "tools",
+        "pane": "tools",
+        "snap": 70,
+        "classPane": true,
+        "text": "",
+        "send": false,
+        "label": "요소 추가",
+        "open": true,
+        "body": 478.796875,
+        "sheet": 590.796875
+      },
+      "작성 Enter 줄바꿈·Ctrl Enter 확정": {
+        "line": {
+          "text": "첫 줄\n둘째 줄",
+          "blocks": 0
+        },
+        "sent": {
+          "blocks": 1,
+          "text": "",
+          "send": false
+        }
+      },
+      "액션 메뉴 최상위 오버레이·화면 경계·선택": {
+        "insideSheet": false,
+        "parent": "BODY",
+        "hidden": false,
+        "top": 626,
+        "bottom": 789,
+        "hit": true,
+        "height": 844
+      },
+      "미저장 확인 이름과 계속 편집": [
+        "계속 편집",
+        "나가기",
+        "저장"
+      ],
+      "서식 원래 위치·이동 버튼 제거·부분 선택 적용": {
+        "order": [
+          "글꼴프리텐다드본고딕IBM 플렉스 산스고딕 A1나눔고딕나눔스퀘어 네오코펍월드돋움나눔명조본명조마루 부리고운바탕조선일보명조조선신명조부크크명조온글잎 현명한목록규리의 일기여름편지철필글씨모나12갈무리11크기aAA",
+          "정렬색A✏️",
+          "서식BIUSA2A2"
+        ],
+        "fmt": {
+          "html": "<b>선택할</b> 문장을 확인합니다.",
+          "selection": "선택할"
+        }
+      },
+      "키보드+패널 빈 영역·캔버스 터치·전환 오프셋": {
+        "writing": {
+          "stage": {
+            "top": 47,
+            "bottom": 744,
+            "height": 697
+          },
+          "sheet": {
+            "top": 744,
+            "bottom": 844,
+            "height": 100
+          },
+          "headBottom": 844,
+          "headerTop": 0,
+          "hit": "canvas"
+        },
+        "closed": {
+          "top": 0,
+          "bottom": 844,
+          "scrollY": 0,
+          "docHeight": 844,
+          "h": 844
+        },
+        "settings": {
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "sheetTop": 253.203125,
+          "sheetBottom": 844
+        }
+      },
+      "블록 편집 시 캔버스 위치·키보드 전환 중 입력 높이 유지": {
+        "opened": {
+          "input": 120,
+          "header": 150,
+          "blockTop": 58.85986328125,
+          "blockBottom": 289.1634521484375,
+          "stageTop": 47,
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "focus": "ta"
+        },
+        "keyboard": {
+          "input": 120,
+          "header": 150,
+          "blockTop": 58.85986328125,
+          "blockBottom": 289.1634521484375,
+          "stageTop": 47,
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "focus": "ta"
+        },
+        "closed": {
+          "input": 120,
+          "header": 150,
+          "blockTop": 58.85986328125,
+          "blockBottom": 289.1634521484375,
+          "stageTop": 47,
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "focus": "ta"
+        },
+        "tap": true
+      },
+      "키보드 열린 액션 메뉴·색상 오버레이 경계": {
+        "menu": {
+          "x": 154,
+          "y": 327,
+          "width": 140,
+          "height": 163
+        },
+        "palette": {
+          "x": 10,
+          "y": 221,
+          "width": 280,
+          "height": 269.359375
+        }
+      }
+    },
+    "errors": [],
+    "passed": true
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "checks": [
+      {
+        "name": "삭제 요청 컨트롤·모달 코드 없음",
+        "passed": true
+      },
+      {
+        "name": "설정 버튼 실제 클릭·입력 초기화·버튼 상태",
+        "passed": true
+      },
+      {
+        "name": "작성 Enter 줄바꿈·Ctrl Enter 확정",
+        "passed": true
+      },
+      {
+        "name": "액션 메뉴 최상위 오버레이·화면 경계·선택",
+        "passed": true
+      },
+      {
+        "name": "미저장 확인 이름과 계속 편집",
+        "passed": true
+      },
+      {
+        "name": "서식 원래 위치·이동 버튼 제거·부분 선택 적용",
+        "passed": true
+      },
+      {
+        "name": "키보드+패널 빈 영역·캔버스 터치·전환 오프셋",
+        "passed": true
+      },
+      {
+        "name": "블록 편집 시 캔버스 위치·키보드 전환 중 입력 높이 유지",
+        "passed": true
+      },
+      {
+        "name": "키보드 열린 액션 메뉴·색상 오버레이 경계",
+        "passed": true
+      }
+    ],
+    "details": {
+      "삭제 요청 컨트롤·모달 코드 없음": {
+        "size": false,
+        "moving": "undefined",
+        "quick": false,
+        "menu": "\n             이미지\n             HTML\n             재생음악\n            \n             구분선\n          "
+      },
+      "설정 버튼 실제 클릭·입력 초기화·버튼 상태": {
+        "stage": "tools",
+        "pane": "tools",
+        "snap": 70,
+        "classPane": true,
+        "text": "",
+        "send": false,
+        "label": "요소 추가",
+        "open": true,
+        "body": 490.796875,
+        "sheet": 590.796875
+      },
+      "작성 Enter 줄바꿈·Ctrl Enter 확정": {
+        "line": {
+          "text": "첫 줄\n둘째 줄",
+          "blocks": 0
+        },
+        "sent": {
+          "blocks": 1,
+          "text": "",
+          "send": false
+        }
+      },
+      "액션 메뉴 최상위 오버레이·화면 경계·선택": {
+        "insideSheet": false,
+        "parent": "BODY",
+        "hidden": false,
+        "top": 626,
+        "bottom": 789,
+        "hit": true,
+        "height": 844
+      },
+      "미저장 확인 이름과 계속 편집": [
+        "계속 편집",
+        "나가기",
+        "저장"
+      ],
+      "서식 원래 위치·이동 버튼 제거·부분 선택 적용": {
+        "order": [
+          "글꼴프리텐다드본고딕IBM 플렉스 산스고딕 A1나눔고딕나눔스퀘어 네오코펍월드돋움나눔명조본명조마루 부리고운바탕조선일보명조조선신명조부크크명조온글잎 현명한목록규리의 일기여름편지철필글씨모나12갈무리11크기aAA",
+          "정렬색A✏️",
+          "서식BIUSA2A2"
+        ],
+        "fmt": {
+          "html": "<b>선택할</b> 문장을 확인합니다.",
+          "selection": "선택할"
+        }
+      },
+      "키보드+패널 빈 영역·캔버스 터치·전환 오프셋": {
+        "writing": {
+          "stage": {
+            "top": 47,
+            "bottom": 744,
+            "height": 697
+          },
+          "sheet": {
+            "top": 744,
+            "bottom": 844,
+            "height": 100
+          },
+          "headBottom": 844,
+          "headerTop": 0,
+          "hit": "canvas"
+        },
+        "closed": {
+          "top": 0,
+          "bottom": 844,
+          "scrollY": 0,
+          "docHeight": 844,
+          "h": 844
+        },
+        "settings": {
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "sheetTop": 253.203125,
+          "sheetBottom": 844
+        }
+      },
+      "블록 편집 시 캔버스 위치·키보드 전환 중 입력 높이 유지": {
+        "opened": {
+          "input": 120,
+          "header": 150,
+          "blockTop": 58.94384765625,
+          "blockBottom": 345.2239990234375,
+          "stageTop": 47,
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "focus": "ta"
+        },
+        "keyboard": {
+          "input": 120,
+          "header": 150,
+          "blockTop": 58.94384765625,
+          "blockBottom": 345.2239990234375,
+          "stageTop": 47,
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "focus": "ta"
+        },
+        "closed": {
+          "input": 120,
+          "header": 150,
+          "blockTop": 58.94384765625,
+          "blockBottom": 345.2239990234375,
+          "stageTop": 47,
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "focus": "ta"
+        },
+        "tap": true
+      },
+      "키보드 열린 액션 메뉴·색상 오버레이 경계": {
+        "menu": {
+          "x": 224,
+          "y": 327,
+          "width": 140,
+          "height": 163
+        },
+        "palette": {
+          "x": 100,
+          "y": 221,
+          "width": 280,
+          "height": 269.359375
+        }
+      }
+    },
+    "errors": [],
+    "passed": true
+  },
+  {
+    "engine": "chromium",
+    "width": 768,
+    "checks": [
+      {
+        "name": "삭제 요청 컨트롤·모달 코드 없음",
+        "passed": true
+      },
+      {
+        "name": "설정 버튼 실제 클릭·입력 초기화·버튼 상태",
+        "passed": true
+      },
+      {
+        "name": "작성 Enter 줄바꿈·Ctrl Enter 확정",
+        "passed": true
+      },
+      {
+        "name": "액션 메뉴 최상위 오버레이·화면 경계·선택",
+        "passed": true
+      },
+      {
+        "name": "미저장 확인 이름과 계속 편집",
+        "passed": true
+      },
+      {
+        "name": "서식 원래 위치·이동 버튼 제거·부분 선택 적용",
+        "passed": true
+      },
+      {
+        "name": "키보드+패널 빈 영역·캔버스 터치·전환 오프셋",
+        "passed": true
+      },
+      {
+        "name": "블록 편집 시 캔버스 위치·키보드 전환 중 입력 높이 유지",
+        "passed": true
+      },
+      {
+        "name": "키보드 열린 액션 메뉴·색상 오버레이 경계",
+        "passed": true
+      }
+    ],
+    "details": {
+      "삭제 요청 컨트롤·모달 코드 없음": {
+        "size": false,
+        "moving": "undefined",
+        "quick": false,
+        "menu": "\n             이미지\n             HTML\n             재생음악\n            \n             구분선\n          "
+      },
+      "설정 버튼 실제 클릭·입력 초기화·버튼 상태": {
+        "stage": "tools",
+        "pane": "tools",
+        "snap": 70,
+        "classPane": true,
+        "text": "",
+        "send": false,
+        "label": "요소 추가",
+        "open": true,
+        "body": 490.796875,
+        "sheet": 590.796875
+      },
+      "작성 Enter 줄바꿈·Ctrl Enter 확정": {
+        "line": {
+          "text": "첫 줄\n둘째 줄",
+          "blocks": 0
+        },
+        "sent": {
+          "blocks": 1,
+          "text": "",
+          "send": false
+        }
+      },
+      "액션 메뉴 최상위 오버레이·화면 경계·선택": {
+        "insideSheet": false,
+        "parent": "BODY",
+        "hidden": false,
+        "top": 626,
+        "bottom": 789,
+        "hit": true,
+        "height": 844
+      },
+      "미저장 확인 이름과 계속 편집": [
+        "계속 편집",
+        "나가기",
+        "저장"
+      ],
+      "서식 원래 위치·이동 버튼 제거·부분 선택 적용": {
+        "order": [
+          "글꼴프리텐다드본고딕IBM 플렉스 산스고딕 A1나눔고딕나눔스퀘어 네오코펍월드돋움나눔명조본명조마루 부리고운바탕조선일보명조조선신명조부크크명조온글잎 현명한목록규리의 일기여름편지철필글씨모나12갈무리11크기aAA",
+          "정렬색A✏️",
+          "서식BIUSA2A2"
+        ],
+        "fmt": {
+          "html": "<b>선택할</b> 문장을 확인합니다.",
+          "selection": "선택할"
+        }
+      },
+      "키보드+패널 빈 영역·캔버스 터치·전환 오프셋": {
+        "writing": {
+          "stage": {
+            "top": 47,
+            "bottom": 744,
+            "height": 697
+          },
+          "sheet": {
+            "top": 744,
+            "bottom": 844,
+            "height": 100
+          },
+          "headBottom": 844,
+          "headerTop": 0,
+          "hit": "canvas"
+        },
+        "closed": {
+          "top": 0,
+          "bottom": 844,
+          "scrollY": 0,
+          "docHeight": 844,
+          "h": 844
+        },
+        "settings": {
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "sheetTop": 253.203125,
+          "sheetBottom": 844
+        }
+      },
+      "블록 편집 시 캔버스 위치·키보드 전환 중 입력 높이 유지": {
+        "opened": {
+          "input": 120,
+          "header": 150,
+          "blockTop": 58.671875,
+          "blockBottom": 506.484375,
+          "stageTop": 47,
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "focus": "ta"
+        },
+        "keyboard": {
+          "input": 120,
+          "header": 150,
+          "blockTop": 58.671875,
+          "blockBottom": 506.484375,
+          "stageTop": 47,
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "focus": "ta"
+        },
+        "closed": {
+          "input": 120,
+          "header": 150,
+          "blockTop": 58.671875,
+          "blockBottom": 506.484375,
+          "stageTop": 47,
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "focus": "ta"
+        },
+        "tap": true
+      },
+      "키보드 열린 액션 메뉴·색상 오버레이 경계": {
+        "menu": {
+          "x": 599,
+          "y": 327,
+          "width": 140,
+          "height": 163
+        },
+        "palette": {
+          "x": 165.53125,
+          "y": 221,
+          "width": 280,
+          "height": 269.359375
+        }
+      }
+    },
+    "errors": [],
+    "passed": true
+  },
+  {
+    "engine": "chromium",
+    "width": 900,
+    "checks": [
+      {
+        "name": "삭제 요청 컨트롤·모달 코드 없음",
+        "passed": true
+      },
+      {
+        "name": "설정 버튼 실제 클릭·입력 초기화·버튼 상태",
+        "passed": true
+      },
+      {
+        "name": "작성 Enter 줄바꿈·Ctrl Enter 확정",
+        "passed": true
+      },
+      {
+        "name": "액션 메뉴 최상위 오버레이·화면 경계·선택",
+        "passed": true
+      },
+      {
+        "name": "미저장 확인 이름과 계속 편집",
+        "passed": true
+      },
+      {
+        "name": "서식 원래 위치·이동 버튼 제거·부분 선택 적용",
+        "passed": true
+      }
+    ],
+    "details": {
+      "삭제 요청 컨트롤·모달 코드 없음": {
+        "size": false,
+        "moving": "undefined",
+        "quick": false,
+        "menu": "\n             이미지\n             HTML\n             재생음악\n            \n             구분선\n          "
+      },
+      "설정 버튼 실제 클릭·입력 초기화·버튼 상태": {
+        "stage": "tools",
+        "pane": "tools",
+        "snap": 45,
+        "classPane": true,
+        "text": "",
+        "send": false,
+        "label": "요소 추가",
+        "open": true,
+        "body": 626.390625,
+        "sheet": 797
+      },
+      "작성 Enter 줄바꿈·Ctrl Enter 확정": {
+        "line": {
+          "text": "첫 줄\n둘째 줄",
+          "blocks": 0
+        },
+        "sent": {
+          "blocks": 1,
+          "text": "",
+          "send": false
+        }
+      },
+      "액션 메뉴 최상위 오버레이·화면 경계·선택": {
+        "insideSheet": false,
+        "parent": "BODY",
+        "hidden": false,
+        "top": 114,
+        "bottom": 277,
+        "hit": true,
+        "height": 844
+      },
+      "미저장 확인 이름과 계속 편집": [
+        "계속 편집",
+        "나가기",
+        "저장"
+      ],
+      "서식 원래 위치·이동 버튼 제거·부분 선택 적용": {
+        "order": [
+          "글꼴프리텐다드본고딕IBM 플렉스 산스고딕 A1나눔고딕나눔스퀘어 네오코펍월드돋움나눔명조본명조마루 부리고운바탕조선일보명조조선신명조부크크명조온글잎 현명한목록규리의 일기여름편지철필글씨모나12갈무리11크기aAA",
+          "정렬색A✏️",
+          "서식BIUSA2A2"
+        ],
+        "fmt": {
+          "html": "<b>선택할</b> 문장을 확인합니다.",
+          "selection": "선택할"
+        }
+      }
+    },
+    "errors": [],
+    "passed": true
+  },
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "checks": [
+      {
+        "name": "삭제 요청 컨트롤·모달 코드 없음",
+        "passed": true
+      },
+      {
+        "name": "설정 버튼 실제 클릭·입력 초기화·버튼 상태",
+        "passed": true
+      },
+      {
+        "name": "작성 Enter 줄바꿈·Ctrl Enter 확정",
+        "passed": true
+      },
+      {
+        "name": "액션 메뉴 최상위 오버레이·화면 경계·선택",
+        "passed": true
+      },
+      {
+        "name": "미저장 확인 이름과 계속 편집",
+        "passed": true
+      },
+      {
+        "name": "서식 원래 위치·이동 버튼 제거·부분 선택 적용",
+        "passed": true
+      }
+    ],
+    "details": {
+      "삭제 요청 컨트롤·모달 코드 없음": {
+        "size": false,
+        "moving": "undefined",
+        "quick": false,
+        "menu": "\n             이미지\n             HTML\n             재생음악\n            \n             구분선\n          "
+      },
+      "설정 버튼 실제 클릭·입력 초기화·버튼 상태": {
+        "stage": "tools",
+        "pane": "tools",
+        "snap": 45,
+        "classPane": true,
+        "text": "",
+        "send": false,
+        "label": "요소 추가",
+        "open": true,
+        "body": 626.390625,
+        "sheet": 797
+      },
+      "작성 Enter 줄바꿈·Ctrl Enter 확정": {
+        "line": {
+          "text": "첫 줄\n둘째 줄",
+          "blocks": 0
+        },
+        "sent": {
+          "blocks": 1,
+          "text": "",
+          "send": false
+        }
+      },
+      "액션 메뉴 최상위 오버레이·화면 경계·선택": {
+        "insideSheet": false,
+        "parent": "BODY",
+        "hidden": false,
+        "top": 114,
+        "bottom": 277,
+        "hit": true,
+        "height": 844
+      },
+      "미저장 확인 이름과 계속 편집": [
+        "계속 편집",
+        "나가기",
+        "저장"
+      ],
+      "서식 원래 위치·이동 버튼 제거·부분 선택 적용": {
+        "order": [
+          "글꼴프리텐다드본고딕IBM 플렉스 산스고딕 A1나눔고딕나눔스퀘어 네오코펍월드돋움나눔명조본명조마루 부리고운바탕조선일보명조조선신명조부크크명조온글잎 현명한목록규리의 일기여름편지철필글씨모나12갈무리11크기aAA",
+          "정렬색A✏️",
+          "서식BIUSA2A2"
+        ],
+        "fmt": {
+          "html": "<b>선택할</b> 문장을 확인합니다.",
+          "selection": "선택할"
+        }
+      }
+    },
+    "errors": [],
+    "passed": true
+  },
+  {
+    "engine": "chromium",
+    "width": 1500,
+    "checks": [
+      {
+        "name": "삭제 요청 컨트롤·모달 코드 없음",
+        "passed": true
+      },
+      {
+        "name": "설정 버튼 실제 클릭·입력 초기화·버튼 상태",
+        "passed": true
+      },
+      {
+        "name": "작성 Enter 줄바꿈·Ctrl Enter 확정",
+        "passed": true
+      },
+      {
+        "name": "액션 메뉴 최상위 오버레이·화면 경계·선택",
+        "passed": true
+      },
+      {
+        "name": "미저장 확인 이름과 계속 편집",
+        "passed": true
+      },
+      {
+        "name": "서식 원래 위치·이동 버튼 제거·부분 선택 적용",
+        "passed": true
+      }
+    ],
+    "details": {
+      "삭제 요청 컨트롤·모달 코드 없음": {
+        "size": false,
+        "moving": "undefined",
+        "quick": false,
+        "menu": "\n             이미지\n             HTML\n             재생음악\n            \n             구분선\n          "
+      },
+      "설정 버튼 실제 클릭·입력 초기화·버튼 상태": {
+        "stage": "tools",
+        "pane": "tools",
+        "snap": 45,
+        "classPane": true,
+        "text": "",
+        "send": false,
+        "label": "요소 추가",
+        "open": true,
+        "body": 797,
+        "sheet": 797
+      },
+      "작성 Enter 줄바꿈·Ctrl Enter 확정": {
+        "line": {
+          "text": "첫 줄\n둘째 줄",
+          "blocks": 0
+        },
+        "sent": {
+          "blocks": 1,
+          "text": "",
+          "send": false
+        }
+      },
+      "액션 메뉴 최상위 오버레이·화면 경계·선택": {
+        "insideSheet": false,
+        "parent": "BODY",
+        "hidden": false,
+        "top": 102,
+        "bottom": 265,
+        "hit": true,
+        "height": 844
+      },
+      "미저장 확인 이름과 계속 편집": [
+        "계속 편집",
+        "나가기",
+        "저장"
+      ],
+      "서식 원래 위치·이동 버튼 제거·부분 선택 적용": {
+        "order": [
+          "글꼴프리텐다드본고딕IBM 플렉스 산스고딕 A1나눔고딕나눔스퀘어 네오코펍월드돋움나눔명조본명조마루 부리고운바탕조선일보명조조선신명조부크크명조온글잎 현명한목록규리의 일기여름편지철필글씨모나12갈무리11크기aAA",
+          "정렬색A✏️",
+          "서식BIUSA2A2"
+        ],
+        "fmt": {
+          "html": "<b>선택할</b> 문장을 확인합니다.",
+          "selection": "선택할"
+        }
+      }
+    },
+    "errors": [],
+    "passed": true
+  },
+  {
+    "engine": "webkit",
+    "width": 320,
+    "checks": [
+      {
+        "name": "삭제 요청 컨트롤·모달 코드 없음",
+        "passed": true
+      },
+      {
+        "name": "설정 버튼 실제 클릭·입력 초기화·버튼 상태",
+        "passed": true
+      },
+      {
+        "name": "작성 Enter 줄바꿈·Ctrl Enter 확정",
+        "passed": true
+      },
+      {
+        "name": "액션 메뉴 최상위 오버레이·화면 경계·선택",
+        "passed": true
+      },
+      {
+        "name": "미저장 확인 이름과 계속 편집",
+        "passed": true
+      },
+      {
+        "name": "서식 원래 위치·이동 버튼 제거·부분 선택 적용",
+        "passed": true
+      },
+      {
+        "name": "키보드+패널 빈 영역·캔버스 터치·전환 오프셋",
+        "passed": true
+      },
+      {
+        "name": "블록 편집 시 캔버스 위치·키보드 전환 중 입력 높이 유지",
+        "passed": true
+      },
+      {
+        "name": "키보드 열린 액션 메뉴·색상 오버레이 경계",
+        "passed": true
+      }
+    ],
+    "details": {
+      "삭제 요청 컨트롤·모달 코드 없음": {
+        "size": false,
+        "moving": "undefined",
+        "quick": false,
+        "menu": "\n             이미지\n             HTML\n             재생음악\n            \n             구분선\n          "
+      },
+      "설정 버튼 실제 클릭·입력 초기화·버튼 상태": {
+        "stage": "tools",
+        "pane": "tools",
+        "snap": 70,
+        "classPane": true,
+        "text": "",
+        "send": false,
+        "label": "요소 추가",
+        "open": true,
+        "body": 478.796875,
+        "sheet": 590.796875
+      },
+      "작성 Enter 줄바꿈·Ctrl Enter 확정": {
+        "line": {
+          "text": "첫 줄\n둘째 줄",
+          "blocks": 0
+        },
+        "sent": {
+          "blocks": 1,
+          "text": "",
+          "send": false
+        }
+      },
+      "액션 메뉴 최상위 오버레이·화면 경계·선택": {
+        "insideSheet": false,
+        "parent": "BODY",
+        "hidden": false,
+        "top": 627,
+        "bottom": 789.25,
+        "hit": true,
+        "height": 844
+      },
+      "미저장 확인 이름과 계속 편집": [
+        "계속 편집",
+        "나가기",
+        "저장"
+      ],
+      "서식 원래 위치·이동 버튼 제거·부분 선택 적용": {
+        "order": [
+          "글꼴프리텐다드본고딕IBM 플렉스 산스고딕 A1나눔고딕나눔스퀘어 네오코펍월드돋움나눔명조본명조마루 부리고운바탕조선일보명조조선신명조부크크명조온글잎 현명한목록규리의 일기여름편지철필글씨모나12갈무리11크기aAA",
+          "정렬색A✏️",
+          "서식BIUSA2A2"
+        ],
+        "fmt": {
+          "html": "<b>선택할</b> 문장을 확인합니다.",
+          "selection": "선택할"
+        }
+      },
+      "키보드+패널 빈 영역·캔버스 터치·전환 오프셋": {
+        "writing": {
+          "stage": {
+            "top": 47,
+            "bottom": 744,
+            "height": 697
+          },
+          "sheet": {
+            "top": 744,
+            "bottom": 844,
+            "height": 100
+          },
+          "headBottom": 844,
+          "headerTop": 0,
+          "hit": "canvas"
+        },
+        "closed": {
+          "top": 0,
+          "bottom": 844,
+          "scrollY": 0,
+          "docHeight": 844,
+          "h": 844
+        },
+        "settings": {
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "sheetTop": 253.203125,
+          "sheetBottom": 844
+        }
+      },
+      "블록 편집 시 캔버스 위치·키보드 전환 중 입력 높이 유지": {
+        "opened": {
+          "input": 120,
+          "header": 150,
+          "blockTop": 59.85178756713867,
+          "blockBottom": 290.1553611755371,
+          "stageTop": 47,
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "focus": "ta"
+        },
+        "keyboard": {
+          "input": 120,
+          "header": 150,
+          "blockTop": 59.85178756713867,
+          "blockBottom": 290.1553611755371,
+          "stageTop": 47,
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "focus": "ta"
+        },
+        "closed": {
+          "input": 120,
+          "header": 150,
+          "blockTop": 59.85178756713867,
+          "blockBottom": 290.1553611755371,
+          "stageTop": 47,
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "focus": "ta"
+        },
+        "tap": true
+      },
+      "키보드 열린 액션 메뉴·색상 오버레이 경계": {
+        "menu": {
+          "x": 154,
+          "y": 328,
+          "width": 140,
+          "height": 162.25
+        },
+        "palette": {
+          "x": 10,
+          "y": 221,
+          "width": 280,
+          "height": 268.5625
+        }
+      }
+    },
+    "errors": [],
+    "passed": true
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "checks": [
+      {
+        "name": "삭제 요청 컨트롤·모달 코드 없음",
+        "passed": true
+      },
+      {
+        "name": "설정 버튼 실제 클릭·입력 초기화·버튼 상태",
+        "passed": true
+      },
+      {
+        "name": "작성 Enter 줄바꿈·Ctrl Enter 확정",
+        "passed": true
+      },
+      {
+        "name": "액션 메뉴 최상위 오버레이·화면 경계·선택",
+        "passed": true
+      },
+      {
+        "name": "미저장 확인 이름과 계속 편집",
+        "passed": true
+      },
+      {
+        "name": "서식 원래 위치·이동 버튼 제거·부분 선택 적용",
+        "passed": true
+      },
+      {
+        "name": "키보드+패널 빈 영역·캔버스 터치·전환 오프셋",
+        "passed": true
+      },
+      {
+        "name": "블록 편집 시 캔버스 위치·키보드 전환 중 입력 높이 유지",
+        "passed": true
+      },
+      {
+        "name": "키보드 열린 액션 메뉴·색상 오버레이 경계",
+        "passed": true
+      }
+    ],
+    "details": {
+      "삭제 요청 컨트롤·모달 코드 없음": {
+        "size": false,
+        "moving": "undefined",
+        "quick": false,
+        "menu": "\n             이미지\n             HTML\n             재생음악\n            \n             구분선\n          "
+      },
+      "설정 버튼 실제 클릭·입력 초기화·버튼 상태": {
+        "stage": "tools",
+        "pane": "tools",
+        "snap": 70,
+        "classPane": true,
+        "text": "",
+        "send": false,
+        "label": "요소 추가",
+        "open": true,
+        "body": 490.796875,
+        "sheet": 590.796875
+      },
+      "작성 Enter 줄바꿈·Ctrl Enter 확정": {
+        "line": {
+          "text": "첫 줄\n둘째 줄",
+          "blocks": 0
+        },
+        "sent": {
+          "blocks": 1,
+          "text": "",
+          "send": false
+        }
+      },
+      "액션 메뉴 최상위 오버레이·화면 경계·선택": {
+        "insideSheet": false,
+        "parent": "BODY",
+        "hidden": false,
+        "top": 627,
+        "bottom": 789.25,
+        "hit": true,
+        "height": 844
+      },
+      "미저장 확인 이름과 계속 편집": [
+        "계속 편집",
+        "나가기",
+        "저장"
+      ],
+      "서식 원래 위치·이동 버튼 제거·부분 선택 적용": {
+        "order": [
+          "글꼴프리텐다드본고딕IBM 플렉스 산스고딕 A1나눔고딕나눔스퀘어 네오코펍월드돋움나눔명조본명조마루 부리고운바탕조선일보명조조선신명조부크크명조온글잎 현명한목록규리의 일기여름편지철필글씨모나12갈무리11크기aAA",
+          "정렬색A✏️",
+          "서식BIUSA2A2"
+        ],
+        "fmt": {
+          "html": "<b>선택할</b> 문장을 확인합니다.",
+          "selection": "선택할"
+        }
+      },
+      "키보드+패널 빈 영역·캔버스 터치·전환 오프셋": {
+        "writing": {
+          "stage": {
+            "top": 47,
+            "bottom": 744,
+            "height": 697
+          },
+          "sheet": {
+            "top": 744,
+            "bottom": 844,
+            "height": 100
+          },
+          "headBottom": 844,
+          "headerTop": 0,
+          "hit": "canvas"
+        },
+        "closed": {
+          "top": 0,
+          "bottom": 844,
+          "scrollY": 0,
+          "docHeight": 844,
+          "h": 844
+        },
+        "settings": {
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "sheetTop": 253.203125,
+          "sheetBottom": 844
+        }
+      },
+      "블록 편집 시 캔버스 위치·키보드 전환 중 입력 높이 유지": {
+        "opened": {
+          "input": 120,
+          "header": 150,
+          "blockTop": 59.93381881713867,
+          "blockBottom": 346.2139701843262,
+          "stageTop": 47,
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "focus": "ta"
+        },
+        "keyboard": {
+          "input": 120,
+          "header": 150,
+          "blockTop": 59.93381881713867,
+          "blockBottom": 346.2139701843262,
+          "stageTop": 47,
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "focus": "ta"
+        },
+        "closed": {
+          "input": 120,
+          "header": 150,
+          "blockTop": 59.93381881713867,
+          "blockBottom": 346.2139701843262,
+          "stageTop": 47,
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "focus": "ta"
+        },
+        "tap": true
+      },
+      "키보드 열린 액션 메뉴·색상 오버레이 경계": {
+        "menu": {
+          "x": 224,
+          "y": 328,
+          "width": 140,
+          "height": 162.25
+        },
+        "palette": {
+          "x": 100,
+          "y": 221,
+          "width": 280,
+          "height": 268.5625
+        }
+      }
+    },
+    "errors": [],
+    "passed": true
+  },
+  {
+    "engine": "webkit",
+    "width": 768,
+    "checks": [
+      {
+        "name": "삭제 요청 컨트롤·모달 코드 없음",
+        "passed": true
+      },
+      {
+        "name": "설정 버튼 실제 클릭·입력 초기화·버튼 상태",
+        "passed": true
+      },
+      {
+        "name": "작성 Enter 줄바꿈·Ctrl Enter 확정",
+        "passed": true
+      },
+      {
+        "name": "액션 메뉴 최상위 오버레이·화면 경계·선택",
+        "passed": true
+      },
+      {
+        "name": "미저장 확인 이름과 계속 편집",
+        "passed": true
+      },
+      {
+        "name": "서식 원래 위치·이동 버튼 제거·부분 선택 적용",
+        "passed": true
+      },
+      {
+        "name": "키보드+패널 빈 영역·캔버스 터치·전환 오프셋",
+        "passed": true
+      },
+      {
+        "name": "블록 편집 시 캔버스 위치·키보드 전환 중 입력 높이 유지",
+        "passed": true
+      },
+      {
+        "name": "키보드 열린 액션 메뉴·색상 오버레이 경계",
+        "passed": true
+      }
+    ],
+    "details": {
+      "삭제 요청 컨트롤·모달 코드 없음": {
+        "size": false,
+        "moving": "undefined",
+        "quick": false,
+        "menu": "\n             이미지\n             HTML\n             재생음악\n            \n             구분선\n          "
+      },
+      "설정 버튼 실제 클릭·입력 초기화·버튼 상태": {
+        "stage": "tools",
+        "pane": "tools",
+        "snap": 70,
+        "classPane": true,
+        "text": "",
+        "send": false,
+        "label": "요소 추가",
+        "open": true,
+        "body": 490.796875,
+        "sheet": 590.796875
+      },
+      "작성 Enter 줄바꿈·Ctrl Enter 확정": {
+        "line": {
+          "text": "첫 줄\n둘째 줄",
+          "blocks": 0
+        },
+        "sent": {
+          "blocks": 1,
+          "text": "",
+          "send": false
+        }
+      },
+      "액션 메뉴 최상위 오버레이·화면 경계·선택": {
+        "insideSheet": false,
+        "parent": "BODY",
+        "hidden": false,
+        "top": 627,
+        "bottom": 789.25,
+        "hit": true,
+        "height": 844
+      },
+      "미저장 확인 이름과 계속 편집": [
+        "계속 편집",
+        "나가기",
+        "저장"
+      ],
+      "서식 원래 위치·이동 버튼 제거·부분 선택 적용": {
+        "order": [
+          "글꼴프리텐다드본고딕IBM 플렉스 산스고딕 A1나눔고딕나눔스퀘어 네오코펍월드돋움나눔명조본명조마루 부리고운바탕조선일보명조조선신명조부크크명조온글잎 현명한목록규리의 일기여름편지철필글씨모나12갈무리11크기aAA",
+          "정렬색A✏️",
+          "서식BIUSA2A2"
+        ],
+        "fmt": {
+          "html": "<b>선택할</b> 문장을 확인합니다.",
+          "selection": "선택할"
+        }
+      },
+      "키보드+패널 빈 영역·캔버스 터치·전환 오프셋": {
+        "writing": {
+          "stage": {
+            "top": 47,
+            "bottom": 744,
+            "height": 697
+          },
+          "sheet": {
+            "top": 744,
+            "bottom": 844,
+            "height": 100
+          },
+          "headBottom": 844,
+          "headerTop": 0,
+          "hit": "canvas"
+        },
+        "closed": {
+          "top": 0,
+          "bottom": 844,
+          "scrollY": 0,
+          "docHeight": 844,
+          "h": 844
+        },
+        "settings": {
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "sheetTop": 253.203125,
+          "sheetBottom": 844
+        }
+      },
+      "블록 편집 시 캔버스 위치·키보드 전환 중 입력 높이 유지": {
+        "opened": {
+          "input": 120,
+          "header": 150,
+          "blockTop": 59.65625,
+          "blockBottom": 507.46875,
+          "stageTop": 47,
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "focus": "ta"
+        },
+        "keyboard": {
+          "input": 120,
+          "header": 150,
+          "blockTop": 59.65625,
+          "blockBottom": 507.46875,
+          "stageTop": 47,
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "focus": "ta"
+        },
+        "closed": {
+          "input": 120,
+          "header": 150,
+          "blockTop": 59.65625,
+          "blockBottom": 507.46875,
+          "stageTop": 47,
+          "stageBottom": 253.203125,
+          "stageHeight": 206.203125,
+          "focus": "ta"
+        },
+        "tap": true
+      },
+      "키보드 열린 액션 메뉴·색상 오버레이 경계": {
+        "menu": {
+          "x": 599,
+          "y": 328,
+          "width": 140,
+          "height": 162.25
+        },
+        "palette": {
+          "x": 165.53125,
+          "y": 221,
+          "width": 280,
+          "height": 268.5625
+        }
+      }
+    },
+    "errors": [],
+    "passed": true
+  },
+  {
+    "engine": "webkit",
+    "width": 900,
+    "checks": [
+      {
+        "name": "삭제 요청 컨트롤·모달 코드 없음",
+        "passed": true
+      },
+      {
+        "name": "설정 버튼 실제 클릭·입력 초기화·버튼 상태",
+        "passed": true
+      },
+      {
+        "name": "작성 Enter 줄바꿈·Ctrl Enter 확정",
+        "passed": true
+      },
+      {
+        "name": "액션 메뉴 최상위 오버레이·화면 경계·선택",
+        "passed": true
+      },
+      {
+        "name": "미저장 확인 이름과 계속 편집",
+        "passed": true
+      },
+      {
+        "name": "서식 원래 위치·이동 버튼 제거·부분 선택 적용",
+        "passed": true
+      }
+    ],
+    "details": {
+      "삭제 요청 컨트롤·모달 코드 없음": {
+        "size": false,
+        "moving": "undefined",
+        "quick": false,
+        "menu": "\n             이미지\n             HTML\n             재생음악\n            \n             구분선\n          "
+      },
+      "설정 버튼 실제 클릭·입력 초기화·버튼 상태": {
+        "stage": "tools",
+        "pane": "tools",
+        "snap": 45,
+        "classPane": true,
+        "text": "",
+        "send": false,
+        "label": "요소 추가",
+        "open": true,
+        "body": 626.390625,
+        "sheet": 797
+      },
+      "작성 Enter 줄바꿈·Ctrl Enter 확정": {
+        "line": {
+          "text": "첫 줄\n둘째 줄",
+          "blocks": 0
+        },
+        "sent": {
+          "blocks": 1,
+          "text": "",
+          "send": false
+        }
+      },
+      "액션 메뉴 최상위 오버레이·화면 경계·선택": {
+        "insideSheet": false,
+        "parent": "BODY",
+        "hidden": false,
+        "top": 114,
+        "bottom": 276.25,
+        "hit": true,
+        "height": 844
+      },
+      "미저장 확인 이름과 계속 편집": [
+        "계속 편집",
+        "나가기",
+        "저장"
+      ],
+      "서식 원래 위치·이동 버튼 제거·부분 선택 적용": {
+        "order": [
+          "글꼴프리텐다드본고딕IBM 플렉스 산스고딕 A1나눔고딕나눔스퀘어 네오코펍월드돋움나눔명조본명조마루 부리고운바탕조선일보명조조선신명조부크크명조온글잎 현명한목록규리의 일기여름편지철필글씨모나12갈무리11크기aAA",
+          "정렬색A✏️",
+          "서식BIUSA2A2"
+        ],
+        "fmt": {
+          "html": "<b>선택할</b> 문장을 확인합니다.",
+          "selection": "선택할"
+        }
+      }
+    },
+    "errors": [],
+    "passed": true
+  },
+  {
+    "engine": "webkit",
+    "width": 1440,
+    "checks": [
+      {
+        "name": "삭제 요청 컨트롤·모달 코드 없음",
+        "passed": true
+      },
+      {
+        "name": "설정 버튼 실제 클릭·입력 초기화·버튼 상태",
+        "passed": true
+      },
+      {
+        "name": "작성 Enter 줄바꿈·Ctrl Enter 확정",
+        "passed": true
+      },
+      {
+        "name": "액션 메뉴 최상위 오버레이·화면 경계·선택",
+        "passed": true
+      },
+      {
+        "name": "미저장 확인 이름과 계속 편집",
+        "passed": true
+      },
+      {
+        "name": "서식 원래 위치·이동 버튼 제거·부분 선택 적용",
+        "passed": true
+      }
+    ],
+    "details": {
+      "삭제 요청 컨트롤·모달 코드 없음": {
+        "size": false,
+        "moving": "undefined",
+        "quick": false,
+        "menu": "\n             이미지\n             HTML\n             재생음악\n            \n             구분선\n          "
+      },
+      "설정 버튼 실제 클릭·입력 초기화·버튼 상태": {
+        "stage": "tools",
+        "pane": "tools",
+        "snap": 45,
+        "classPane": true,
+        "text": "",
+        "send": false,
+        "label": "요소 추가",
+        "open": true,
+        "body": 626.390625,
+        "sheet": 797
+      },
+      "작성 Enter 줄바꿈·Ctrl Enter 확정": {
+        "line": {
+          "text": "첫 줄\n둘째 줄",
+          "blocks": 0
+        },
+        "sent": {
+          "blocks": 1,
+          "text": "",
+          "send": false
+        }
+      },
+      "액션 메뉴 최상위 오버레이·화면 경계·선택": {
+        "insideSheet": false,
+        "parent": "BODY",
+        "hidden": false,
+        "top": 114,
+        "bottom": 276.25,
+        "hit": true,
+        "height": 844
+      },
+      "미저장 확인 이름과 계속 편집": [
+        "계속 편집",
+        "나가기",
+        "저장"
+      ],
+      "서식 원래 위치·이동 버튼 제거·부분 선택 적용": {
+        "order": [
+          "글꼴프리텐다드본고딕IBM 플렉스 산스고딕 A1나눔고딕나눔스퀘어 네오코펍월드돋움나눔명조본명조마루 부리고운바탕조선일보명조조선신명조부크크명조온글잎 현명한목록규리의 일기여름편지철필글씨모나12갈무리11크기aAA",
+          "정렬색A✏️",
+          "서식BIUSA2A2"
+        ],
+        "fmt": {
+          "html": "<b>선택할</b> 문장을 확인합니다.",
+          "selection": "선택할"
+        }
+      }
+    },
+    "errors": [],
+    "passed": true
+  },
+  {
+    "engine": "webkit",
+    "width": 1500,
+    "checks": [
+      {
+        "name": "삭제 요청 컨트롤·모달 코드 없음",
+        "passed": true
+      },
+      {
+        "name": "설정 버튼 실제 클릭·입력 초기화·버튼 상태",
+        "passed": true
+      },
+      {
+        "name": "작성 Enter 줄바꿈·Ctrl Enter 확정",
+        "passed": true
+      },
+      {
+        "name": "액션 메뉴 최상위 오버레이·화면 경계·선택",
+        "passed": true
+      },
+      {
+        "name": "미저장 확인 이름과 계속 편집",
+        "passed": true
+      },
+      {
+        "name": "서식 원래 위치·이동 버튼 제거·부분 선택 적용",
+        "passed": true
+      }
+    ],
+    "details": {
+      "삭제 요청 컨트롤·모달 코드 없음": {
+        "size": false,
+        "moving": "undefined",
+        "quick": false,
+        "menu": "\n             이미지\n             HTML\n             재생음악\n            \n             구분선\n          "
+      },
+      "설정 버튼 실제 클릭·입력 초기화·버튼 상태": {
+        "stage": "tools",
+        "pane": "tools",
+        "snap": 45,
+        "classPane": true,
+        "text": "",
+        "send": false,
+        "label": "요소 추가",
+        "open": true,
+        "body": 797,
+        "sheet": 797
+      },
+      "작성 Enter 줄바꿈·Ctrl Enter 확정": {
+        "line": {
+          "text": "첫 줄\n둘째 줄",
+          "blocks": 0
+        },
+        "sent": {
+          "blocks": 1,
+          "text": "",
+          "send": false
+        }
+      },
+      "액션 메뉴 최상위 오버레이·화면 경계·선택": {
+        "insideSheet": false,
+        "parent": "BODY",
+        "hidden": false,
+        "top": 102,
+        "bottom": 264.25,
+        "hit": true,
+        "height": 844
+      },
+      "미저장 확인 이름과 계속 편집": [
+        "계속 편집",
+        "나가기",
+        "저장"
+      ],
+      "서식 원래 위치·이동 버튼 제거·부분 선택 적용": {
+        "order": [
+          "글꼴프리텐다드본고딕IBM 플렉스 산스고딕 A1나눔고딕나눔스퀘어 네오코펍월드돋움나눔명조본명조마루 부리고운바탕조선일보명조조선신명조부크크명조온글잎 현명한목록규리의 일기여름편지철필글씨모나12갈무리11크기aAA",
+          "정렬색A✏️",
+          "서식BIUSA2A2"
+        ],
+        "fmt": {
+          "html": "<b>선택할</b> 문장을 확인합니다.",
+          "selection": "선택할"
+        }
+      }
+    },
+    "errors": [],
+    "passed": true
+  }
+]
