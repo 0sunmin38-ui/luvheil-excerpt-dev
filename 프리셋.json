@@ -904,9 +904,8 @@
       "groupRuns": true,
       "paperJournal": "소제목",
       "paperTitle": "제목",
-      "paperAuthors": "해이 | @luvheil",
       "fmt": {
-        "align": "left",
+        "align": "justify",
         "weight": 400,
         "font": "Pretendard",
         "size": 17,
@@ -918,7 +917,7 @@
         "columnGap": 24
       },
       "canvas": {
-        "mode": "ratio",
+        "mode": "fit",
         "ratio": "1:1",
         "width": 560,
         "mt": 20,
@@ -1190,7 +1189,7 @@
       "signAlign": "right",
       "signSep": "·",
       "canvas": {
-        "mode": "ratio",
+        "mode": "fit",
         "ratio": "9:16",
         "width": 560,
         "mt": 40,
@@ -1201,7 +1200,7 @@
         "marginLink": true
       },
       "fmt": {
-        "align": "left",
+        "align": "justify",
         "weight": 400,
         "font": "Pretendard",
         "size": 14,

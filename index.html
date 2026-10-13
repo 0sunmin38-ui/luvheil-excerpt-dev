@@ -987,6 +987,8 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .canvas .cv-head.head-flow.hd-paper{padding-top:0}
 /* 통합 제목는 본문 영역 안에서 시작해 단 폭과 좌측 기준을 그대로 따른다. */
 .canvas > .cv-head.hd-paper{--title-pl:0px;--title-pr:0px;margin-left:0;margin-right:0}
+/* 내용 맞춤의 제목은 음수 위 여백으로 종이 끝에 달라붙지 않게 한다. */
+.canvas:not(.has-colpage) > .cv-head.hd-paper{margin-top:0}
 .canvas.has-colpage > .cv-head.head-flow.hd-paper,
 .canvas.has-cols > .cv-head.hd-paper{width:var(--cv-colw)}
 
@@ -1044,7 +1046,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 /* 알림 스타일 — iOS 잠금화면 알림 말풍선. 블록 전체에 배경 적용. 이미지·이름 강제 표시. */
 .blk-bubble.n-row{
   background:var(--notif-bg,rgba(255,255,255,0.5));
-  border-radius:20px;padding:12px 14px;gap:12px;
+  border-radius:20px;padding:16px 14px;gap:12px;
   backdrop-filter:none;-webkit-backdrop-filter:none;
   box-shadow:0 2px 12px rgba(0,0,0,0.1);
   align-items:flex-start;
@@ -1066,7 +1068,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 }
 .blk-bubble.n-row .av .notif-badge svg{width:14px;height:14px;fill:#fff}
 /* 알림 col — 이름과 본문 좌측 맞춤 */
-.blk-bubble.n-row .col{flex:1;max-width:100%;gap:1px;display:flex;flex-direction:column;align-items:stretch !important}
+.blk-bubble.n-row .col{flex:1;max-width:100%;gap:5px;display:flex;flex-direction:column;align-items:stretch !important}
 /* 알림 이름 — 굵고 약간 크게, 좌측 맞춤 */
 .blk-bubble.n-row .who{font-size:1em !important;font-weight:600 !important;opacity:1 !important;padding:0 !important;margin:0 !important;width:100%}
 /* 알림 본문 — 약간 작고 흐리게, 좌측 맞춤 */
@@ -1093,7 +1095,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 /* SNS 본문 */
 .blk-bubble .bub.as-sns{background:transparent !important;border-radius:0 !important;padding:0 !important;margin:0 !important;width:100%}
 /* SNS 액션 아이콘 */
-.blk-bubble .bub.as-sns .sns-actions{display:flex;align-items:center;gap:40px;margin-top:6px}
+.blk-bubble .bub.as-sns .sns-actions{display:flex;align-items:center;gap:40px;margin-top:10px}
 .blk-bubble .bub.as-sns .sns-action{opacity:0.5}
 .blk-bubble .bub.as-sns .sns-action svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
 /* SNS 우측 액션 (북마크, 공유) */
@@ -2880,7 +2882,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
             </div>
             <div class="setting-grid">
               <div class="field"><label class="lab" for="signNameV2">이름</label><input type="text" class="inp" id="signNameV2" placeholder="예) 해이"></div>
-              <div class="field"><label class="lab" for="signMakerV2">제작자</label><input type="text" class="inp" id="signMakerV2" placeholder="예) @luvheil"></div>
+              <div class="field"><label class="lab" for="signMakerV2">제작자</label><input type="text" class="inp" id="signMakerV2" placeholder="예) @아이디"></div>
             </div>
           </div>
         </div>
@@ -3917,9 +3919,8 @@ const PRESET_THEMES = [
     "groupRuns": true,
     "paperJournal": "소제목",
     "paperTitle": "제목",
-    "paperAuthors": "해이 | @luvheil",
     "fmt": {
-      "align": "left",
+      "align": "justify",
       "weight": 400,
       "font": "Pretendard",
       "size": 17,
@@ -3931,7 +3932,7 @@ const PRESET_THEMES = [
       "columnGap": 24
     },
     "canvas": {
-      "mode": "ratio",
+      "mode": "fit",
       "ratio": "1:1",
       "width": 560,
       "mt": 20,
@@ -4199,7 +4200,7 @@ const PRESET_THEMES = [
     "signAlign": "right",
     "signSep": "·",
     "canvas": {
-      "mode": "ratio",
+      "mode": "fit",
       "ratio": "9:16",
       "width": 560,
       "mt": 40,
@@ -4210,7 +4211,7 @@ const PRESET_THEMES = [
       "marginLink": true
     },
     "fmt": {
-      "align": "left",
+      "align": "justify",
       "weight": 400,
       "font": "Pretendard",
       "size": 14,
@@ -4396,7 +4397,7 @@ addEventListener('unhandledrejection', e => diag('window:unhandledrejection', {
   message: String(e && e.reason && (e.reason.message || e.reason) || '').slice(0, 180)
 }));
 /* 기본값을 바꾸면 올린다. 저장본의 판이 낮으면 내용은 지키고 기본값만 새로 잡는다. */
-const SCHEMA = 17;
+const SCHEMA = 18;
 const SIGNATURE_SCHEMA = 17;
 /* 저장이 조용히 실패하면 안 된다 — 특히 캐릭터 이미지처럼 큰 값을 넣은 직후에
    용량이 넘치면, 화면에는 멀쩡히 보이는데 새로고침하면 사라져 원인을 알 수 없다. */
@@ -4717,13 +4718,35 @@ function load() {
     S.themes.forEach(t => { if (t.bubbleStyle === 'notif') t.groupRuns = true; });
   }
 
+  /* 새 프리셋 값만 기존 저장본에 반영한다. 사용자가 조정한 판형·서식은 유지한다. */
+  if (loaded && (loaded.v || 0) < 18) {
+    S.themes.forEach(t => {
+      if (!presetOf(t)) return;
+      if (t.fmt?.align === 'left' && (t.presetId === 'chapter' || t.presetId === 'newspapers'))
+        t.fmt.align = 'justify';
+      if (t.presetId === 'chapter' && t.canvas?.mode === 'ratio' && t.canvas.ratio === '1:1')
+        t.canvas.mode = 'fit';
+      if (t.presetId === 'newspapers' && t.canvas?.mode === 'ratio' && t.canvas.ratio === '9:16')
+        t.canvas.mode = 'fit';
+      delete t.paperAuthors;
+    });
+  }
+
   if (!loaded) {
-    S.signatures = [SIGN_SEED()];
-    S.activeSignId = S.signatures[0].id;
+    S.signatures = [];
+    S.activeSignId = null;
   } else {
     const converted = normalizeSignatureData(signSource, (loaded.v || 0) < SIGNATURE_SCHEMA);
     S.signatures = converted.signatures;
     S.activeSignId = converted.activeSignId;
+    /* 예전 자동 생성 서명만 걷는다. 사용자가 만든 다른 서명은 그대로 둔다. */
+    if ((loaded.v || 0) < 18) {
+      const retired = S.signatures.find(s => s.charName === '해이' && s.maker === '@luvheil');
+      if (retired) {
+        S.signatures = S.signatures.filter(s => s.id !== retired.id);
+        if (S.activeSignId === retired.id) S.activeSignId = null;
+      }
+    }
   }
   S.blocks = S.blocks.filter(b => b.type !== 'footer');
   S.themes.forEach(stripLegacySign);
@@ -4740,7 +4763,6 @@ const theme = () => {
   return S.themes.find(t => t.id === S.activeThemeId) || S.themes[0] || DEF_THEME();
 };
 /* 서명 내용은 공통 목록, 표시와 서식은 테마다 — 초안은 확정 전 캔버스에 쓰지 않는다. */
-const SIGN_SEED = () => ({ id: uid(), charName: '해이', maker: '@luvheil' });
 const signField = x => typeof x === 'string' ? x.trim() : '';
 /* 옛 블록에 걸린 인라인 꾸밈도 벗긴다 — 화면에 보이던 글자만 내용으로 옮긴다. */
 function legacyFooterContent(value) {
@@ -6827,7 +6849,8 @@ function ensureCanvasFonts() {
   fresh.forEach(n => _fontLoading.add(n));
   ensureFontsLoaded($('#canvas')).then(() => {
     fresh.forEach(n => { _fontSeen.add(n); _fontLoading.delete(n); });
-    renderCanvas();
+    /* 저장 중의 화면 DOM은 페이지별 출력이 참조한다. 저장이 끝나면 한 번 다시 그린다. */
+    if (!exportBusy) renderCanvas();
   }).catch(() => {
     /* 실패 시 재시도 가능하도록 로딩 Set에서 제거 */
     fresh.forEach(n => _fontLoading.delete(n));
@@ -8069,188 +8092,134 @@ function placeFlow(rows, items, H, avail, hold, topAlign, step) {
 
    말풍선 · 사진 · 음악 · HTML 은 안 쪼갠다 — 껍데기가 있는 것을 반으로 가르면 꼬리도
    모서리도 두 동강이 나 그림이 깨진다. 그것들은 여태처럼 통짜로 다음 단에 넘어간다.
-   [주의] 화면에 그린 것만 손댄다 — S.blocks 는 건드리지 않는다. 조각들은 원래 블록의
-   data-id 를 그대로 물려받으므로 고르기도 끌기도 여태와 똑같이 먹는다. */
-function splitTallRows(budget) {
-  if (!(budget > 20)) return;
-  flowRows().forEach(row => {
-    if (row.offsetHeight <= budget) return;
-    /* 글 하나만 든 블록인가 — 그 밖은 쪼갤 수 없다 */
-    if (row.children.length !== 1) return;
-    const src = row.firstElementChild;
-    if (!src.classList.contains('blk-text')) return;
-
-    const pos = flatChars(src);
-    const last = pos.length - 1;
-    if (last < 1) return;
-
-    /* a 번째 글자부터 k 번째 글자까지가 몇 줄에 걸치는가. 글자 하나의 y 를 읽는 대신
-       «걸친 줄 수» 를 보는 이유는 softBreaks 의 주석과 같다 — 소프트 줄바꿈 직후 첫
-       글자의 rect 가 앞 줄 자리로 오는 웹킷의 affinity 를 이 값은 타지 않는다. */
-    const range = document.createRange();
-    const linesFrom = (a, k) => {
-      try {
-        range.setStart(pos[a].node, pos[a].off);
-        range.setEnd(pos[k].node, pos[k].off + 1);
-      } catch (_) { return 1; }
-      const tops = new Set();
-      for (const r of range.getClientRects()) if (r.height > 0) tops.add(Math.round(r.top));
-      return tops.size || 1;
-    };
-
-    const total = linesFrom(0, last);
-    if (total < 2) return;
-    /* 한 문단 안에서는 줄 높이가 고르다 — 글 높이를 줄 수로 나누면 그것이 한 줄이다.
-       (덕분에 줄마다 y 를 재지 않아도 되어, 재는 횟수가 조각 수만큼으로 준다.) */
-    const textH = src.getBoundingClientRect().height;
-    const extra = Math.max(0, row.offsetHeight - textH);   /* 글 말고 블록이 더 쓰는 높이 */
-    const per = Math.max(1, Math.floor((budget - extra) / (textH / total)));
-    if (per >= total) return;                              /* 사실은 들어간다 */
-
-    /* a 에서 세어 per 줄을 넘기는 첫 글자 = 다음 조각의 첫 글자.
-       앞에서부터 재면 글이 길수록 한 번 재는 값이 통째로 커진다 — 창을 per 줄 언저리로
-       넓혀 가며 잡고(지수 탐색), 그 안에서만 이분 탐색한다. */
-    const nextCut = a => {
-      if (a >= last) return -1;
-      let lo = a, step = 64, hi = Math.min(last, a + step);
-      while (linesFrom(a, hi) <= per) {
-        if (hi >= last) return -1;                         /* 남은 것이 다 들어간다 */
-        lo = hi; step *= 2; hi = Math.min(last, hi + step);
+   [주의] 화면에 그린 것만 손댄다 — S.blocks 는 건드리지 않는다. 조각은 원본 id와
+   원문 범위를 함께 가지고, 선택·이동은 원본 블록 단위로 처리한다. */
+/* BR과 인라인 서식을 포함한 원문을 자소 묶음 경계로만 나눈다. */
+function proseSplitPoints(root) {
+  let source = '';
+  const positions = [];
+  const visit = parent => {
+    [...parent.childNodes].forEach((child, index) => {
+      if (child.nodeType === 3) {
+        const value = child.nodeValue || '';
+        for (let i = 0; i < value.length; i++) positions.push({ node: child, offset: i });
+        source += value;
+      } else if (child.nodeType === 1 && child.tagName === 'BR') {
+        positions.push({ node: parent, offset: index });
+        source += '\n';
+      } else if (child.nodeType === 1 && child.tagName !== 'STYLE' && child.tagName !== 'SCRIPT') {
+        visit(child);
       }
-      while (lo + 1 < hi) {
-        const mid = (lo + hi) >> 1;
-        if (linesFrom(a, mid) > per) hi = mid; else lo = mid;
-      }
-      return hi;
-    };
-
-    const edges = [0];
-    for (let a = 0, k; (k = nextCut(a)) > a; a = k) edges.push(k);
-    if (edges.length < 2) return;
-    edges.push(pos.length);
-
-    const made = [];
-    for (let i = 0; i + 1 < edges.length; i++) {
-      const a = edges[i], b = edges[i + 1];
-      if (a >= b) continue;
-      try {
-        range.setStart(pos[a].node, pos[a].off);
-        range.setEnd(pos[b - 1].node, pos[b - 1].off + 1);
-      } catch (_) { return; }
-      const w = row.cloneNode(false);                      /* .blk — class · data-id 그대로 */
-      w.dataset.split = i ? 'tail' : 'head';
-      const t = src.cloneNode(false);                      /* .blk-text — 정렬 · 색 · 글꼴 그대로 */
-      t.appendChild(range.cloneContents());
-      /* 줄이 넘어가던 자리의 공백은 화면에서 줄 끝에 매달려 폭을 안 먹는다. 조각의
-         맨 앞으로 오면 그 공백이 진짜 들여쓰기가 되어 첫 글자가 한 칸씩 밀린다. */
-      if (i) {
-        const first = t.firstChild;
-        if (first && first.nodeType === 3) first.nodeValue = first.nodeValue.replace(/^[ \t]+/, '');
-      }
-      w.appendChild(t);
-      made.push(w);
-    }
-    if (made.length < 2) return;
-    /* 양쪽 정렬은 «문단의 마지막 줄» 만 늘리지 않는다. 쪼갠 자리는 문단이 끝난 데가
-       아니라 이어지는 데라, 그대로 두면 단 밑동 한 줄만 들쭉날쭉해 눈에 띈다 —
-       마지막 조각을 뺀 나머지는 끝 줄까지 늘려 단이 반듯하게 떨어지게 한다. */
-    if (getComputedStyle(src).textAlign === 'justify')
-      made.slice(0, -1).forEach(w => w.firstElementChild.style.textAlignLast = 'justify');
-    made.forEach(w => row.parentNode.insertBefore(w, row));
-    row.remove();
-  });
+    });
+  };
+  visit(root);
+  if (!source || !positions.length) return [];
+  /* 분절기가 없으면 안전한 내부 경계를 알 수 없으므로 원본을 유지한다. */
+  if (!Intl.Segmenter) return [];
+  const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+  const points = [{ node: root, offset: 0, source: 0 }];
+  for (const part of segmenter.segment(source)) {
+    const end = part.index + part.segment.length;
+    if (end < source.length) points.push({ ...positions[end], source: end });
+  }
+  points.push({ node: root, offset: root.childNodes.length, source: source.length });
+  return points;
 }
 
-/* Android Chrome 용 예측 기반 분할 — Range API 없이 lineHeight 와 문자 수로 추정한다.
-   Range.getClientRects() 가 부정확하거나 느린 환경에서 쓴다. 정확도는 떨어지지만
-   완전히 건너뛰는 것보다는 낫다. 한 페이지를 초과하는 긴 블록을 대략적으로 나눈다. */
-function splitTallRowsEstimated(budget) {
+function cloneProseContents(range, root) {
+  let contents = range.cloneContents();
+  /* 같은 서식 요소 안에서 시작하고 끝나면 Range는 그 공통 조상을 복제하지 않는다. */
+  let ancestor = range.commonAncestorContainer;
+  if (ancestor.nodeType === 3) ancestor = ancestor.parentNode;
+  while (ancestor && ancestor !== root) {
+    const host = ancestor.cloneNode(false);
+    host.appendChild(contents);
+    contents = host;
+    ancestor = ancestor.parentNode;
+  }
+  return contents;
+}
+
+/* 추정은 후보에만 사용하고 실제 단 폭의 DOM 높이로 각 조각을 확정한다. */
+function splitTallRowsMeasured(budget) {
   if (!(budget > 20)) return;
+  let slotTop = flowRows()[0]?.offsetTop ?? 0;
   flowRows().forEach(row => {
-    if (row.offsetHeight <= budget) return;
-    if (row.children.length !== 1) return;
+    let available = budget - (row.offsetTop - slotTop);
+    if (row.offsetHeight <= available) return;
+    /* 페이지 표시만 다시 계산할 때 이미 만든 조각을 재분할하지 않는다. */
+    if (row.dataset.split) { slotTop = row.offsetTop; return; }
+    if (row.children.length !== 1) { slotTop = row.offsetTop; return; }
     const src = row.firstElementChild;
-    if (!src.classList.contains('blk-text')) return;
-
-    const text = src.textContent || '';
-    if (text.length < 2) return;
-
-    const cs = getComputedStyle(src);
-    const fontSize = parseFloat(cs.fontSize) || 16;
-    /* lineHeight 가 'normal' 이면 fontSize 의 1.2 배 정도다 */
-    const lineH = cs.lineHeight === 'normal' ? fontSize * 1.2 : (parseFloat(cs.lineHeight) || fontSize * 1.2);
-    const textH = src.getBoundingClientRect().height;
-    const extra = Math.max(0, row.offsetHeight - textH);
-    const estLines = Math.max(1, Math.round(textH / lineH));
-    const charsPerLine = Math.max(1, Math.ceil(text.length / estLines));
-    const linesPerSeg = Math.max(1, Math.floor((budget - extra) / lineH));
-    const charsPerSeg = charsPerLine * linesPerSeg;
-
-    if (charsPerSeg >= text.length) return;
-
-    /* 텍스트 노드와 오프셋 목록 구축 — flatChars 와 유사하지만 간략화 */
-    const pos = [];
-    const collectPos = node => {
-      for (const ch of node.childNodes) {
-        if (ch.nodeType === 3) {
-          const v = ch.nodeValue || '';
-          for (let i = 0; i < v.length; i++) pos.push({ node: ch, off: i });
-        } else if (ch.nodeType === 1 && ch.tagName !== 'BR' && ch.tagName !== 'STYLE') {
-          collectPos(ch);
-        }
-      }
+    if (!src.classList.contains('blk-text')) { slotTop = row.offsetTop; return; }
+    const style = getComputedStyle(src);
+    const lineHeight = parseFloat(style.lineHeight) || (parseFloat(style.fontSize) || 16) * 1.4;
+    /* 한 줄만 남기지 않도록 짧은 글이나 작은 빈 공간은 통째로 다음 칸에 둔다. */
+    if (available < lineHeight * 2 || row.offsetHeight < lineHeight * 3) {
+      slotTop = row.offsetTop;
+      available = budget;
+    }
+    if (row.offsetHeight <= available) return;
+    const points = proseSplitPoints(src);
+    if (points.length < 3) return;
+    const range = document.createRange(), last = points.length - 1;
+    const fragment = (a, b) => {
+      range.setStart(points[a].node, points[a].offset);
+      range.setEnd(points[b].node, points[b].offset);
+      const wrap = row.cloneNode(false), text = src.cloneNode(false);
+      text.appendChild(cloneProseContents(range, src));
+      wrap.appendChild(text);
+      wrap.dataset.sourceStart = points[a].source;
+      wrap.dataset.sourceEnd = points[b].source;
+      return wrap;
     };
-    collectPos(src);
-    if (pos.length < 2) return;
-
-    /* 분할 경계 계산 — 문자 수 기준으로 공백 근처에서 끊는다 */
+    const fits = (a, b, limit) => {
+      const candidate = fragment(a, b);
+      row.parentNode.insertBefore(candidate, row);
+      try { return candidate.offsetHeight <= limit; }
+      finally { candidate.remove(); }
+    };
     const edges = [0];
-    let nextCut = charsPerSeg;
-    for (let i = 0; i < pos.length; i++) {
-      if (i >= nextCut) {
-        /* 공백 근처에서 끊기 위해 앞뒤 20 자 범위를 살핀다 */
-        let best = i;
-        for (let j = Math.max(0, i - 10); j < Math.min(pos.length, i + 20); j++) {
-          const c = (pos[j].node.nodeValue || '')[pos[j].off];
-          if (/\s/.test(c)) { best = j + 1; break; }
+    try {
+      for (let a = 0; a < last;) {
+        const limit = a === 0 ? available : budget;
+        if (!fits(a, a + 1, limit)) {
+          diag('split:unsplittable', { id: row.dataset.id, at: points[a].source });
+          return;
         }
-        edges.push(Math.min(best, pos.length));
-        nextCut = best + charsPerSeg;
+        /* 긴 글 전체를 조각마다 복제하지 않는다. 한 칸 분량부터 넓혀 찾는다. */
+        let lo = a + 1;
+        let step = Math.max(16, Math.ceil(last * limit / Math.max(row.offsetHeight, limit)));
+        let hi = Math.min(last, a + step);
+        while (hi > lo && fits(a, hi, limit)) {
+          lo = hi;
+          if (hi === last) break;
+          step *= 2;
+          hi = Math.min(last, a + step);
+        }
+        while (lo + 1 < hi) {
+          const mid = (lo + hi) >> 1;
+          if (fits(a, mid, limit)) lo = mid;
+          else hi = mid;
+        }
+        edges.push(lo);
+        a = lo;
       }
-    }
-    if (edges.length < 2) return;
-    edges.push(pos.length);
-
-    /* 각 구간을 Range 로 잘라 새 블록으로 만든다 */
-    const range = document.createRange();
-    const made = [];
-    for (let i = 0; i + 1 < edges.length; i++) {
-      const a = edges[i], b = edges[i + 1];
-      if (a >= b || a >= pos.length) continue;
-      const endIdx = Math.min(b - 1, pos.length - 1);
-      try {
-        range.setStart(pos[a].node, pos[a].off);
-        range.setEnd(pos[endIdx].node, pos[endIdx].off + 1);
-      } catch (_) { continue; }
-
-      const w = row.cloneNode(false);
-      w.dataset.split = i ? 'tail' : 'head';
-      const t = src.cloneNode(false);
-      t.appendChild(range.cloneContents());
-      /* 조각 맨 앞 공백 제거 */
-      if (i) {
-        const first = t.firstChild;
-        if (first && first.nodeType === 3) first.nodeValue = first.nodeValue.replace(/^[ \t]+/, '');
+      if (edges.length < 3) return;
+      const made = [];
+      for (let i = 1; i < edges.length; i++) {
+        const wrap = fragment(edges[i - 1], edges[i]);
+        wrap.dataset.split = i === 1 ? 'head' : 'tail';
+        made.push(wrap);
       }
-      w.appendChild(t);
-      made.push(w);
+      if (getComputedStyle(src).textAlign === 'justify')
+        made.slice(0, -1).forEach(wrap => wrap.firstElementChild.style.textAlignLast = 'justify');
+      made.forEach(wrap => row.parentNode.insertBefore(wrap, row));
+      row.remove();
+      slotTop = made[made.length - 1].offsetTop;
+    } catch (error) {
+      diag('split:row-error', { id: row.dataset.id, message: String(error && error.message || error) });
     }
-
-    if (made.length < 2) return;
-    if (getComputedStyle(src).textAlign === 'justify')
-      made.slice(0, -1).forEach(w => w.firstElementChild.style.textAlignLast = 'justify');
-    made.forEach(w => row.parentNode.insertBefore(w, row));
-    row.remove();
   });
 }
 
@@ -8274,6 +8243,7 @@ function pageRanges(hold = headHold + footHold) {
 }
 function renderPageMarks() {
   const cv = $('#canvas');
+  delete cv.dataset.paginationOverflow;
   cv.querySelectorAll('.pagemark, .foot-ghost, .head-ghost, .frame-ghost, .eb-foot-ghost, .bg-ghost').forEach(n => n.remove());
   cv.querySelectorAll('.foot-pin, .head-pin, .head-flow, .eb-foot-pin').forEach(n => n.classList.remove('foot-pin', 'head-pin', 'head-flow', 'eb-foot-pin'));
   /* 프레임 높이는 아래에서 «한 장» 으로 못 박는다 — CSS 의 100% 는 여러 장이면 쌓아 올린
@@ -8340,22 +8310,18 @@ function renderPageMarks() {
   const hold = headHold + (footH ? footH + gap : 0);
   /* 장을 세기 «전에» 쪼개 둔다 — 한 단에 안 들어가는 글은 여기서 여러 블록이 되고,
      그다음부터는 pageRanges 가 그 사이를 끊을 수 있다 [splitTallRows]. */
-  /* Android Chrome 은 문자별 Range 측정이 부정확하므로 예측 기반 분할을 쓴다.
-     lineHeight 와 문자 수로 분할점을 추정해 Range.getClientRects() 호출을 피한다. */
+  /* 엔진별 Range 줄 위치·문자 수 추정보다 실제 조각 높이를 공통 기준으로 쓴다. */
   const splitBudget = pageBox().inner - hold, splitAt = performance.now();
   diag('split:start', { budget: Math.round(splitBudget), rows: flowRows().length });
   try {
-    if (isAndroid()) {
-      splitTallRowsEstimated(splitBudget);
-      diag('split:android-estimated', { ms: Math.round(performance.now() - splitAt), rows: flowRows().length });
-    } else {
-      splitTallRows(splitBudget);
-      diag('split:done', { ms: Math.round(performance.now() - splitAt), rows: flowRows().length });
-    }
+    splitTallRowsMeasured(splitBudget);
+    diag('split:done', { ms: Math.round(performance.now() - splitAt), rows: flowRows().length });
   } catch (e) {
     diag('split:error', { name: e && e.name || 'Error', message: String(e && e.message || '').slice(0, 180) });
     /* 분할 실패 시 원본 유지 — 저장 자체는 진행한다 */
   }
+  const oversizedProse = flowRows().find(row => row.querySelector('.blk-text') && row.offsetHeight > splitBudget);
+  if (oversizedProse) cv.dataset.paginationOverflow = oversizedProse.dataset.id || 'text';
   const rangeAt = performance.now();
   const rg = pageRanges(hold);
   diag('page-ranges:done', { ms: Math.round(performance.now() - rangeAt), ranges: rg.length });
@@ -9623,7 +9589,7 @@ function openResetModal() {
     [
       ['characters', '캐릭터 프리셋', '등록한 캐릭터 목록을 삭제합니다.'],
       ['themes', '테마 프리셋', `추가 · 수정한 테마를 없애고 기본 테마 ${PRESET_THEMES.length}종으로 복원합니다.`],
-      ['signatures', '서명 프리셋', '저장한 서명을 기본 서명으로 되돌립니다.'],
+      ['signatures', '서명 프리셋', '저장한 서명을 모두 지우고 서명 없음으로 되돌립니다.'],
       ['colors', '색상', '색상 팔레트를 초기화합니다.'],
       /* 유일하게 «지우지 않는» 항목이다 — 브라우저가 들고 있던 예전 판만 버린다.
          고친 것이 화면에 안 나올 때 쓰는 자리라, 초기화를 찾아 들어온 손이 여기서 만난다. */
@@ -9652,7 +9618,7 @@ function openResetModal() {
       reset.push('테마 프리셋');
     }
     if (selected.has('signatures')) {
-      S.signatures = [SIGN_SEED()]; S.activeSignId = S.signatures[0].id;
+      S.signatures = []; S.activeSignId = null;
       S.ui.editingSignId = null; S.ui.signDraft = null;
       reset.push('서명 프리셋');
     }
@@ -14718,7 +14684,9 @@ function captureClone(cv) {
   }
 }
 function captureCloneAt(cv) {
-  const w = Math.ceil(cv.offsetWidth), h = Math.ceil(cv.offsetHeight);
+  const w = Math.ceil(cv.offsetWidth);
+  let h = Math.ceil(cv.offsetHeight);
+  const naturalColumns = isFit() && cv.classList.contains('has-cols');
   const host = el('div');
   host.setAttribute('aria-hidden', 'true');
   host.style.cssText = 'position:fixed;left:-100000px;top:0;margin:0;padding:0;overflow:hidden;'
@@ -14735,7 +14703,13 @@ function captureCloneAt(cv) {
      이미지가 빠져 눈에 띈다. 그림자를 걷어내는 것과 같은 자리에서 함께 편다. */
   clone.style.setProperty('border-radius', '0', 'important');
   ['width', 'min-width', 'max-width'].forEach(k => clone.style.setProperty(k, w + 'px', 'important'));
-  ['height', 'min-height', 'max-height'].forEach(k => clone.style.setProperty(k, h + 'px', 'important'));
+  if (naturalColumns) {
+    clone.style.setProperty('height', 'auto', 'important');
+    clone.style.setProperty('min-height', '0', 'important');
+    clone.style.setProperty('max-height', 'none', 'important');
+  } else {
+    ['height', 'min-height', 'max-height'].forEach(k => clone.style.setProperty(k, h + 'px', 'important'));
+  }
   clone.querySelectorAll('.pagemark').forEach(n => n.remove());
   clone.querySelectorAll('.blk').forEach(n => {
     n.classList.remove('is-sel', 'picked', 'dragging');
@@ -14743,6 +14717,14 @@ function captureCloneAt(cv) {
   });
   host.appendChild(clone);
   document.body.appendChild(host);
+
+  /* WebKit의 CSS 다단에서는 자식의 고정 높이를 복제본에 다시 주는 순간
+     두 단 밖으로 새 단이 생긴다. 내용 맞춤 다단은 브라우저의 자연 배치에 맡긴다. */
+  if (naturalColumns) {
+    h = Math.max(h, Math.ceil(clone.offsetHeight));
+    host.style.height = h + 'px';
+    return { host, clone, w, h };
+  }
 
   const from = [...cv.querySelectorAll(FLOW_SEL)], to = [...clone.querySelectorAll(FLOW_SEL)];
   for (let i = 0; i < Math.min(from.length, to.length); i++) {
@@ -14820,6 +14802,8 @@ const withTimeout = (p, ms, val) => Promise.race([Promise.resolve(p), new Promis
 const isIOS = () => /iPad|iPhone|iPod/i.test(navigator.userAgent || '')
   || (navigator.platform === 'MacIntel' && (navigator.maxTouchPoints || 0) > 1);
 const isAndroid = () => /Android/i.test(navigator.userAgent || '');
+const isDesktopSafari = () => /Safari\//.test(navigator.userAgent)
+  && !/Chrome\/|Chromium\/|CriOS\/|Edg\//.test(navigator.userAgent) && !isIOS();
 /* Android Chrome 도 iOS Safari 와 마찬가지로 글자 단위 Range 의 줄 경계를 화면과 다르게
    돌려주는 기기가 있다. 그 잘못 잰 위치에 <br> 를 박고 white-space:pre 로 자동 줄바꿈까지
    끄면, 저장본에서만 한 줄이 고정 폭 말풍선 밖으로 넘친다. 손안 브라우저에서는 복제본에
@@ -15118,6 +15102,28 @@ async function bakeImagesForExport(root) {
    그래서 늘리는 단계 자체를 없앤다. SVG 를 처음부터 최종 크기로 세우고(width·height),
    내용은 CSS transform 으로 키운다 — transform 은 배치를 바꾸지 않으므로 줄바꿈도
    말풍선 폭도 그대로다. pixelRatio 는 1 이 되어 더 늘릴 일이 없다. */
+async function pngHasVisibleInk(url, background) {
+  const hex = /^#([0-9a-f]{6})$/i.exec(background || '');
+  if (!hex) return true; /* 이미지·효과 배경은 단색 비교로 판정할 수 없다. */
+  const color = [0, 2, 4].map(i => parseInt(hex[1].slice(i, i + 2), 16));
+  const img = new Image(); img.src = url;
+  try { await img.decode(); } catch (_) { return false; }
+  if (!img.naturalWidth || !img.naturalHeight) return false;
+  const sample = document.createElement('canvas');
+  sample.width = Math.min(192, img.naturalWidth);
+  sample.height = Math.min(512, Math.max(1, Math.round(img.naturalHeight * sample.width / img.naturalWidth)));
+  const ctx = sample.getContext('2d', { willReadFrequently: true });
+  if (!ctx) return true;
+  ctx.drawImage(img, 0, 0, sample.width, sample.height);
+  const pixels = ctx.getImageData(0, 0, sample.width, sample.height).data;
+  let ink = 0;
+  for (let i = 0; i < pixels.length; i += 4) {
+    if (pixels[i + 3] < 192) continue;
+    const distance = Math.abs(pixels[i] - color[0]) + Math.abs(pixels[i + 1] - color[1]) + Math.abs(pixels[i + 2] - color[2]);
+    if (distance > 90 && ++ink >= 8) return true;
+  }
+  return false;
+}
 async function renderExact(hti, node, w, h, scale, fontCss, bg, status) {
   const W = Math.max(1, Math.round(w * scale)), H = Math.max(1, Math.round(h * scale));
   const background = node._exportBackground;
@@ -15161,6 +15167,12 @@ async function renderExact(hti, node, w, h, scale, fontCss, bg, status) {
       width: w + 'px', height: h + 'px'
     }
   };
+  /* 내용 맞춤 CSS 다단에 높이를 고정하면 WebKit이 지정 단 수 밖으로
+     열을 더 만든다. 래스터 크기만 고정하고 DOM 높이는 자연 배치로 둔다. */
+  if (isFit() && node.classList.contains('has-cols')) {
+    scaled.style.height = 'auto';
+    legacy.style.height = 'auto';
+  }
   /* 글꼴을 다 심었으면 그걸로, 못 심었으면 skipFonts 로. 중간(외부 url 잔존)은 두지 않는다.
      글꼴이 먼저다 — 두 그리기 방식을 다 해 보고 나서야 글꼴을 포기한다. */
   /* 루트 CSS transform은 WebKit foreignObject에서 그림자/filter 좌표와
@@ -15175,14 +15187,19 @@ async function renderExact(hti, node, w, h, scale, fontCss, bg, status) {
   try {
     for (const opt of variants) {
       try {
-        const finish = url => {
+        const finish = async url => {
+          /* macOS Safari 첫 캡처가 오류 없이 단색 PNG를 돌려주는 경우가 있다.
+             화면에 글이 있는데 잉크가 없으면 다음 렌더 경로로 재시도한다. */
+          if (isDesktopSafari() && node.querySelector('.blk-text, .bub')
+              && !(await pngHasVisibleInk(url, baseColor)))
+            throw new Error('빈 PNG가 만들어져 다시 그립니다');
           if (opt.skipFonts && fontCss) {
             if (status) status.fontFallback = true;
             diag('export:font-fallback', { w, h });
           }
           return url;
         };
-        if (!composite) return finish(await hti.toPng(node, opt));
+        if (!composite) return await finish(await hti.toPng(node, opt));
         opt.style.background = 'transparent';
         opt.filter = element => !background?.layers.includes(element) && !underlays.includes(element)
           && !glass.some(item => item.layer === element);
@@ -15202,7 +15219,7 @@ async function renderExact(hti, node, w, h, scale, fontCss, bg, status) {
         if (background) for (const layer of background.layers)
           g.drawImage(background.surface, 0, layer.offsetTop, w, background.height);
         else { g.fillStyle = baseColor; g.fillRect(0, 0, w, h); }
-        g.restore(); return finish(output.toDataURL('image/png'));
+        g.restore(); return await finish(output.toDataURL('image/png'));
       } catch (e) { last = e; }
     }
     throw last || new Error('저장 실패');
@@ -15246,14 +15263,15 @@ function download(url, name) {
    떨어질 뿐이고 인앱 브라우저에서는 아예 막히기도 한다. 사진첩으로 가는 길은 공유 시트뿐이라
    (navigator.share 로 파일을 넘기면 '이미지 저장' 이 뜬다) 만든 그림을 화면에 띄우고
    거기서 공유·복사·내려받기를 고르게 한다. 이미지를 길게 눌러 저장하는 길도 함께 남는다.
-   PC 는 지금까지처럼 그냥 내려받는다 — 창을 하나 더 띄울 이유가 없다. */
+   Mac Safari는 첫 자동 다운로드가 빈 파일이 될 수 있어, 완성본을 먼저 보여 주고
+   사용자가 누른 저장 버튼의 제스처 안에서 다운로드를 시작한다. */
 const isHandheld = () => isIOS() || ((navigator.maxTouchPoints || 0) > 0 && innerWidth <= 900);
 
 let _saved = [];
 const clearSaved = () => { _saved.forEach(s => URL.revokeObjectURL(s.url)); _saved = []; };
 
 async function deliver(items) {
-  if (!isHandheld()) {
+  if (!isHandheld() && !isDesktopSafari()) {
     items.forEach((it, i) => setTimeout(() => download(it.url, it.name), i * 450));
     toast(items.length > 1
       ? `${items.length}장 다운로드를 요청했습니다 · 자동 다운로드 허용과 목록을 확인해주세요`
@@ -15264,6 +15282,7 @@ async function deliver(items) {
   const out = [];
   for (const it of items) {
     const blob = await fetch(it.url).then(r => r.blob());
+    if (blob.type !== 'image/png' || blob.size < 100) throw new Error('PNG 파일이 비어 있습니다');
     out.push({ blob, url: URL.createObjectURL(blob), name: it.name });
   }
   openSaveSheet(out);
@@ -15280,7 +15299,9 @@ function openSaveSheet(items) {
     items.length > 1 ? `이미지 ${items.length}장이 완성됐습니다` : '이미지가 완성됐습니다'));
   panel.appendChild(el('p', 'savesheet-sub', isIOS()
     ? '공유를 눌러 “이미지 저장”을 고르면 사진첩에 들어갑니다. 아래 이미지를 길게 눌러 저장해도 됩니다.'
-    : '내려받거나 다른 앱으로 보낼 수 있습니다.'));
+    : isDesktopSafari()
+      ? '완성된 이미지를 확인한 뒤 내려받기를 눌러주세요.'
+      : '내려받거나 다른 앱으로 보낼 수 있습니다.'));
 
   const prev = el('div', 'savesheet-prev');
   items.forEach(s => { const i = el('img'); i.src = s.url; i.alt = s.name; prev.appendChild(i); });
@@ -15293,7 +15314,15 @@ function openSaveSheet(items) {
     b.onclick = shareSaved; acts.appendChild(b);
   }
   const dl = el('button', 'btn ' + (canShare ? 'btn-quiet' : 'btn-primary'), '↓ 이미지 내려받기');
-  dl.onclick = () => _saved.forEach((s, i) => setTimeout(() => download(s.url, s.name), i * 450));
+  dl.onclick = () => {
+    /* 미리보기를 바로 닫아도 예약된 장들의 URL이 살아 있게 별도 핸들을 둔다. */
+    const files = _saved.map(s => ({ url: URL.createObjectURL(s.blob), name: s.name }));
+    files.forEach((s, i) => {
+      if (i) setTimeout(() => download(s.url, s.name), i * 450);
+      else download(s.url, s.name);
+    });
+    setTimeout(() => files.forEach(s => URL.revokeObjectURL(s.url)), Math.max(60000, files.length * 450 + 30000));
+  };
   acts.appendChild(dl);
   if (items.length === 1 && navigator.clipboard && typeof ClipboardItem !== 'undefined') {
     const cp = el('button', 'btn btn-quiet', '⧉ 이미지 복사');
@@ -15337,7 +15366,7 @@ function copySaved() {
     .catch(e => { console.warn(e); toast('브라우저가 이미지 복사를 막았습니다'); });
 }
 
-let exportBusy = false, exportFocus = null;
+let exportBusy = false, exportFocus = null, safariCapturePrimed = false;
 function reportExportWarning(message) {
   const panel = $('#saveSheet .savesheet-panel');
   if (panel) {
@@ -15367,6 +15396,10 @@ async function exportPNG() {
     button.disabled = false; button.removeAttribute('aria-busy');
     button.innerHTML = original; button.setAttribute('aria-label', '캔버스를 PNG로 저장');
     S.ui.selectedBlockId = selection; renderCanvas();
+    if (_rzPending) {
+      _rzW = window.innerWidth; _rzPending = false;
+      syncSettingsViews(); measureSheet();
+    }
     syncOverlayLocks();
     if (!activeOverlay() && focus?.isConnected && !focus.closest('[inert],[hidden]')) focus.focus({ preventScroll: true });
     exportFocus = null;
@@ -15447,6 +15480,11 @@ async function buildPNG() {
     exportFontStyle = installExportFontCSS(css);
     await ensureFontsLoaded(cv);
     await raf2();
+    /* 글꼴이 바뀐 뒤에는 원본에서 조각과 페이지를 다시 확정한다. */
+    renderCanvas();
+    cv.querySelectorAll('.pagemark, .foot-ghost, .head-ghost, .frame-ghost, .eb-foot-ghost, .bg-ghost').forEach(n => n.remove());
+    clearPageOffsets(cv);
+    if (cv.dataset.paginationOverflow) throw new Error('긴 서술을 페이지 안에 배치하지 못했습니다. 글자 크기·여백·판형을 조정하거나 내용 맞춤을 선택해주세요');
     const bg = theme().bg;
     /* 단을 쓰면 한 칸이 «단» 이다 — 감출 줄을 고르는 것은 «장» 단위라 N 개씩 묶는다 */
     const segs = isFit() ? null : pageRanges();
@@ -15510,13 +15548,28 @@ async function buildPNG() {
           if (fullH !== snap.h) {
             snap.h = fullH;
             snap.host.style.height = fullH + 'px';
-            ['height', 'min-height', 'max-height'].forEach(k =>
-              snap.clone.style.setProperty(k, fullH + 'px', 'important'));
+            if (!snap.clone.classList.contains('has-cols'))
+              ['height', 'min-height', 'max-height'].forEach(k =>
+                snap.clone.style.setProperty(k, fullH + 'px', 'important'));
             await raf2();
           }
+          if (snap.clone.classList.contains('has-cols') && snap.clone.scrollWidth > snap.w + 2)
+            throw new Error('내용 맞춤 다단이 캔버스 폭을 넘었습니다. 단 수·글자 크기·캔버스 폭을 조정해주세요');
         }
         const scale = exportRatio(snap.w, snap.h);
-        return await renderExact(hti, snap.clone, snap.w, snap.h, scale, css, bg, exportStatus);
+        const capture = () => renderExact(hti, snap.clone, snap.w, snap.h, scale, css, bg, exportStatus);
+        if (!isDesktopSafari() || safariCapturePrimed) return await capture();
+        /* 첫 WebKit 캡처는 성공을 반환해도 내용이 비는 사례가 있다. 첫 장만
+           내부에서 한 번 예열하고, 사용자가 받는 파일은 두 번째 캡처로 만든다.
+           renderExact가 합성 표면·그림자를 정리하므로 다시 준비해야 한다. */
+        try { await capture(); }
+        catch (error) { console.warn('Safari 첫 캡처 재시도', error); }
+        await prepareExportBackground(snap.clone);
+        prepareDecorationShadows(snap.clone);
+        await raf2();
+        const result = await capture();
+        safariCapturePrimed = true;
+        return result;
       } finally { snap.host.remove(); }
     };
     if (!multi) {
@@ -15557,7 +15610,7 @@ async function buildPNG() {
   } finally {
     if (exportFontStyle) exportFontStyle.remove();
     flowRows().forEach(n => n.classList.remove('row-off'));
-    S.ui.selectedBlockId = wasSel; renderCanvas();
+    S.ui.selectedBlockId = wasSel;
   }
 }
 
@@ -15968,28 +16021,29 @@ function setDeskPane(p) {
 })();
 
 let suppressBlockTapUntil = 0;
+let editedSourcePosition = 0;
 function revealEditedBlock() {
   const stage = $('#stage'), id = S.ui.selectedBlockId;
   if (!id || S.ui.stage !== 'format') return;
   const bounds = stage.getBoundingClientRect();
   const candidates = [...$('#canvas').querySelectorAll('.blk:not(.row-off)')]
     .filter(row => row.dataset.id === id);
-  const center = bounds.top + bounds.height / 2;
-  candidates.sort((a, b) => {
-    const ar = a.getBoundingClientRect(), br = b.getBoundingClientRect();
-    return Math.abs(ar.top + ar.height / 2 - center) - Math.abs(br.top + br.height / 2 - center);
-  });
-  const row = candidates[0];
+  const row = candidates.find(candidate =>
+    +candidate.dataset.sourceStart <= editedSourcePosition &&
+    editedSourcePosition < +candidate.dataset.sourceEnd) || candidates[0];
   if (!row || bounds.height <= 0) return;
   const r = row.getBoundingClientRect();
-  const target = r.height > bounds.height - 24 ? bounds.top + 12 : center - r.height / 2;
+  if (r.top >= bounds.top + 12 && r.bottom <= bounds.bottom - 12) return;
+  const target = r.height > bounds.height - 24 ? bounds.top + 12
+    : r.top < bounds.top + 12 ? bounds.top + 12 : bounds.bottom - r.height - 12;
   // 문서 전체 scrollIntoView는 Safari의 화면 이동을 유발할 수 있어 캔버스 안에서만 이동한다.
   stage.scrollTop += r.top - target;
 }
-function editCanvasBlock(id) {
-  if (!isWide() && confirmDiscardSettingsDraft(() => editCanvasBlock(id))) return;
+function editCanvasBlock(id, sourcePosition = 0) {
+  if (!isWide() && confirmDiscardSettingsDraft(() => editCanvasBlock(id, sourcePosition))) return;
   const block = S.blocks.find(item => item.id === id);
   if (!block) return;
+  editedSourcePosition = sourcePosition;
   closeAllOverlays('format');
   S.ui.selectedBlockId = block.id;
   $('#ta').value = HAS_TEXT.includes(block.type) ? blockSource(block) : '';
@@ -16002,19 +16056,30 @@ function editCanvasBlock(id) {
 function syncCanvasKeyboard() {
   const rows = [...$('#canvas').querySelectorAll('.blk:not(.row-off)')];
   const blocks = new Map(S.blocks.map(block => [block.id, block]));
-  const selected = rows.find(row => row.dataset.id === S.ui.selectedBlockId) || rows[0];
+  const selected = rows.find(row => row.dataset.id === S.ui.selectedBlockId
+    && +row.dataset.sourceStart <= editedSourcePosition
+    && editedSourcePosition < +row.dataset.sourceEnd)
+    || rows.find(row => row.dataset.id === S.ui.selectedBlockId) || rows[0];
+  const totals = new Map(), indexes = new Map();
+  rows.forEach(row => totals.set(row.dataset.id, (totals.get(row.dataset.id) || 0) + 1));
   rows.forEach((row, i) => {
     row.tabIndex = row === selected ? 0 : -1;
     row.setAttribute('role', 'group');
     const block = blocks.get(row.dataset.id);
-    row.setAttribute('aria-label', `${i + 1}번 블록 · ${String(block?.text || block?.title || block?.type || '').slice(0, 80)} · Enter로 편집`);
+    const part = (indexes.get(row.dataset.id) || 0) + 1;
+    indexes.set(row.dataset.id, part);
+    const number = S.blocks.findIndex(item => item.id === row.dataset.id) + 1;
+    const continuation = totals.get(row.dataset.id) > 1 ? ` · 이어지는 부분 ${part}/${totals.get(row.dataset.id)}` : '';
+    const excerpt = String(row.querySelector('.blk-text')?.textContent || block?.text || block?.title || block?.type || '')
+      .replace(/\s+/g, ' ').trim().slice(0, 60);
+    row.setAttribute('aria-label', `${number || i + 1}번 블록${continuation} · ${excerpt} · Enter로 전체 편집`);
   });
 }
 $('#canvas').addEventListener('keydown', e => {
   const row = e.target.closest('.blk');
   if (!row || e.target !== row || e.isComposing || e.ctrlKey || e.metaKey || e.altKey) return;
   if (e.key === 'Enter' || e.key === ' ') {
-    e.preventDefault(); editCanvasBlock(row.dataset.id);
+    e.preventDefault(); editCanvasBlock(row.dataset.id, +(row.dataset.sourceStart || 0));
     (focusableIn($('#formatWrap'))[0] || $('#ta')).focus({ preventScroll: true });
   } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
     const rows = [...$('#canvas').querySelectorAll('.blk:not(.row-off)')];
@@ -16083,19 +16148,20 @@ $('#canvas').addEventListener('keydown', e => {
       const y = st.clientY ?? st.y;
       const amount = y < rect.top + 48 ? -Math.min(12, (rect.top + 48 - y) / 4)
         : y > bottom - 48 ? Math.min(12, (y - bottom + 48) / 4) : 0;
-      if (amount && st.moved) { stage.scrollTop += amount; markTarget(y); }
+      if (amount && st.moved) { stage.scrollTop += amount; markTarget(st.clientX ?? st.x, y); }
       scrollFrame = requestAnimationFrame(scroll);
     };
     scrollFrame = requestAnimationFrame(scroll);
   }
 
-  function markTarget(y) {
+  function markTarget(x, y) {
     clearMarks(); st.target = null;
-    const rows = pageRows().filter(r => r !== st.row);
+    const rows = pageRows().filter(r => r.dataset.id && r.dataset.id !== st.id);
     let best = null, bd = Infinity;
     rows.forEach(r => {
       const rc = r.getBoundingClientRect(), mid = rc.top + rc.height / 2;
-      const d = Math.abs(y - mid);
+      const dx = Math.max(rc.left - x, 0, x - rc.right);
+      const d = dx * 3 + Math.abs(y - mid);
       if (d < bd) { bd = d; best = { r, before: y < mid }; }
     });
     if (best) {
@@ -16113,7 +16179,7 @@ $('#canvas').addEventListener('keydown', e => {
       clearTimeout(timer); timer = null;
       beginDrag();
     }
-    st.moved = true; st.clientY = e.clientY; markTarget(e.clientY);
+    st.moved = true; st.clientX = e.clientX; st.clientY = e.clientY; markTarget(e.clientX, e.clientY);
   });
 
   function finish(e) {
@@ -16128,10 +16194,14 @@ $('#canvas').addEventListener('keydown', e => {
 
     if (!s.long) {                       /* 짧은 탭 — 수정 */
       const b = S.blocks.find(x => x.id === s.id); if (!b) return;
+      const position = +(s.row.dataset.sourceStart || 0);
       /* 이미 고른 블록을 다시 누르면 놓는다 — 고르는 동작과 같은 손짓으로 풀 수 있어야 한다 */
-      if (S.ui.selectedBlockId === b.id) { setStage('composer'); return; }
+      if (S.ui.selectedBlockId === b.id) {
+        if (editedSourcePosition !== position) { editedSourcePosition = position; revealEditedBlock(); return; }
+        setStage('composer'); return;
+      }
       /* 블록 선택 시 다른 모든 UI 닫기 — 상호 배타 */
-      editCanvasBlock(b.id);
+      editCanvasBlock(b.id, position);
       if (HAS_TEXT.includes(b.type) && window.matchMedia('(pointer:fine)').matches) focusComposerEnd();
       return;
     }
@@ -16436,6 +16506,8 @@ let _rz, _rzW = window.innerWidth, _rzPending = false;
 window.addEventListener('resize', () => {
   diag('viewport:resize');
   autoGrow(); measureSheet();
+  /* 저장이 참조하는 페이지 DOM은 폭 변경 중에도 출력 완료까지 고정한다. */
+  if (exportBusy) { _rzPending = true; return; }
   const nextW = window.innerWidth;
   /* 키보드가 뜬 동안 Android Chrome 은 세로 스크롤바·주소창 정산으로 layout viewport 폭도
      몇 px 바꿀 수 있다. 입력칸이 살아 있는 동안에는 DOM 을 갈지 않고, 키보드가 내려간 뒤
@@ -16448,7 +16520,10 @@ window.addEventListener('resize', () => {
   closePop();
   fitCanvas();                       /* 남는 폭이 달라지면 축소율도 달라진다 */
   clearTimeout(_rz);
-  _rz = setTimeout(() => { if (!isFit()) render(); else renderPageMarks(); }, 120);
+  _rz = setTimeout(() => {
+    if (exportBusy) { _rzPending = true; return; }
+    if (!isFit()) render(); else renderPageMarks();
+  }, 120);
 });
 
 loadPalette();
