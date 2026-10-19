@@ -715,9 +715,11 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .canvas.has-insta-dm .blk.is-footer.foot-pin{bottom:calc(var(--insta-foot-h,0px) + (var(--cv-pb,32px) + var(--cv-gap,10px)) / 2)}
 
 /* 프리뷰 장식 — 잠금화면은 고정 글꼴·크기 + 글래스 효과, 뉴스·논문은 본문 14px 기준 비율.
-   잠금화면 시간은 캔버스 상단에 넉넉한 여백으로 배치 (iOS 잠금화면 레퍼런스). */
+   잠금화면 시간은 캔버스 상단에 넉넉한 여백으로 배치 (iOS 잠금화면 레퍼런스).
+   위·아래 여백은 같게 두고, 최소 높이로 남는 자리도 가운데 정렬로 위아래에 똑같이 나눈다. */
 .hd-lock-clock{font-family:"Pretendard",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
-  padding:48px 18px 16px;text-align:center;letter-spacing:0;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:32px 18px;text-align:center;letter-spacing:0;
   color:var(--lock-fg,inherit);min-height:calc(100% / 3)}
 .hd-lock-clock .lock-date{font-size:18px;font-weight:600;line-height:1.3;margin-bottom:8px}
 .hd-lock-clock .lock-time{font-size:min(90px,calc(var(--canvas-w,560px) * .18));font-weight:800;line-height:1;
@@ -1046,10 +1048,10 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 /* 알림 스타일 — iOS 잠금화면 알림 말풍선. 블록 전체에 배경 적용. 이미지·이름 강제 표시. */
 .blk-bubble.n-row{
   background:var(--notif-bg,rgba(255,255,255,0.5));
-  border-radius:20px;padding:16px 14px;gap:12px;
+  border-radius:20px;padding:16px 14px;gap:16px;
   backdrop-filter:none;-webkit-backdrop-filter:none;
   box-shadow:0 2px 12px rgba(0,0,0,0.1);
-  align-items:flex-start;
+  align-items:center;
 }
 .notif-glass{position:absolute;inset:0;border-radius:inherit;overflow:hidden;pointer-events:none;z-index:0}
 .notif-glass img{display:block;width:100%;height:100%}
@@ -1068,11 +1070,11 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 }
 .blk-bubble.n-row .av .notif-badge svg{width:14px;height:14px;fill:#fff}
 /* 알림 col — 이름과 본문 좌측 맞춤 */
-.blk-bubble.n-row .col{flex:1;max-width:100%;gap:5px;display:flex;flex-direction:column;align-items:stretch !important}
+.blk-bubble.n-row .col{flex:1;max-width:100%;gap:0;display:flex;flex-direction:column;align-items:stretch !important}
 /* 알림 이름 — 굵고 약간 크게, 좌측 맞춤 */
 .blk-bubble.n-row .who{font-size:1em !important;font-weight:600 !important;opacity:1 !important;padding:0 !important;margin:0 !important;width:100%}
-/* 알림 본문 — 약간 작고 흐리게, 좌측 맞춤 */
-.blk-bubble .bub.as-notif{background:transparent !important;border-radius:0 !important;padding:0 !important;margin:0 !important;font-size:.9em;opacity:.6;width:100%}
+/* 알림 본문 — 이름과 같은 크기, 흐리게, 좌측 맞춤. 이름과는 행간만큼만 띄운다. */
+.blk-bubble .bub.as-notif{background:transparent !important;border-radius:0 !important;padding:0 !important;margin:0 !important;font-size:1em;opacity:.6;width:100%}
 /* SNS 스타일 — 트위터/X 형태의 게시물. 블록 전체에 배경 적용. */
 .blk-bubble.x-row{
   background:var(--sns-bg,transparent);
