@@ -1,0 +1,36 @@
+{
+  "engine": "Chromium 151.0.7922.34",
+  "errors": [],
+  "results": [
+    {
+      "id": "B3",
+      "ratio": "3:4",
+      "size": 18,
+      "pages": 1,
+      "files": [
+        "B3-18px-3x4-p1.png"
+      ],
+      "width": 560,
+      "pageHeight": 747,
+      "font": "Pretendard",
+      "notification": {
+        "fontSize": "18px",
+        "lineHeight": "23.4px",
+        "titleLineHeight": "23.4px",
+        "textBoxTrim": "none",
+        "nameToBody": 23.390625
+      },
+      "headerPadding": {
+        "top": "48px",
+        "bottom": "48px"
+      },
+      "margin": {
+        "top": 0,
+        "bottom": 40,
+        "left": 50,
+        "right": 50
+      },
+      "default": false
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-20",
+  "appSHA256": "c72b17ab4495bcc4395138ccc15426f96b7af146de9dbb3d59ea718803a5f7f4",
+  "environments": {
+    "chromium-desktop": "151.0.7922.34",
+    "webkit-desktop": "26.5",
+    "firefox-desktop": "153.0",
+    "webkit-iphone": "26.5",
+    "chromium-android": "151.0.7922.34"
+  },
+  "cases": 360,
+  "previewPNG": 90,
+  "exportPNG": 45,
+  "scope": "장식 드롭다운의 없음 제외 9종. 4가지 입력 × 요청 폭 360/560 × 5환경. Cyworld/Buddy는 자체 고정 판형 적용. 모바일 실기기 아님. 프리셋/테마 전체 조합이나 모든 글꼴/크기를 검사한 것은 아님.",
+  "findings": {
+    "Bubble": "긴 이름 3줄, 80자리 기념일 숫자 3줄",
+    "e-Book": "긴 작품명 3줄, 긴 서명 5줄. 서명은 명시적으로 줄바꿈 허용",
+    "Lock Screen": "긴 날짜 4줄, 긴 시간은 가로 영역 밖으로 넘침",
+    "Cyworld": "TODAY IS 긴 값이 옆 영역과 캔버스 밖으로 넘침. 줄바꿈은 없음",
+    "Article": "소제목 3줄, 제목 5줄, 저자 4줄. 원래 여러 줄을 허용하는 구성",
+    "Buddybuddy / iMessage / Kakaotalk / Instagram DM": "한 줄 유지. 긴 값은 잘림 또는 말줄임"
+  }
+}

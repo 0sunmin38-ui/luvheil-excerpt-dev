@@ -1,0 +1,50 @@
+{
+  "engine": "Chromium 151.0.7922.34",
+  "errors": [],
+  "results": [
+    {
+      "id": "B2",
+      "ratio": "3:4",
+      "size": 14,
+      "pages": 1,
+      "files": [
+        "B2-14px-3x4-p1.png"
+      ],
+      "width": 560,
+      "pageHeight": 747,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "12.6px",
+          "lineHeight": "18.9px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "42px",
+          "lineHeight": "63px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "11.2px",
+          "lineHeight": "16.8px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": true
+    }
+  ]
+}

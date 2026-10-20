@@ -1,0 +1,888 @@
+{
+  "engine": "Chromium 151.0.7922.34",
+  "errors": [],
+  "results": [
+    {
+      "id": "A1",
+      "ratio": "9:16",
+      "size": 12,
+      "pages": 1,
+      "files": [
+        "A1-12px-9x16-p1.png"
+      ],
+      "width": 560,
+      "pageHeight": 996,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "10.8px",
+          "lineHeight": "15.12px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "26.4px",
+          "lineHeight": "36.96px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "9.6px",
+          "lineHeight": "13.44px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": false
+    },
+    {
+      "id": "A2",
+      "ratio": "9:16",
+      "size": 14,
+      "pages": 1,
+      "files": [
+        "A2-14px-9x16-p1.png"
+      ],
+      "width": 560,
+      "pageHeight": 996,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "12.6px",
+          "lineHeight": "17.64px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "30.8px",
+          "lineHeight": "43.12px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "11.2px",
+          "lineHeight": "15.68px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": false
+    },
+    {
+      "id": "A3",
+      "ratio": "9:16",
+      "size": 16,
+      "pages": 1,
+      "files": [
+        "A3-16px-9x16-p1.png"
+      ],
+      "width": 560,
+      "pageHeight": 996,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "14.4px",
+          "lineHeight": "20.16px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "35.2px",
+          "lineHeight": "49.28px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "12.8px",
+          "lineHeight": "17.92px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": false
+    },
+    {
+      "id": "A4",
+      "ratio": "9:16",
+      "size": 18,
+      "pages": 1,
+      "files": [
+        "A4-18px-9x16-p1.png"
+      ],
+      "width": 560,
+      "pageHeight": 996,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "16.2px",
+          "lineHeight": "22.68px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "39.6px",
+          "lineHeight": "55.44px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "14.4px",
+          "lineHeight": "20.16px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": false
+    },
+    {
+      "id": "B1",
+      "ratio": "3:4",
+      "size": 12,
+      "pages": 1,
+      "files": [
+        "B1-12px-3x4-p1.png"
+      ],
+      "width": 560,
+      "pageHeight": 747,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "10.8px",
+          "lineHeight": "15.12px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "26.4px",
+          "lineHeight": "36.96px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "9.6px",
+          "lineHeight": "13.44px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": false
+    },
+    {
+      "id": "B2",
+      "ratio": "3:4",
+      "size": 14,
+      "pages": 1,
+      "files": [
+        "B2-14px-3x4-p1.png"
+      ],
+      "width": 560,
+      "pageHeight": 747,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "12.6px",
+          "lineHeight": "17.64px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "30.8px",
+          "lineHeight": "43.12px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "11.2px",
+          "lineHeight": "15.68px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": true
+    },
+    {
+      "id": "B3",
+      "ratio": "3:4",
+      "size": 16,
+      "pages": 1,
+      "files": [
+        "B3-16px-3x4-p1.png"
+      ],
+      "width": 560,
+      "pageHeight": 747,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "14.4px",
+          "lineHeight": "20.16px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "35.2px",
+          "lineHeight": "49.28px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "12.8px",
+          "lineHeight": "17.92px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": false
+    },
+    {
+      "id": "B4",
+      "ratio": "3:4",
+      "size": 18,
+      "pages": 1,
+      "files": [
+        "B4-18px-3x4-p1.png"
+      ],
+      "width": 560,
+      "pageHeight": 747,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "16.2px",
+          "lineHeight": "22.68px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "39.6px",
+          "lineHeight": "55.44px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "14.4px",
+          "lineHeight": "20.16px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": false
+    },
+    {
+      "id": "C1",
+      "ratio": "1:1",
+      "size": 12,
+      "pages": 1,
+      "files": [
+        "C1-12px-1x1-p1.png"
+      ],
+      "width": 560,
+      "pageHeight": 560,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "10.8px",
+          "lineHeight": "15.12px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "26.4px",
+          "lineHeight": "36.96px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "9.6px",
+          "lineHeight": "13.44px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": false
+    },
+    {
+      "id": "C2",
+      "ratio": "1:1",
+      "size": 14,
+      "pages": 1,
+      "files": [
+        "C2-14px-1x1-p1.png"
+      ],
+      "width": 560,
+      "pageHeight": 560,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "12.6px",
+          "lineHeight": "17.64px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "30.8px",
+          "lineHeight": "43.12px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "11.2px",
+          "lineHeight": "15.68px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": false
+    },
+    {
+      "id": "C3",
+      "ratio": "1:1",
+      "size": 16,
+      "pages": 2,
+      "files": [
+        "C3-16px-1x1-p1.png",
+        "C3-16px-1x1-p2.png"
+      ],
+      "width": 560,
+      "pageHeight": 560,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "14.4px",
+          "lineHeight": "20.16px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "35.2px",
+          "lineHeight": "49.28px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "12.8px",
+          "lineHeight": "17.92px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": false
+    },
+    {
+      "id": "C4",
+      "ratio": "1:1",
+      "size": 18,
+      "pages": 2,
+      "files": [
+        "C4-18px-1x1-p1.png",
+        "C4-18px-1x1-p2.png"
+      ],
+      "width": 560,
+      "pageHeight": 560,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "16.2px",
+          "lineHeight": "22.68px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "39.6px",
+          "lineHeight": "55.44px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "14.4px",
+          "lineHeight": "20.16px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": false
+    },
+    {
+      "id": "D1",
+      "ratio": "4:3",
+      "size": 12,
+      "pages": 1,
+      "files": [
+        "D1-12px-4x3-p1.png"
+      ],
+      "width": 747,
+      "pageHeight": 560,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "10.8px",
+          "lineHeight": "15.12px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "26.4px",
+          "lineHeight": "36.96px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "9.6px",
+          "lineHeight": "13.44px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": false
+    },
+    {
+      "id": "D2",
+      "ratio": "4:3",
+      "size": 14,
+      "pages": 1,
+      "files": [
+        "D2-14px-4x3-p1.png"
+      ],
+      "width": 747,
+      "pageHeight": 560,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "12.6px",
+          "lineHeight": "17.64px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "30.8px",
+          "lineHeight": "43.12px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "11.2px",
+          "lineHeight": "15.68px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": false
+    },
+    {
+      "id": "D3",
+      "ratio": "4:3",
+      "size": 16,
+      "pages": 1,
+      "files": [
+        "D3-16px-4x3-p1.png"
+      ],
+      "width": 747,
+      "pageHeight": 560,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "14.4px",
+          "lineHeight": "20.16px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "35.2px",
+          "lineHeight": "49.28px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "12.8px",
+          "lineHeight": "17.92px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": false
+    },
+    {
+      "id": "D4",
+      "ratio": "4:3",
+      "size": 18,
+      "pages": 1,
+      "files": [
+        "D4-18px-4x3-p1.png"
+      ],
+      "width": 747,
+      "pageHeight": 560,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "16.2px",
+          "lineHeight": "22.68px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "39.6px",
+          "lineHeight": "55.44px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "14.4px",
+          "lineHeight": "20.16px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": false
+    },
+    {
+      "id": "E1",
+      "ratio": "16:9",
+      "size": 12,
+      "pages": 1,
+      "files": [
+        "E1-12px-16x9-p1.png"
+      ],
+      "width": 996,
+      "pageHeight": 560,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "10.8px",
+          "lineHeight": "15.12px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "26.4px",
+          "lineHeight": "36.96px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "9.6px",
+          "lineHeight": "13.44px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": false
+    },
+    {
+      "id": "E2",
+      "ratio": "16:9",
+      "size": 14,
+      "pages": 1,
+      "files": [
+        "E2-14px-16x9-p1.png"
+      ],
+      "width": 996,
+      "pageHeight": 560,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "12.6px",
+          "lineHeight": "17.64px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "30.8px",
+          "lineHeight": "43.12px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "11.2px",
+          "lineHeight": "15.68px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": false
+    },
+    {
+      "id": "E3",
+      "ratio": "16:9",
+      "size": 16,
+      "pages": 1,
+      "files": [
+        "E3-16px-16x9-p1.png"
+      ],
+      "width": 996,
+      "pageHeight": 560,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "14.4px",
+          "lineHeight": "20.16px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "35.2px",
+          "lineHeight": "49.28px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "12.8px",
+          "lineHeight": "17.92px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": false
+    },
+    {
+      "id": "E4",
+      "ratio": "16:9",
+      "size": 18,
+      "pages": 1,
+      "files": [
+        "E4-18px-16x9-p1.png"
+      ],
+      "width": 996,
+      "pageHeight": 560,
+      "font": "Pretendard",
+      "columns": 2,
+      "lineHeight": 1.5,
+      "header": [
+        {
+          "class": "paper-journal",
+          "text": "2026.10.20 · 생활",
+          "fontSize": "16.2px",
+          "lineHeight": "22.68px",
+          "overflow": false
+        },
+        {
+          "class": "paper-title",
+          "text": "도시의 아침",
+          "fontSize": "39.6px",
+          "lineHeight": "55.44px",
+          "overflow": false
+        },
+        {
+          "class": "paper-authors",
+          "text": "서하 기자 · luvheil",
+          "fontSize": "14.4px",
+          "lineHeight": "20.16px",
+          "overflow": false
+        }
+      ],
+      "margin": {
+        "top": 40,
+        "bottom": 40,
+        "left": 30,
+        "right": 30
+      },
+      "default": false
+    }
+  ]
+}

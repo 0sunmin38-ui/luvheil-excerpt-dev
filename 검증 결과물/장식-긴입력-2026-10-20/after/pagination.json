@@ -1,0 +1,134 @@
+[
+  {
+    "env": "chromium",
+    "mode": "fit",
+    "columns": 1,
+    "width": 360,
+    "cols": 1,
+    "pages": 1,
+    "rows": 18,
+    "pad": 228,
+    "overlaps": []
+  },
+  {
+    "env": "chromium",
+    "mode": "fit",
+    "columns": 2,
+    "width": 360,
+    "cols": 2,
+    "pages": 1,
+    "rows": 18,
+    "pad": 228,
+    "overlaps": []
+  },
+  {
+    "env": "chromium",
+    "mode": "ratio",
+    "columns": 1,
+    "width": 560,
+    "cols": 1,
+    "pages": 2,
+    "rows": 18,
+    "pad": 179,
+    "overlaps": []
+  },
+  {
+    "env": "chromium",
+    "mode": "ratio",
+    "columns": 2,
+    "width": 560,
+    "cols": 2,
+    "pages": 2,
+    "rows": 18,
+    "pad": 179,
+    "overlaps": []
+  },
+  {
+    "env": "webkit",
+    "mode": "fit",
+    "columns": 1,
+    "width": 360,
+    "cols": 1,
+    "pages": 1,
+    "rows": 18,
+    "pad": 245,
+    "overlaps": []
+  },
+  {
+    "env": "webkit",
+    "mode": "fit",
+    "columns": 2,
+    "width": 360,
+    "cols": 2,
+    "pages": 1,
+    "rows": 18,
+    "pad": 245,
+    "overlaps": []
+  },
+  {
+    "env": "webkit",
+    "mode": "ratio",
+    "columns": 1,
+    "width": 560,
+    "cols": 1,
+    "pages": 2,
+    "rows": 18,
+    "pad": 179,
+    "overlaps": []
+  },
+  {
+    "env": "webkit",
+    "mode": "ratio",
+    "columns": 2,
+    "width": 560,
+    "cols": 2,
+    "pages": 2,
+    "rows": 18,
+    "pad": 179,
+    "overlaps": []
+  },
+  {
+    "env": "firefox",
+    "mode": "fit",
+    "columns": 1,
+    "width": 360,
+    "cols": 1,
+    "pages": 1,
+    "rows": 18,
+    "pad": 245,
+    "overlaps": []
+  },
+  {
+    "env": "firefox",
+    "mode": "fit",
+    "columns": 2,
+    "width": 360,
+    "cols": 2,
+    "pages": 1,
+    "rows": 18,
+    "pad": 245,
+    "overlaps": []
+  },
+  {
+    "env": "firefox",
+    "mode": "ratio",
+    "columns": 1,
+    "width": 560,
+    "cols": 1,
+    "pages": 2,
+    "rows": 18,
+    "pad": 179,
+    "overlaps": []
+  },
+  {
+    "env": "firefox",
+    "mode": "ratio",
+    "columns": 2,
+    "width": 560,
+    "cols": 2,
+    "pages": 2,
+    "rows": 18,
+    "pad": 179,
+    "overlaps": []
+  }
+]

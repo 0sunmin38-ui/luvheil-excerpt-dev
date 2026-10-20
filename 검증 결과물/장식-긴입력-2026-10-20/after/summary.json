@@ -1,0 +1,10 @@
+{
+  "appSHA256": "878a3b7d6c4765a9c7dc727a749bd0f37b841899ad821b92735f28e87b97fff9",
+  "auditCases": 360,
+  "regressionCases": 360,
+  "paginationCases": 12,
+  "failed": 0,
+  "previewPNG": 90,
+  "exportPNG": 45,
+  "behavior": "장식 텍스트는 한 줄 말줄임. 버디버디 대화상대 이름만 전체 표시를 위해 줄바꿈하고 높이를 본문·페이지 계산에 예약. 입력 원문 보존. 모바일은 에뮬레이션."
+}
