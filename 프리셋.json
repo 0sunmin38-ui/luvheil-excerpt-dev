@@ -553,7 +553,7 @@
       "groupRuns": true,
       "lockDate": "3월 12일 화요일",
       "lockTime": "3:08",
-      "notifBg": "rgba(255,255,255,0.5)",
+      "notifBg": "rgba(255,255,255,0.1)",
       "lockGlass": true,
       "lockFg": "#404040",
       "fmt": {
@@ -570,12 +570,12 @@
         "mode": "ratio",
         "ratio": "3:4",
         "width": 560,
-        "mt": 40,
+        "mt": 0,
         "mb": 40,
         "ml": 50,
         "mr": 50,
         "marginDetail": false,
-        "marginLink": true
+        "marginLink": false
       },
       "useFont": true
     },

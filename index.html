@@ -715,14 +715,14 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .canvas.has-insta-dm .blk.is-footer.foot-pin{bottom:calc(var(--insta-foot-h,0px) + (var(--cv-pb,32px) + var(--cv-gap,10px)) / 2)}
 
 /* 프리뷰 장식 — 잠금화면은 고정 글꼴·크기 + 글래스 효과, 뉴스·논문은 본문 14px 기준 비율.
-   잠금화면 시간은 캔버스 상단에 넉넉한 여백으로 배치 (iOS 잠금화면 레퍼런스).
-   위·아래 여백은 같게 두고, 최소 높이로 남는 자리도 가운데 정렬로 위아래에 똑같이 나눈다. */
+   잠금화면 머리의 높이는 고정한다. 기존의 % 최소 높이는 페이지를 재는 동안의 auto 높이와
+   미리보기의 확정 높이, 저장 SVG 안에서 서로 달리 계산되어 본문과 시계가 겹친다. */
 .hd-lock-clock{font-family:"Pretendard",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
   display:flex;flex-direction:column;justify-content:center;
-  padding:32px 18px;text-align:center;letter-spacing:0;
-  color:var(--lock-fg,inherit);min-height:calc(100% / 3)}
-.hd-lock-clock .lock-date{font-size:18px;font-weight:600;line-height:1.3;margin-bottom:8px}
-.hd-lock-clock .lock-time{font-size:min(90px,calc(var(--canvas-w,560px) * .18));font-weight:800;line-height:1;
+  padding:32px 18px 38px;text-align:center;letter-spacing:0;
+  color:var(--lock-fg,inherit);min-height:220px}
+.hd-lock-clock .lock-date{font-size:20px;font-weight:600;line-height:1.3;margin-bottom:2px;position:relative;top:6px}
+.hd-lock-clock .lock-time{font-size:min(104px,calc(var(--canvas-w,560px) * .19));font-weight:800;line-height:1;
   font-variant-numeric:tabular-nums;letter-spacing:-.04em;
   text-shadow:0 0 20px rgba(255,255,255,.35),0 0 60px rgba(255,255,255,.2),0 2px 4px rgba(0,0,0,.15)}
 /* 통합 제목: 본문 너비, 들여쓴 태그, 제목, 서명, 구분선. */
@@ -1048,12 +1048,17 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 /* 알림 스타일 — iOS 잠금화면 알림 말풍선. 블록 전체에 배경 적용. 이미지·이름 강제 표시. */
 .blk-bubble.n-row{
   background:var(--notif-bg,rgba(255,255,255,0.5));
-  border-radius:20px;padding:16px 14px;gap:16px;
+  border:1px solid rgba(255,255,255,.52);
+  border-top-color:rgba(255,255,255,.72);
+  border-bottom-color:rgba(255,255,255,.26);
+  border-radius:22px;padding:16px 14px;gap:16px;
   backdrop-filter:none;-webkit-backdrop-filter:none;
-  box-shadow:0 2px 12px rgba(0,0,0,0.1);
+  box-shadow:0 7px 20px rgba(0,0,0,.16);
   align-items:center;
 }
-.notif-glass{position:absolute;inset:0;border-radius:inherit;overflow:hidden;pointer-events:none;z-index:0}
+/* 연속 알림의 양쪽 그림자가 10px 틈을 넘어 서로의 카드에 번지지 않게 한다. */
+.blk.has-next-notif .n-row,.blk.is-notif-run .n-row{box-shadow:0 1px 3px rgba(0,0,0,.10)}
+.notif-glass{position:absolute;inset:1px;border-radius:21px;overflow:hidden;pointer-events:none;z-index:0}
 .notif-glass img{display:block;width:100%;height:100%}
 .n-row > .av,.n-row > .col{position:relative;z-index:1}
 /* 알림 아바타 — 42px, 라운드, 뱃지가 밖으로 나오도록 overflow:visible */
@@ -1070,11 +1075,10 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 }
 .blk-bubble.n-row .av .notif-badge svg{width:14px;height:14px;fill:#fff}
 /* 알림 col — 이름과 본문 좌측 맞춤 */
-.blk-bubble.n-row .col{flex:1;max-width:100%;gap:0;display:flex;flex-direction:column;align-items:stretch !important}
-/* 알림 이름 — 굵고 약간 크게, 좌측 맞춤 */
-.blk-bubble.n-row .who{font-size:1em !important;font-weight:600 !important;opacity:1 !important;padding:0 !important;margin:0 !important;width:100%}
-/* 알림 본문 — 이름과 같은 크기, 흐리게, 좌측 맞춤. 이름과는 행간만큼만 띄운다. */
-.blk-bubble .bub.as-notif{background:transparent !important;border-radius:0 !important;padding:0 !important;margin:0 !important;font-size:1em;opacity:.6;width:100%}
+.blk-bubble.n-row .col{flex:1;max-width:100%;gap:0;display:flex;flex-direction:column;align-items:stretch !important;font-size:1.04em}
+/* 알림 안의 이름과 본문은 캔버스 행간과 별개로 120%를 유지한다. */
+.blk-bubble.n-row .who{font-size:1em !important;line-height:1.2 !important;font-weight:600 !important;opacity:1 !important;padding:0 !important;margin:0 !important;width:100%}
+.blk-bubble .bub.as-notif{background:transparent !important;border-radius:0 !important;padding:0 !important;margin:0 !important;font-size:1em;line-height:1.2 !important;opacity:.9;width:100%}
 /* SNS 스타일 — 트위터/X 형태의 게시물. 블록 전체에 배경 적용. */
 .blk-bubble.x-row{
   background:var(--sns-bg,transparent);
@@ -3161,7 +3165,7 @@ const PRESET_THEMES = [
     "groupRuns": true,
     "lockDate": "3월 12일 화요일",
     "lockTime": "3:08",
-    "notifBg": "rgba(255,255,255,0.5)",
+    "notifBg": "rgba(255,255,255,0.1)",
     "lockGlass": true,
     "lockFg": "#404040",
     "fmt": {
@@ -3178,12 +3182,12 @@ const PRESET_THEMES = [
       "mode": "ratio",
       "ratio": "3:4",
       "width": 560,
-      "mt": 40,
+      "mt": 0,
       "mb": 40,
       "ml": 50,
       "mr": 50,
       "marginDetail": false,
-      "marginLink": true
+      "marginLink": false
     },
     "useFont": true
   },
@@ -4056,7 +4060,7 @@ addEventListener('unhandledrejection', e => diag('window:unhandledrejection', {
   message: String(e && e.reason && (e.reason.message || e.reason) || '').slice(0, 180)
 }));
 /* 기본값을 바꾸면 올린다. 저장본의 판이 낮으면 내용은 지키고 기본값만 새로 잡는다. */
-const SCHEMA = 18;
+const SCHEMA = 21;
 const SIGNATURE_SCHEMA = 17;
 /* 저장이 조용히 실패하면 안 된다 — 특히 캐릭터 이미지처럼 큰 값을 넣은 직후에
    용량이 넘치면, 화면에는 멀쩡히 보이는데 새로고침하면 사라져 원인을 알 수 없다. */
@@ -4388,6 +4392,32 @@ function load() {
       if (t.presetId === 'newspapers' && t.canvas?.mode === 'ratio' && t.canvas.ratio === '9:16')
         t.canvas.mode = 'fit';
       delete t.paperAuthors;
+    });
+  }
+
+  /* iOS 프리셋의 옛 기본 여백만 갱신한다. 직접 조정한 여백은 보존한다. */
+  if (loaded && (loaded.v || 0) < 19) {
+    S.themes.forEach(t => {
+      const c = t.canvas;
+      if (t.presetId !== 'ios' || !c || c.mt !== 40 || c.mb !== 40 || c.ml !== 50 || c.mr !== 50) return;
+      c.mt = 0;
+      c.marginLink = false;
+    });
+  }
+
+  /* iOS 알림의 옛 기본 흰색 틴트만 낮춘다. 고른 알림 색·불투명도는 보존한다. */
+  if (loaded && (loaded.v || 0) < 20) {
+    S.themes.forEach(t => {
+      if (t.presetId === 'ios' && t.notifBg === 'rgba(255,255,255,0.5)')
+        t.notifBg = 'rgba(255,255,255,0.28)';
+    });
+  }
+
+  /* iOS 알림의 이전 기본값만 갱신한다. 직접 고른 불투명도는 유지한다. */
+  if (loaded && (loaded.v || 0) < 21) {
+    S.themes.forEach(t => {
+      if (t.presetId === 'ios' && t.notifBg === 'rgba(255,255,255,0.28)')
+        t.notifBg = 'rgba(255,255,255,0.1)';
     });
   }
 
@@ -6375,7 +6405,8 @@ async function paintLockGlass(cv, node, mask, background, W, H, layer) {
         : hue < 4 ? [0,x,c] : hue < 5 ? [x,0,c] : [c,0,x];
       for (let k = 0; k < 3; k++) data[i + k] = (channels[k] + m) * 255;
     } else {
-      for (let k = 0; k < 3; k++) data[i + k] = data[i + k] * .58 + 255 * (.19 + vertical * .035);
+      // 배경색을 비추면서 아래쪽으로 갈수록 밝아지는 얇은 그라데이션을 더한다.
+      for (let k = 0; k < 3; k++) data[i + k] = data[i + k] * .48 + 255 * (.48 + vertical * .12);
     }
   }
   g.putImageData(pixels, 0, 0);
@@ -6406,13 +6437,39 @@ async function paintLockGlass(cv, node, mask, background, W, H, layer) {
   if (layer.parentNode === node) { layer.replaceChildren(img); node.classList.add('is-raster'); }
 }
 
-async function paintGlassSlice(cv, node, background, W, H, layer, tint = '', fade = 0) {
+async function paintGlassSlice(cv, node, background, W, H, layer, tint = '', fade = 0, notification = false) {
   const sample = await background, { x, y } = glassPosition(node, cv, H);
   const surface = document.createElement('canvas');
   surface.width = node.offsetWidth; surface.height = node.offsetHeight + fade;
   const g = surface.getContext('2d'); if (!g) return;
   g.drawImage(sample, -x, -y, W, H);
   if (tint) { g.fillStyle = tint; g.fillRect(0, 0, surface.width, surface.height); }
+  if (notification) {
+    /* 밝은 글자 위의 유리는 배경 사진이 밝게 표본화돼도 읽히도록 표면 평균 밝기를 낮춘다.
+       한 장 전체에 같은 음영을 얹어 사진의 색·무늬 변화는 그대로 남긴다. */
+    const ink = (getComputedStyle(node).color.match(/[\d.]+/g) || []).slice(0, 3).map(Number);
+    const lightInk = ink.length === 3 && ink[0] * .2126 + ink[1] * .7152 + ink[2] * .0722 > 160;
+    if (lightInk) {
+      const pixels = g.getImageData(0, 0, surface.width, surface.height).data;
+      let sum = 0, count = 0;
+      for (let i = 0; i < pixels.length; i += 64) {
+        sum += pixels[i] * .2126 + pixels[i + 1] * .7152 + pixels[i + 2] * .0722;
+        count++;
+      }
+      const mean = sum / Math.max(1, count);
+      if (mean > 95) {
+        const shade = Math.min(.75, (mean - 95) / (mean - 24));
+        g.fillStyle = `rgba(18,25,35,${shade})`;
+        g.fillRect(0, 0, surface.width, surface.height);
+      }
+    }
+    /* 반사광과 약한 하단 음영을 블러 표면에 함께 굽는다. 미리보기와 PNG가 같은 재질을 쓴다. */
+    const sheen = g.createLinearGradient(0, 0, 0, surface.height);
+    sheen.addColorStop(0, 'rgba(255,255,255,.10)');
+    sheen.addColorStop(.42, 'rgba(255,255,255,.025)');
+    sheen.addColorStop(1, 'rgba(0,0,0,.07)');
+    g.fillStyle = sheen; g.fillRect(0, 0, surface.width, surface.height);
+  }
   if (fade) {
     const mask = g.createLinearGradient(0, surface.height - fade, 0, surface.height);
     mask.addColorStop(0, '#000'); mask.addColorStop(1, 'transparent');
@@ -6484,7 +6541,7 @@ function syncCanvasBackgrounds(cv, pages = 1) {
     const layer = el('div', 'notif-glass'); layer.setAttribute('aria-hidden', 'true');
     node.prepend(layer);
     const tint = getComputedStyle(node).getPropertyValue('--notif-bg').trim() || 'rgba(255,255,255,.5)';
-    clocks.push(paintGlassSlice(cv, node, blurred(12), W, H, layer, tint).catch(error => {
+    clocks.push(paintGlassSlice(cv, node, blurred(8, 1.12), W, H, layer, tint, 0, true).catch(error => {
       console.warn('알림 배경 표면 생성 실패', error); layer.remove();
     }));
   });
@@ -6696,6 +6753,7 @@ function renderBlock(b, th, f, prev, next) {
     const independent = bs === 'sns' || bs === 'notif';
     const cont = grouped && (independent ? snsRun(prev, b) : sameRun(prev, b));
     const more = grouped && (independent ? snsRun(b, next) : sameRun(b, next));
+    if (bs === 'notif' && more) wrap.classList.add('has-next-notif');
     if (cont) {
       wrap.classList.add('is-run');
       if (bs === 'notif') wrap.classList.add('is-notif-run');
@@ -11953,13 +12011,19 @@ function syncThemeEditFormV2() {
     bubbleBody.appendChild(colors);
   }
   if (isNotif) {
-    /* 알림 배경색 — 기본 오퍼시티 50% 유지 */
+    /* 색을 바꿔도 사용자가 정한 유리 두께를 지킨다. */
     const colorGrid = el('div', 'setting-grid');
-
     const notifHex = '#' + (hexOf(t.notifBg) || 'FFFFFF');
-    colorGrid.appendChild(colorField('알림 배경', notifHex, v => { t.notifBg = rgbaOf(v, 50); up(); }));
+    const notifOpacity = () => {
+      const match = /^rgba\([^)]*,\s*([\d.]+)\s*\)$/i.exec(t.notifBg || '');
+      return match ? clamp(Math.round(Number(match[1]) * 100), 0, 100) : 50;
+    };
+    colorGrid.appendChild(colorField('알림 배경', notifHex,
+      v => { t.notifBg = rgbaOf(v, notifOpacity()); up(); }));
     const colors = settingGroup('색상');
     colors.appendChild(colorGrid);
+    colors.appendChild(sliderH('알림 불투명도', notifOpacity(), 0, 100, 5,
+      v => { t.notifBg = rgbaOf('#' + (hexOf(t.notifBg) || 'FFFFFF'), v); up(); }, '%'));
     bubbleBody.appendChild(colors);
   }
   if (isSns) {
