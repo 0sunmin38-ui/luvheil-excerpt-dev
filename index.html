@@ -13523,12 +13523,15 @@ function captureCloneAt(cv) {
        빈 줄 높이가 덧붙는 일이 있어 상자 기하를 통째로 못 박는다. [원본 bubbleBoxes] */
     const r = f.getBoundingClientRect();
     /* 내용 폭에 딱 맞춘 대사는 SVG의 글꼴 메트릭 차이만으로도 다시 줄바꿈된다.
-       높이를 고정한 한 줄 대사만 pre로 보존한다. 긴 대사·직접 줄바꿈은 제외한다. */
+       높이를 고정한 한 줄 대사만 pre로 보존한다. 긴 대사·직접 줄바꿈은 제외한다.
+       대본형(.s-row)만이 아니다 — iOS Safari 는 일반 말풍선에서도 본고딕을 화면보다
+       조금 넓게 그려, 고정 폭 안에서 마지막 글자가 다음 줄로 밀리고 첫 줄이 양쪽
+       정렬로 벌어졌다. */
     const fs = getComputedStyle(f);
     const oneLineHeight = parseFloat(fs.lineHeight)
       + parseFloat(fs.paddingTop) + parseFloat(fs.paddingBottom)
       + parseFloat(fs.borderTopWidth) + parseFloat(fs.borderBottomWidth);
-    if (f.matches('.s-row .bub') && fs.whiteSpace === 'pre-wrap'
+    if (f.matches('.bub') && fs.whiteSpace === 'pre-wrap'
         && !/[\r\n]/.test(f.textContent) && !f.querySelector('br')
         && Number.isFinite(oneLineHeight) && r.height <= oneLineHeight + 0.5) {
       c.style.setProperty('white-space', 'pre', 'important');
