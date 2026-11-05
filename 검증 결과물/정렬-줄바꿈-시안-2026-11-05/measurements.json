@@ -1,0 +1,194 @@
+{
+  "bubble-alignment": [
+    {
+      "align": "left",
+      "wrap": "keep-all"
+    },
+    {
+      "align": "right",
+      "wrap": "keep-all"
+    },
+    {
+      "align": "center",
+      "wrap": "keep-all"
+    },
+    {
+      "align": "justify",
+      "wrap": "keep-all"
+    }
+  ],
+  "bubble-wrapping": [
+    {
+      "align": "left",
+      "wrap": "break-all"
+    },
+    {
+      "align": "left",
+      "wrap": "normal"
+    },
+    {
+      "align": "left",
+      "wrap": "keep-all"
+    }
+  ],
+  "quote-alignment": [
+    {
+      "align": "left",
+      "wrap": "keep-all"
+    },
+    {
+      "align": "right",
+      "wrap": "keep-all"
+    },
+    {
+      "align": "center",
+      "wrap": "keep-all"
+    },
+    {
+      "align": "justify",
+      "wrap": "keep-all"
+    }
+  ],
+  "quote-wrapping": [
+    {
+      "align": "left",
+      "wrap": "break-all"
+    },
+    {
+      "align": "left",
+      "wrap": "normal"
+    },
+    {
+      "align": "left",
+      "wrap": "keep-all"
+    }
+  ],
+  "script-alignment": [
+    {
+      "align": "left",
+      "wrap": "keep-all"
+    },
+    {
+      "align": "right",
+      "wrap": "keep-all"
+    },
+    {
+      "align": "center",
+      "wrap": "keep-all"
+    },
+    {
+      "align": "justify",
+      "wrap": "keep-all"
+    }
+  ],
+  "script-wrapping": [
+    {
+      "align": "left",
+      "wrap": "break-all"
+    },
+    {
+      "align": "left",
+      "wrap": "normal"
+    },
+    {
+      "align": "left",
+      "wrap": "keep-all"
+    }
+  ],
+  "none-alignment": [
+    {
+      "align": "left",
+      "wrap": "keep-all"
+    },
+    {
+      "align": "right",
+      "wrap": "keep-all"
+    },
+    {
+      "align": "center",
+      "wrap": "keep-all"
+    },
+    {
+      "align": "justify",
+      "wrap": "keep-all"
+    }
+  ],
+  "none-wrapping": [
+    {
+      "align": "left",
+      "wrap": "break-all"
+    },
+    {
+      "align": "left",
+      "wrap": "normal"
+    },
+    {
+      "align": "left",
+      "wrap": "keep-all"
+    }
+  ],
+  "notification-alignment": [
+    {
+      "align": "left",
+      "wrap": "keep-all"
+    },
+    {
+      "align": "right",
+      "wrap": "keep-all"
+    },
+    {
+      "align": "center",
+      "wrap": "keep-all"
+    },
+    {
+      "align": "justify",
+      "wrap": "keep-all"
+    }
+  ],
+  "notification-wrapping": [
+    {
+      "align": "left",
+      "wrap": "break-all"
+    },
+    {
+      "align": "left",
+      "wrap": "normal"
+    },
+    {
+      "align": "left",
+      "wrap": "keep-all"
+    }
+  ],
+  "tweet-alignment": [
+    {
+      "align": "left",
+      "wrap": "keep-all"
+    },
+    {
+      "align": "right",
+      "wrap": "keep-all"
+    },
+    {
+      "align": "center",
+      "wrap": "keep-all"
+    },
+    {
+      "align": "justify",
+      "wrap": "keep-all"
+    }
+  ],
+  "tweet-wrapping": [
+    {
+      "align": "left",
+      "wrap": "break-all"
+    },
+    {
+      "align": "left",
+      "wrap": "normal"
+    },
+    {
+      "align": "left",
+      "wrap": "keep-all"
+    }
+  ]
+}

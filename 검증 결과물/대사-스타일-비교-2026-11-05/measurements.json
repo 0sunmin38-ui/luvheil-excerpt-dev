@@ -1,0 +1,549 @@
+{
+  "defaults": {
+    "bubble": {
+      "grouped": true,
+      "toggleVisible": true,
+      "avatarControls": true,
+      "runApplied": true
+    },
+    "quote": {
+      "grouped": true,
+      "toggleVisible": true,
+      "avatarControls": true,
+      "runApplied": true
+    },
+    "script": {
+      "grouped": true,
+      "toggleVisible": true,
+      "avatarControls": true,
+      "runApplied": true
+    },
+    "notif": {
+      "grouped": true,
+      "toggleVisible": true,
+      "avatarControls": true,
+      "runApplied": true
+    },
+    "sns": {
+      "grouped": true,
+      "toggleVisible": true,
+      "avatarControls": true,
+      "runApplied": true
+    },
+    "plain": {
+      "grouped": true,
+      "toggleVisible": true,
+      "avatarControls": true,
+      "runApplied": true
+    }
+  },
+  "results": {
+    "bubble-plain": {
+      "avatar": 33.875,
+      "gap": 8,
+      "quoteGap": null,
+      "nameGap": null,
+      "notificationGap": null,
+      "separatorGap": null,
+      "koreanCount": 4,
+      "small": true,
+      "labels": [
+        "01 · 3단어 이내",
+        "02 · 한 줄을 채운 대사",
+        "03 · 한 대사 안의 3줄",
+        "04 · 영어 자동 3줄 + 작은 한글 번역",
+        "05 · 같은 화자의 대사 3개 연속 묶기",
+        "06 · 한글 자동 줄바꿈 3줄"
+      ],
+      "run": [
+        false,
+        true,
+        true
+      ],
+      "oneLine": 1,
+      "case3": {
+        "english": "The room fell quiet. I stayed by the door and listened for your steps. No one came back before the lights went out across the street.",
+        "korean": "",
+        "lines": 3,
+        "manualBreaks": 0
+      },
+      "case4": {
+        "english": "The last train had already left the station. We waited beneath the bright station sign as the rain stopped. Then you said my name.",
+        "korean": "막차는 이미 역을 떠났다. 비가 그칠 때 우리는 밝은 역 표지판 아래 기다렸다. 그때 너는 내 이름을 불렀다.",
+        "lines": 3,
+        "manualBreaks": 1
+      },
+      "case6": {
+        "english": "비가 완전히 그친 뒤에도 좁은 거리는 조용했다. 우리는 젖은 가로등 아래를 지나 조용해진 골목 끝의 역으로 천천히 걸어갔다. 마지막 열차는 이미 떠난 뒤였다.",
+        "korean": "",
+        "lines": 3,
+        "manualBreaks": 0
+      },
+      "quoteWidth": null,
+      "avatarAnchors": null
+    },
+    "bubble-modern": {
+      "avatar": 33.875,
+      "gap": 8,
+      "quoteGap": null,
+      "nameGap": null,
+      "notificationGap": null,
+      "separatorGap": null,
+      "koreanCount": 4,
+      "small": true,
+      "labels": [
+        "01 · 3단어 이내",
+        "02 · 한 줄을 채운 대사",
+        "03 · 한 대사 안의 3줄",
+        "04 · 영어 자동 3줄 + 작은 한글 번역",
+        "05 · 같은 화자의 대사 3개 연속 묶기",
+        "06 · 한글 자동 줄바꿈 3줄"
+      ],
+      "run": [
+        false,
+        true,
+        true
+      ],
+      "oneLine": 1,
+      "case3": {
+        "english": "The room fell quiet. I stayed by the door and listened for your steps. No one came back before the lights went out across the street.",
+        "korean": "",
+        "lines": 3,
+        "manualBreaks": 0
+      },
+      "case4": {
+        "english": "The last train had already left the station. We waited beneath the bright station sign as the rain stopped. Then you said my name.",
+        "korean": "막차는 이미 역을 떠났다. 비가 그칠 때 우리는 밝은 역 표지판 아래 기다렸다. 그때 너는 내 이름을 불렀다.",
+        "lines": 3,
+        "manualBreaks": 1
+      },
+      "case6": {
+        "english": "비가 완전히 그친 뒤에도 좁은 거리는 조용했다. 우리는 젖은 가로등 아래를 지나 조용해진 골목 끝의 역으로 천천히 걸어갔다. 마지막 열차는 이미 떠난 뒤였다.",
+        "korean": "",
+        "lines": 3,
+        "manualBreaks": 0
+      },
+      "quoteWidth": null,
+      "avatarAnchors": null
+    },
+    "bubble-imessage": {
+      "avatar": 33.875,
+      "gap": 11.3,
+      "quoteGap": null,
+      "nameGap": null,
+      "notificationGap": null,
+      "separatorGap": null,
+      "koreanCount": 4,
+      "small": true,
+      "labels": [
+        "01 · 3단어 이내",
+        "02 · 한 줄을 채운 대사",
+        "03 · 한 대사 안의 3줄",
+        "04 · 영어 자동 3줄 + 작은 한글 번역",
+        "05 · 같은 화자의 대사 3개 연속 묶기",
+        "06 · 한글 자동 줄바꿈 3줄"
+      ],
+      "run": [
+        false,
+        true,
+        true
+      ],
+      "oneLine": 1,
+      "case3": {
+        "english": "The room fell quiet. I stayed by the door and listened for your steps. No one came back before the lights went out across the street.",
+        "korean": "",
+        "lines": 3,
+        "manualBreaks": 0
+      },
+      "case4": {
+        "english": "The last train had already left the station. We waited beneath the bright station sign as the rain stopped. Then you said my name.",
+        "korean": "막차는 이미 역을 떠났다. 비가 그칠 때 우리는 밝은 역 표지판 아래 기다렸다. 그때 너는 내 이름을 불렀다.",
+        "lines": 3,
+        "manualBreaks": 1
+      },
+      "case6": {
+        "english": "비가 완전히 그친 뒤에도 좁은 거리는 조용했다. 우리는 젖은 가로등 아래를 지나 조용해진 골목 끝의 역으로 천천히 걸어갔다. 마지막 열차는 이미 떠난 뒤였다.",
+        "korean": "",
+        "lines": 3,
+        "manualBreaks": 0
+      },
+      "quoteWidth": null,
+      "avatarAnchors": null
+    },
+    "bubble-kakaotalk": {
+      "avatar": 33.875,
+      "gap": 18.8,
+      "quoteGap": null,
+      "nameGap": null,
+      "notificationGap": null,
+      "separatorGap": null,
+      "koreanCount": 4,
+      "small": true,
+      "labels": [
+        "01 · 3단어 이내",
+        "02 · 한 줄을 채운 대사",
+        "03 · 한 대사 안의 3줄",
+        "04 · 영어 자동 3줄 + 작은 한글 번역",
+        "05 · 같은 화자의 대사 3개 연속 묶기",
+        "06 · 한글 자동 줄바꿈 3줄"
+      ],
+      "run": [
+        false,
+        true,
+        true
+      ],
+      "oneLine": 1,
+      "case3": {
+        "english": "The room fell quiet. I stayed by the door and listened for your steps. No one came back before the lights went out across the street.",
+        "korean": "",
+        "lines": 3,
+        "manualBreaks": 0
+      },
+      "case4": {
+        "english": "The last train had already left the station. We waited beneath the bright station sign as the rain stopped. Then you said my name.",
+        "korean": "막차는 이미 역을 떠났다. 비가 그칠 때 우리는 밝은 역 표지판 아래 기다렸다. 그때 너는 내 이름을 불렀다.",
+        "lines": 3,
+        "manualBreaks": 1
+      },
+      "case6": {
+        "english": "비가 완전히 그친 뒤에도 좁은 거리는 조용했다. 우리는 젖은 가로등 아래를 지나 조용해진 골목 끝의 역으로 천천히 걸어갔다. 마지막 열차는 이미 떠난 뒤였다.",
+        "korean": "",
+        "lines": 3,
+        "manualBreaks": 0
+      },
+      "quoteWidth": null,
+      "avatarAnchors": null
+    },
+    "bubble-app": {
+      "avatar": 41.7969,
+      "gap": 8,
+      "quoteGap": null,
+      "nameGap": null,
+      "notificationGap": null,
+      "separatorGap": null,
+      "koreanCount": 4,
+      "small": true,
+      "labels": [
+        "01 · 3단어 이내",
+        "02 · 한 줄을 채운 대사",
+        "03 · 한 대사 안의 3줄",
+        "04 · 영어 자동 3줄 + 작은 한글 번역",
+        "05 · 같은 화자의 대사 3개 연속 묶기",
+        "06 · 한글 자동 줄바꿈 3줄"
+      ],
+      "run": [
+        false,
+        true,
+        true
+      ],
+      "oneLine": 1,
+      "case3": {
+        "english": "The room fell quiet. I stayed by the door and listened for your steps. No one came back before the lights went out across the street.",
+        "korean": "",
+        "lines": 3,
+        "manualBreaks": 0
+      },
+      "case4": {
+        "english": "The last train had already left the station. We waited beneath the bright station sign as the rain stopped. Then you said my name.",
+        "korean": "막차는 이미 역을 떠났다. 비가 그칠 때 우리는 밝은 역 표지판 아래 기다렸다. 그때 너는 내 이름을 불렀다.",
+        "lines": 3,
+        "manualBreaks": 1
+      },
+      "case6": {
+        "english": "비가 완전히 그친 뒤에도 좁은 거리는 조용했다. 우리는 젖은 가로등 아래를 지나 조용해진 골목 끝의 역으로 천천히 걸어갔다. 마지막 열차는 이미 떠난 뒤였다.",
+        "korean": "",
+        "lines": 3,
+        "manualBreaks": 0
+      },
+      "quoteWidth": null,
+      "avatarAnchors": null
+    },
+    "quote": {
+      "avatar": 33.875,
+      "gap": 5,
+      "quoteGap": 12,
+      "nameGap": null,
+      "notificationGap": null,
+      "separatorGap": null,
+      "koreanCount": 4,
+      "small": true,
+      "labels": [
+        "01 · 3단어 이내",
+        "02 · 한 줄을 채운 대사",
+        "03 · 한 대사 안의 3줄",
+        "04 · 영어 자동 3줄 + 작은 한글 번역",
+        "05 · 같은 화자의 대사 3개 연속 묶기",
+        "06 · 한글 자동 줄바꿈 3줄"
+      ],
+      "run": [
+        false,
+        true,
+        true
+      ],
+      "oneLine": 1,
+      "case3": {
+        "english": "The room fell quiet as the last rain passed over the windows. I stayed by the door and listened for your steps. No one came back before the lights went out.",
+        "korean": "",
+        "lines": 3,
+        "manualBreaks": 0
+      },
+      "case4": {
+        "english": "The last train had already left the quiet station. We waited under the sign. Then you said my name, softly enough for me to hear over the distant traffic.",
+        "korean": "막차는 이미 조용한 역을 떠났다. 우리는 표지판 아래서 기다렸다. 그때 너는 멀리 차 소리가 들리는 가운데 내가 들을 만큼 나지막이 내 이름을 불렀다.",
+        "lines": 3,
+        "manualBreaks": 1
+      },
+      "case6": {
+        "english": "비가 그친 뒤에도 거리는 조용했다. 우리는 젖은 가로등 아래를 지나 조용해진 골목 끝의 역으로 천천히 걸어갔다. 마지막 열차는 우리가 오래된 승강장에 도착하기 전에 이미 떠난 뒤였다.",
+        "korean": "",
+        "lines": 3,
+        "manualBreaks": 0
+      },
+      "quoteWidth": {
+        "row": 376,
+        "avatar": 34,
+        "col": 330,
+        "gap": 12
+      },
+      "avatarAnchors": null
+    },
+    "script": {
+      "avatar": 33.875,
+      "gap": 11,
+      "quoteGap": null,
+      "nameGap": null,
+      "notificationGap": null,
+      "separatorGap": 2.6,
+      "koreanCount": 4,
+      "small": true,
+      "labels": [
+        "01 · 3단어 이내",
+        "02 · 한 줄을 채운 대사",
+        "03 · 한 대사 안의 3줄",
+        "04 · 영어 자동 3줄 + 작은 한글 번역",
+        "05 · 같은 화자의 대사 3개 연속 묶기",
+        "06 · 한글 자동 줄바꿈 3줄"
+      ],
+      "run": [
+        false,
+        true,
+        true
+      ],
+      "oneLine": 1,
+      "case3": {
+        "english": "The room fell quiet as the rain passed. I stayed by the door and listened for your steps. No one came back before the lights went out across the street.",
+        "korean": "",
+        "lines": 3,
+        "manualBreaks": 0
+      },
+      "case4": {
+        "english": "The last train had already left the quiet station. We waited under the station sign in the rain. Then you said my name, softly enough for only me to hear.",
+        "korean": "막차는 이미 조용한 역을 떠났다. 우리는 빗속에서 역 표지판 아래 기다렸다. 그때 너는 나만 들을 만큼 나지막이 내 이름을 불렀다.",
+        "lines": 3,
+        "manualBreaks": 1
+      },
+      "case6": {
+        "english": "비가 완전히 그친 뒤에도 창가의 좁은 거리는 오래도록 조용했다. 우리는 젖은 가로등 아래를 지나 조용해진 골목 끝의 역으로 천천히 걸어갔다. 마지막 열차는 이미 떠난 뒤였다.",
+        "korean": "",
+        "lines": 3,
+        "manualBreaks": 0
+      },
+      "quoteWidth": null,
+      "avatarAnchors": [
+        {
+          "id": "sample-1",
+          "top": 0,
+          "visible": true
+        },
+        {
+          "id": "sample-3",
+          "top": 0,
+          "visible": true
+        },
+        {
+          "id": "sample-5",
+          "top": 0,
+          "visible": true
+        },
+        {
+          "id": "sample-6",
+          "top": 0,
+          "visible": false
+        },
+        {
+          "id": "sample-7",
+          "top": 0,
+          "visible": false
+        },
+        {
+          "id": "sample-8",
+          "top": 0,
+          "visible": true
+        }
+      ]
+    },
+    "notification": {
+      "avatar": 50.8125,
+      "gap": 16,
+      "quoteGap": null,
+      "nameGap": null,
+      "notificationGap": 4,
+      "separatorGap": null,
+      "koreanCount": 4,
+      "small": true,
+      "labels": [
+        "01 · 3단어 이내",
+        "02 · 한 줄을 채운 대사",
+        "03 · 한 대사 안의 3줄",
+        "04 · 영어 자동 3줄 + 작은 한글 번역",
+        "05 · 같은 화자의 대사 3개 연속 묶기",
+        "06 · 한글 자동 줄바꿈 3줄"
+      ],
+      "run": [
+        false,
+        true,
+        true
+      ],
+      "oneLine": 1,
+      "case3": {
+        "english": "The room fell quiet as the last rain passed over the windows. I stayed by the door and listened for your steps in the hall. No one came back.",
+        "korean": "",
+        "lines": 3,
+        "manualBreaks": 0
+      },
+      "case4": {
+        "english": "The last train had already left the quiet station. We waited beneath the bright station sign as the rain stopped. Then you said my name.",
+        "korean": "막차는 이미 조용한 역을 떠났다. 비가 그칠 때 우리는 밝은 역 표지판 아래 기다렸다. 그때 너는 내 이름을 불렀다.",
+        "lines": 3,
+        "manualBreaks": 1
+      },
+      "case6": {
+        "english": "비가 그친 뒤에도 거리는 조용했다. 우리는 젖은 가로등 아래를 지나 천천히 역으로 걸어갔다. 마지막 열차는 우리가 오래된 승강장에 도착하기 전에 이미 떠난 뒤였다.",
+        "korean": "",
+        "lines": 3,
+        "manualBreaks": 0
+      },
+      "quoteWidth": null,
+      "avatarAnchors": null
+    },
+    "tweet": {
+      "avatar": 58.0781,
+      "gap": 12,
+      "quoteGap": null,
+      "nameGap": null,
+      "notificationGap": null,
+      "separatorGap": null,
+      "koreanCount": 4,
+      "small": true,
+      "labels": [
+        "01 · 3단어 이내",
+        "02 · 한 줄을 채운 대사",
+        "03 · 한 대사 안의 3줄",
+        "04 · 영어 자동 3줄 + 작은 한글 번역",
+        "05 · 같은 화자의 대사 3개 연속 묶기",
+        "06 · 한글 자동 줄바꿈 3줄"
+      ],
+      "run": [
+        false,
+        true,
+        true
+      ],
+      "oneLine": 1,
+      "case3": {
+        "english": "The room fell quiet as the last rain passed over the windows. I stayed by the door and listened for your steps in the hall. No one came back.",
+        "korean": "",
+        "lines": 3,
+        "manualBreaks": 0
+      },
+      "case4": {
+        "english": "The last train had already left the quiet station. We waited beneath the bright station sign as the rain stopped. Then you said my name.",
+        "korean": "막차는 이미 조용한 역을 떠났다. 비가 그칠 때 우리는 밝은 역 표지판 아래 기다렸다. 그때 너는 내 이름을 불렀다.",
+        "lines": 3,
+        "manualBreaks": 1
+      },
+      "case6": {
+        "english": "비가 그친 뒤에도 거리는 조용했다. 우리는 젖은 가로등 아래를 지나 천천히 역으로 걸어갔다. 마지막 열차는 우리가 오래된 승강장에 도착하기 전에 이미 떠난 뒤였다.",
+        "korean": "",
+        "lines": 3,
+        "manualBreaks": 0
+      },
+      "quoteWidth": null,
+      "avatarAnchors": null
+    },
+    "none": {
+      "avatar": 33.875,
+      "gap": 12,
+      "quoteGap": null,
+      "nameGap": 5,
+      "notificationGap": null,
+      "separatorGap": null,
+      "koreanCount": 4,
+      "small": true,
+      "labels": [
+        "01 · 3단어 이내",
+        "02 · 한 줄을 채운 대사",
+        "03 · 한 대사 안의 3줄",
+        "04 · 영어 자동 3줄 + 작은 한글 번역",
+        "05 · 같은 화자의 대사 3개 연속 묶기",
+        "06 · 한글 자동 줄바꿈 3줄"
+      ],
+      "run": [
+        false,
+        true,
+        true
+      ],
+      "oneLine": 1,
+      "case3": {
+        "english": "The room fell quiet as the rain passed. I stayed by the door and listened for your steps in the hall. No one came back before the lights went out across the street.",
+        "korean": "",
+        "lines": 3,
+        "manualBreaks": 0
+      },
+      "case4": {
+        "english": "The last train had left. We waited beneath the bright station sign as the rain stopped. Then you said my name, softly enough for me to hear over the distant traffic.",
+        "korean": "막차는 떠났다. 비가 그칠 때 우리는 밝은 역 표지판 아래 기다렸다. 그때 너는 멀리 차 소리가 들리는 가운데 내가 들을 만큼 나지막이 내 이름을 불렀다.",
+        "lines": 3,
+        "manualBreaks": 1
+      },
+      "case6": {
+        "english": "비가 완전히 그친 뒤에도 창가의 좁은 거리는 오래도록 조용했다. 우리는 젖은 가로등 아래를 지나 천천히 역으로 걸어갔다. 마지막 열차는 우리가 오래된 승강장에 도착하기 전에 이미 떠난 뒤였다.",
+        "korean": "",
+        "lines": 3,
+        "manualBreaks": 0
+      },
+      "quoteWidth": null,
+      "avatarAnchors": [
+        {
+          "id": "sample-1",
+          "top": 3.7,
+          "visible": true
+        },
+        {
+          "id": "sample-3",
+          "top": 3.7,
+          "visible": true
+        },
+        {
+          "id": "sample-5",
+          "top": 3.7,
+          "visible": true
+        },
+        {
+          "id": "sample-6",
+          "top": 0,
+          "visible": false
+        },
+        {
+          "id": "sample-7",
+          "top": 0,
+          "visible": false
+        },
+        {
+          "id": "sample-8",
+          "top": 3.7,
+          "visible": true
+        }
+      ]
+    }
+  }
+}
