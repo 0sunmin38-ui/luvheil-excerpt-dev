@@ -612,60 +612,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .hd-news .hd-mast + .hd-thin{margin-top:0}
 .hd-news .hd-thin + .hd-thick{margin-top:calc(.22em + 2px)}
 
-/* 이북 리더 — 배경색은 캔버스 가장자리부터 구분선까지만.
-   장식 좌우여백(8px)은 본문 여백보다 작다. */
-.hd-ebook{--hd-size:1.1em;--eb-pad:12px;background:var(--hd-ebook-bg,transparent);
-  margin-left:calc(var(--cv-pl,32px) * -1);margin-right:calc(var(--cv-pr,32px) * -1);
-  margin-top:calc(var(--cv-pt,28px) * -1);padding:.6em var(--eb-pad) 0}
-.hd-ebook .hd-row{gap:1em;padding-bottom:.6em}
-.hd-ebook .hd-side{gap:12px;align-items:center}
-.hd-ebook .hd-side.right{gap:.9em}
-.hd-ebook .hd-side .hd-title{font-weight:600;font-size:.85em;letter-spacing:-.01em;
-  min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.hd-ebook .hd-rule{height:1px;background:var(--hd-ebook-line,currentColor);opacity:.25;
-  margin:0 calc(var(--eb-pad) * -1)}
-.hd-ebook svg{stroke-width:2}
-/* 이북 푸터 — 배경색은 구분선부터 캔버스 하단까지. */
-.cv-foot-ebook{--eb-pad:8px;position:absolute;left:0;right:0;bottom:0;
-  background:var(--hd-ebook-bg,transparent);padding:0 var(--eb-pad) .6em}
-.cv-foot-ebook .hd-rule{height:1px;background:var(--hd-ebook-line,currentColor);opacity:.25;
-  margin:0 calc(var(--eb-pad) * -1)}
-.cv-foot-ebook .hd-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;
-  gap:.3em;padding-top:.5em}
-.cv-foot-ebook .hd-nav{font-size:.7em;opacity:.55;display:flex;align-items:center;gap:.25em;flex-shrink:0}
-.cv-foot-ebook .hd-nav svg{width:.8em;height:.8em;stroke-width:2.5}
-.cv-foot-ebook .hd-nav.right{justify-content:flex-end}
-.cv-foot-ebook .hd-sign{font-size:.75em;text-align:center;opacity:.6}
-
-/* 이북 모던 — 헤더 + 진행률 바 + 푸터 조합. preview 디자인 기반.
-   kakao(1.3em) 대비 사이즈 확대: 1em → 1.2em */
-.hd-ebook-modern{--hd-size:1.2em;--eb-pad:16px;
-  background:linear-gradient(to bottom, rgba(0,0,0,.08) 0%, transparent 100%);
-  margin-left:calc(var(--cv-pl,32px) * -1);margin-right:calc(var(--cv-pr,32px) * -1);
-  margin-top:calc(var(--cv-pt,28px) * -1);padding:14px var(--eb-pad)}
-.hd-ebook-modern.light{background:linear-gradient(to bottom, rgba(0,0,0,.04) 0%, transparent 100%)}
-.hd-ebook-modern .hd-row{display:flex;justify-content:space-between;align-items:center}
-.hd-ebook-modern .hd-title{flex:1;min-width:0;text-align:center;margin:0 .6em;font-weight:500;font-size:.95em;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hd-ebook-modern .hd-row > svg{flex-shrink:0}
-.hd-ebook-modern svg{width:1.1em;height:1.1em;stroke-width:2;opacity:.6}
-/* 이북 모던 푸터 — 하단 네비게이션.
-   iOS Safari 저장 시 글자 간격 문제 방지를 위해 letter-spacing/word-spacing 명시 */
-.cv-foot-ebook-modern{--eb-pad:16px;position:absolute;left:0;right:0;bottom:0;
-  background:linear-gradient(to top, rgba(0,0,0,.08) 0%, transparent 100%);
-  padding:14px var(--eb-pad) calc(var(--cv-pb,32px) * 2 / 3);
-  letter-spacing:0;word-spacing:normal;text-align:left}
-.cv-foot-ebook-modern.light{background:linear-gradient(to top, rgba(0,0,0,.03) 0%, transparent 100%)}
-/* 하단 네비게이션 */
-.cv-foot-ebook-modern .hd-row{display:flex;justify-content:space-between;align-items:center;font-size:.8em;
-  letter-spacing:0;word-spacing:normal}
-.cv-foot-ebook-modern .hd-nav{opacity:.5;display:flex;align-items:center;gap:3px;flex-shrink:0}
-.cv-foot-ebook-modern .hd-nav svg{width:.9em;height:.9em;fill:none;stroke:currentColor;stroke-width:2.5;
-  stroke-linecap:round;stroke-linejoin:round}
-/* 서명은 이전·다음 사이의 한 줄만 쓰고, 남은 내용은 말줄임한다. */
-.cv-foot-ebook-modern .hd-sign{opacity:.5;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;margin:0 8px}
-/* 여러 장일 때도 bottom:0 유지 — padding-bottom으로 내용 위치 조절 */
-.cv-foot-ebook-modern.eb-foot-pin{bottom:0}
-
 /* 인스타 DM — 본문 14px일 때 프리뷰 치수. 좌우 패딩만 18px로 고정한다.
    --insta-u는 렌더가 헤더 크기 / 14로 설정하며, 작은 이름·문구에서도 같은 단위를 쓴다. */
 .hd-insta-dm{padding:calc(11 * var(--insta-u)) 18px;background:transparent;line-height:1.4}
@@ -3140,7 +3086,7 @@ const PRESET_THEMES = [
     bubbleStyle: 'bubble', bubblePreset: 'kakaotalk', groupRuns: true,
     bubbleRadius: 15, showTail: false, bubbleShadow: false,
     showName: true, showAvatar: true, myName: false, myAvatar: false, roundAvatar: true,
-    header: 'kakao', headerTitle: '대화', decorHeaderSize: 14,
+    header: 'kakao', headerTitle: '대화',
     signShow: true, signAlign: 'right', decorSignSize: 12,
     decorMusicSize: 14,
     useFont: true,
@@ -3671,7 +3617,7 @@ const PRESET_THEMES = [
     "brTR": 18,
     "brBR": 18,
     "brBL": 18,
-    "header": "ebook-modern",
+    "header": "kakao",
     "headerTitle": "작품명",
     "headerAvatar": "",
     "headerBg": "",
@@ -3742,7 +3688,7 @@ const PRESET_THEMES = [
     "brTR": 18,
     "brBR": 18,
     "brBL": 18,
-    "header": "ebook-modern",
+    "header": "kakao",
     "headerTitle": "작품명",
     "headerAvatar": "",
     "headerBg": "",
@@ -3953,7 +3899,7 @@ const PRESET_THEMES = [
     "brTR": 18,
     "brBR": 18,
     "brBL": 18,
-    "header": "ebook-modern",
+    "header": "kakao",
     "headerTitle": "작품명",
     "headerAvatar": "",
     "headerBg": "",
@@ -4002,7 +3948,7 @@ PRESET_THEMES.forEach(p => { if (p.fmt) p.fmt.size = 13; });
 /* 기본으로 딸려 오는 테마인가. presetId로 찾는다 — 이름을 바꿔도 프리셋 연결이 유지된다. */
 const presetOf = t => t && PRESET_THEMES.find(p => p.presetId === t.presetId);
 /* 테마 배열의 차례는 사용자가 길게 눌러 정한다. 새 목록은 PRESET_THEMES 순서로 시작한다. */
-/* 그 테마를 처음 상태로 되돌린 사본. id 는 지켜야 블록·활성 테마가 안 끊긴다. */
+/* 제공 테마의 최신 코드 정의를 적용한다. id는 지켜야 활성 테마가 안 끊긴다. */
 function freshPreset(t) {
   const p = presetOf(t);
   if (!p) return null;
@@ -4011,6 +3957,11 @@ function freshPreset(t) {
   const f = Object.assign(DEF_THEME(), JSON.parse(JSON.stringify(p)));
   f.id = t.id;
   return f;
+}
+/* 제공 테마는 편집할 수 없으므로 저장본보다 현재 정의를 우선한다.
+   사용자가 정한 목록 순서와 사용자 테마, 활성 테마 id는 그대로 둔다. */
+function syncBuiltinThemes() {
+  S.themes = S.themes.map(t => presetOf(t) ? freshPreset(t) : t);
 }
 
 const S = {
@@ -4082,7 +4033,7 @@ addEventListener('unhandledrejection', e => diag('window:unhandledrejection', {
   message: String(e && e.reason && (e.reason.message || e.reason) || '').slice(0, 180)
 }));
 /* 기본값을 바꾸면 올린다. 저장본의 판이 낮으면 내용은 지키고 기본값만 새로 잡는다. */
-const SCHEMA = 25;
+const SCHEMA = 26;
 const SIGNATURE_SCHEMA = 17;
 /* 저장이 조용히 실패하면 안 된다 — 특히 캐릭터 이미지처럼 큰 값을 넣은 직후에
    용량이 넘치면, 화면에는 멀쩡히 보이는데 새로고침하면 사라져 원인을 알 수 없다. */
@@ -4485,7 +4436,8 @@ function load() {
     }
   }
   S.blocks = S.blocks.filter(b => b.type !== 'footer');
-  S.themes.forEach(stripLegacySign);
+  S.themes.forEach(t => { normalizeHeaderSettings(t); stripLegacySign(t); });
+  syncBuiltinThemes();
   validateState();
 }
 /* 테마를 고치는 동안에는 저장소가 아니라 초안을 돌려준다 — 캔버스가 곧 미리보기가 된다.
@@ -4507,62 +4459,37 @@ function legacyFooterContent(value) {
   return box.content.textContent.trim();
 }
 const activeSign = () => S.signatures.find(x => x.id === S.activeSignId) || null;
-/* 선택적 장식 크기. 이전 저장본에 필드가 없으면 본문 연동 동작을 그대로 쓴다. */
+/* 서명·음악처럼 별도 크기를 허용하는 장식에만 사용한다. */
 const decorPx = value => {
   const n = Number(value);
   return Number.isFinite(n) && n >= 10 && n <= 40 ? n : null;
 };
-/* 헤더는 본문 서식이 아니라 판형에 붙은 장식이다. 유형별 기본 높이는 별도로 둔다. */
-const headerCanvasSide = () => {
-  const c = canvas();
-  if (!isFit()) return ratioShortSide();
-  const n = Number(c.width);
-  return Number.isFinite(n) && n >= 300 && n <= 1000 ? n : CANVAS_W;
-};
-const baseHeaderDecorPx = th => decorPx(th.decorHeaderSize)
-  ?? clamp(Math.round(14 * headerCanvasSide() / 400), 12, 24);
+/* 헤더 치수는 장식 종류마다 확정한 값으로 고정한다. */
 const HEADER_DEFAULTS = {
   kakao: { height: 60, fontSize: 12, svgScale: .9, sidePadding: 28 },
   imessage: { height: 90, fontSize: 12, svgScale: 1.3, avatarSize: 40, contentY: 4, sidePadding: 30 },
   'insta-dm': { height: 70, fontSize: 12, svgScale: 1, ringSize: 42 },
   bubble: { height: 80, fontSize: 12, svgScale: 1 },
-  'ebook-modern': { height: 60, fontSize: 13, svgScale: 1 },
   'lock-clock': { height: 240, fontSize: 16, dateFontSize: 20, dateGap: 8 },
   paper: { height: 112, fontSize: 20 }
 };
 const headerDefault = th => HEADER_DEFAULTS[headKind(th)] || {};
-const headerDecorPx = th => {
-  const custom = decorPx(th.headerLayout?.[headKind(th)]?.fontSize);
-  if (custom != null) return custom;
-  const legacy = decorPx(th.decorHeaderSize);
-  const presetLegacy = decorPx(presetOf(th)?.decorHeaderSize);
-  return legacy != null && legacy !== presetLegacy ? legacy
-    : (headerDefault(th).fontSize ?? baseHeaderDecorPx(th));
-};
-const headerSvgScale = th => {
-  const value = Number(th.headerLayout?.[headKind(th)]?.svgScale);
-  return Number.isFinite(value) && value >= .5 && value <= 2.5 ? value
-    : (headerDefault(th).svgScale ?? 1);
-};
-const headerLayoutValue = (th, key) => {
-  const value = Number(th.headerLayout?.[headKind(th)]?.[key]);
-  return Number.isFinite(value) ? value : null;
-};
-const headerHeightPx = th => {
-  const value = headerLayoutValue(th, 'height');
-  if (value != null && value >= 40 && value <= 400) return Math.round(value);
-  return headerDefault(th).height ?? 64;
-};
-const headerInt = (th, key, min, max, fallback) => {
-  const value = headerLayoutValue(th, key);
-  return value != null && value >= min && value <= max ? Math.round(value) : fallback;
-};
+const headerDecorPx = th => headerDefault(th).fontSize ?? 14;
+const headerSvgScale = th => headerDefault(th).svgScale ?? 1;
+const headerHeightPx = th => headerDefault(th).height ?? 64;
+const headerInt = (th, key, min, max, fallback) => headerDefault(th)[key] ?? fallback;
+function normalizeHeaderSettings(t) {
+  if (t.header === 'ebook' || t.header === 'ebook-modern') t.header = 'kakao';
+  delete t.headerLayout;
+  delete t.decorHeaderSize;
+  return t;
+}
 function signatureText(s, th) {
   return s ? [signField(s.charName), signField(s.maker)].filter(Boolean)
     .join(th.signSep === '|' ? ' | ' : ' · ') : '';
 }
 const signText = th => signatureText(activeSign(), th);
-const signIsDecor = th => frameKind(th) === 'buddy' || headKind(th) === 'ebook-modern';
+const signIsDecor = th => frameKind(th) === 'buddy';
 function stripLegacySign(t) { delete t.signChar; delete t.signMaker; return t; }
 /* 저장본과 설정 파일은 같은 입구에서 정규화한다 — 以後は古い内容フィールドを読まない。 */
 function normalizeSignatureData(d, legacy = true) {
@@ -6378,9 +6305,8 @@ function renderCanvas() {
     /* 서명 내용은 선택된 목록에서 읽고, 배치와 서식은 테마를 따른다. */
     const isBuddyFrame = frameKind(th) === 'buddy';
     const hdKind = headKind(th);
-    const isEbookHead = hdKind === 'ebook-modern';
     const isPaperHead = hdKind === 'paper'; /* 통합 제목는 서명을 저자 위치에 표시 */
-    if (th.signShow && !isBuddyFrame && !isEbookHead && !isPaperHead) {
+    if (th.signShow && !isBuddyFrame && !isPaperHead) {
       const text = signText(th);
       if (text) {
         const signWrap = el('div', 'blk is-footer');
@@ -6395,10 +6321,7 @@ function renderCanvas() {
         cv.appendChild(signWrap);
       }
     }
-    /* 이북 푸터 — 하단 네비게이션 바 (이전권·서명·다음권) */
-    if (hdKind === 'ebook-modern') {
-      cv.appendChild(ebookModernFooterNode(th));
-    } else if (hdKind === 'insta-dm') {
+    if (hdKind === 'insta-dm') {
       cv.appendChild(instaDmFooterNode(th));
     }
   }
@@ -7180,7 +7103,7 @@ function renderBlock(b, th, f, prev, next) {
    메신저 화면·신문 제호를 흉내 낸 껍데기. 캔버스 맨 위에 붙는다.
    아이콘은 전부 여기서 그린다 — 글꼴에 딸린 문자를 쓰면 기기마다 다른 그림이 나오고,
    저장본에도 그 차이가 그대로 실린다. 선 두께·색은 CSS 가 currentColor 로 맞춘다. */
-const HEADS = [['none', '없음'], ['imessage', 'iMessage'], ['kakao', 'Kakaotalk'], ['insta-dm', 'Instagram DM'], ['bubble', 'Bubble'], ['ebook-modern', 'e-Book'], ['lock-clock', 'Lock Screen'], ['paper', 'Article']];
+const HEADS = [['none', '없음'], ['imessage', 'iMessage'], ['kakao', 'Kakaotalk'], ['insta-dm', 'Instagram DM'], ['bubble', 'Bubble'], ['lock-clock', 'Lock Screen'], ['paper', 'Article']];
 /* 신문 머리는 테마가 고른 글꼴을 안 따른다 — 신문의 얼굴은 결국 그 글꼴이다.
    · 제호(mark) 는 플레이페어의 «보통 굵기» 다 [NEWS_MARK_W]. 획 대비가 큰 디도풍
      세리프인데, 굵은 벌을 안 쓰니 그 대비가 얌전해져 지면 위에 조용히 얹힌다.
@@ -7408,10 +7331,10 @@ const muIcon = (k, cls) => {
   return svg;
 };
 
-/* 'ebook'은 삭제됨 → 'ebook-modern'으로 마이그레이션 */
+/* 옛 이북 장식은 Kakaotalk 헤더로 표시한다. 저장 데이터도 load/applySettings에서 변환한다. */
 const headKind = t => {
   const h = t && t.header;
-  if (h === 'ebook') return 'ebook-modern';
+  if (h === 'ebook' || h === 'ebook-modern') return 'kakao';
   if (h === 'news-online') return 'paper';
   return HEADS.some(x => x[0] === h) ? h : 'none';
 };
@@ -7763,19 +7686,6 @@ function headerNode(th) {
     hRow.appendChild(actions);
     head.appendChild(hRow);
     return head;
-  } else if (kind === 'ebook-modern') {
-    /* 이북 모던: 헤더 + 진행률 바 푸터 */
-    const hx = hexOf(th.bg) || 'FFFFFF';
-    const [rr, gg, bb] = [0, 2, 4].map(i => parseInt(hx.slice(i, i + 2), 16));
-    const isLight = (rr * 299 + gg * 587 + bb * 114) / 1000 > 128;
-    if (isLight) head.classList.add('light');
-    const hRow = el('div', 'hd-row');
-    hRow.appendChild(hdIcon('back'));
-    const hTitle = Object.assign(el('span', 'hd-title'), { textContent: title });
-    hRow.appendChild(hTitle);
-    hRow.appendChild(hdIcon('menu'));
-    head.appendChild(hRow);
-    return head;
   } else {
     mid.classList.add('hd-title');
     mid.textContent = title;
@@ -7789,33 +7699,6 @@ function headerNode(th) {
   row.append(left, mid, right);
   head.appendChild(row);
   return head;
-}
-
-/* 이북 모던 푸터 — 하단 네비게이션.
-   구조: «< 이전» + 서명 + «다음 >» */
-function ebookModernFooterNode(th) {
-  const hx = hexOf(th.bg) || 'FFFFFF';
-  const [rr, gg, bb] = [0, 2, 4].map(i => parseInt(hx.slice(i, i + 2), 16));
-  const isLight = (rr * 299 + gg * 587 + bb * 114) / 1000 > 128;
-  const foot = el('div', 'cv-foot-ebook-modern' + (isLight ? ' light' : ''));
-  const footSize = baseHeaderDecorPx(th);
-  if (footSize != null) foot.style.fontSize = footSize + 'px';
-  foot.style.color = th.fg;
-  /* 하단 네비게이션 */
-  const row = el('div', 'hd-row');
-  const left = el('div', 'hd-nav');
-  left.appendChild(hdIcon('back'));
-  left.appendChild(Object.assign(el('span'), { textContent: '이전' }));
-  const text = signText(th);
-  const mid = Object.assign(el('div', 'hd-sign'), { textContent: text });
-  const right = el('div', 'hd-nav');
-  right.appendChild(Object.assign(el('span'), { textContent: '다음' }));
-  const fwdIcon = hdIcon('back');
-  fwdIcon.style.transform = 'scaleX(-1)';
-  right.appendChild(fwdIcon);
-  row.append(left, mid, right);
-  foot.appendChild(row);
-  return foot;
 }
 
 /* ═══ 음악 (플레이리스트 바) ══════════════════════════════════
@@ -8215,21 +8098,16 @@ function renderPageMarks() {
   const gap = Math.round(fmt().blockGap ?? 10);
   const head = cv.querySelector('.cv-head:not(.head-ghost)');
   const foot = footRow();
-  const ebFoot = cv.querySelector('.cv-foot-ebook:not(.eb-foot-ghost), .cv-foot-ebook-modern:not(.eb-foot-ghost), .cv-foot-insta-dm:not(.eb-foot-ghost)');
+  const decorFoot = dmFoot;
   /* 축소해 보여 주는 중이라도 offsetHeight 는 논리 높이 그대로다 [fitCanvas].
      둘 다 아직 흐름 안에 있을 때 재야 제 높이가 나온다 — 못 박는 것은 그다음이다. */
   const hh = head ? head.offsetHeight : 0;
   const fh = foot ? foot.offsetHeight : 0;
   /* 페이지 좌표와 같은 논리 높이로 잰다 — getBoundingClientRect 는 미리보기 배율을 탄다.
      offsetHeight 는 absolute 요소도 패딩을 포함한 높이를 돌려준다. */
-  const ebh = ebFoot ? ebFoot.offsetHeight : 0;
+  const decorFootHeight = decorFoot ? decorFoot.offsetHeight : 0;
   if (isFit()) {
-    /* absolute 이북 푸터도 내용 맞춤의 자연 높이에 포함해야 한다.
-       인스타 입력창은 has-insta-dm의 기존 예약 규칙을 그대로 사용한다. */
-    if (ebFoot && !dmFoot) {
-      cv.style.setProperty('--foot-h', ebh + 'px');
-      cv.classList.add('foot-pinned');
-    }
+    /* 인스타 입력창은 has-insta-dm의 기존 예약 규칙을 사용한다. */
     return 1;
   }
   /* 화면머리는 한 장이든 여러 장이든 늘 맨 위다 — 비율 지정이면 언제나 못 박는다.
@@ -8256,7 +8134,7 @@ function renderPageMarks() {
   /* 서명과 입력창 사이 여백은 기존 하단 여백 + 블록 간격의 절반으로 둔다.
      pageBox.inner가 이미 padB를 빼므로 장식 예약 높이에서는 그 몫을 되돌린다. */
   const dmSpacing = (padB() + gap) / 2;
-  const footH = dmFoot ? dmh + dmSpacing - padB() + (foot ? fh : -gap) : (foot ? fh : ebh);
+  const footH = dmFoot ? dmh + dmSpacing - padB() + (foot ? fh : -gap) : (foot ? fh : decorFootHeight);
   if (dmFoot) footHold = dmh + dmSpacing - padB();
   const hold = headHold + (footH ? footH + gap : 0);
   /* 장을 세기 «전에» 쪼개 둔다 — 한 단에 안 들어가는 글은 여기서 여러 블록이 되고,
@@ -8281,13 +8159,13 @@ function renderPageMarks() {
   const pages = Math.max(1, Math.ceil(rg.length / N));
   /* 인스타는 한 장에서도 서명을 입력창 위에 고정한다. 다른 서명은 여러 장일 때 고정한다.
      중앙 정렬에서도 서명은 하단에 고정한다 — 상단 정렬과 동일한 동작. */
-  const pin = (!!foot || !!ebFoot) && (pages > 1 || !!dmFoot || !isTopAlign());
+  const pin = (!!foot || !!decorFoot) && (pages > 1 || !!dmFoot || !isTopAlign());
   if (pin) {
     footHold = footH + gap;
     cv.style.setProperty('--foot-h', footH + 'px');
     cv.classList.add('foot-pinned');
     if (foot) foot.classList.add('foot-pin');
-    if (ebFoot) ebFoot.classList.add('eb-foot-pin');
+    if (decorFoot) decorFoot.classList.add('eb-foot-pin');
   }
 
   /* 단 하나가 전부면 앉힐 것이 없다 — 세로 가운데는 [ratio-center] 가 맡는다.
@@ -8341,13 +8219,13 @@ function renderPageMarks() {
       g.style.top = ((i + 1) * H - fh - (dmFoot ? dmh + dmSpacing : padB())) + 'px';
       cv.appendChild(g);
     }
-    /* 이북 푸터도 마지막 장에 진짜가 있고, 앞 장에 사본을 깐다 */
-    if (pin && ebFoot && i < pages - 1) {
-      const g = ebFoot.cloneNode(true);
+    /* 하단 장식은 마지막 장에 진짜가 있고, 앞 장에 사본을 깐다. */
+    if (pin && decorFoot && i < pages - 1) {
+      const g = decorFoot.cloneNode(true);
       g.classList.add('eb-foot-ghost');
       g.style.bottom = 'auto';
       /* 배경은 장 끝에 붙인다 — 내용의 하단 여백은 푸터 자체의 패딩이 맡는다. */
-      g.style.top = ((i + 1) * H - ebh) + 'px';
+      g.style.top = ((i + 1) * H - decorFootHeight) + 'px';
       cv.appendChild(g);
     }
   }
@@ -9501,7 +9379,6 @@ function openResetModal() {
     '선택한 항목만 기본 상태로 되돌립니다. 선택하지 않은 항목은 그대로 유지됩니다.',
     [
       ['characters', '캐릭터 프리셋', '등록한 캐릭터 목록을 삭제합니다.'],
-      ['themes', '테마 프리셋', `추가 · 수정한 테마를 없애고 기본 테마 ${PRESET_THEMES.length}종으로 복원합니다.`],
       ['signatures', '서명 프리셋', '저장한 서명을 모두 지우고 서명 없음으로 되돌립니다.'],
       ['colors', '색상', '색상 팔레트를 초기화합니다.'],
       /* 유일하게 «지우지 않는» 항목이다 — 브라우저가 들고 있던 예전 판만 버린다.
@@ -9516,19 +9393,6 @@ function openResetModal() {
       S.characters = [];
       S.blocks.forEach(b => { if (b.speakerId) b.speakerId = null; });
       reset.push('캐릭터 프리셋');
-    }
-    if (selected.has('themes')) {
-      /* 테마별 캔버스 — 프리셋에 캔버스가 있으면 그것을 쓰고, 없으면 기본값 */
-      S.themes = PRESET_THEMES.map(p => {
-        const copy = JSON.parse(JSON.stringify(p));
-        return Object.assign(DEF_THEME(), copy, { canvas: copy.canvas || { ...DEF_CANVAS } });
-      });
-      S.activeThemeId = S.themes[0]?.id;
-      S.ui.themeDraft = null; S.ui.editingThemeId = null;
-      /* 전역 캔버스도 함께 초기화 (하위호환) */
-      Object.assign(S.canvas, DEF_CANVAS);
-      S.ui.canvasSnapshot = null;
-      reset.push('테마 프리셋');
     }
     if (selected.has('signatures')) {
       S.signatures = []; S.activeSignId = null;
@@ -11888,54 +11752,6 @@ function syncThemeEditFormV2() {
   decoField.appendChild(decoSel);
   frameBody.appendChild(decoField);
 
-  if (frKind === 'none' && hdKind !== 'none') {
-    const layout = () => {
-      if (!t.headerLayout || typeof t.headerLayout !== 'object') t.headerLayout = {};
-      if (!t.headerLayout[hdKind] || typeof t.headerLayout[hdKind] !== 'object') t.headerLayout[hdKind] = {};
-      return t.headerLayout[hdKind];
-    };
-    frameBody.appendChild(numberH('헤더 높이(px)', headerHeightPx(t), 40, 400,
-      v => { layout().height = v; up(); }));
-    frameBody.appendChild(numberH(hdKind === 'lock-clock' ? '시계 크기 기준(px)' : '장식 글씨 기준(px)', headerDecorPx(t), 10, 40,
-      v => { layout().fontSize = v; up(); }));
-    if (!['lock-clock', 'paper'].includes(hdKind)) {
-      frameBody.appendChild(numberH('SVG 아이콘 크기(%)', Math.round(headerSvgScale(t) * 100), 50, 250,
-        v => { layout().svgScale = v / 100; up(); }));
-    }
-    if (hdKind === 'kakao' || hdKind === 'imessage') {
-      frameBody.appendChild(numberH('좌우 패딩(px)', headerInt(t, 'sidePadding', 0, 80,
-        headerDefault(t).sidePadding), 0, 80,
-        v => { layout().sidePadding = v; up(); }));
-    }
-    if (hdKind === 'imessage') {
-      frameBody.appendChild(numberH('프로필 이미지 크기(px)', headerInt(t, 'avatarSize', 20, 100, 40), 20, 100,
-        v => { layout().avatarSize = v; up(); }));
-      frameBody.appendChild(numberH('내용 아래로 이동(px)', headerInt(t, 'contentY', -20, 20, 4), -20, 20,
-        v => { layout().contentY = v; up(); }));
-    }
-    if (hdKind === 'insta-dm') {
-      frameBody.appendChild(numberH('프로필 링 크기(px)', headerInt(t, 'ringSize', 28, 80, 42), 28, 80,
-        v => { layout().ringSize = v; up(); }));
-    }
-    if (hdKind === 'lock-clock') {
-      frameBody.appendChild(numberH('날짜 글씨(px)', headerInt(t, 'dateFontSize', 10, 40, 20), 10, 40,
-        v => { layout().dateFontSize = v; up(); }));
-      frameBody.appendChild(numberH('날짜·시간 간격(px)', headerInt(t, 'dateGap', 0, 40, 8), 0, 40,
-        v => { layout().dateGap = v; up(); }));
-    }
-    const applyDefault = el('button', 'btn btn-quiet btn-sm', '이 헤더에 새 기본값 적용');
-    applyDefault.onclick = () => {
-      if (!t.headerLayout || typeof t.headerLayout !== 'object') t.headerLayout = {};
-      t.headerLayout[hdKind] = { ...HEADER_DEFAULTS[hdKind] };
-      rerender();
-    };
-    frameBody.appendChild(applyDefault);
-    const reset = el('button', 'btn btn-quiet btn-sm', '글씨 크기 기본값');
-    reset.onclick = () => { delete layout().fontSize; delete t.decorHeaderSize; rerender(); };
-    frameBody.appendChild(reset);
-    frameBody.appendChild(el('div', 'lab-sub', '헤더는 상단 0px에 고정됩니다. 높이 안에서 내용의 위아래 여백을 나눕니다. 너무 작은 높이는 내용을 자릅니다.'));
-  }
-
   /* 선택에 따른 추가 옵션 */
   const optWrap = el('div');
   optWrap.style.marginTop = 'var(--sp-md)';
@@ -12012,17 +11828,6 @@ function syncThemeEditFormV2() {
     df.appendChild(di);
     grid.appendChild(df);
     optWrap.appendChild(grid);
-  } else if (hdKind === 'ebook-modern') {
-    hasOpts = true;
-    /* 이북 모던: 작품명 */
-    const nf = el('div', 'field');
-    nf.appendChild(el('label', 'lab', '작품명'));
-    const ni = el('input', 'inp');
-    ni.value = t.headerTitle || '';
-    ni.placeholder = '예) 보라의 바깥';
-    ni.oninput = () => { t.headerTitle = ni.value; up(); };
-    nf.appendChild(ni);
-    optWrap.appendChild(nf);
   } else if (hdKind === 'imessage' || hdKind === 'kakao' || hdKind === 'insta-dm') {
     hasOpts = true;
     /* 메시지1/2/인스타: 이름 + 배경색 + (아이메시지/인스타만 프로필) */
@@ -13192,24 +12997,6 @@ function toggleRow(label, sub, val, on) {
   const t = el('button', 'tgl' + (val ? ' is-on' : ''));
   t.onclick = () => { const nv = !t.classList.contains('is-on'); t.classList.toggle('is-on', nv); on(nv); };
   r.append(L, t);
-  return r;
-}
-/* 헤더의 고정 치수는 숫자를 직접 적는다. 입력 중에는 초안을 보존하고
-   확정할 때만 반영해 모바일 숫자 키보드와 패널 재렌더가 간섭하지 않게 한다. */
-function numberH(label, val, min, max, on) {
-  const r = el('div', 'steph');
-  r.appendChild(el('label', 'lab', label));
-  const i = el('input', 'inp header-number');
-  i.type = 'number'; i.inputMode = 'numeric'; i.min = String(min); i.max = String(max);
-  i.step = '1'; i.value = String(val); i.setAttribute('aria-label', label);
-  i.style.cssText = 'width:88px;max-width:40%;text-align:right;margin-left:auto';
-  i.onchange = () => {
-    const n = Number(i.value);
-    const v = clamp(Number.isFinite(n) && i.value !== '' ? Math.round(n) : val, min, max);
-    i.value = String(v);
-    on(v);
-  };
-  r.appendChild(i);
   return r;
 }
 /* dec=1 이면 소수점 한 자리까지 받는다. 음수도 그대로 받는다. */
@@ -14824,7 +14611,7 @@ const SETTINGS_TYPE = 'chat-excerpt/settings';
    (글자 서식은 테마 안에 산다[t.fmt] — 전역 기본값도 테마와 한 갈래로 묶는다.) */
 const SETTINGS_PARTS = [
   ['characters', '캐릭터', '저장한 캐릭터와 프로필 이미지'],
-  ['themes', '테마', '테마 목록'],
+  ['themes', '테마', '직접 추가·복제한 테마와 서식·캔버스 설정'],
   ['signatures', '서명', '저장한 서명 목록과 선택'],
   ['colors', '색상', '추가한 색상 프리셋']
 ];
@@ -14853,8 +14640,9 @@ function exportSettings(picked) {
   if (picked.has('characters')) data.characters = S.characters;
   if (picked.has('themes')) {
     /* 테마별 캔버스 — 각 테마에 canvas가 없으면 전역 캔버스를 복사해 넣는다 */
-    data.themes = S.themes.map(t => t.canvas ? t : { ...t, canvas: { ...S.canvas } });
-    data.activeThemeId = S.activeThemeId; data.format = S.format;
+    data.themes = S.themes.filter(t => !presetOf(t)).map(t => t.canvas ? t : { ...t, canvas: { ...S.canvas } });
+    data.activeThemeId = data.themes.some(t => t.id === S.activeThemeId) ? S.activeThemeId : null;
+    data.format = S.format;
     /* 하위호환: 전역 캔버스도 함께 내보낸다 (구버전 가져오기 대응) */
     data.canvas = S.canvas;
   }
@@ -14871,8 +14659,8 @@ function exportSettings(picked) {
    캐릭터·테마·색은 목록이라 더할 수 있지만, 캔버스는 테마와 함께 들어온다. */
 const IMPORT_MODES = [['merge', '기존 항목 유지'], ['replace', '덮어쓰기']];
 const IMPORT_NOTE = {
-  merge: '기존 캐릭터 · 테마 · 서명 · 색을 유지하고 새로운 항목을 추가합니다.',
-  replace: '새 항목을 추가하고, 지금 캐릭터 · 테마 · 서명 · 색을 지웁니다.'
+  merge: '기존 캐릭터 · 직접 만든 테마 · 서명 · 색을 유지하고 새로운 항목을 추가합니다.',
+  replace: '새 항목을 추가하고, 지금 캐릭터 · 직접 만든 테마 · 서명 · 색을 지웁니다.'
 };
 function openImportModal(d) {
   if (confirmDiscardSettingsDraft(() => openImportModal(d))) return;
@@ -14957,22 +14745,27 @@ function applySettings(d, picked, mode) {
     done.push(partName('characters'));
   }
   if (picked.has('themes')) {
-    if (Array.isArray(d.themes) && d.themes.length) {
+    if (Array.isArray(d.themes)) {
       /* 테마별 캔버스 — canvas가 없는 테마는 전역 캔버스(d.canvas)나 기본값으로 채운다 */
       const fallbackCanvas = (d.canvas && typeof d.canvas === 'object') ? d.canvas : DEF_CANVAS;
-      const incoming = d.themes.map(t => t.canvas ? t : { ...t, canvas: { ...fallbackCanvas } });
-      S.themes = merge ? mergeById(S.themes, incoming) : incoming;
+      /* 예전 파일에 제공 테마가 들어 있더라도 가져오지 않는다. */
+      const incoming = d.themes.filter(t => t && (!presetOf(t) || (t.name || '').endsWith(' 사본')))
+        .map(t => {
+          const copy = { ...t, canvas: t.canvas || { ...fallbackCanvas } };
+          if ((copy.name || '').endsWith(' 사본')) delete copy.presetId;
+          return copy;
+        });
+      const kept = merge ? S.themes : S.themes.filter(presetOf);
+      S.themes = mergeById(kept, incoming);
       S.themes.forEach(ensureThemeFormat);
-      const importedPresetIds = new Set();
-      S.themes.forEach(t => {
-        if (!presetOf(t)) return;
-        if (importedPresetIds.has(t.presetId) || (t.name || '').endsWith(' 사본')) delete t.presetId;
-        else importedPresetIds.add(t.presetId);
-      });
-      /* 가져온 테마 순서도 보존한다. */
+      S.themes.forEach(normalizeHeaderSettings);
+      syncBuiltinThemes();
+      /* 제공 테마 순서는 유지하고 가져온 사용자 테마는 파일 순서대로 뒤에 둔다. */
       /* 더할 때는 보고 있던 테마를 그대로 둔다 — 더했다고 화면이 갈아엎히면 안 된다 */
       if (!merge || !S.themes.some(t => t.id === S.activeThemeId)) {
-        S.activeThemeId = d.themes.some(t => t.id === d.activeThemeId) ? d.activeThemeId : S.themes[0]?.id;
+        S.activeThemeId = S.themes.some(t => t.id === d.activeThemeId)
+          ? d.activeThemeId : S.themes.some(t => t.id === S.activeThemeId)
+            ? S.activeThemeId : S.themes[0]?.id;
       }
       done.push(partName('themes'));
     }
