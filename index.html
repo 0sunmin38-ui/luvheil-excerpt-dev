@@ -1769,6 +1769,7 @@ body:has(.sheet.is-settling) .stage{transition:none}
 .icb svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .icb:hover{background:var(--c-surface-sunken)}
 .icb.is-on{background:var(--c-primary-muted);border-color:var(--c-primary);color:var(--c-primary-text)}
+.icb.is-mixed{background:var(--c-surface-sunken);border-style:dashed}
 .icb.is-primary{background:var(--c-primary-fill);border-color:var(--c-primary-fill);color:var(--c-primary-ink)}
 .icb.is-primary:hover{background:var(--c-primary-fill-hover)}
 .icb.is-ghost{background:transparent;border-color:var(--c-primary);color:var(--c-primary-text)}
@@ -5105,6 +5106,36 @@ function rangeHasRich(kind) {
 }
 /* 고른 조각의 «크기 단계» [SIZE_LV_UI 와 같은 눈금] */
 const richSizeLv = () => rangeHasRich('szUp') ? 1 : (rangeHasRich('szDn') ? -1 : 0);
+/* 선택한 글자 전체가 같은 서식인지 확인한다. 일부만 걸렸다면 혼합 상태로 돌려준다. */
+function richCoverage(kind) {
+  const spec = RICH[kind], ta = $('#ta');
+  if (!spec || !ta) return 'off';
+  /* 블록 전체 서식은 글 안의 태그가 없어도 모든 글자에 보인다. */
+  const b = selBlock();
+  if (['bold', 'italic', 'underline', 'strike'].includes(kind) && b && b[kind]) return 'on';
+  const r = liveRange();
+  if (r && upIn(r.commonAncestorContainer, spec.is)) return 'on';
+  const root = r ? r.cloneContents() : ta;
+  const nodes = textNodesIn(root).filter(n => n.nodeValue.trim());
+  if (!nodes.length) return 'off';
+  const count = nodes.filter(n => formatAncestor(n, spec)).length;
+  return count === nodes.length ? 'on' : count ? 'mixed' : 'off';
+}
+function richSizeState() {
+  const up = richCoverage('szUp'), down = richCoverage('szDn');
+  if (up === 'on' && down === 'off') return 1;
+  if (down === 'on' && up === 'off') return -1;
+  return up === 'off' && down === 'off' ? 0 : 'mixed';
+}
+function setRichSize(v) {
+  const selected = composerSelectionOffsets();
+  clearRich('szUp');
+  if (selected) restoreComposerSelection(selected);
+  clearRich('szDn');
+  if (selected) restoreComposerSelection(selected);
+  if (v > 0) applyRich('szUp');
+  else if (v < 0) applyRich('szDn');
+}
 /* 선택이 같은 서식 «안» 에 통째로 들어 있는 경우.
    떼어 낸 조각만 보면 부모가 조각 밖에 있어 서식이 걸린 줄 모른다 — 그래서 굵게를 다시
    눌러도 벗겨지는 대신 한 겹 더 씌워지고, 되읽으면 ****글**** 처럼 빈 마커가 남았다.
@@ -8586,7 +8617,7 @@ const ALIGN_ICON = {
 };
 const ALIGN_NAME = { left: '왼쪽', center: '가운데', right: '오른쪽', justify: '양쪽' };
 /* 블록이 자기 값으로 들고 있을 수 있는 서식 — 있으면 전체 기본값보다 이것이 이긴다 */
-const BLOCK_OWN = ['align', 'font', 'bold', 'italic', 'underline', 'strike', 'color', 'ann'];
+const BLOCK_OWN = ['align', 'font', 'sizeLv', 'bold', 'italic', 'underline', 'strike', 'color', 'ann'];
 /* 서식은 세 층으로 쌓인다 — 테마 › 도구(전체 서식) › 블록.
    아래층일수록 좁게 이긴다. 다만 위층을 '다시' 건드리면 그 항목만은 전체가 새로 맞춰져야 한다.
    안 그러면 전체를 바꿔도 예전에 손댄 블록만 남아 '일부만 적용' 처럼 보인다.
@@ -8626,7 +8657,11 @@ const stripColorMarks = text => String(text || '')
    어긋나 보이고, 다음에 «캔버스에 올리기» 를 누르면 옛 글이 도로 덮어쓴다. */
 function syncComposer(b) {
   const ta = $('#ta');
-  if (ta && b && selBlock() === b && HAS_TEXT.includes(b.type || 'text')) ta.value = b.text;
+  if (!ta || !b || selBlock() !== b || !HAS_TEXT.includes(b.type || 'text')) return;
+  if (ta.value === b.text || _composerComposing) return;
+  const selected = composerSelectionOffsets();
+  ta.value = b.text;
+  if (selected) restoreComposerSelection(selected);
 }
 
 function renderFormat() {
@@ -8817,13 +8852,12 @@ function renderFormat() {
     if (!b) return;
     if (hasSel()) {
       formatSelection(() => {
-        clearRich('szUp'); clearRich('szDn');
-        if (v > 0) applyRich('szUp'); else if (v < 0) applyRich('szDn');
+        setRichSize(v);
       });
       return;
     }
     /* 블록 전체를 바꾸는 자리다 — 조각 크기는 걷어내고 블록 값 하나로 정리한다 */
-    clearRich('szUp'); clearRich('szDn'); b.text = reflowComposer(null);
+    setRichSize(0); b.text = reflowComposer(null);
     if (v) b.sizeLv = v; else delete b.sizeLv;
     save(); render();
   };
@@ -10211,25 +10245,27 @@ function buildTextEditor(host, block) {
   const sizeGrp = el('div', 'tool-grp');
   sizeGrp.appendChild(el('span', 'lab', '크기'));
   const onSel = hasSel();
-  const curSizeLv = onSel ? richSizeLv() : (block.sizeLv ?? 0);
+  const curSizeLv = onSel ? richSizeState() : (block.sizeLv ?? 0);
+  if (curSizeLv === 'mixed') sizeGrp.appendChild(el('span', 'lab', '혼합'));
   const applySizeTE = v => {
     if (hasSel()) {
       formatSelection(() => {
-        clearRich('szUp'); clearRich('szDn');
-        if (v > 0) applyRich('szUp'); else if (v < 0) applyRich('szDn');
+        setRichSize(v);
       });
       return;
     }
     /* 블록 전체 */
-    clearRich('szUp'); clearRich('szDn'); block.text = reflowComposer(null);
+    setRichSize(0); block.text = reflowComposer(null);
     if (v) block.sizeLv = v; else delete block.sizeLv;
     save(); render();
   };
   SIZE_LV_UI.forEach(([lv, label, cls]) => {
-    const btn = el('button', 'icb' + (!onSel && curSizeLv === lv ? ' is-on' : ''));
+    const btn = el('button', 'icb' + (curSizeLv === lv ? ' is-on' : ''));
     btn.style.boxShadow = 'none';
     btn.innerHTML = `<span class="szA ${cls}">${cls === 's' ? 'a' : 'A'}</span>`;
     btn.title = label;
+    btn.setAttribute('aria-label', `글자 크기 ${label}`);
+    btn.setAttribute('aria-pressed', String(curSizeLv === lv));
     bindFormatAction(btn, () => applySizeTE(lv));
     sizeGrp.appendChild(btn);
   });
@@ -10293,11 +10329,13 @@ function buildTextEditor(host, block) {
   const styleGrp = el('div', 'tool-grp');
   styleGrp.appendChild(el('span', 'lab', '서식'));
   [['B', 'bold', '굵게'], ['I', 'italic', '기울임'], ['U', 'underline', '밑줄'], ['S', 'strike', '취소선']].forEach(([label, key, title]) => {
-    const btn = el('button', 'icb');
+    const coverage = richCoverage(key);
+    const btn = el('button', 'icb' + (coverage === 'on' ? ' is-on' : coverage === 'mixed' ? ' is-mixed' : ''));
     btn.style.boxShadow = 'none';
     const st = key === 'italic' ? 'font-style:italic' : key === 'underline' ? 'text-decoration:underline' : key === 'strike' ? 'text-decoration:line-through' : 'font-weight:700';
     btn.innerHTML = `<b style="${st}">${label}</b>`;
     btn.title = title;
+    btn.setAttribute('aria-pressed', coverage === 'mixed' ? 'mixed' : String(coverage === 'on'));
     bindFormatAction(btn, () => { formatSelection(() => applyRich(key)); });
     styleGrp.appendChild(btn);
   });
@@ -15159,7 +15197,17 @@ function selectionSig() {
   if (!sel || !sel.rangeCount) return 'none';
   const r = sel.getRangeAt(0);
   if (!ta.contains(r.commonAncestorContainer)) return 'outside';
-  return `${r.startOffset}:${r.endOffset}:${r.collapsed ? 1 : 0}:${ta.textContent.length}`;
+  /* 글을 입력하며 커서가 이동할 때마다 패널을 다시 만들 필요는 없다. */
+  if (r.collapsed) return 'caret';
+  const path = node => {
+    const parts = [];
+    while (node && node !== ta) {
+      parts.push([...node.parentNode.childNodes].indexOf(node));
+      node = node.parentNode;
+    }
+    return parts.reverse().join('.');
+  };
+  return `${path(r.startContainer)}:${r.startOffset}:${path(r.endContainer)}:${r.endOffset}:${r.collapsed ? 1 : 0}:${ta.textContent.length}`;
 }
 function onSelChange() {
   trackSel();
@@ -15169,7 +15217,10 @@ function onSelChange() {
   if (S.ui.stage === 'format') renderFormat();
 }
 ['select', 'mouseup', 'touchend', 'keyup'].forEach(ev => $('#ta').addEventListener(ev, onSelChange));
-document.addEventListener('selectionchange', trackSel);
+document.addEventListener('selectionchange', () => {
+  trackSel();
+  if (!_composerComposing && S.ui.stage === 'format' && selectionSig() !== 'outside') onSelChange();
+});
 $('#ta').addEventListener('keydown', e => {
   /* 그냥 Enter 는 줄바꿈이다 — 블록은 빈 줄로 나누므로 Enter 를 전송으로 쓰면 여러 줄을 못 쓴다.
      ⌘/Ctrl + Enter 를 '올리기' 로 둔다. 편집 중이면 편집을 끝낸다. */
