@@ -1,0 +1,273 @@
+{
+  "date": "2026-11-07",
+  "typography": [
+    {
+      "engine": "webkit",
+      "cases": 96,
+      "failures": 0,
+      "pngs": 4,
+      "outsidePixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "missingFonts": []
+    },
+    {
+      "engine": "chromium",
+      "cases": 96,
+      "failures": 0,
+      "pngs": 4,
+      "outsidePixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "missingFonts": []
+    }
+  ],
+  "images": [
+    {
+      "profile": "chromium",
+      "checks": 29,
+      "failed": 0
+    },
+    {
+      "profile": "webkit",
+      "checks": 29,
+      "failed": 0
+    },
+    {
+      "profile": "firefox",
+      "checks": 29,
+      "failed": 0
+    },
+    {
+      "profile": "android-branch",
+      "checks": 29,
+      "failed": 0
+    },
+    {
+      "profile": "ios-branch",
+      "checks": 29,
+      "failed": 0
+    }
+  ],
+  "pagination": [
+    {
+      "engine": "chromium",
+      "cases": 72,
+      "failures": [],
+      "baselineFailures": 9,
+      "loadedFonts": [
+        {
+          "font": "Chosun Myungjo",
+          "loaded": true
+        },
+        {
+          "font": "KoPubWorld Dotum",
+          "loaded": true
+        },
+        {
+          "font": "Bookk Myungjo",
+          "loaded": true
+        }
+      ],
+      "exportedRows": [
+        {
+          "id": "img",
+          "top": 90,
+          "left": 30,
+          "height": 565
+        },
+        {
+          "id": "short",
+          "top": 90,
+          "left": 212,
+          "height": 21
+        },
+        {
+          "id": "long",
+          "top": 131,
+          "left": 212,
+          "height": 84
+        },
+        {
+          "top": 695,
+          "left": 30,
+          "height": 22
+        }
+      ],
+      "beforeRows": [
+        {
+          "id": "img",
+          "top": 90,
+          "left": 30,
+          "height": 565
+        },
+        {
+          "id": "short",
+          "top": 675,
+          "left": 30,
+          "height": 21
+        },
+        {
+          "id": "long",
+          "top": 90,
+          "left": 212,
+          "height": 84
+        },
+        {
+          "top": 695,
+          "left": 30,
+          "height": 22
+        }
+      ],
+      "images": 1
+    },
+    {
+      "engine": "webkit",
+      "cases": 72,
+      "failures": [],
+      "baselineFailures": 9,
+      "loadedFonts": [
+        {
+          "font": "Chosun Myungjo",
+          "loaded": true
+        },
+        {
+          "font": "KoPubWorld Dotum",
+          "loaded": true
+        },
+        {
+          "font": "Bookk Myungjo",
+          "loaded": true
+        }
+      ],
+      "exportedRows": [
+        {
+          "id": "img",
+          "top": 90,
+          "left": 30,
+          "height": 565
+        },
+        {
+          "id": "short",
+          "top": 90,
+          "left": 212,
+          "height": 21
+        },
+        {
+          "id": "long",
+          "top": 131,
+          "left": 212,
+          "height": 84
+        },
+        {
+          "top": 695,
+          "left": 30,
+          "height": 22
+        }
+      ],
+      "beforeRows": [
+        {
+          "id": "img",
+          "top": 90,
+          "left": 30,
+          "height": 565
+        },
+        {
+          "id": "short",
+          "top": 675,
+          "left": 30,
+          "height": 21
+        },
+        {
+          "id": "long",
+          "top": 90,
+          "left": 212,
+          "height": 84
+        },
+        {
+          "top": 695,
+          "left": 30,
+          "height": 22
+        }
+      ],
+      "images": 1
+    },
+    {
+      "engine": "firefox",
+      "cases": 72,
+      "failures": [],
+      "baselineFailures": 9,
+      "loadedFonts": [
+        {
+          "font": "Chosun Myungjo",
+          "loaded": true
+        },
+        {
+          "font": "KoPubWorld Dotum",
+          "loaded": true
+        },
+        {
+          "font": "Bookk Myungjo",
+          "loaded": true
+        }
+      ],
+      "exportedRows": [
+        {
+          "id": "img",
+          "top": 90,
+          "left": 30,
+          "height": 565
+        },
+        {
+          "id": "short",
+          "top": 90,
+          "left": 212,
+          "height": 21
+        },
+        {
+          "id": "long",
+          "top": 131,
+          "left": 212,
+          "height": 84
+        },
+        {
+          "top": 695,
+          "left": 30,
+          "height": 22
+        }
+      ],
+      "beforeRows": [
+        {
+          "id": "img",
+          "top": 90,
+          "left": 30,
+          "height": 565
+        },
+        {
+          "id": "short",
+          "top": 675,
+          "left": 30,
+          "height": 21
+        },
+        {
+          "id": "long",
+          "top": 90,
+          "left": 212,
+          "height": 84
+        },
+        {
+          "top": 695,
+          "left": 30,
+          "height": 22
+        }
+      ],
+      "images": 1
+    }
+  ]
+}

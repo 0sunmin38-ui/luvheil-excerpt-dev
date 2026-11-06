@@ -13747,9 +13747,8 @@ async function oneFontEmbedCSS(name, text, weights, results = {}, downloads = ne
    저장하면 글자가 밀리는 이유는 캡처가 화면을 찍는 게 아니라 SVG(foreignObject)
    안에서 레이아웃을 처음부터 다시 하기 때문이다. 임베드한 글꼴이 화면에 쓰인 것과
    조금만 달라도 줄바꿈 자리가 바뀐다.
-   데스크톱에서는 화면에서 실제로 줄이 넘어간 자리를 재서 클론에 <br> 로 박고 pre 로
-   고정한다. iOS Safari 와 Android Chrome 은 Range 측정이 실제 줄바꿈과 어긋나는 경우가
-   있어, 저장 폰트를 먼저 붙인 뒤 화면과 같은 CSS 줄바꿈 흐름을 그대로 쓰게 둔다. */
+   데스크톱에서는 줄 경계를 BR로 고정한다. 모바일 본문과 Android는 CSS 줄바꿈을
+   유지한다. iOS 일반 말풍선만 글자별 Range로 읽어 저장 줄 수 증가를 막는다. */
 const FLOW_SEL = '.blk-text, .bub, .blk-footer, .blk-html';
 
 function nodePath(node, root) {
@@ -13851,7 +13850,11 @@ function insertBreaks(root, points) {
   /* 뒤에서부터 넣어야 앞 지점의 offset 이 안 밀린다 */
   resolved.sort((a, b) => a.node === b.node ? b.offset - a.offset : 0).reverse();
   for (const p of resolved.slice().reverse()) {
-    if (!p.node.parentNode || p.offset <= 0 || p.offset >= p.node.length) continue;
+    if (!p.node.parentNode || p.offset < 0 || p.offset >= p.node.length) continue;
+    if (p.offset === 0) {
+      p.node.parentNode.insertBefore(document.createElement('br'), p.node);
+      continue;
+    }
     const tail = p.node.splitText(p.offset);
     /* 화면에서는 줄이 넘어가는 자리의 공백이 줄 끝에 매달려 폭을 차지하지 않는다.
        pre 로 굳히면 그 공백이 실제 폭이 되어 가운데·오른쪽 정렬이 한 칸씩 밀린다.
@@ -13872,6 +13875,41 @@ function copyTypography(src, dst) {
      'fontSynthesis']
       .forEach(k => { st[k] = cs[k]; });
   }
+}
+/* iOS의 SVG 글꼴 폭이 조금만 달라져도 영문 단어 하나가 다음 줄로 이동한다.
+   고정 높이 말풍선에서는 마지막 번역 줄이 배경 밖으로 나온다. 화면의 실제 줄을
+   글자별 Range로 읽어 보존한다. 여러 줄을 포괄하는 Range의 rect 개수는 쓰지 않는다.
+   인라인 크기가 다른 글자는 세로 중심의 근접도로 같은 줄로 묶는다. */
+function preserveIOSBubbleLines(source, target) {
+  if (!isIOS()) return;
+  const style = getComputedStyle(source);
+  // 양쪽 정렬은 강제 BR로 바꾸면 줄 끝의 늘임이 달라지므로 기존 경로를 유지한다.
+  if (source.matches('.as-sns') || style.whiteSpace !== 'pre-wrap' || style.textAlign === 'justify') return;
+  const chars = flatChars(source), points = [];
+  let center = null, lineHeight = 0;
+  for (const p of chars) {
+    const range = document.createRange();
+    range.setStart(p.node, p.off); range.setEnd(p.node, p.off + 1);
+    const rect = range.getBoundingClientRect();
+    if (!rect.width || !rect.height) continue;
+    const current = (rect.top + rect.bottom) / 2;
+    const cs = getComputedStyle(p.node.parentElement);
+    const lh = parseFloat(cs.lineHeight) || rect.height;
+    if (center === null || p.hard || Math.abs(current - center) > Math.min(lineHeight, lh) * .55) {
+      if (center !== null && !p.hard) {
+        const path = nodePath(p.node, source);
+        if (path) points.push({ path, offset: p.off });
+      }
+      center = current; lineHeight = lh;
+    }
+  }
+  if (center === null) return;
+  insertBreaks(target, points);
+  target.style.setProperty('white-space', 'pre', 'important');
+  target.style.setProperty('word-break', 'normal', 'important');
+  target.style.setProperty('overflow-wrap', 'normal', 'important');
+  target.style.setProperty('-webkit-text-size-adjust', 'none', 'important');
+  target.style.setProperty('text-size-adjust', 'none', 'important');
 }
 function captureClone(cv) {
   /* 좁은 화면에서는 미리보기를 통째로 줄여 두었다 [fitCanvas]. getBoundingClientRect 는
@@ -13931,6 +13969,11 @@ function captureCloneAt(cv) {
     if (!saved) return;
     saved.style.setProperty('overflow', 'visible', 'important');
     saved.style.setProperty('text-overflow', 'clip', 'important');
+  });
+
+  const previewBubbles = cv.querySelectorAll('.bub'), captureBubbles = clone.querySelectorAll('.bub');
+  previewBubbles.forEach((bubble, i) => {
+    if (captureBubbles[i]) preserveIOSBubbleLines(bubble, captureBubbles[i]);
   });
 
   /* WebKit의 CSS 다단에서는 자식의 고정 높이를 복제본에 다시 주는 순간
@@ -14024,8 +14067,8 @@ const isDesktopSafari = () => /Safari\//.test(navigator.userAgent)
   && !/Chrome\/|Chromium\/|CriOS\/|Edg\//.test(navigator.userAgent) && !isIOS();
 /* Android Chrome 도 iOS Safari 와 마찬가지로 글자 단위 Range 의 줄 경계를 화면과 다르게
    돌려주는 기기가 있다. 그 잘못 잰 위치에 <br> 를 박고 white-space:pre 로 자동 줄바꿈까지
-   끄면, 저장본에서만 한 줄이 고정 폭 말풍선 밖으로 넘친다. 손안 브라우저에서는 복제본에
-   못 박아 둔 폭·타이포와 임베드 글꼴로 CSS 줄바꿈을 다시 하게 두는 쪽이 화면과 같다. */
+   끄면, 저장본에서만 한 줄이 고정 폭 말풍선 밖으로 넘친다. 일반 모바일 본문은 CSS에
+   맡긴다. iOS 일반 말풍선은 preserveIOSBubbleLines에서 글자별 위치를 따로 읽는다. */
 const shouldFreezeSoftBreaks = () => !isIOS() && !isAndroid();
 async function ensureFontsLoaded(node) {
   if (!document.fonts || !document.fonts.load) return;
