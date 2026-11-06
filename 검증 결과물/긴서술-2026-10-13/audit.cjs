@@ -74,7 +74,7 @@ const assert = require('assert/strict');
       const t = theme(); t.fmt.columns = 1; t.fmt.size = 19;
       S.blocks = [
         { id: 'before', type: 'text', text: ('앞 문장\n').repeat(8), asBubble: false },
-        { id: 'continue', type: 'text', text: ('이어서 배치할 문장\n').repeat(14), asBubble: false }
+        { id: 'continue', type: 'text', text: ('이어서 배치할 문장\n').repeat(25), asBubble: false }
       ];
       renderCanvas();
       const rows = [...document.querySelectorAll('#canvas .blk[data-id="continue"]')];
