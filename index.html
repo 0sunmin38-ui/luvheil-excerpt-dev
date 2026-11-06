@@ -1145,6 +1145,9 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 }
 .blk-bubble .bub{
   background:var(--bub-bg,#E9E9EC); color:var(--bub-fg,#1A1A1A);
+  /* break-word는 긴 단어의 min-content 폭을 줄이지 않는다. flex 자식도 부모 칸
+     안으로 줄어들게 해야 좁은 2단에서 단어가 말풍선 전체를 밀어내지 않는다. */
+  min-width:0;max-width:100%;
   /* 기본 테마의 안쪽 여백은 글자 크기를 따른다. 모바일 읽기 시안은 별도 고정값을 쓴다. */
   padding:var(--bub-pad-y,.6em) var(--bub-pad-x,.92em); border-radius:var(--bub-r,12px);
   /* 영문 단어를 보존하고 한글은 필요할 때 음절 사이에서 끊는다.
