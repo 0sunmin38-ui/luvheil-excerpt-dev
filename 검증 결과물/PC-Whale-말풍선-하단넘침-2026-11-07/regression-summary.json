@@ -1,0 +1,43 @@
+{
+  "ios": [
+    {
+      "engine": "webkit",
+      "runs": 32,
+      "failed": 0,
+      "inlineBoundary": true
+    },
+    {
+      "engine": "chromium",
+      "runs": 32,
+      "failed": 0,
+      "inlineBoundary": true
+    }
+  ],
+  "images": [
+    {
+      "profile": "chromium",
+      "checks": 29,
+      "failed": 0
+    },
+    {
+      "profile": "webkit",
+      "checks": 29,
+      "failed": 0
+    },
+    {
+      "profile": "firefox",
+      "checks": 29,
+      "failed": 0
+    },
+    {
+      "profile": "android-branch",
+      "checks": 29,
+      "failed": 0
+    },
+    {
+      "profile": "ios-branch",
+      "checks": 29,
+      "failed": 0
+    }
+  ]
+}

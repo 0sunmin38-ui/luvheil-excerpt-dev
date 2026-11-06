@@ -25,7 +25,7 @@ const assert = require('node:assert/strict');
         let items = [], warnings = [], captureBoxes = [];
         deliver = async files => { items = files; };
         reportExportWarning = message => warnings.push(message);
-        const hti = await loadHTI(), toCanvas = hti.toCanvas, originalPreserve = preserveIOSBubbleLines;
+        const hti = await loadHTI(), toCanvas = hti.toCanvas, originalPreserve = preserveBubbleLines;
         const realRender = renderExact;
         renderExact = async (...args) => {
           const root = args[1], origin = root.getBoundingClientRect(), bub = root.querySelector('.bub');
@@ -55,7 +55,7 @@ const assert = require('node:assert/strict');
               { id: 'more', type: 'text', text: '올리브 그린이 완전히 감겼다. 까만 꼬리가 조이의 손목을 한 바퀴 감았다. 검은 고양이가 발밑에서 야옹거리고 있었다.' },
               { id: 'photo', type: 'image', src: photo, imageRatio: 'fill' }];
             for (const fixed of [false, true]) {
-              preserveIOSBubbleLines = fixed ? originalPreserve : () => {};
+              preserveBubbleLines = fixed ? originalPreserve : () => {};
               items = []; warnings = []; captureBoxes = [];
               await exportPNG();
               let outside = 0;
@@ -76,7 +76,7 @@ const assert = require('node:assert/strict');
                 delivered: items.length, warnings, png: mode === 'ratio' && columns === 2 && ratio === '2:1' && translation === korean ? items[0]?.url : undefined });
             }
           }
-        preserveIOSBubbleLines = originalPreserve; hti.toCanvas = toCanvas;
+        preserveBubbleLines = originalPreserve; hti.toCanvas = toCanvas;
         // 자동 줄바꿈이 인라인 서식의 첫 글자에서 발생하는 경우도 보존한다.
         const inline = document.createElement('div');
         inline.style.cssText = 'font:14px/21px Pretendard;width:90px;white-space:pre-wrap;word-break:normal;padding:0';
