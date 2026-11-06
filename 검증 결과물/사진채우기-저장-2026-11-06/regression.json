@@ -1,0 +1,215 @@
+[
+  {
+    "engine": "chromium",
+    "cases": 72,
+    "failures": [],
+    "baselineFailures": 9,
+    "loadedFonts": [
+      {
+        "font": "Chosun Myungjo",
+        "loaded": true
+      },
+      {
+        "font": "KoPubWorld Dotum",
+        "loaded": true
+      },
+      {
+        "font": "Bookk Myungjo",
+        "loaded": true
+      }
+    ],
+    "exportedRows": [
+      {
+        "id": "img",
+        "top": 90,
+        "left": 30,
+        "height": 565
+      },
+      {
+        "id": "short",
+        "top": 90,
+        "left": 212,
+        "height": 21
+      },
+      {
+        "id": "long",
+        "top": 131,
+        "left": 212,
+        "height": 84
+      },
+      {
+        "top": 695,
+        "left": 30,
+        "height": 22
+      }
+    ],
+    "beforeRows": [
+      {
+        "id": "img",
+        "top": 90,
+        "left": 30,
+        "height": 565
+      },
+      {
+        "id": "short",
+        "top": 675,
+        "left": 30,
+        "height": 21
+      },
+      {
+        "id": "long",
+        "top": 90,
+        "left": 212,
+        "height": 84
+      },
+      {
+        "top": 695,
+        "left": 30,
+        "height": 22
+      }
+    ],
+    "images": 1
+  },
+  {
+    "engine": "webkit",
+    "cases": 72,
+    "failures": [],
+    "baselineFailures": 9,
+    "loadedFonts": [
+      {
+        "font": "Chosun Myungjo",
+        "loaded": true
+      },
+      {
+        "font": "KoPubWorld Dotum",
+        "loaded": true
+      },
+      {
+        "font": "Bookk Myungjo",
+        "loaded": true
+      }
+    ],
+    "exportedRows": [
+      {
+        "id": "img",
+        "top": 90,
+        "left": 30,
+        "height": 565
+      },
+      {
+        "id": "short",
+        "top": 90,
+        "left": 212,
+        "height": 21
+      },
+      {
+        "id": "long",
+        "top": 131,
+        "left": 212,
+        "height": 84
+      },
+      {
+        "top": 695,
+        "left": 30,
+        "height": 22
+      }
+    ],
+    "beforeRows": [
+      {
+        "id": "img",
+        "top": 90,
+        "left": 30,
+        "height": 565
+      },
+      {
+        "id": "short",
+        "top": 675,
+        "left": 30,
+        "height": 21
+      },
+      {
+        "id": "long",
+        "top": 90,
+        "left": 212,
+        "height": 84
+      },
+      {
+        "top": 695,
+        "left": 30,
+        "height": 22
+      }
+    ],
+    "images": 1
+  },
+  {
+    "engine": "firefox",
+    "cases": 72,
+    "failures": [],
+    "baselineFailures": 9,
+    "loadedFonts": [
+      {
+        "font": "Chosun Myungjo",
+        "loaded": true
+      },
+      {
+        "font": "KoPubWorld Dotum",
+        "loaded": true
+      },
+      {
+        "font": "Bookk Myungjo",
+        "loaded": true
+      }
+    ],
+    "exportedRows": [
+      {
+        "id": "img",
+        "top": 90,
+        "left": 30,
+        "height": 565
+      },
+      {
+        "id": "short",
+        "top": 90,
+        "left": 212,
+        "height": 21
+      },
+      {
+        "id": "long",
+        "top": 131,
+        "left": 212,
+        "height": 84
+      },
+      {
+        "top": 695,
+        "left": 30,
+        "height": 22
+      }
+    ],
+    "beforeRows": [
+      {
+        "id": "img",
+        "top": 90,
+        "left": 30,
+        "height": 565
+      },
+      {
+        "id": "short",
+        "top": 675,
+        "left": 30,
+        "height": 21
+      },
+      {
+        "id": "long",
+        "top": 90,
+        "left": 212,
+        "height": 84
+      },
+      {
+        "top": 695,
+        "left": 30,
+        "height": 22
+      }
+    ],
+    "images": 1
+  }
+]

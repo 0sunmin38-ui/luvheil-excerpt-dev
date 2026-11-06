@@ -7877,6 +7877,9 @@ const footRow = () => {
 /* 맨 위·맨 아래에 못 박은 화면머리와 서명이 본문에서 가져가는 높이(제 높이 + 블록 간격).
    renderPageMarks 가 정하고, 저장이 장을 나눌 때 같은 값을 그대로 쓴다. */
 let footHold = 0, headHold = 0;
+/* 단/장을 나눌 때 확보한 높이. 한 장의 위 정렬 서명은 흐름에 남아
+   footHold가 0이어도 자리를 차지한다. 저장도 미리보기와 같은 예산을 쓴다. */
+let pageRangeHold = 0;
 /* 미리보기에서 장마다 제자리에 앉히려고 얹은 여백 [renderPageMarks]. 저장은 장마다
    캔버스를 새로 세우므로 이것을 걷어 내고 시작한다 — 안 걷으면 그 여백만큼 밀려 나온다. */
 const clearPageOffsets = cv => cv.querySelectorAll('.blk[data-page-top], .blk[data-page-col], .cv-head[data-page-top], .cv-head[data-page-col]')
@@ -8157,7 +8160,7 @@ function pageBox() {
   const h = Math.round(w / (RATIOS[ratioKey()] || 1));
   return { w, h, inner: Math.max(1, h - padT() - padB()) };
 }
-function pageRanges(hold = headHold + footHold) {
+function pageRanges(hold = pageRangeHold) {
   const rows = flowRows();
   if (!rows.length) return [];
   const H = Math.max(1, pageBox().inner - (hold || 0));
@@ -8203,7 +8206,7 @@ function renderPageMarks() {
   cv.classList.remove('foot-pinned', 'head-pinned');
   cv.style.removeProperty('--foot-h');
   cv.style.removeProperty('--head-hold');
-  footHold = headHold = 0;
+  footHold = headHold = pageRangeHold = 0;
   const dmFoot = cv.querySelector('.cv-foot-insta-dm:not(.eb-foot-ghost)');
   const dmh = dmFoot ? dmFoot.offsetHeight : 0;
   cv.classList.toggle('has-insta-dm', !!dmFoot);
@@ -8252,6 +8255,7 @@ function renderPageMarks() {
   const footH = dmFoot ? dmh + dmSpacing - padB() + (foot ? fh : -gap) : (foot ? fh : decorFootHeight);
   if (dmFoot) footHold = dmh + dmSpacing - padB();
   const hold = headHold + (footH ? footH + gap : 0);
+  pageRangeHold = hold;
   /* 장을 세기 «전에» 쪼개 둔다 — 한 단에 안 들어가는 글은 여기서 여러 블록이 되고,
      그다음부터는 pageRanges 가 그 사이를 끊을 수 있다 [splitTallRows]. */
   /* 엔진별 Range 줄 위치·문자 수 추정보다 실제 조각 높이를 공통 기준으로 쓴다. */
