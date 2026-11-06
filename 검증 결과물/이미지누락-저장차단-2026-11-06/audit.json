@@ -1,0 +1,1537 @@
+[
+  {
+    "profile": "chromium",
+    "checks": [
+      {
+        "label": "png-with-text",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 229,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "webp",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 196,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "jpeg",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 194,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "blob-image",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 191,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "expired-blob",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 저장용 이미지를 불러오지 못했습니다"
+        ],
+        "ms": 7,
+        "restored": true
+      },
+      {
+        "label": "profile-photo",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 234,
+        "restored": true,
+        "output": [
+          1440,
+          1170
+        ]
+      },
+      {
+        "label": "header-profile-and-glass",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 426,
+        "restored": true,
+        "output": [
+          1440,
+          1494
+        ]
+      },
+      {
+        "label": "notification-profile-and-glass",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 267,
+        "restored": true,
+        "output": [
+          1440,
+          1126
+        ]
+      },
+      {
+        "label": "text-only",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 172,
+        "restored": true,
+        "output": [
+          1440,
+          219
+        ]
+      },
+      {
+        "label": "direct-background",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 167,
+        "restored": true,
+        "output": [
+          1440,
+          219
+        ]
+      },
+      {
+        "label": "html-background",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 196,
+        "restored": true,
+        "output": [
+          1440,
+          723
+        ]
+      },
+      {
+        "label": "html-srcset",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 203,
+        "restored": true,
+        "output": [
+          1440,
+          673
+        ]
+      },
+      {
+        "label": "crop",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 200,
+        "restored": true,
+        "output": [
+          1440,
+          1069
+        ]
+      },
+      {
+        "label": "slow-cors-image",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 1215,
+        "restored": true,
+        "output": [
+          1440,
+          1090
+        ]
+      },
+      {
+        "label": "cors-blocked",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 외부 사진 1장을 저장할 수 없습니다 · 사진을 직접 업로드해주세요"
+        ],
+        "ms": 43,
+        "restored": true
+      },
+      {
+        "label": "broken-first-click",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 저장용 이미지를 불러오지 못했습니다"
+        ],
+        "ms": 2,
+        "restored": true
+      },
+      {
+        "label": "broken-second-click",
+        "ok": true,
+        "restored": true
+      },
+      {
+        "label": "silent-photo-omission",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 사진이 저장 결과에 포함됐는지 확인하지 못했습니다 · 다시 저장하거나 사진을 다시 넣어주세요"
+        ],
+        "ms": 230,
+        "restored": true
+      },
+      {
+        "label": "one-of-two-photos-omitted",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 사진이 저장 결과에 포함됐는지 확인하지 못했습니다 · 다시 저장하거나 사진을 다시 넣어주세요"
+        ],
+        "ms": 251,
+        "restored": true
+      },
+      {
+        "label": "transient-omission-retried",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 219,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "retry-render-used",
+        "ok": true,
+        "restored": true
+      },
+      {
+        "label": "silent-css-image-omission",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 사진이 저장 결과에 포함됐는지 확인하지 못했습니다 · 다시 저장하거나 사진을 다시 넣어주세요"
+        ],
+        "ms": 214,
+        "restored": true
+      },
+      {
+        "label": "png-conversion-failure",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 이미지를 저장용 PNG로 변환하지 못했습니다 · 사진을 다시 업로드해주세요"
+        ],
+        "ms": 128,
+        "restored": true
+      },
+      {
+        "label": "recovery-after-failure",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 204,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "fill-photo",
+        "ok": true,
+        "count": 2,
+        "warnings": [],
+        "ms": 285,
+        "restored": true,
+        "output": [
+          1440,
+          1440
+        ]
+      },
+      {
+        "label": "preparation-failure",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · injected after image preparation"
+        ],
+        "ms": 130,
+        "restored": true
+      },
+      {
+        "label": "android-live-attributes-restored",
+        "ok": true,
+        "restored": true
+      },
+      {
+        "label": "multi-page-atomic-failure",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · injected second-page failure"
+        ],
+        "ms": 309,
+        "restored": true
+      },
+      {
+        "label": "multi-page-reached-second",
+        "ok": true,
+        "restored": true
+      }
+    ]
+  },
+  {
+    "profile": "webkit",
+    "checks": [
+      {
+        "label": "png-with-text",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 266,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "webp",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 148,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "jpeg",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 197,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "blob-image",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 175,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "expired-blob",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 저장용 이미지를 불러오지 못했습니다"
+        ],
+        "ms": 14,
+        "restored": true
+      },
+      {
+        "label": "profile-photo",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 288,
+        "restored": true,
+        "output": [
+          1440,
+          1170
+        ]
+      },
+      {
+        "label": "header-profile-and-glass",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 487,
+        "restored": true,
+        "output": [
+          1440,
+          1494
+        ]
+      },
+      {
+        "label": "notification-profile-and-glass",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 310,
+        "restored": true,
+        "output": [
+          1440,
+          1123
+        ]
+      },
+      {
+        "label": "text-only",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 137,
+        "restored": true,
+        "output": [
+          1440,
+          219
+        ]
+      },
+      {
+        "label": "direct-background",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 147,
+        "restored": true,
+        "output": [
+          1440,
+          219
+        ]
+      },
+      {
+        "label": "html-background",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 195,
+        "restored": true,
+        "output": [
+          1440,
+          723
+        ]
+      },
+      {
+        "label": "html-srcset",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 184,
+        "restored": true,
+        "output": [
+          1440,
+          673
+        ]
+      },
+      {
+        "label": "crop",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 188,
+        "restored": true,
+        "output": [
+          1440,
+          1069
+        ]
+      },
+      {
+        "label": "slow-cors-image",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 1237,
+        "restored": true,
+        "output": [
+          1440,
+          1090
+        ]
+      },
+      {
+        "label": "cors-blocked",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 외부 사진 1장을 저장할 수 없습니다 · 사진을 직접 업로드해주세요"
+        ],
+        "ms": 50,
+        "restored": true
+      },
+      {
+        "label": "broken-first-click",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 저장용 이미지를 불러오지 못했습니다"
+        ],
+        "ms": 5,
+        "restored": true
+      },
+      {
+        "label": "broken-second-click",
+        "ok": true,
+        "restored": true
+      },
+      {
+        "label": "silent-photo-omission",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 사진이 저장 결과에 포함됐는지 확인하지 못했습니다 · 다시 저장하거나 사진을 다시 넣어주세요"
+        ],
+        "ms": 218,
+        "restored": true
+      },
+      {
+        "label": "one-of-two-photos-omitted",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 사진이 저장 결과에 포함됐는지 확인하지 못했습니다 · 다시 저장하거나 사진을 다시 넣어주세요"
+        ],
+        "ms": 261,
+        "restored": true
+      },
+      {
+        "label": "transient-omission-retried",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 204,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "retry-render-used",
+        "ok": true,
+        "restored": true
+      },
+      {
+        "label": "silent-css-image-omission",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 사진이 저장 결과에 포함됐는지 확인하지 못했습니다 · 다시 저장하거나 사진을 다시 넣어주세요"
+        ],
+        "ms": 192,
+        "restored": true
+      },
+      {
+        "label": "png-conversion-failure",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 이미지를 저장용 PNG로 변환하지 못했습니다 · 사진을 다시 업로드해주세요"
+        ],
+        "ms": 85,
+        "restored": true
+      },
+      {
+        "label": "recovery-after-failure",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 181,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "fill-photo",
+        "ok": true,
+        "count": 2,
+        "warnings": [],
+        "ms": 274,
+        "restored": true,
+        "output": [
+          1440,
+          1440
+        ]
+      },
+      {
+        "label": "preparation-failure",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · injected after image preparation"
+        ],
+        "ms": 108,
+        "restored": true
+      },
+      {
+        "label": "android-live-attributes-restored",
+        "ok": true,
+        "restored": true
+      },
+      {
+        "label": "multi-page-atomic-failure",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · injected second-page failure"
+        ],
+        "ms": 278,
+        "restored": true
+      },
+      {
+        "label": "multi-page-reached-second",
+        "ok": true,
+        "restored": true
+      }
+    ]
+  },
+  {
+    "profile": "firefox",
+    "checks": [
+      {
+        "label": "png-with-text",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 200,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "webp",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 119,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "jpeg",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 116,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "blob-image",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 111,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "expired-blob",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 저장용 이미지를 불러오지 못했습니다"
+        ],
+        "ms": 4,
+        "restored": true
+      },
+      {
+        "label": "profile-photo",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 152,
+        "restored": true,
+        "output": [
+          1440,
+          1184
+        ]
+      },
+      {
+        "label": "header-profile-and-glass",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 350,
+        "restored": true,
+        "output": [
+          1440,
+          1501
+        ]
+      },
+      {
+        "label": "notification-profile-and-glass",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 180,
+        "restored": true,
+        "output": [
+          1440,
+          1123
+        ]
+      },
+      {
+        "label": "text-only",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 76,
+        "restored": true,
+        "output": [
+          1440,
+          219
+        ]
+      },
+      {
+        "label": "direct-background",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 76,
+        "restored": true,
+        "output": [
+          1440,
+          219
+        ]
+      },
+      {
+        "label": "html-background",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 90,
+        "restored": true,
+        "output": [
+          1440,
+          723
+        ]
+      },
+      {
+        "label": "html-srcset",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 95,
+        "restored": true,
+        "output": [
+          1440,
+          673
+        ]
+      },
+      {
+        "label": "crop",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 102,
+        "restored": true,
+        "output": [
+          1440,
+          1069
+        ]
+      },
+      {
+        "label": "slow-cors-image",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 636,
+        "restored": true,
+        "output": [
+          1440,
+          1090
+        ]
+      },
+      {
+        "label": "cors-blocked",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 외부 사진 1장을 저장할 수 없습니다 · 사진을 직접 업로드해주세요"
+        ],
+        "ms": 28,
+        "restored": true
+      },
+      {
+        "label": "broken-first-click",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 저장용 이미지를 불러오지 못했습니다"
+        ],
+        "ms": 3,
+        "restored": true
+      },
+      {
+        "label": "broken-second-click",
+        "ok": true,
+        "restored": true
+      },
+      {
+        "label": "silent-photo-omission",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 사진이 저장 결과에 포함됐는지 확인하지 못했습니다 · 다시 저장하거나 사진을 다시 넣어주세요"
+        ],
+        "ms": 141,
+        "restored": true
+      },
+      {
+        "label": "one-of-two-photos-omitted",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 사진이 저장 결과에 포함됐는지 확인하지 못했습니다 · 다시 저장하거나 사진을 다시 넣어주세요"
+        ],
+        "ms": 168,
+        "restored": true
+      },
+      {
+        "label": "transient-omission-retried",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 138,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "retry-render-used",
+        "ok": true,
+        "restored": true
+      },
+      {
+        "label": "silent-css-image-omission",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 사진이 저장 결과에 포함됐는지 확인하지 못했습니다 · 다시 저장하거나 사진을 다시 넣어주세요"
+        ],
+        "ms": 120,
+        "restored": true
+      },
+      {
+        "label": "png-conversion-failure",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 이미지를 저장용 PNG로 변환하지 못했습니다 · 사진을 다시 업로드해주세요"
+        ],
+        "ms": 49,
+        "restored": true
+      },
+      {
+        "label": "recovery-after-failure",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 104,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "fill-photo",
+        "ok": true,
+        "count": 2,
+        "warnings": [],
+        "ms": 175,
+        "restored": true,
+        "output": [
+          1440,
+          1440
+        ]
+      },
+      {
+        "label": "preparation-failure",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · injected after image preparation"
+        ],
+        "ms": 57,
+        "restored": true
+      },
+      {
+        "label": "android-live-attributes-restored",
+        "ok": true,
+        "restored": true
+      },
+      {
+        "label": "multi-page-atomic-failure",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · injected second-page failure"
+        ],
+        "ms": 189,
+        "restored": true
+      },
+      {
+        "label": "multi-page-reached-second",
+        "ok": true,
+        "restored": true
+      }
+    ]
+  },
+  {
+    "profile": "android-branch",
+    "checks": [
+      {
+        "label": "png-with-text",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 230,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "webp",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 197,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "jpeg",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 196,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "blob-image",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 202,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "expired-blob",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 저장용 이미지를 불러오지 못했습니다"
+        ],
+        "ms": 7,
+        "restored": true
+      },
+      {
+        "label": "profile-photo",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 231,
+        "restored": true,
+        "output": [
+          1440,
+          1184
+        ]
+      },
+      {
+        "label": "header-profile-and-glass",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 418,
+        "restored": true,
+        "output": [
+          1440,
+          1504
+        ]
+      },
+      {
+        "label": "notification-profile-and-glass",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 291,
+        "restored": true,
+        "output": [
+          1440,
+          1126
+        ]
+      },
+      {
+        "label": "text-only",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 177,
+        "restored": true,
+        "output": [
+          1440,
+          219
+        ]
+      },
+      {
+        "label": "direct-background",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 169,
+        "restored": true,
+        "output": [
+          1440,
+          219
+        ]
+      },
+      {
+        "label": "html-background",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 200,
+        "restored": true,
+        "output": [
+          1440,
+          723
+        ]
+      },
+      {
+        "label": "html-srcset",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 207,
+        "restored": true,
+        "output": [
+          1440,
+          673
+        ]
+      },
+      {
+        "label": "crop",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 198,
+        "restored": true,
+        "output": [
+          1440,
+          1069
+        ]
+      },
+      {
+        "label": "slow-cors-image",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 1211,
+        "restored": true,
+        "output": [
+          1440,
+          1090
+        ]
+      },
+      {
+        "label": "cors-blocked",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 외부 사진 1장을 저장할 수 없습니다 · 사진을 직접 업로드해주세요"
+        ],
+        "ms": 41,
+        "restored": true
+      },
+      {
+        "label": "broken-first-click",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 저장용 이미지를 불러오지 못했습니다"
+        ],
+        "ms": 2,
+        "restored": true
+      },
+      {
+        "label": "broken-second-click",
+        "ok": true,
+        "restored": true
+      },
+      {
+        "label": "silent-photo-omission",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 사진이 저장 결과에 포함됐는지 확인하지 못했습니다 · 다시 저장하거나 사진을 다시 넣어주세요"
+        ],
+        "ms": 231,
+        "restored": true
+      },
+      {
+        "label": "one-of-two-photos-omitted",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 사진이 저장 결과에 포함됐는지 확인하지 못했습니다 · 다시 저장하거나 사진을 다시 넣어주세요"
+        ],
+        "ms": 272,
+        "restored": true
+      },
+      {
+        "label": "transient-omission-retried",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 217,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "retry-render-used",
+        "ok": true,
+        "restored": true
+      },
+      {
+        "label": "silent-css-image-omission",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 사진이 저장 결과에 포함됐는지 확인하지 못했습니다 · 다시 저장하거나 사진을 다시 넣어주세요"
+        ],
+        "ms": 209,
+        "restored": true
+      },
+      {
+        "label": "png-conversion-failure",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 이미지를 저장용 PNG로 변환하지 못했습니다 · 사진을 다시 업로드해주세요"
+        ],
+        "ms": 129,
+        "restored": true
+      },
+      {
+        "label": "recovery-after-failure",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 191,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "fill-photo",
+        "ok": true,
+        "count": 2,
+        "warnings": [],
+        "ms": 289,
+        "restored": true,
+        "output": [
+          1440,
+          1440
+        ]
+      },
+      {
+        "label": "preparation-failure",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · injected after image preparation"
+        ],
+        "ms": 128,
+        "restored": true
+      },
+      {
+        "label": "android-live-attributes-restored",
+        "ok": true,
+        "restored": true
+      },
+      {
+        "label": "multi-page-atomic-failure",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · injected second-page failure"
+        ],
+        "ms": 310,
+        "restored": true
+      },
+      {
+        "label": "multi-page-reached-second",
+        "ok": true,
+        "restored": true
+      }
+    ]
+  },
+  {
+    "profile": "ios-branch",
+    "checks": [
+      {
+        "label": "png-with-text",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 218,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "webp",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 167,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "jpeg",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 165,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "blob-image",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 165,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "expired-blob",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 저장용 이미지를 불러오지 못했습니다"
+        ],
+        "ms": 11,
+        "restored": true
+      },
+      {
+        "label": "profile-photo",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 238,
+        "restored": true,
+        "output": [
+          1440,
+          1184
+        ]
+      },
+      {
+        "label": "header-profile-and-glass",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 425,
+        "restored": true,
+        "output": [
+          1440,
+          1501
+        ]
+      },
+      {
+        "label": "notification-profile-and-glass",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 230,
+        "restored": true,
+        "output": [
+          1440,
+          1123
+        ]
+      },
+      {
+        "label": "text-only",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 149,
+        "restored": true,
+        "output": [
+          1440,
+          219
+        ]
+      },
+      {
+        "label": "direct-background",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 148,
+        "restored": true,
+        "output": [
+          1440,
+          219
+        ]
+      },
+      {
+        "label": "html-background",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 181,
+        "restored": true,
+        "output": [
+          1440,
+          723
+        ]
+      },
+      {
+        "label": "html-srcset",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 176,
+        "restored": true,
+        "output": [
+          1440,
+          673
+        ]
+      },
+      {
+        "label": "crop",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 180,
+        "restored": true,
+        "output": [
+          1440,
+          1069
+        ]
+      },
+      {
+        "label": "slow-cors-image",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 1191,
+        "restored": true,
+        "output": [
+          1440,
+          1090
+        ]
+      },
+      {
+        "label": "cors-blocked",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 외부 사진 1장을 저장할 수 없습니다 · 사진을 직접 업로드해주세요"
+        ],
+        "ms": 50,
+        "restored": true
+      },
+      {
+        "label": "broken-first-click",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 저장용 이미지를 불러오지 못했습니다"
+        ],
+        "ms": 4,
+        "restored": true
+      },
+      {
+        "label": "broken-second-click",
+        "ok": true,
+        "restored": true
+      },
+      {
+        "label": "silent-photo-omission",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 사진이 저장 결과에 포함됐는지 확인하지 못했습니다 · 다시 저장하거나 사진을 다시 넣어주세요"
+        ],
+        "ms": 226,
+        "restored": true
+      },
+      {
+        "label": "one-of-two-photos-omitted",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 사진이 저장 결과에 포함됐는지 확인하지 못했습니다 · 다시 저장하거나 사진을 다시 넣어주세요"
+        ],
+        "ms": 253,
+        "restored": true
+      },
+      {
+        "label": "transient-omission-retried",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 194,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "retry-render-used",
+        "ok": true,
+        "restored": true
+      },
+      {
+        "label": "silent-css-image-omission",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 사진이 저장 결과에 포함됐는지 확인하지 못했습니다 · 다시 저장하거나 사진을 다시 넣어주세요"
+        ],
+        "ms": 196,
+        "restored": true
+      },
+      {
+        "label": "png-conversion-failure",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · 이미지를 저장용 PNG로 변환하지 못했습니다 · 사진을 다시 업로드해주세요"
+        ],
+        "ms": 103,
+        "restored": true
+      },
+      {
+        "label": "recovery-after-failure",
+        "ok": true,
+        "count": 1,
+        "warnings": [],
+        "ms": 169,
+        "restored": true,
+        "output": [
+          1440,
+          896
+        ]
+      },
+      {
+        "label": "fill-photo",
+        "ok": true,
+        "count": 2,
+        "warnings": [],
+        "ms": 265,
+        "restored": true,
+        "output": [
+          1440,
+          1440
+        ]
+      },
+      {
+        "label": "preparation-failure",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · injected after image preparation"
+        ],
+        "ms": 93,
+        "restored": true
+      },
+      {
+        "label": "android-live-attributes-restored",
+        "ok": true,
+        "restored": true
+      },
+      {
+        "label": "multi-page-atomic-failure",
+        "ok": true,
+        "count": 0,
+        "warnings": [
+          "저장에 실패했습니다 · injected second-page failure"
+        ],
+        "ms": 296,
+        "restored": true
+      },
+      {
+        "label": "multi-page-reached-second",
+        "ok": true,
+        "restored": true
+      }
+    ]
+  }
+]
