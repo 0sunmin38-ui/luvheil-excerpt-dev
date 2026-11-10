@@ -466,7 +466,8 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 /* 화면머리는 캔버스 가장자리까지 꽉 찬다 — 메신저의 화면머리는 화면 위쪽을 통째로 쓰는
    띠다. 좌우뿐 아니라 «위» 로도 가장자리에 붙는다. 그래서 위 여백은 화면머리에 안 준다 —
    여백은 화면머리가 끝난 «그다음» 부터 시작한다. 배경을 깔았을 때 «떠 있는 카드» 가 아니라
-   «화면 위쪽 띠» 로 읽히게 하는 것이 목적이다. 좌우 안쪽 여백만 캔버스 여백에 맞춘다.
+   «화면 위쪽 띠» 로 읽히게 하는 것이 목적이다. 공통 좌우 패딩은 캔버스 여백을 기본값으로
+   갖지만 현재 각 헤더는 자기 고유 패딩으로 이를 덮는다. Article은 본문 여백 안에 둔다.
    흐름에 있을 때는 음수 여백으로, 못 박았을 때는 좌표(left:0/right:0/top:0)로 나간다. */
 /* 아래 여백 — 흐름에 있을 때는 캔버스의 flex gap(문단 간격)이 이미 벌리고 있으므로
    그 차이만 보태 «화면머리 밑 = 캔버스 위 여백» 이 되게 한다. 문단 간격이 위 여백보다
@@ -660,10 +661,10 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .cv-foot-insta-dm .ft-icons{display:flex;align-items:center;gap:calc(16 * var(--insta-u));flex-shrink:0}
 .cv-foot-insta-dm .ft-icons svg{width:calc(26 * var(--insta-u));height:calc(26 * var(--insta-u))}
 .hd-insta-dm .insta-icon,.cv-foot-insta-dm .insta-icon{display:block;overflow:visible}
-/* 입력창은 서명과 별개다. 내용 맞춤·한 장에서도 입력창 높이를 확보한다. */
-.canvas.has-insta-dm{padding-bottom:calc(var(--insta-foot-h,0px) + (var(--cv-pb,32px) + var(--cv-gap,10px)) / 2)}
+/* 입력창은 서명과 별개다. 본문·서명과 입력창 사이에 테마 아래 여백을 둔다. */
+.canvas.has-insta-dm{padding-bottom:calc(var(--insta-foot-h,0px) + var(--cv-pb,32px))}
 .canvas.has-insta-dm.foot-pinned{padding-bottom:calc(var(--cv-pb,32px) + var(--foot-h,0px) + var(--cv-gap,10px))}
-.canvas.has-insta-dm .blk.is-footer.foot-pin{bottom:calc(var(--insta-foot-h,0px) + (var(--cv-pb,32px) + var(--cv-gap,10px)) / 2)}
+.canvas.has-insta-dm .blk.is-footer.foot-pin{bottom:calc(var(--insta-foot-h,0px) + var(--cv-pb,32px))}
 
 /* 프리뷰 장식 — 잠금화면은 고정 글꼴·크기 + 글래스 효과, 뉴스·논문은 본문 14px 기준 비율.
    잠금화면 머리의 높이는 고정한다. 기존의 % 최소 높이는 페이지를 재는 동안의 auto 높이와
@@ -925,6 +926,9 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 /* 한 블록이 단 경계에서 두 동강 나면 말풍선이 위아래로 잘린다 — 통째로 다음 단에 넘긴다 */
 .canvas.has-cols > .blk{margin-bottom:var(--cv-gap,10px);break-inside:avoid}
 .canvas.has-cols > .blk:last-child{margin-bottom:0}
+/* DM 입력창은 absolute 요소지만 DOM에서는 마지막 자식이다. 그 앞의 서명에
+   단용 블록 간격이 남으면 아래 여백에 blockGap이 한 번 더 붙는다. */
+.canvas.has-cols.has-insta-dm > .blk.is-footer{margin-bottom:0}
 /* ② 비율 지정 [.has-colpage] — 여기서는 CSS 단을 안 쓴다. 장을 나누는 셈이 줄 자리를
    직접 재야 하는데 [renderPageMarks], CSS 단은 줄을 어느 단에 넣을지 브라우저가 정해
    버려 그 셈이 닿지 않는다. 그래서 캔버스는 기둥(flex) 그대로 두고, 줄 폭만 한 단으로
@@ -948,6 +952,14 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .canvas:not(.has-colpage) > .cv-head.hd-paper{margin-top:0}
 .canvas.has-colpage > .cv-head.head-flow.hd-paper,
 .canvas.has-cols > .cv-head.hd-paper{width:var(--cv-colw)}
+/* Article을 페이지 전체에 놓으면 제목 다음부터 본문이 단으로 흐른다. */
+.canvas.paper-page-head.has-cols > .cv-head.hd-paper{column-span:all;width:100%}
+.canvas.paper-page-head.has-colpage > .cv-head.hd-paper.head-pin{
+  left:var(--cv-pl,32px);right:var(--cv-pr,32px);top:var(--cv-pt,32px);width:auto;
+}
+.canvas.paper-page-head.has-colpage > .cv-head.hd-paper.head-ghost{
+  left:var(--cv-pl,32px);right:var(--cv-pr,32px);width:auto;
+}
 
 /* 프로필 이미지를 말풍선의 어느 높이에 세울지는 렌더가 정한다(av-top/av-mid/av-bottom).
    꼬리가 있으면 꼬리와 눈높이를 맞추고, 없으면 이름 유무를 따르고, 인용·없음은 가운데다. */
@@ -4500,7 +4512,19 @@ function signatureText(s, th) {
     .join(th.signSep === '|' ? ' | ' : ' · ') : '';
 }
 const signText = th => signatureText(activeSign(), th);
-const signIsDecor = th => frameKind(th) === 'buddy';
+/* 장식이 실제로 차지하는 자리. 테마 전환 뒤 숨겨진 header 값이 남아 있어도
+   화면머리·하단 입력창·서명·페이지 분할은 보이는 장식 하나를 기준으로 판단한다. */
+const decorationLayout = th => {
+  const frame = frameKind(th);
+  const head = frame === 'none' ? headKind(th) : 'none';
+  const role = frame !== 'none' ? 'frame' : head === 'paper' ? 'content-title'
+    : head === 'insta-dm' ? 'edge-pair' : head === 'none' ? 'none' : 'edge-head';
+  const sign = frame === 'buddy' ? 'frame' : head === 'paper' ? 'header' : 'footer';
+  return { frame, head, role, sign, bottomAccessory: head === 'insta-dm' };
+};
+const visibleHeadKind = th => decorationLayout(th).head;
+const signatureSlot = th => decorationLayout(th).sign;
+const signIsDecor = th => signatureSlot(th) === 'frame';
 function stripLegacySign(t) { delete t.signChar; delete t.signMaker; return t; }
 /* 저장본과 설정 파일은 같은 입구에서 정규화한다 — 以後は古い内容フィールドを読まない。 */
 function normalizeSignatureData(d, legacy = true) {
@@ -6176,7 +6200,7 @@ function renderCanvas() {
     cv.style.setProperty('--tail-w', String(tl.w));
     cv.style.setProperty('--tail-ar', String(tl.ar));
   }
-  /* 안쪽 여백은 사람이 정한 값과 프레임 두께 중 큰 쪽이다 [padT] — 프레임이 없으면 예전 그대로다.
+  /* 안쪽 여백은 사람이 정한 값에 프레임 두께를 더한다 [padT] — 프레임이 없으면 예전 그대로다.
      여기서 한 번 못 박아 두면 이 값을 읽는 CSS 가 전부(.cv-head 의 음수 여백 · foot-pinned)
      프레임을 함께 셈한다. */
   cv.style.setProperty('--cv-pt', padT() + 'px');
@@ -6316,10 +6340,8 @@ function renderCanvas() {
     }
     blocks.forEach((b, i) => cv.appendChild(renderBlock(b, th, f, blocks[i - 1], blocks[i + 1])));
     /* 서명 내용은 선택된 목록에서 읽고, 배치와 서식은 테마를 따른다. */
-    const isBuddyFrame = frameKind(th) === 'buddy';
-    const hdKind = headKind(th);
-    const isPaperHead = hdKind === 'paper'; /* 통합 제목는 서명을 저자 위치에 표시 */
-    if (th.signShow && !isBuddyFrame && !isPaperHead) {
+    const decoration = decorationLayout(th);
+    if (th.signShow && decoration.sign === 'footer') {
       const text = signText(th);
       if (text) {
         const signWrap = el('div', 'blk is-footer');
@@ -6334,7 +6356,7 @@ function renderCanvas() {
         cv.appendChild(signWrap);
       }
     }
-    if (hdKind === 'insta-dm') {
+    if (decoration.bottomAccessory) {
       cv.appendChild(instaDmFooterNode(th));
     }
   }
@@ -7422,6 +7444,17 @@ function titleHeaderControls(t, kind, up) {
     field.appendChild(input); wrap.appendChild(field);
   });
   if (kind === 'paper') {
+    const placementField = el('div', 'field');
+    placementField.appendChild(el('label', 'lab', '제목 배치'));
+    const placement = segment([['page', '페이지 전체'], ['column', '단 안']],
+      t.paperPlacement === 'column' ? 'column' : 'page', value => {
+        t.paperPlacement = value;
+        [...placement.children].forEach((button, i) => button.classList.toggle('is-on', i === (value === 'column' ? 1 : 0)));
+        up();
+      });
+    placement.setAttribute('role', 'group');
+    placement.setAttribute('aria-label', 'Article 제목 배치');
+    placementField.appendChild(placement); wrap.appendChild(placementField);
     const field = el('div', 'field');
     field.appendChild(el('label', 'lab', '정렬'));
     const align = alignmentSegment(t.paperAlign || 'left', value => {
@@ -7493,8 +7526,7 @@ function alignPaperHeaderInk(head, cv) {
 function headerNode(th) {
   /* 프레임을 두르면 화면머리는 안 선다 — 머리는 캔버스 가장자리까지 나가는 띠라
      [.cv-head 의 음수 여백] 껍데기 위로 올라타 창을 가로지른다. 둘 중 하나만 쓴다. */
-  if (frameKind(th) !== 'none') return null;
-  const kind = headKind(th);
+  const kind = visibleHeadKind(th);
   if (kind === 'none') return null;
   const title = (th.headerTitle || '').trim();
   const head = el('div', 'cv-head hd-' + kind);
@@ -8006,11 +8038,13 @@ function placeFlow(rows, items, H, avail, hold, topAlign, step) {
   });
 }
 
-/* ── 한 단에 안 들어가는 글 쪼개기 ─────────────────────────
-   장을 나누는 최소 단위는 블록 하나다 [pageRanges]. 그런데 단을 나누면 줄 폭이 1/N 로
+/* ── 긴 글 블록 쪼개기 ──────────────────────────────────
+   장을 나누는 기본 단위는 블록 하나다 [pageRanges]. 그런데 단을 나누면 줄 폭이 1/N 로
    좁아져 같은 글이 N 배로 길어진다 — 세로가 짧은 판형(16:9 · 4:3)에서는 블록 하나가
    한 단보다 키가 커지고, 그러면 끊을 자리가 없어 그대로 다음 장까지 흘러넘쳤다.
-   그래서 그런 «글 블록» 만 줄 단위로 쪼개 형제 블록 여럿으로 바꿔 둔다. 그 뒤로는
+   그래서 «글 블록» 은 현재 단에 한 줄이라도 들어가면 그 공간을 먼저 채우도록
+   쪼개 형제 블록으로 바꾼다. 한 단보다 큰 글도 같은 방식으로 여러 조각으로 나눈다.
+   그 뒤로는
    pageRanges 가 여느 블록처럼 다루므로 장을 세는 셈은 한 줄도 안 바뀐다.
    신문이 한 문단을 단 경계에서 이어 흘리는 것과 같은 꼴이다.
 
@@ -8075,9 +8109,6 @@ function splitTallRowsMeasured(budget, hold) {
   flowRows().forEach(row => {
     let available = budget - (row.offsetTop - slotTop);
     if (row.offsetHeight <= available) return;
-    /* 남은 자리만 넘는 글은 통째로 다음 단/장에 앉힌다. 여기서 쪼개면
-       pageRanges가 두 조각을 같은 단에 다시 넣어 한 블록이 갈라져 보인다. */
-    if (row.offsetHeight <= budget) { slotTop = row.offsetTop; return; }
     /* 페이지 표시만 다시 계산할 때 이미 만든 조각을 재분할하지 않는다. */
     if (row.dataset.split) { slotTop = row.offsetTop; return; }
     if (row.children.length !== 1) { slotTop = row.offsetTop; return; }
@@ -8087,8 +8118,13 @@ function splitTallRowsMeasured(budget, hold) {
     if (unequal) row.style.width = Math.min(...columnWidths()) + 'px';
     const style = getComputedStyle(src);
     const lineHeight = parseFloat(style.lineHeight) || (parseFloat(style.fontSize) || 16) * 1.4;
-    /* 한 줄만 남기지 않도록 짧은 글이나 작은 빈 공간은 통째로 다음 칸에 둔다. */
-    if (available < lineHeight * 2 || row.offsetHeight < lineHeight * 3) {
+    const fitsFresh = row.offsetHeight <= budget;
+    /* 블록 길이와 무관하게 현재 칸에 한 줄도 못 놓을 때만 다음 칸으로 옮긴다. */
+    if (fitsFresh && available < lineHeight) {
+      slotTop = row.offsetTop; return;
+    }
+    /* 한 칸보다 긴 글의 첫 조각도 한 줄이 안 들어가면 다음 칸부터 시작한다. */
+    if (!fitsFresh && available < lineHeight) {
       slotTop = row.offsetTop;
       available = budget;
     }
@@ -8106,18 +8142,20 @@ function splitTallRowsMeasured(budget, hold) {
       wrap.dataset.sourceEnd = points[b].source;
       return wrap;
     };
-    const fits = (a, b, limit) => {
+    const measuredHeight = (a, b) => {
       const candidate = fragment(a, b);
       row.parentNode.insertBefore(candidate, row);
-      try { return candidate.offsetHeight <= limit; }
+      try { return candidate.offsetHeight; }
       finally { candidate.remove(); }
     };
+    const fits = (a, b, limit) => measuredHeight(a, b) <= limit;
     const edges = [0];
     try {
       for (let a = 0; a < last;) {
         const limit = a === 0 ? available : budget;
         if (!fits(a, a + 1, limit)) {
           diag('split:unsplittable', { id: row.dataset.id, at: points[a].source });
+          slotTop = row.offsetTop;
           return;
         }
         /* 긴 글 전체를 조각마다 복제하지 않는다. 한 칸 분량부터 넓혀 찾는다. */
@@ -8206,7 +8244,7 @@ function renderPageMarks() {
   const frame0 = cv.querySelector('.cv-frame');
   if (frame0) frame0.style.removeProperty('height');
   clearPageOffsets(cv);
-  cv.classList.remove('foot-pinned', 'head-pinned');
+  cv.classList.remove('foot-pinned', 'head-pinned', 'paper-page-head');
   cv.style.removeProperty('--foot-h');
   cv.style.removeProperty('--head-hold');
   footHold = headHold = pageRangeHold = 0;
@@ -8227,21 +8265,24 @@ function renderPageMarks() {
   /* 페이지 좌표와 같은 논리 높이로 잰다 — getBoundingClientRect 는 미리보기 배율을 탄다.
      offsetHeight 는 absolute 요소도 패딩을 포함한 높이를 돌려준다. */
   const decorFootHeight = decorFoot ? decorFoot.offsetHeight : 0;
+  const th = theme(), decoration = decorationLayout(th);
+  const paperPageHead = !!head && decoration.role === 'content-title'
+    && colCount() > 1 && th.paperPlacement !== 'column';
+  cv.classList.toggle('paper-page-head', paperPageHead);
   if (isFit()) {
     /* 인스타 입력창은 has-insta-dm의 기존 예약 규칙을 사용한다. */
     return 1;
   }
   /* 화면머리는 한 장이든 여러 장이든 늘 맨 위다 — 비율 지정이면 언제나 못 박는다.
      (서명과 다르다. 서명은 한 장에 들어가면 본문과 한 덩어리로 가운데에 놓는 편이 낫다.)
-     통합 제목는 본문과 함께 이동한다. */
-  const th = theme();
-  const isFlowHead = head && headKind(th) === 'paper';
+     Article의 단 안 배치만 본문과 함께 이동한다. */
+  const isFlowHead = head && decoration.role === 'content-title' && !paperPageHead;
   if (head && !isFlowHead) {
     /* 화면머리는 위 여백을 안 쓴다 — 캔버스 맨 위 가장자리부터 그린다 [.cv-head].
        위 여백은 그 «다음» 부터다. 캔버스가 이미 위 여백만큼 안쪽 여백을 두고 있으므로
        [.canvas.head-pinned], 본문이 더 내줘야 할 몫은 화면머리의 높이 그대로다.
        (문단 간격은 안 낀다 — 화면머리와 본문 사이를 정하는 것은 위 여백 하나다.) */
-    headHold = hh;
+    headHold = paperPageHead ? hh + gap : hh;
     cv.style.setProperty('--head-hold', headHold + 'px');
     cv.classList.add('head-pinned');
     head.classList.add('head-pin');
@@ -8252,9 +8293,9 @@ function renderPageMarks() {
   }
   /* 하단 장식과 서명이 차지할 몫을 먼저 빼고 장을 센다.
      인스타 입력창은 서명을 포함하지 않으므로 둘의 높이와 사이 간격을 함께 확보한다. */
-  /* 서명과 입력창 사이 여백은 기존 하단 여백 + 블록 간격의 절반으로 둔다.
+  /* DM 입력창은 페이지 끝에 붙는다. 서명·본문은 테마 아래 여백만큼 그 위에 둔다.
      pageBox.inner가 이미 padB를 빼므로 장식 예약 높이에서는 그 몫을 되돌린다. */
-  const dmSpacing = (padB() + gap) / 2;
+  const dmSpacing = padB();
   const footH = dmFoot ? dmh + dmSpacing - padB() + (foot ? fh : -gap) : (foot ? fh : decorFootHeight);
   if (dmFoot) footHold = dmh + dmSpacing - padB();
   const hold = headHold + (footH ? footH + gap : 0);
@@ -8330,7 +8371,7 @@ function renderPageMarks() {
       const g = head.cloneNode(true);
       g.classList.remove('head-pin');
       g.classList.add('head-ghost');
-      g.style.top = (i * H) + 'px';
+      g.style.top = (i * H + (paperPageHead ? padT() : 0)) + 'px';
       cv.appendChild(g);
     }
     /* 마지막 장의 서명은 진짜(.foot-pin)가 캔버스 바닥에 서 있다 — 앞 장에만 사본을 깐다 */
@@ -12028,7 +12069,7 @@ function syncThemeEditFormV2() {
   if (TITLE_HEADER_FIELDS[hdKind]) {
     hasOpts = true;
     optWrap.appendChild(titleHeaderControls(t, hdKind, up));
-    /* title(news-online)은 항상 본문과 함께 모드 — 위치 선택 UI 불필요 */
+    /* Article 제목 배치는 titleHeaderControls에서 테마별로 고른다. */
   } else if (hdKind === 'news') {
     hasOpts = true;
     /* 신문: 제호 + 날짜 */
@@ -12614,7 +12655,7 @@ function syncThemeEditFormV2() {
   }
   if (sign && (decor || t.signShow)) {
     const signDetails = el('div', 'settings-flow settings-stack');
-    const standard = !decor && headKind(t) !== 'paper';
+    const standard = signatureSlot(t) === 'footer';
     if (standard) {
       const fixed = el('label', 'tgl-inline setting-trigger');
       fixed.appendChild(el('span', 'lab', '서명 크기 고정'));

@@ -1,0 +1,431 @@
+[
+  {
+    "engine": "chromium",
+    "results": [
+      {
+        "count": 3,
+        "columns": 1,
+        "preview": {
+          "pages": 1,
+          "gap": 357,
+          "pinned": false,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 558
+          }
+        ],
+        "files": [
+          {
+            "png": true,
+            "size": 139670
+          }
+        ]
+      },
+      {
+        "count": 3,
+        "columns": 1,
+        "vAlign": "center",
+        "preview": {
+          "pages": 1,
+          "gap": 185,
+          "pinned": true,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 289
+          }
+        ],
+        "files": [
+          {
+            "png": true,
+            "size": 140178
+          }
+        ]
+      },
+      {
+        "count": 3,
+        "columns": 2,
+        "preview": {
+          "pages": 1,
+          "gap": 317,
+          "pinned": false,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 495
+          }
+        ],
+        "files": [
+          {
+            "png": true,
+            "size": 149742
+          }
+        ]
+      },
+      {
+        "count": 3,
+        "columns": 2,
+        "vAlign": "center",
+        "preview": {
+          "pages": 1,
+          "gap": 164,
+          "pinned": true,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 257
+          }
+        ],
+        "files": [
+          {
+            "png": true,
+            "size": 149226
+          }
+        ]
+      },
+      {
+        "count": 24,
+        "columns": 2,
+        "preview": {
+          "pages": 2,
+          "gap": 277,
+          "pinned": true,
+          "ghosts": 1
+        },
+        "captures": [
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 61
+          },
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 433
+          }
+        ],
+        "files": [
+          {
+            "png": true,
+            "size": 430098
+          },
+          {
+            "png": true,
+            "size": 171070
+          }
+        ]
+      },
+      {
+        "count": 3,
+        "columns": 1,
+        "header": "kakao",
+        "preview": {
+          "pages": 1,
+          "gap": 318,
+          "pinned": false,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 498
+          }
+        ],
+        "files": [
+          {
+            "png": true,
+            "size": 143910
+          }
+        ]
+      },
+      {
+        "count": 3,
+        "columns": 1,
+        "header": "imessage",
+        "preview": {
+          "pages": 1,
+          "gap": 299,
+          "pinned": false,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 468
+          }
+        ],
+        "files": [
+          {
+            "png": true,
+            "size": 149666
+          }
+        ]
+      },
+      {
+        "count": 24,
+        "columns": 2,
+        "header": "insta-dm",
+        "preview": {
+          "pages": 2,
+          "gap": 35,
+          "pinned": true,
+          "ghosts": 1
+        },
+        "captures": [
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 55
+          },
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 55
+          }
+        ],
+        "files": [
+          {
+            "png": true,
+            "size": 420362
+          },
+          {
+            "png": true,
+            "size": 312694
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "results": [
+      {
+        "count": 3,
+        "columns": 1,
+        "preview": {
+          "pages": 1,
+          "gap": 357,
+          "pinned": false,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 558
+          },
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 558
+          }
+        ],
+        "files": [
+          {
+            "png": true,
+            "size": 128618
+          }
+        ]
+      },
+      {
+        "count": 3,
+        "columns": 1,
+        "vAlign": "center",
+        "preview": {
+          "pages": 1,
+          "gap": 185,
+          "pinned": true,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 289
+          }
+        ],
+        "files": [
+          {
+            "png": true,
+            "size": 127858
+          }
+        ]
+      },
+      {
+        "count": 3,
+        "columns": 2,
+        "preview": {
+          "pages": 1,
+          "gap": 317,
+          "pinned": false,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 495
+          }
+        ],
+        "files": [
+          {
+            "png": true,
+            "size": 134786
+          }
+        ]
+      },
+      {
+        "count": 3,
+        "columns": 2,
+        "vAlign": "center",
+        "preview": {
+          "pages": 1,
+          "gap": 164,
+          "pinned": true,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 257
+          }
+        ],
+        "files": [
+          {
+            "png": true,
+            "size": 133410
+          }
+        ]
+      },
+      {
+        "count": 24,
+        "columns": 2,
+        "preview": {
+          "pages": 2,
+          "gap": 277,
+          "pinned": true,
+          "ghosts": 1
+        },
+        "captures": [
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 61
+          },
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 433
+          }
+        ],
+        "files": [
+          {
+            "png": true,
+            "size": 397566
+          },
+          {
+            "png": true,
+            "size": 155710
+          }
+        ]
+      },
+      {
+        "count": 3,
+        "columns": 1,
+        "header": "kakao",
+        "preview": {
+          "pages": 1,
+          "gap": 318,
+          "pinned": false,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 498
+          }
+        ],
+        "files": [
+          {
+            "png": true,
+            "size": 132098
+          }
+        ]
+      },
+      {
+        "count": 3,
+        "columns": 1,
+        "header": "imessage",
+        "preview": {
+          "pages": 1,
+          "gap": 299,
+          "pinned": false,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 468
+          }
+        ],
+        "files": [
+          {
+            "png": true,
+            "size": 136550
+          }
+        ]
+      },
+      {
+        "count": 24,
+        "columns": 2,
+        "header": "insta-dm",
+        "preview": {
+          "pages": 2,
+          "gap": 35,
+          "pinned": true,
+          "ghosts": 1
+        },
+        "captures": [
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 55
+          },
+          {
+            "signature": "해이 · @luvheil",
+            "count": 1,
+            "gap": 55
+          }
+        ],
+        "files": [
+          {
+            "png": true,
+            "size": 382118
+          },
+          {
+            "png": true,
+            "size": 279350
+          }
+        ]
+      }
+    ]
+  }
+]

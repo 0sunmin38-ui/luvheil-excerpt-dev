@@ -1,0 +1,746 @@
+[
+  {
+    "engine": "chromium",
+    "result": [
+      {
+        "mode": "fit",
+        "placement": "page",
+        "ratio": "1:1",
+        "count": 10,
+        "preview": {
+          "pages": 1,
+          "width": 496,
+          "inner": 496,
+          "col": 236,
+          "x": 32,
+          "first": 164,
+          "headBottom": 144,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 10
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 333050,
+            "png": true
+          }
+        ]
+      },
+      {
+        "mode": "fit",
+        "placement": "column",
+        "ratio": "1:1",
+        "count": 10,
+        "preview": {
+          "pages": 1,
+          "width": 236,
+          "inner": 496,
+          "col": 236,
+          "x": 32,
+          "first": 164,
+          "headBottom": 144,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 236,
+            "headerCount": 1,
+            "bodyCount": 10
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 332934,
+            "png": true
+          }
+        ]
+      },
+      {
+        "mode": "fit",
+        "placement": "page",
+        "ratio": "1:2",
+        "count": 10,
+        "preview": {
+          "pages": 1,
+          "width": 496,
+          "inner": 496,
+          "col": 157,
+          "x": 32,
+          "first": 164,
+          "headBottom": 144,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 10
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 328842,
+            "png": true
+          }
+        ]
+      },
+      {
+        "mode": "ratio",
+        "placement": "page",
+        "ratio": "1:1",
+        "count": 8,
+        "preview": {
+          "pages": 1,
+          "width": 496,
+          "inner": 496,
+          "col": 236,
+          "x": 32,
+          "first": 164,
+          "headBottom": 144,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 9
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 323126,
+            "png": true
+          }
+        ]
+      },
+      {
+        "mode": "ratio",
+        "placement": "page",
+        "ratio": "1:1",
+        "count": 8,
+        "vAlign": "center",
+        "preview": {
+          "pages": 1,
+          "width": 496,
+          "inner": 496,
+          "col": 236,
+          "x": 32,
+          "first": 170,
+          "headBottom": 144,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 9
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 322910,
+            "png": true
+          }
+        ]
+      },
+      {
+        "mode": "ratio",
+        "placement": "column",
+        "ratio": "1:1",
+        "count": 8,
+        "preview": {
+          "pages": 1,
+          "width": 236,
+          "inner": 496,
+          "col": 236,
+          "x": 32,
+          "first": 168,
+          "headBottom": 144,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 236,
+            "headerCount": 1,
+            "bodyCount": 9
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 325234,
+            "png": true
+          }
+        ]
+      },
+      {
+        "mode": "ratio",
+        "placement": "page",
+        "ratio": "2:1",
+        "count": 32,
+        "preview": {
+          "pages": 3,
+          "width": 496,
+          "inner": 496,
+          "col": 158,
+          "x": 32,
+          "first": 164,
+          "headBottom": 144,
+          "ghosts": 2
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 15
+          },
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 15
+          },
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 4
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 452554,
+            "png": true
+          },
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 455782,
+            "png": true
+          },
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 207042,
+            "png": true
+          }
+        ]
+      }
+    ],
+    "errors": []
+  },
+  {
+    "engine": "chrome",
+    "result": [
+      {
+        "mode": "fit",
+        "placement": "page",
+        "ratio": "1:1",
+        "count": 10,
+        "preview": {
+          "pages": 1,
+          "width": 496,
+          "inner": 496,
+          "col": 236,
+          "x": 32,
+          "first": 164,
+          "headBottom": 144,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 10
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 334350,
+            "png": true
+          }
+        ]
+      },
+      {
+        "mode": "fit",
+        "placement": "column",
+        "ratio": "1:1",
+        "count": 10,
+        "preview": {
+          "pages": 1,
+          "width": 236,
+          "inner": 496,
+          "col": 236,
+          "x": 32,
+          "first": 164,
+          "headBottom": 144,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 236,
+            "headerCount": 1,
+            "bodyCount": 10
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 334226,
+            "png": true
+          }
+        ]
+      },
+      {
+        "mode": "fit",
+        "placement": "page",
+        "ratio": "1:2",
+        "count": 10,
+        "preview": {
+          "pages": 1,
+          "width": 496,
+          "inner": 496,
+          "col": 157,
+          "x": 32,
+          "first": 164,
+          "headBottom": 144,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 10
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 328774,
+            "png": true
+          }
+        ]
+      },
+      {
+        "mode": "ratio",
+        "placement": "page",
+        "ratio": "1:1",
+        "count": 8,
+        "preview": {
+          "pages": 1,
+          "width": 496,
+          "inner": 496,
+          "col": 236,
+          "x": 32,
+          "first": 164,
+          "headBottom": 144,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 9
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 324102,
+            "png": true
+          }
+        ]
+      },
+      {
+        "mode": "ratio",
+        "placement": "page",
+        "ratio": "1:1",
+        "count": 8,
+        "vAlign": "center",
+        "preview": {
+          "pages": 1,
+          "width": 496,
+          "inner": 496,
+          "col": 236,
+          "x": 32,
+          "first": 170,
+          "headBottom": 144,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 9
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 324038,
+            "png": true
+          }
+        ]
+      },
+      {
+        "mode": "ratio",
+        "placement": "column",
+        "ratio": "1:1",
+        "count": 8,
+        "preview": {
+          "pages": 1,
+          "width": 236,
+          "inner": 496,
+          "col": 236,
+          "x": 32,
+          "first": 168,
+          "headBottom": 144,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 236,
+            "headerCount": 1,
+            "bodyCount": 9
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 326138,
+            "png": true
+          }
+        ]
+      },
+      {
+        "mode": "ratio",
+        "placement": "page",
+        "ratio": "2:1",
+        "count": 32,
+        "preview": {
+          "pages": 3,
+          "width": 496,
+          "inner": 496,
+          "col": 158,
+          "x": 32,
+          "first": 164,
+          "headBottom": 144,
+          "ghosts": 2
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 15
+          },
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 15
+          },
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 4
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 453650,
+            "png": true
+          },
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 456326,
+            "png": true
+          },
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 207154,
+            "png": true
+          }
+        ]
+      }
+    ],
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "result": [
+      {
+        "mode": "fit",
+        "placement": "page",
+        "ratio": "1:1",
+        "count": 10,
+        "preview": {
+          "pages": 1,
+          "width": 496,
+          "inner": 496,
+          "col": 236,
+          "x": 32,
+          "first": 164,
+          "headBottom": 144,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 10
+          },
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 10
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 316350,
+            "png": true
+          }
+        ]
+      },
+      {
+        "mode": "fit",
+        "placement": "column",
+        "ratio": "1:1",
+        "count": 10,
+        "preview": {
+          "pages": 1,
+          "width": 236,
+          "inner": 496,
+          "col": 236,
+          "x": 32,
+          "first": 32,
+          "headBottom": 166,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 236,
+            "headerCount": 1,
+            "bodyCount": 10
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 316362,
+            "png": true
+          }
+        ]
+      },
+      {
+        "mode": "fit",
+        "placement": "page",
+        "ratio": "1:2",
+        "count": 10,
+        "preview": {
+          "pages": 1,
+          "width": 496,
+          "inner": 496,
+          "col": 157,
+          "x": 32,
+          "first": 164,
+          "headBottom": 144,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 10
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 313974,
+            "png": true
+          }
+        ]
+      },
+      {
+        "mode": "ratio",
+        "placement": "page",
+        "ratio": "1:1",
+        "count": 8,
+        "preview": {
+          "pages": 1,
+          "width": 496,
+          "inner": 496,
+          "col": 236,
+          "x": 32,
+          "first": 164,
+          "headBottom": 144,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 9
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 301342,
+            "png": true
+          }
+        ]
+      },
+      {
+        "mode": "ratio",
+        "placement": "page",
+        "ratio": "1:1",
+        "count": 8,
+        "vAlign": "center",
+        "preview": {
+          "pages": 1,
+          "width": 496,
+          "inner": 496,
+          "col": 236,
+          "x": 32,
+          "first": 170,
+          "headBottom": 144,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 9
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 300286,
+            "png": true
+          }
+        ]
+      },
+      {
+        "mode": "ratio",
+        "placement": "column",
+        "ratio": "1:1",
+        "count": 8,
+        "preview": {
+          "pages": 1,
+          "width": 236,
+          "inner": 496,
+          "col": 236,
+          "x": 32,
+          "first": 168,
+          "headBottom": 144,
+          "ghosts": 0
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 236,
+            "headerCount": 1,
+            "bodyCount": 9
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 301450,
+            "png": true
+          }
+        ]
+      },
+      {
+        "mode": "ratio",
+        "placement": "page",
+        "ratio": "2:1",
+        "count": 32,
+        "preview": {
+          "pages": 3,
+          "width": 496,
+          "inner": 496,
+          "col": 158,
+          "x": 32,
+          "first": 164,
+          "headBottom": 144,
+          "ghosts": 2
+        },
+        "captures": [
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 15
+          },
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 15
+          },
+          {
+            "title": "Article 제목",
+            "headerWidth": 496,
+            "headerCount": 1,
+            "bodyCount": 4
+          }
+        ],
+        "files": [
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 427802,
+            "png": true
+          },
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 429550,
+            "png": true
+          },
+          {
+            "prefix": "data:image/png;base64,",
+            "length": 192610,
+            "png": true
+          }
+        ]
+      }
+    ],
+    "errors": []
+  }
+]

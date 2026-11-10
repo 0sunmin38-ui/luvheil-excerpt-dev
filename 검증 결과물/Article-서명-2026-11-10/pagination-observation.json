@@ -1,0 +1,216 @@
+[
+  {
+    "engine": "chromium",
+    "cases": [
+      {
+        "columns": 1,
+        "signShow": false,
+        "pageHeight": 747,
+        "contentBudget": 683,
+        "rowHeights": [
+          171,
+          171,
+          171,
+          86,
+          86,
+          171,
+          171,
+          171,
+          171
+        ],
+        "splitCount": 2,
+        "units": [
+          {
+            "unit": 1,
+            "ids": [
+              "b0",
+              "b1",
+              "b2",
+              "b3"
+            ],
+            "lastBottom": 691,
+            "unused": 24
+          },
+          {
+            "unit": 2,
+            "ids": [
+              "b3",
+              "b4",
+              "b5",
+              "b6"
+            ],
+            "lastBottom": 1437,
+            "unused": 25
+          },
+          {
+            "unit": 3,
+            "ids": [
+              "b7"
+            ],
+            "lastBottom": 1697,
+            "unused": 512
+          }
+        ]
+      },
+      {
+        "columns": 1,
+        "signShow": true,
+        "pageHeight": 747,
+        "contentBudget": 635,
+        "rowHeights": [
+          171,
+          171,
+          171,
+          57,
+          114,
+          171,
+          171,
+          114,
+          57,
+          171
+        ],
+        "splitCount": 4,
+        "units": [
+          {
+            "unit": 1,
+            "ids": [
+              "b0",
+              "b1",
+              "b2",
+              "b3"
+            ],
+            "lastBottom": 662,
+            "unused": 5
+          },
+          {
+            "unit": 2,
+            "ids": [
+              "b3",
+              "b4",
+              "b5",
+              "b6"
+            ],
+            "lastBottom": 1409,
+            "unused": 5
+          },
+          {
+            "unit": 3,
+            "ids": [
+              "b6",
+              "b7"
+            ],
+            "lastBottom": 1774,
+            "unused": 387
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "cases": [
+      {
+        "columns": 1,
+        "signShow": false,
+        "pageHeight": 747,
+        "contentBudget": 683,
+        "rowHeights": [
+          171,
+          171,
+          171,
+          86,
+          86,
+          171,
+          171,
+          171,
+          171
+        ],
+        "splitCount": 2,
+        "units": [
+          {
+            "unit": 1,
+            "ids": [
+              "b0",
+              "b1",
+              "b2",
+              "b3"
+            ],
+            "lastBottom": 691,
+            "unused": 24
+          },
+          {
+            "unit": 2,
+            "ids": [
+              "b3",
+              "b4",
+              "b5",
+              "b6"
+            ],
+            "lastBottom": 1437,
+            "unused": 25
+          },
+          {
+            "unit": 3,
+            "ids": [
+              "b7"
+            ],
+            "lastBottom": 1697,
+            "unused": 512
+          }
+        ]
+      },
+      {
+        "columns": 1,
+        "signShow": true,
+        "pageHeight": 747,
+        "contentBudget": 635,
+        "rowHeights": [
+          171,
+          171,
+          171,
+          57,
+          114,
+          171,
+          171,
+          114,
+          57,
+          171
+        ],
+        "splitCount": 4,
+        "units": [
+          {
+            "unit": 1,
+            "ids": [
+              "b0",
+              "b1",
+              "b2",
+              "b3"
+            ],
+            "lastBottom": 662,
+            "unused": 5
+          },
+          {
+            "unit": 2,
+            "ids": [
+              "b3",
+              "b4",
+              "b5",
+              "b6"
+            ],
+            "lastBottom": 1409,
+            "unused": 5
+          },
+          {
+            "unit": 3,
+            "ids": [
+              "b6",
+              "b7"
+            ],
+            "lastBottom": 1774,
+            "unused": 387
+          }
+        ]
+      }
+    ]
+  }
+]

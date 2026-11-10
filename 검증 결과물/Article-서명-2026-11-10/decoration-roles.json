@@ -1,0 +1,194 @@
+[
+  {
+    "engine": "chromium",
+    "result": [
+      {
+        "frame": "none",
+        "header": "paper",
+        "slot": "header",
+        "before": {
+          "heads": 1,
+          "footers": 0,
+          "authors": 1,
+          "makers": 0,
+          "dm": 0
+        },
+        "files": [
+          {
+            "png": true,
+            "size": 112914
+          }
+        ]
+      },
+      {
+        "frame": "none",
+        "header": "insta-dm",
+        "slot": "footer",
+        "dm": true,
+        "before": {
+          "heads": 1,
+          "footers": 1,
+          "authors": 0,
+          "makers": 0,
+          "dm": 1
+        },
+        "files": [
+          {
+            "png": true,
+            "size": 172138
+          }
+        ]
+      },
+      {
+        "frame": "cyworld",
+        "header": "paper",
+        "slot": "footer",
+        "before": {
+          "heads": 0,
+          "footers": 1,
+          "authors": 0,
+          "makers": 0,
+          "dm": 0
+        },
+        "files": [
+          {
+            "png": true,
+            "size": 339774
+          }
+        ]
+      },
+      {
+        "frame": "cyworld",
+        "header": "insta-dm",
+        "slot": "footer",
+        "before": {
+          "heads": 0,
+          "footers": 1,
+          "authors": 0,
+          "makers": 0,
+          "dm": 0
+        },
+        "files": [
+          {
+            "png": true,
+            "size": 339774
+          }
+        ]
+      },
+      {
+        "frame": "buddy",
+        "header": "paper",
+        "slot": "frame",
+        "before": {
+          "heads": 0,
+          "footers": 0,
+          "authors": 0,
+          "makers": 1,
+          "dm": 0
+        },
+        "files": [
+          {
+            "png": true,
+            "size": 257330
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "result": [
+      {
+        "frame": "none",
+        "header": "paper",
+        "slot": "header",
+        "before": {
+          "heads": 1,
+          "footers": 0,
+          "authors": 1,
+          "makers": 0,
+          "dm": 0
+        },
+        "files": [
+          {
+            "png": true,
+            "size": 102318
+          }
+        ]
+      },
+      {
+        "frame": "none",
+        "header": "insta-dm",
+        "slot": "footer",
+        "dm": true,
+        "before": {
+          "heads": 1,
+          "footers": 1,
+          "authors": 0,
+          "makers": 0,
+          "dm": 1
+        },
+        "files": [
+          {
+            "png": true,
+            "size": 151126
+          }
+        ]
+      },
+      {
+        "frame": "cyworld",
+        "header": "paper",
+        "slot": "footer",
+        "before": {
+          "heads": 0,
+          "footers": 1,
+          "authors": 0,
+          "makers": 0,
+          "dm": 0
+        },
+        "files": [
+          {
+            "png": true,
+            "size": 223066
+          }
+        ]
+      },
+      {
+        "frame": "cyworld",
+        "header": "insta-dm",
+        "slot": "footer",
+        "before": {
+          "heads": 0,
+          "footers": 1,
+          "authors": 0,
+          "makers": 0,
+          "dm": 0
+        },
+        "files": [
+          {
+            "png": true,
+            "size": 223066
+          }
+        ]
+      },
+      {
+        "frame": "buddy",
+        "header": "paper",
+        "slot": "frame",
+        "before": {
+          "heads": 0,
+          "footers": 0,
+          "authors": 0,
+          "makers": 1,
+          "dm": 0
+        },
+        "files": [
+          {
+            "png": true,
+            "size": 252546
+          }
+        ]
+      }
+    ]
+  }
+]

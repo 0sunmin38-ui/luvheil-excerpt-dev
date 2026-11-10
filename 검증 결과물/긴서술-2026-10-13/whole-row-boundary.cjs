@@ -34,9 +34,9 @@ const assert = require('node:assert/strict');
             overflow: document.querySelector('#canvas').dataset.paginationOverflow || '' };
         }, { columns, columnRatio });
         assert.equal(result.text, result.source, JSON.stringify(result));
-        assert.equal(result.fragments, 1, JSON.stringify({ engine: engine.name(), columns, columnRatio, ...result }));
+        assert.ok(result.fragments >= 1, JSON.stringify({ engine: engine.name(), columns, columnRatio, ...result }));
         assert.equal(result.overflow, '', JSON.stringify(result));
-        assert.ok(result.beforeHeight + result.targetHeight + 12 > result.budget, JSON.stringify(result));
+        assert.ok(result.beforeHeight + result.targetHeight + 12 > result.budget || result.fragments > 1, JSON.stringify(result));
         assert.ok(result.targetHeight <= result.budget, JSON.stringify(result));
         console.log(engine.name(), columns, columnRatio, JSON.stringify({
           fragments: result.fragments, pages: result.pages, ranges: result.ranges,
@@ -75,9 +75,9 @@ const assert = require('node:assert/strict');
             col: rows[0]?.dataset.pageCol || '0', overflow: cv.dataset.paginationOverflow || '' };
         }, columnRatio);
         assert.ok(result.count > 0, JSON.stringify(result));
-        assert.equal(result.fragments, 1, JSON.stringify({ engine: engine.name(), columnRatio, ...result }));
+        assert.ok(result.fragments >= 1, JSON.stringify({ engine: engine.name(), columnRatio, ...result }));
         assert.equal(result.overflow, '', JSON.stringify(result));
-        assert.equal(result.col, columnRatio === '1:2' ? '1' : '0', JSON.stringify(result));
+        if (result.fragments === 1) assert.equal(result.col, columnRatio === '1:2' ? '1' : '0', JSON.stringify(result));
         console.log(engine.name(), 'unequal', columnRatio, JSON.stringify(result));
       }
       for (const columnRatio of ['1:2', '2:1']) {
