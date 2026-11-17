@@ -1532,6 +1532,12 @@ body:has(.sheet.is-settling) .stage{transition:none}
   display:flex;align-items:center;gap:var(--sp-sm);
   padding:var(--sp-xs) 0 var(--sp-sm);border-bottom:1px solid var(--c-divider,#EBEBF0);margin-bottom:var(--sp-md);
 }
+#themeEditContent > .edit-header{
+  position:sticky;top:calc(-1 * var(--sp-md));z-index:5;
+  margin:calc(-1 * var(--sp-md)) calc(-1 * var(--sp-md)) 0;
+  padding:calc(var(--sp-md) + var(--sp-xs)) var(--sp-md) calc(var(--sp-sm) + var(--sp-md));
+  background:var(--c-surface,#fff);
+}
 #formatWrap .edit-header{
   position:sticky;top:0;z-index:5;background:var(--c-surface,#fff);
   margin:0 calc(-1 * var(--pad));padding:var(--sp-xs) var(--pad) calc(var(--sp-sm) + var(--sp-md));
