@@ -199,10 +199,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 /* 비율 지정 한 장에 들어가는 내용은 위에 붙이지 않고 세로 가운데에 놓는다.
    여러 장은 페이지를 나눌 때만 각 장에 이 클래스를 붙여 개별적으로 가운데 맞춘다. */
 .canvas.ratio-center{justify-content:center}
-/* 평소 서명은 margin-top:auto 로 바닥에 붙지만, 이 자동 여백이 있으면 flex 의
-   justify-content:center 가 쓸 남는 공간이 사라진다. 비율 한 장에서는 서명까지
-   블록 묶음에 포함해 위아래 중앙에 놓는다. */
-.canvas.ratio-center .blk.is-footer{margin-top:0}
 /* 배경 이미지 — 회전·흐림이 캔버스 밖으로 새지 않게 별도 레이어로 깐다 */
 .canvas > .cv-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
 .cv-bg i{
@@ -304,6 +300,16 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .blk-divider{height:1px;background:currentColor;opacity:.18;margin:6px 0}
 .blk-image{text-align:center}
 .blk-image img{display:inline-block;max-width:100%}
+.side-page{width:100%;flex:0 0 auto;display:grid;grid-template-columns:32% minmax(0,1fr);gap:12px;min-width:0;align-self:flex-start}
+.side-page.photo-right{grid-template-columns:minmax(0,1fr) 32%}
+.side-page.photo-right>.side-page-photo{grid-column:2;grid-row:1}
+.side-page.photo-right>.side-page-text{grid-column:1;grid-row:1}
+.side-page-photo,.side-page-text{min-width:0;min-height:0}
+.side-page-photo{overflow:hidden}
+.side-page-photo>.blk,.side-page-photo .blk-image,.side-page-photo .image-side-view{display:block;width:100%;height:100%;margin:0!important}
+.side-page-text{display:flex;flex-direction:column;gap:var(--cv-gap,10px);overflow:hidden}
+.side-page-text>.blk{flex:0 0 auto}
+.side-page.row-off{display:none}
 
 /* ═══ 음악 ═══════════════════════════════════════════════════
    플레이리스트 바 — 노래 제목·가수·하트 아래에 진행바와 재생 단추가 붙은 한 덩어리.
@@ -443,15 +449,19 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
    어두운 테마에서 배경에 잠겨 안 보인다. 크기만 줄인다. */
 .blk.is-footer{margin-top:auto}
 .blk-footer{font-size:.85em;text-align:right;padding-top:4px;overflow-wrap:anywhere;min-width:0}
-/* 여러 장으로 나뉠 때 — 서명은 한 장에만 남는 것이 아니라 장마다 맨 아래에 온다.
-   서명을 흐름에서 빼 캔버스 바닥에 못 박고(.foot-pin), 앞 장들의 같은 자리에는
-   사본(.foot-ghost)을 깐다. 본문이 그 위로 겹치지 않게 서명이 쓸 높이만큼을
-   캔버스 아래 여백에 더해 자리를 비워 둔다 — 그 높이는 장을 셀 때도 함께 뺀다. */
-.canvas.foot-pinned{padding-bottom:calc(var(--cv-pb,32px) + var(--foot-h,0px) + var(--cv-gap,10px))}
+/* 비율 판형의 서명은 장마다 아래 16px에 고정한다. 아래 여백은 서명 위치가 아니라
+   본문과 서명 사이의 예약 공간이다. 앞 장에는 같은 위치에 사본을 둔다. */
+.canvas.foot-pinned{padding-bottom:calc(var(--cv-pb,32px) + var(--foot-h,0px))}
 .canvas .blk.is-footer.foot-pin{
   position:absolute;margin:0;
-  left:var(--cv-pl,32px);right:var(--cv-pr,32px);bottom:var(--cv-pb,32px);
+  left:var(--cv-pl,32px);right:var(--cv-pr,32px);bottom:var(--sign-edge,16px);
 }
+.canvas.fit-footer{padding-bottom:var(--sign-edge,16px)}
+.canvas.fit-footer > .blk.is-footer{margin-top:calc(var(--cv-pb,32px) - var(--cv-gap,10px))}
+/* WebKit 다단에서 column-span 요소의 위 여백은 본문도 함께 옮긴다.
+   서명만 아래로 옮기고 캔버스 높이를 같은 양 늘려 하단 위치를 유지한다. */
+.canvas.fit-footer.has-cols{padding-bottom:calc(var(--sign-edge,16px) + var(--cv-pb,32px))}
+.canvas.fit-footer.has-cols > .blk.is-footer{margin-top:0;transform:translateY(var(--cv-pb,32px))}
 .canvas > .foot-ghost{
   position:absolute;margin:0;pointer-events:none;
   left:var(--cv-pl,32px);right:var(--cv-pr,32px);
@@ -663,8 +673,10 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .hd-insta-dm .insta-icon,.cv-foot-insta-dm .insta-icon{display:block;overflow:visible}
 /* 입력창은 서명과 별개다. 본문·서명과 입력창 사이에 테마 아래 여백을 둔다. */
 .canvas.has-insta-dm{padding-bottom:calc(var(--insta-foot-h,0px) + var(--cv-pb,32px))}
-.canvas.has-insta-dm.foot-pinned{padding-bottom:calc(var(--cv-pb,32px) + var(--foot-h,0px) + var(--cv-gap,10px))}
-.canvas.has-insta-dm .blk.is-footer.foot-pin{bottom:calc(var(--insta-foot-h,0px) + var(--cv-pb,32px))}
+.canvas.has-insta-dm.foot-pinned{padding-bottom:calc(var(--cv-pb,32px) + var(--foot-h,0px))}
+.canvas.has-insta-dm .blk.is-footer.foot-pin{bottom:calc(var(--insta-foot-h,0px) + var(--sign-edge,16px))}
+.canvas.has-insta-dm.fit-footer{padding-bottom:calc(var(--insta-foot-h,0px) + var(--sign-edge,16px))}
+.canvas.has-insta-dm.fit-footer.has-cols{padding-bottom:calc(var(--insta-foot-h,0px) + var(--sign-edge,16px) + var(--cv-pb,32px))}
 
 /* 프리뷰 장식 — 잠금화면은 고정 글꼴·크기 + 글래스 효과, 뉴스·논문은 본문 14px 기준 비율.
    잠금화면 머리의 높이는 고정한다. 기존의 % 최소 높이는 페이지를 재는 동안의 auto 높이와
@@ -1290,7 +1302,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
    (접어 놓고 창을 넓히면 다시 열 데가 없어진다).
    .is-format / .is-tools 와 같은 자리 다툼이라, 이기려면 뒤에 와야 한다. */
 @media (max-width:899.98px){
-  .sheet.is-compact .composer-hint,.sheet.is-compact .opt-row,
+  .sheet.is-compact .opt-row,
   .sheet.is-compact #formatWrap,.sheet.is-compact .sheet-body{display:none!important}
   .sheet.is-compact .sheet-head{padding-bottom:10px}
   /* 손잡이가 시트 윗 여백 노릇도 한다 — 한동안 손잡이를 걷어 두고 이 자리에 16px 만
@@ -1345,6 +1357,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .sheet-grab{display:none}
 .dock{order:1;display:flex;flex-direction:column;min-height:0}
 .sheet-head{flex:0 0 auto;padding-bottom:8px}
+.sheet.is-format .sheet-head{position:relative;z-index:6;background:var(--c-surface,#fff)}
 #formatWrap{flex:0 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain}
 .sheet-foot{flex:0 0 auto;padding:8px var(--pad) 10px}
 .sheet-foot .btn{width:100%;height:38px;font-size:12.5px}
@@ -1519,6 +1532,14 @@ body:has(.sheet.is-settling) .stage{transition:none}
   display:flex;align-items:center;gap:var(--sp-sm);
   padding:var(--sp-xs) 0 var(--sp-sm);border-bottom:1px solid var(--c-divider,#EBEBF0);margin-bottom:var(--sp-md);
 }
+#formatWrap .edit-header{
+  position:sticky;top:0;z-index:5;background:var(--c-surface,#fff);
+  margin:0 calc(-1 * var(--pad));padding:var(--sp-xs) var(--pad) calc(var(--sp-sm) + var(--sp-md));
+}
+#formatWrap .edit-header::before{
+  content:"";position:absolute;left:0;right:0;bottom:100%;height:10px;
+  background:var(--c-surface,#fff);pointer-events:none;
+}
 .edit-header .back-btn{
   width:28px;height:28px;border-radius:var(--r-sm);background:var(--c-surface-sunken);color:var(--c-text-secondary);
   border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;
@@ -1634,6 +1655,16 @@ body:has(.sheet.is-settling) .stage{transition:none}
 .theme-card.is-on{border-color:var(--c-primary,#84BF93)}
 .theme-card.is-custom{background:rgba(132,191,147,.07)}
 .theme-card.is-custom .nm::before{content:'●';font-size:6px;color:var(--c-primary,#84BF93);margin-right:4px;vertical-align:2px}
+.theme-list-pinned{position:sticky;top:-12px;z-index:5;background:var(--c-surface,#fff);margin:-12px -12px 12px;padding:12px 12px 4px}
+.theme-list-pinned .io-row{display:flex;gap:6px;justify-content:flex-end;padding:8px 0 0}
+.theme-card.is-current{
+  display:grid;grid-template-columns:64px minmax(0,1fr);align-items:center;
+  gap:12px;padding:10px 44px 10px 10px;text-align:left;cursor:default;background:var(--c-primary-muted);
+}
+.theme-card.is-current .preview{width:64px}
+.theme-card.is-current .current-info{min-width:0;display:flex;flex-direction:column;gap:7px}
+.theme-card.is-current .current-label{color:var(--c-primary-text);font-size:10px;font-weight:700}
+.theme-card.is-current .nm{font-size:13px;font-weight:700;color:var(--c-text);line-height:1.3}
 .theme-card.is-reordering{opacity:.35}
 .theme-card.drop-before{box-shadow:-3px 0 0 var(--c-primary,#84BF93)}
 .theme-card.drop-after{box-shadow:3px 0 0 var(--c-primary,#84BF93)}
@@ -1715,12 +1746,6 @@ body:has(.sheet.is-settling) .stage{transition:none}
   /* 평소에는 한 줄만 보여 시트를 작게 유지하고, 직접 누른 작성 상태에서만 전문을 펼친다. */
 }
 #ta mark{padding:0 2px;border-radius:0}
-/* 작성창에 붙는 한 줄 — 선으로 가르지 않고 바로 아래에 붙여 한 덩어리로 읽히게 한다 */
-.composer-hint{
-  display:flex;align-items:center;gap:8px;
-  padding:6px var(--pad) 0;font-size:var(--fs-hint);color:var(--c-text-tertiary);
-}
-.composer-hint .btn{flex:0 0 auto;width:auto;height:24px;padding:0 9px;font-size:10.5px}
 .opt-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px var(--pad) 0}
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1960,9 +1985,11 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 .image-editor .crop-ratios button,.bg-image-settings .crop-ratios button{background:transparent;min-height:34px;font-size:11px}
 .image-editor .crop-ratios button.on,.bg-image-settings .crop-ratios button.on{background:var(--c-primary-muted);border-color:var(--c-primary);color:var(--c-primary-text)}
 .image-editor .crop-ratios button{font-size:10px;padding-inline:2px}
-.image-editor .image-size-modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;padding:4px;border-radius:var(--r-sm);background:var(--c-surface)}
-.image-editor .image-size-modes button{min-width:0;min-height:38px;padding:5px 3px;border:1px solid transparent;border-radius:var(--r-sm);background:transparent;color:var(--c-text-secondary);font-size:10px;line-height:1.2;font-weight:600}
-.image-editor .image-size-modes button.on{background:var(--c-primary-muted);border-color:var(--c-primary);color:var(--c-primary-text)}
+.image-placement-options,.image-side-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.image-placement-options button,.image-side-options button{display:flex;align-items:center;gap:7px;min-width:0;min-height:43px;padding:7px;border:1px solid var(--c-border);border-radius:var(--r-sm);background:var(--c-surface);color:var(--c-text-secondary);font-size:11px;font-weight:600;text-align:left}
+.image-placement-options button.on,.image-side-options button.on{border-color:var(--c-primary);background:var(--c-primary-muted);color:var(--c-primary-text)}
+.image-placement-options button:disabled{opacity:.45;cursor:not-allowed}
+.image-placement-options svg,.image-side-options svg{width:27px;height:27px;flex:0 0 27px;stroke:currentColor;fill:none;stroke-width:1.6}
 .image-editor [hidden]{display:none!important}
 .panel-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 20px}
 .panel-heading h3{font-size:var(--fs-title);font-weight:600;line-height:1.4;margin:0;color:var(--c-text)}
@@ -2004,6 +2031,17 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 .tool-line.compact .tool-grp{gap:6px}
 .tool-line.compact .icb{width:34px;height:34px;flex-basis:34px}
 .tool-line.compact .icb svg{width:17px;height:17px}
+/* 정렬/색 줄은 다른 줄의 좌우 여백을 따르고, 구분선 양쪽만 좁혀 한 줄에 담는다. */
+#formatWrap .tool-line.align-color-line{gap:2px;flex-wrap:nowrap;justify-content:space-between}
+#formatWrap .align-color-line .tool-grp{gap:6px}
+#formatWrap .align-color-line .tool-grp:last-child{gap:8px}
+#formatWrap .align-color-line .tool-sep{margin-inline:0;flex:0 0 1px}
+@media (max-width:359px){
+  #formatWrap .tool-line.align-color-line{gap:2px}
+  #formatWrap .align-color-line .tool-grp{gap:3px}
+  #formatWrap .align-color-line .tool-grp:last-child{gap:6px}
+  #formatWrap .align-color-line .icb{width:34px;height:34px;flex-basis:34px}
+}
 /* 글자 크기 — 정렬과 같은 동그란 버튼으로 맞춘다.
    예전에는 같은 «A» 를 11 · 14 · 17px 세 크기로만 보였는데, 동그라미 안에서 그 몇 px 차이는
    눈에 안 잡혔다. 좁은 화면은 단추가 «누르면 다음» 하나뿐이라 견줄 상대조차 없어서 더 그랬다.
@@ -2413,7 +2451,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
             </button>
             <div class="composer-ta" id="ta" contenteditable="true" role="textbox" aria-multiline="true" spellcheck="false"
                  tabindex="0" inputmode="text" enterkeyhint="enter" autocapitalize="sentences"
-                 data-placeholder="입력 시 문단을 기준으로 블록이 자동 분할됩니다."></div>
+                 data-placeholder="글을 입력하세요"></div>
             <button type="button" class="btn-mini" id="btnAdd" title="추가">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
             </button>
@@ -2422,7 +2460,6 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
           </div><!-- /composerInput -->
         </div>
         <!-- 작성창에 붙는 한 줄. 평소엔 단축키, 블록을 고르면 그 블록에 무엇이 걸려 있는지. -->
-        <div class="composer-hint" id="composerHint"></div>
         <div class="opt-row" id="optRow" hidden></div>
       </div>
 
@@ -2507,6 +2544,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 
           <!-- 2: 테마 목록 -->
           <div class="settings-content" id="themeListView">
+            <div class="theme-list-pinned" id="themeListPinned"></div>
             <div class="theme-grid" id="themeGridContainer"></div>
           </div>
 
@@ -6137,6 +6175,8 @@ function frameNode(th) {
 }
 
 const RATIOS = { '9:16': 9 / 16, '3:4': 3 / 4, '1:1': 1, '4:3': 4 / 3, '16:9': 16 / 9 };
+/* 서명의 하단 위치는 사용자가 조절하는 본문 아래 여백과 분리한다. */
+const SIGNATURE_EDGE = 16;
 
 function renderCanvas() {
   const renderAt = performance.now(); diag('render:start', { blocks: S.blocks.length });
@@ -6151,7 +6191,7 @@ function renderCanvas() {
       : [...S.blocks, preview.block])
     : S.blocks;
   /* 이전 렌더의 중앙 정렬과 서명 자리가 페이지 높이 계산에 섞이지 않게 먼저 푼다. */
-  cv.classList.remove('ratio-center', 'foot-pinned');
+  cv.classList.remove('ratio-center', 'foot-pinned', 'fit-footer');
   cv.style.setProperty('--cv-ratio', String(RATIOS[ratioKey()] || 1));
   cv.style.setProperty('--cv-bg', th.bg);
   cv.style.setProperty('--cv-fg', th.fg);
@@ -6205,6 +6245,7 @@ function renderCanvas() {
      프레임을 함께 셈한다. */
   cv.style.setProperty('--cv-pt', padT() + 'px');
   cv.style.setProperty('--cv-pb', padB() + 'px');
+  cv.style.setProperty('--sign-edge', SIGNATURE_EDGE + 'px');
   cv.style.setProperty('--cv-pl', padL() + 'px');
   cv.style.setProperty('--title-body-inset', (3 * (headerDecorPx(th) ?? f.size) / 14) + 'px');
   cv.style.setProperty('--cv-pr', padR() + 'px');
@@ -6360,6 +6401,7 @@ function renderCanvas() {
       cv.appendChild(instaDmFooterNode(th));
     }
   }
+  cv.classList.toggle('fit-footer', isFit() && !!footRow());
 
   if (isFit()) {
     /* 내용에 맞춤 — 폭만 사람이 정하고 높이는 쓴 만큼 따라온다. 나눌 장도 없다. */
@@ -6377,6 +6419,7 @@ function renderCanvas() {
     cv.style.minHeight = pageBox().h + 'px';
   }
   sizeFillImages(cv);
+  groupSidePages(cv, blocks);
   const pages = renderPageMarks();
   if (isFit() && cols > 1 && columnRatio() !== '1:1') layoutFitColumns(cv);
   positionFillImages(cv);
@@ -6387,7 +6430,8 @@ function renderCanvas() {
     /* 한 장이면 세로 가운데는 여기서 준다 — «위로» 를 고르면 안 준다(기본 flex-start 가 곧 위다) */
     /* 단을 쓰면 flex 가운데맞춤을 안 쓴다 — placeFlow 가 장마다 남는 자리를 이미 반씩
        나눠 앉힌다. 둘을 같이 걸면 가운데를 두 번 잡아 아래로 밀린다. */
-    cv.classList.toggle('ratio-center', pages <= 1 && !isTopAlign() && !colOn());
+    cv.classList.toggle('ratio-center', pages <= 1 && !isTopAlign() && !colOn()
+      && !cv.querySelector('.side-page'));
   }
   syncCanvasBackgrounds(cv, Math.max(1, pages || 1));
   fitCanvas();
@@ -6841,14 +6885,29 @@ function renderBlock(b, th, f, prev, next) {
   if (b.type === 'image') {
     const d = el('div', 'blk-image');
     d.style.margin = (b.margin || 0) + 'px 0';
-    d.style.textAlign = b.imageSizeMode && b.imageSizeMode !== 'custom'
-      ? 'center' : ['left', 'center', 'right'].includes(b.imageAlign) ? b.imageAlign : 'center';
+    d.style.textAlign = ['left', 'center', 'right'].includes(b.imageAlign) ? b.imageAlign : 'center';
     const img = el('img'); img.src = b.src; img.alt = '';
     const crop = b.imageCrop;
+    if (b.imagePlacement === 'side' && canSideLayout()) {
+      wrap.classList.add('side-image');
+      const view = el('div', 'image-side-view');
+      view._fillCrop = b.sideCrop || null;
+      view.style.cssText = 'position:relative;overflow:hidden;width:100%;height:100%;';
+      view.style.borderRadius = (b.round === false ? 0 : 10) + 'px';
+      img.style.cssText = 'display:block;width:100%;height:100%;object-fit:cover;max-width:none;';
+      view.appendChild(img); d.appendChild(view); wrap.appendChild(d); return wrap;
+    }
+    if (b.imagePlacement === 'side') {
+      img.style.width = '100%';
+      img.style.borderRadius = (b.round === false ? 0 : 10) + 'px';
+      d.appendChild(img); wrap.appendChild(d); return wrap;
+    }
     if (b.imageRatio === 'fill') {
       const view = el('div', 'image-fill');
       view._fillCrop = crop;
-      view.style.cssText = 'width:100%;overflow:hidden;position:relative;';
+      view.style.cssText = 'display:inline-block;width:'
+        + (b.imageSizeMode === 'custom' ? imageDisplaySize(b) : 100)
+        + '%;overflow:hidden;position:relative;vertical-align:top;';
       view.style.borderRadius = (b.round === false ? 0 : 10) + 'px';
       img.style.cssText = 'display:block;width:100%;height:100%;object-fit:cover;max-width:none;';
       if (crop && [crop.x, crop.y, crop.width, crop.height].every(Number.isFinite)) {
@@ -7904,6 +7963,7 @@ const pageRows = () => [...$('#canvas').children].filter(n => n.classList.contai
 // 본문과 함께 움직이는 제목도 높이 계산·장 배치·내보내기의 같은 흐름에 포함한다.
 const flowRows = () => [...$('#canvas').children].filter(n =>
   (n.classList.contains('blk') && !n.classList.contains('is-footer'))
+  || n.classList.contains('side-page')
   || (n.classList.contains('cv-head') && n.classList.contains('head-flow')));
 const footRow = () => {
   const f = pageRows().filter(n => n.classList.contains('is-footer'));
@@ -7912,12 +7972,11 @@ const footRow = () => {
 /* 맨 위·맨 아래에 못 박은 화면머리와 서명이 본문에서 가져가는 높이(제 높이 + 블록 간격).
    renderPageMarks 가 정하고, 저장이 장을 나눌 때 같은 값을 그대로 쓴다. */
 let footHold = 0, headHold = 0;
-/* 단/장을 나눌 때 확보한 높이. 한 장의 위 정렬 서명은 흐름에 남아
-   footHold가 0이어도 자리를 차지한다. 저장도 미리보기와 같은 예산을 쓴다. */
+/* 단/장을 나눌 때 서명·화면머리에 확보한 높이. 저장도 같은 예산을 쓴다. */
 let pageRangeHold = 0;
 /* 미리보기에서 장마다 제자리에 앉히려고 얹은 여백 [renderPageMarks]. 저장은 장마다
    캔버스를 새로 세우므로 이것을 걷어 내고 시작한다 — 안 걷으면 그 여백만큼 밀려 나온다. */
-const clearPageOffsets = cv => cv.querySelectorAll('.blk[data-page-top], .blk[data-page-col], .cv-head[data-page-top], .cv-head[data-page-col]')
+const clearPageOffsets = cv => cv.querySelectorAll('.blk[data-page-top], .blk[data-page-col], .side-page[data-page-top], .side-page[data-page-col], .cv-head[data-page-top], .cv-head[data-page-col]')
   .forEach(n => {
     n.style.marginTop = ''; n.style.marginLeft = '';
     delete n.dataset.pageTop; delete n.dataset.pageCol;
@@ -7988,11 +8047,15 @@ function layoutFitColumns(cv) {
     positions[side] += heights[i][side];
   });
   const contentH = Math.max(...positions);
-  const footH = foot ? foot.offsetHeight + rowGap : 0;
-  cv.style.height = Math.ceil(top + contentH + footH + padB()) + 'px';
+  const dmFoot = cv.querySelector('.cv-foot-insta-dm:not(.eb-foot-ghost)');
+  const footerGap = foot ? padB() : 0;
+  const bottomInset = foot ? SIGNATURE_EDGE + (dmFoot ? dmFoot.offsetHeight : 0) : padB();
   if (foot) {
     foot.style.position = 'absolute'; foot.style.left = padL() + 'px';
-    foot.style.right = padR() + 'px'; foot.style.top = (top + contentH + rowGap) + 'px';
+    foot.style.right = padR() + 'px'; foot.style.top = (top + contentH + footerGap) + 'px';
+    cv.style.height = Math.ceil(foot.offsetTop + foot.offsetHeight + bottomInset) + 'px';
+  } else {
+    cv.style.height = Math.ceil(top + contentH + bottomInset) + 'px';
   }
 }
 /* 단 범위를 장 범위로 묶는다. 단은 줄 차례를 지키며 이어지므로 묶어도 한 덩어리다. */
@@ -8014,9 +8077,11 @@ function placeFlow(rows, items, H, avail, hold, topAlign, step) {
     return (a && b) ? b.offsetTop + b.offsetHeight - a.offsetTop : 0;
   });
   const slack = {};
+  const fixedPages = new Set(items.filter(it => rows.slice(it.r[0], it.r[1])
+    .some(row => row.classList.contains('side-page'))).map(it => it.p));
   items.forEach((it, i) => { slack[it.p] = Math.max(slack[it.p] || 0, tall[i]); });
   Object.keys(slack).forEach(k => {
-    slack[k] = topAlign ? 0 : Math.max(0, Math.round((avail - slack[k]) / 2));
+    slack[k] = topAlign || fixedPages.has(+k) ? 0 : Math.max(0, Math.round((avail - slack[k]) / 2));
   });
   items.forEach(it => {
     const first = rows[it.r[0]];
@@ -8132,14 +8197,15 @@ function splitTallRowsMeasured(budget, hold) {
     const points = proseSplitPoints(src);
     if (points.length < 3) return;
     const range = document.createRange(), last = points.length - 1;
+    const sourceBase = +(row.dataset.sourceStart || 0);
     const fragment = (a, b) => {
       range.setStart(points[a].node, points[a].offset);
       range.setEnd(points[b].node, points[b].offset);
       const wrap = row.cloneNode(false), text = src.cloneNode(false);
       text.appendChild(cloneProseContents(range, src));
       wrap.appendChild(text);
-      wrap.dataset.sourceStart = points[a].source;
-      wrap.dataset.sourceEnd = points[b].source;
+      wrap.dataset.sourceStart = sourceBase + points[a].source;
+      wrap.dataset.sourceEnd = sourceBase + points[b].source;
       return wrap;
     };
     const measuredHeight = (a, b) => {
@@ -8226,6 +8292,9 @@ function pageRanges(hold = pageRangeHold) {
   }
   const out = []; let start = 0, top = rows[0].offsetTop;
   for (let i = 0; i < rows.length; i++) {
+    if (i > start && rows[i].classList.contains('side-page')) {
+      out.push([start, i]); start = i; top = rows[i].offsetTop;
+    }
     const bottom = rows[i].offsetTop + rows[i].offsetHeight;
     if (i > start && (continuation(i) || bottom - top > H)) {
       out.push([start, i]); start = i; top = rows[i].offsetTop;
@@ -8274,7 +8343,6 @@ function renderPageMarks() {
     return 1;
   }
   /* 화면머리는 한 장이든 여러 장이든 늘 맨 위다 — 비율 지정이면 언제나 못 박는다.
-     (서명과 다르다. 서명은 한 장에 들어가면 본문과 한 덩어리로 가운데에 놓는 편이 낫다.)
      Article의 단 안 배치만 본문과 함께 이동한다. */
   const isFlowHead = head && decoration.role === 'content-title' && !paperPageHead;
   if (head && !isFlowHead) {
@@ -8293,12 +8361,11 @@ function renderPageMarks() {
   }
   /* 하단 장식과 서명이 차지할 몫을 먼저 빼고 장을 센다.
      인스타 입력창은 서명을 포함하지 않으므로 둘의 높이와 사이 간격을 함께 확보한다. */
-  /* DM 입력창은 페이지 끝에 붙는다. 서명·본문은 테마 아래 여백만큼 그 위에 둔다.
-     pageBox.inner가 이미 padB를 빼므로 장식 예약 높이에서는 그 몫을 되돌린다. */
-  const dmSpacing = padB();
-  const footH = dmFoot ? dmh + dmSpacing - padB() + (foot ? fh : -gap) : (foot ? fh : decorFootHeight);
-  if (dmFoot) footHold = dmh + dmSpacing - padB();
-  const hold = headHold + (footH ? footH + gap : 0);
+  /* DM 입력창은 페이지 끝에 붙는다. 서명은 입력창 위 고정 간격에, 본문은
+     아래 여백만큼 그 위에 둔다. pageBox.inner는 이미 아래 여백을 뺐다. */
+  const footH = dmFoot ? dmh + (foot ? fh : -gap) : (foot ? fh : decorFootHeight);
+  if (dmFoot) footHold = dmh;
+  const hold = headHold + (footH ? footH + (foot ? SIGNATURE_EDGE : gap) : 0);
   pageRangeHold = hold;
   /* 장을 세기 «전에» 쪼개 둔다 — 한 단에 안 들어가는 글은 여기서 여러 블록이 되고,
      그다음부터는 pageRanges 가 그 사이를 끊을 수 있다 [splitTallRows]. */
@@ -8320,12 +8387,11 @@ function renderPageMarks() {
   /* 단을 쓰면 rg 한 칸은 «장» 이 아니라 «단» 이다 — 장은 그것을 N 개씩 묶은 것이다 */
   const N = colOn() ? colCount() : 1;
   const pages = Math.max(1, Math.ceil(rg.length / N));
-  /* 인스타는 한 장에서도 서명을 입력창 위에 고정한다. 다른 서명은 여러 장일 때 고정한다.
-     중앙 정렬에서도 서명은 하단에 고정한다 — 상단 정렬과 동일한 동작. */
-  const pin = (!!foot || !!decorFoot) && (pages > 1 || !!dmFoot || !isTopAlign());
+  /* 서명은 장 수와 정렬에 관계없이 하단에 고정한다. */
+  const pin = !!foot || (!!decorFoot && (pages > 1 || !!dmFoot || !isTopAlign()));
   if (pin) {
-    footHold = footH + gap;
-    cv.style.setProperty('--foot-h', footH + 'px');
+    footHold = footH + (foot ? SIGNATURE_EDGE : gap);
+    cv.style.setProperty('--foot-h', footHold + 'px');
     cv.classList.add('foot-pinned');
     if (foot) foot.classList.add('foot-pin');
     if (decorFoot) decorFoot.classList.add('eb-foot-pin');
@@ -8379,7 +8445,7 @@ function renderPageMarks() {
       const g = foot.cloneNode(true);
       g.className = 'foot-ghost';
       g.removeAttribute('data-id');
-      g.style.top = ((i + 1) * H - fh - (dmFoot ? dmh + dmSpacing : padB())) + 'px';
+      g.style.top = ((i + 1) * H - fh - SIGNATURE_EDGE - (dmFoot ? dmh : 0)) + 'px';
       cv.appendChild(g);
     }
     /* 하단 장식은 마지막 장에 진짜가 있고, 앞 장에 사본을 깐다. */
@@ -8630,7 +8696,6 @@ function renderComposer() {
   $('#dock').hidden = false;
   /* v2: composerRow 는 항상 보인다 — inp-group 이 설정 패널 위에 남아야 함 */
   $('#composerRow').hidden = false;
-  $('#composerHint').hidden = toolsNarrow;
   if (toolsNarrow) { $('#optRow').hidden = true; }
 
   const b = selBlock();
@@ -8641,21 +8706,10 @@ function renderComposer() {
 
   ta.placeholder = S.ui.insertMode === 'html'
     ? 'HTML 을 입력하면 그대로 캔버스에 들어갑니다.'
-    : '입력 시 문단을 기준으로 블록이 자동 분할됩니다.';
+    : '글을 입력하세요';
 
   $('#optRow').hidden = true;
-  renderComposerHint(b, editorOn);
   syncBtnAddState();
-}
-/* 작성창 바로 아래 한 줄.
-   · 평소       — 단축키 안내
-   · 블록 편집  — 이 시트가 '그 블록 하나' 를 고친다는 것과, 무엇이 따로 걸려 있는지.
-     블록별로 지정한 항목은 전체 설정을 바꿔도 안 따라오므로 눈에 보여야 한다. */
-function renderComposerHint(b, deck) {
-  const box = $('#composerHint');
-  box.innerHTML = '';
-  /* v2: 블록 편집 중이거나 deck 있으면 힌트 영역 숨김 */
-  box.hidden = !!deck || !!b;
 }
 
 /* 편집 상태를 벗어날 때는 작성창을 반드시 비운다.
@@ -9470,9 +9524,16 @@ function leaveOverlay(root) {
   if (previous?.isConnected && !previous.closest('[inert],[hidden]')) previous.focus({ preventScroll: true });
   else if (!activeOverlay()) $('#btnSettings').focus({ preventScroll: true });
 }
-function closeModal() {
+function closeModal(skipCancel = false) {
   const root = $('#modalRoot');
   if (!root.firstChild) return;
+  if (skipCancel !== true && root._onCancel) {
+    const cancel = root._onCancel;
+    root._onCancel = null;
+    cancel();
+    return;
+  }
+  root._onCancel = null;
   root.innerHTML = '';
   leaveOverlay(root);
 }
@@ -9631,7 +9692,12 @@ async function clearCacheAndReload(draft) {
 }
 /* 자르기 틀 [원본 msgCropState / clampMsgCrop / onMsgCropZoom] */
 const arOf = r => { const q = String(r || 1).split(':').map(Number); return (q[1] ? q[0] / q[1] : q[0]) || 1; };
-const IMAGE_RATIOS = ['fill', '19:6', '4:3', '1:1', '3:4', '6:19'];
+const IMAGE_RATIOS = ['fill', 'original', '19:6', '4:3', '1:1', '3:4', '6:19'];
+const SIDE_IMAGE_WIDTH = .32, SIDE_IMAGE_GAP = 12;
+function canSideLayout() {
+  const inner = canvasW() - padL() - padR();
+  return !isFit() && colCount() === 1 && inner * (1 - SIDE_IMAGE_WIDTH) - SIDE_IMAGE_GAP >= fmt().size * 8;
+}
 const imageRatioChoice = b => {
   if (IMAGE_RATIOS.includes(b?.imageRatio)) return b.imageRatio;
   const ar = Number(b?.imageCrop?.ratio);
@@ -9646,21 +9712,86 @@ function imageDisplaySize(b) {
 }
 /* 채우기는 블록이 놓일 본문 칸의 높이를 쓴다. 내용 맞춤도 저장된 판형 비율을
    가상 한 칸으로 삼아, 내용 높이가 이미지 자신을 따라 무한히 커지지 않게 한다. */
-function imageFillHeight(cv) {
+function imageFillHeight(cv, sidePage = false) {
   const box = pageBox(), gap = Math.round(fmt().blockGap ?? 10);
   const head = cv.querySelector('.cv-head:not(.head-ghost)');
   const foot = footRow();
-  const headH = head ? head.offsetHeight : 0;
+  const dmFoot = cv.querySelector('.cv-foot-insta-dm:not(.eb-foot-ghost)');
+  /* Article 제목은 글 흐름에 포함되며, 나란히 배치한 사진은 그 다음 장을 시작한다.
+     해당 장에 없는 제목 높이를 사진에서 또 빼면 아래에 큰 빈 공간이 남는다. */
+  const flowHead = head && decorationLayout(theme()).role === 'content-title' && colCount() === 1;
+  const headH = head && !(sidePage && flowHead) ? head.offsetHeight : 0;
   const footH = foot ? foot.offsetHeight : 0;
-  return Math.max(1, box.inner - headH - footH - (headH ? gap : 0) - (footH ? gap : 0));
+  return Math.max(1, box.inner - headH - footH - (headH && flowHead && !sidePage ? gap : 0)
+    - (foot ? SIGNATURE_EDGE : 0) - (dmFoot ? dmFoot.offsetHeight : 0));
 }
 function sizeFillImages(cv) {
   if (!cv.querySelector('.image-fill')) return;
   const height = imageFillHeight(cv);
   cv.querySelectorAll('.image-fill').forEach(view => { view.style.height = height + 'px'; });
 }
+/* 사진 옆 글은 화면 DOM에서만 한 페이지로 묶는다. 원본 블록의 순서·내용은 그대로 둔다. */
+function splitProseForSide(row, body) {
+  if (row.children.length !== 1 || !row.firstElementChild?.classList.contains('blk-text')) return false;
+  const src = row.firstElementChild, points = proseSplitPoints(src), last = points.length - 1;
+  if (last < 2) return false;
+  const range = document.createRange();
+  const part = (a, b) => {
+    range.setStart(points[a].node, points[a].offset);
+    range.setEnd(points[b].node, points[b].offset);
+    const wrap = row.cloneNode(false), text = src.cloneNode(false);
+    text.appendChild(cloneProseContents(range, src)); wrap.appendChild(text);
+    wrap.dataset.sourceStart = String(points[a].source);
+    wrap.dataset.sourceEnd = String(points[b].source);
+    return wrap;
+  };
+  const fits = end => {
+    const candidate = part(0, end); body.appendChild(candidate);
+    const ok = body.scrollHeight <= body.clientHeight + 1;
+    candidate.remove(); return ok;
+  };
+  if (!fits(1)) return false;
+  let lo = 1, hi = last;
+  while (lo + 1 < hi) {
+    const mid = (lo + hi) >> 1;
+    if (fits(mid)) lo = mid; else hi = mid;
+  }
+  if (lo >= last) return false;
+  const head = part(0, lo), tail = part(lo, last);
+  head.dataset.split = 'head';
+  body.appendChild(head); row.replaceWith(tail);
+  return true;
+}
+function groupSidePages(cv, blocks) {
+  if (!canSideLayout()) return;
+  const byId = new Map(blocks.map(block => [block.id, block]));
+  const height = imageFillHeight(cv, true);
+  const photos = [...cv.querySelectorAll(':scope > .blk.side-image')];
+  photos.forEach(photo => {
+    const block = byId.get(photo.dataset.id);
+    if (!block || !photo.isConnected || photo.parentElement !== cv) return;
+    const page = el('div', 'side-page' + (block.imageSide === 'right' ? ' photo-right' : ''));
+    page.dataset.imageId = photo.dataset.id;
+    page.style.height = height + 'px';
+    const image = el('div', 'side-page-photo'), body = el('div', 'side-page-text');
+    cv.insertBefore(page, photo); page.append(image, body); image.appendChild(photo);
+    for (let row = page.nextElementSibling; row?.classList.contains('blk');) {
+      const item = byId.get(row.dataset.id);
+      if (item?.type !== 'text') break;
+      const following = row.nextElementSibling;
+      body.appendChild(row);
+      if (body.scrollHeight > body.clientHeight + 1) {
+        cv.insertBefore(row, following);
+        splitProseForSide(row, body);
+        break;
+      }
+      row = following;
+    }
+    body.style.justifyContent = isTopAlign() ? 'flex-start' : 'center';
+  });
+}
 function positionFillImages(cv) {
-  cv.querySelectorAll('.image-fill').forEach(view => {
+  cv.querySelectorAll('.image-fill,.image-side-view').forEach(view => {
     const img = view.querySelector('img'), crop = view._fillCrop;
     if (!img || !crop || !view.offsetWidth || !view.offsetHeight ||
       ![crop.x, crop.y, crop.width, crop.height, crop.ratio].every(Number.isFinite) ||
@@ -9684,6 +9815,10 @@ function fillEditorRatio() {
   const h = Math.max(1, canvasW() / (RATIOS[ratioKey()] || 1) - padT() - padB()
     - (headKind(theme()) === 'none' ? 0 : headerHeightPx(theme())));
   return Math.max(.1, w / h);
+}
+function sideEditorRatio() {
+  const width = Math.max(1, canvasW() - padL() - padR()) * SIDE_IMAGE_WIDTH;
+  return Math.max(.1, width / imageFillHeight($('#canvas'), true));
 }
 
 function cropField(src, ratio, options = {}) {
@@ -9798,14 +9933,15 @@ function cropField(src, ratio, options = {}) {
   box._state = st;
   box._snapshot = snapshot;
   box._setSrc = setSrc;
+  box._restore = crop => { pendingCrop = crop || null; };
   /* 창에 떨군 사진을 이 틀이 받는다 — 받은 뒤 무엇을 더 할지는 모달이 정한다(_onPick) */
   box._dropFile = f => readImageFile(f, d => { setSrc(d); if (box._onPick) box._onPick(d); });
   box._maxPx = 1024;                 /* 구워 낼 최대 변 길이 — 캐릭터 이미지는 더 작게 잡는다 */
-  box._export = () => {
+  box._export = (force = false) => {
     if (!img || !st.natW) return box._src || null;
     const fw = box.clientWidth, fh = box.clientHeight;
     /* 옮기지도 확대하지도 않았으면 다시 구울 이유가 없다 — 원본을 그대로 쓴다 */
-    if (!st.touched || !fw || !fh) return box._src || null;
+    if ((!st.touched && !force) || !fw || !fh) return box._src || null;
     try {
       const out = document.createElement('canvas');
       const R = Math.min(2, box._maxPx / Math.max(fw, fh));
@@ -9939,7 +10075,7 @@ function buildMusicEditor(host, block) {
   const openCover = () => openAvatarModal(block.cover || '', d => {
     if (d) block.cover = d; else delete block.cover;
     save(); render();
-  }, { title: '앨범 커버', sub: '카드에서는 정사각형으로 잘려 들어갑니다. 끌어서 위치를 맞추세요.' });
+  }, { title: '앨범 커버' });
   const prev = el('div', 'bgimg-drop');
   prev.style.cssText = 'width:80px;height:80px;flex:0 0 80px;border-radius:var(--r-sm,8px);overflow:hidden;'
     + 'background:var(--c-surface-sunken,#F2F2F7);display:grid;place-items:center;cursor:pointer;position:relative;';
@@ -10028,34 +10164,45 @@ function buildImageEditor(host, block, initialSrc) {
     : !previous.blockId && previous.initialSrc === (initialSrc || '')) ? previous.block : block;
   const draft = {
     src: source ? source.src : (initialSrc || ''),
-    size: source ? (source.size ?? 60) : 60,
+    size: source ? (source.imageRatio === 'fill' && source.imageSizeMode !== 'custom'
+      ? 100 : imageDisplaySize(source)) : 100,
     imageSizeMode: source ? (source.imageSizeMode === 'height' ? 'width' : source.imageSizeMode || 'custom') : 'width',
     round: source ? source.round !== false : true,
     imageAlign: source && ['left', 'center', 'right'].includes(source.imageAlign) ? source.imageAlign : 'center',
-    ratio: source ? imageRatioChoice(source) : 'fill'
+    ratio: source ? imageRatioChoice(source) : 'fill',
+    placement: source?.imagePlacement === 'side' ? 'side' : 'inline',
+    side: source?.imageSide === 'right' ? 'right' : 'left',
+    inlineCrop: source?.imageCrop || null,
+    sideCrop: source?.sideCrop || null
   };
+  fillPreviewRatio *= draft.size / 100;
   let previewFrame = 0;
   const preview = () => {
     if (!host.isConnected || S.ui.stage !== 'format' ||
       (block ? S.ui.selectedBlockId !== block.id : S.ui.newKind !== 'image')) return;
+    const activeCrop = crop._snapshot();
+    if (activeCrop) draft[draft.placement === 'side' ? 'sideCrop' : 'inlineCrop'] = activeCrop;
     /* 입력은 즉시 보존하고 그리기만 한 프레임으로 묶는다. 중간 재렌더에도 마지막 클릭이 남는다. */
     S.ui.imagePreview = draft.src ? { blockId: block?.id || null, initialSrc: initialSrc || '', block: {
       id: block?.id || 'image-preview', type: 'image', src: draft.src,
       size: draft.size, imageSizeMode: draft.imageSizeMode, round: draft.round, imageAlign: draft.imageAlign,
-      imageCrop: crop._snapshot(), imageRatio: draft.ratio
+      imageCrop: draft.inlineCrop, sideCrop: draft.sideCrop,
+      imageRatio: draft.ratio, imagePlacement: draft.placement, imageSide: draft.side
     } } : null;
     if (!previewFrame) previewFrame = requestAnimationFrame(() => {
       previewFrame = 0;
       if (host.isConnected && S.ui.stage === 'format') {
         renderCanvas();
-        if (draft.ratio === 'fill') {
+        if (draft.placement === 'inline' && draft.ratio === 'fill') {
           const id = block?.id || 'image-preview';
           const row = [...document.querySelectorAll('#canvas .blk[data-id]')].find(x => x.dataset.id === id);
           const view = row?.querySelector('.image-fill');
           const actual = view && view.offsetHeight ? view.offsetWidth / view.offsetHeight : 0;
           if (actual > 0 && Math.abs(actual - fillPreviewRatio) > .01) {
             fillPreviewRatio = actual;
-            crop._setRatio(actual, true);
+            const keep = crop._snapshot();
+            crop._setRatio(actual);
+            crop._restore(keep);
           }
         }
       }
@@ -10111,14 +10258,64 @@ function buildImageEditor(host, block, initialSrc) {
   panelHeading.appendChild(topRow);
 
 
-  const crop = cropField(draft.src, draft.ratio === 'fill' ? fillPreviewRatio : draft.ratio, { preserve: true,
-    crop: source?.imageRatio === 'original' ? null : source?.imageCrop });
+  const crop = cropField(draft.src, draft.placement === 'side' ? sideEditorRatio()
+    : draft.ratio === 'fill' ? fillPreviewRatio : draft.ratio, { preserve: true,
+    crop: draft.placement === 'side' ? draft.sideCrop : draft.inlineCrop });
   crop._onChange = preview;
+
+  const placementField = el('div', 'field');
+  placementField.appendChild(el('span', 'lab', '이미지 배치'));
+  const placementChoices = el('div', 'image-placement-options');
+  placementChoices.setAttribute('role', 'group');
+  placementChoices.setAttribute('aria-label', '이미지 배치');
+  const placementButtons = {};
+  const placementIcons = {
+    inline: '<path d="M3 4h18M3 8h18M3 20h18"/><rect x="7" y="11" width="10" height="6" rx="1"/>',
+    side: '<rect x="3" y="3" width="8" height="18" rx="1"/><path d="M14 5h7M14 9h7M14 13h7M14 17h7"/>'
+  };
+  [['inline', '본문 사이 배치'], ['side', '글과 나란히 배치']].forEach(([value, label]) => {
+    const button = el('button', draft.placement === value ? 'on' : '');
+    button.type = 'button';
+    button.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${placementIcons[value]}</svg><span>${label}</span>`;
+    button.setAttribute('aria-label', label);
+    button.setAttribute('aria-pressed', String(draft.placement === value));
+    button.disabled = value === 'side' && !canSideLayout();
+    button.onclick = () => setPlacement(value);
+    placementButtons[value] = button;
+    placementChoices.appendChild(button);
+  });
+  placementField.appendChild(placementChoices);
+  if (!canSideLayout()) placementField.appendChild(el('div', 'lab-sub',
+    '글과 나란히 배치는 비율 지정·1단에서, 글을 놓을 폭이 충분할 때 사용할 수 있습니다.'));
+
+  const sideField = el('div', 'field');
+  sideField.appendChild(el('span', 'lab', '사진 위치'));
+  const sideChoices = el('div', 'image-side-options');
+  sideChoices.setAttribute('role', 'group'); sideChoices.setAttribute('aria-label', '사진 위치');
+  const sideButtons = {};
+  [['left', '사진 왼쪽'], ['right', '사진 오른쪽']].forEach(([value, label]) => {
+    const button = el('button', draft.side === value ? 'on' : '');
+    button.type = 'button';
+    button.innerHTML = value === 'left'
+      ? '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="18" rx="1"/><path d="M14 5h7M14 9h7M14 13h7M14 17h7"/></svg><span>사진 왼쪽</span>'
+      : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h7M3 9h7M3 13h7M3 17h7"/><rect x="13" y="3" width="8" height="18" rx="1"/></svg><span>사진 오른쪽</span>';
+    button.setAttribute('aria-label', label);
+    button.setAttribute('aria-pressed', String(draft.side === value));
+    button.onclick = () => {
+      draft.side = value;
+      Object.entries(sideButtons).forEach(([key, btn]) => {
+        const on = key === value; btn.classList.toggle('on', on); btn.setAttribute('aria-pressed', String(on));
+      });
+      preview();
+    };
+    sideButtons[value] = button; sideChoices.appendChild(button);
+  });
+  sideField.appendChild(sideChoices);
 
   const ratios = el('div', 'crop-ratios');
   IMAGE_RATIOS.forEach(r => {
     const b = el('button', draft.ratio === r ? 'on' : '');
-    b.textContent = r === 'fill' ? '채우기' : r;
+    b.textContent = r === 'fill' ? '채우기' : r === 'original' ? '원본' : r;
     b.onclick = () => {
       draft.ratio = r;
       [...ratios.children].forEach(x => x.classList.toggle('on', x === b));
@@ -10133,11 +10330,17 @@ function buildImageEditor(host, block, initialSrc) {
   zoomWrap.appendChild(el('span', 'lab', '확대'));
   const zoom = el('input', 'rng'); zoom.type = 'range'; zoom.step = '0.01';
   zoomWrap.appendChild(zoom);
-  crop._onScale = (base, current) => { zoom.min = base; zoom.max = Math.max(base * 3, current); zoom.value = current; };
+  crop._onScale = (base, current) => {
+    zoom.min = base; zoom.max = Math.max(base * 3, current); zoom.value = current;
+    if (draft.placement === 'side' && !draft.sideCrop) crop._center();
+  };
   zoom.oninput = () => crop._zoom(parseFloat(zoom.value));
 
   /* 미리보기(자르기 틀)를 누르면 곧바로 이미지 선택으로 간다 — 별도 버튼을 두지 않는다 */
-  const took = d => { draft.src = d; crop.style.cursor = 'grab'; imgBtns.hidden = false; };
+  const took = d => {
+    draft.src = d; draft.inlineCrop = draft.sideCrop = null;
+    crop.style.cursor = 'grab'; imgBtns.hidden = false;
+  };
   crop._onPick = took;                       /* 창에 떨군 사진 */
   const pick = () => pickImage(d => { took(d); crop._setSrc(d); });
   crop.addEventListener('click', e => { if (!draft.src) { e.stopPropagation(); pick(); } });
@@ -10174,52 +10377,49 @@ function buildImageEditor(host, block, initialSrc) {
   body.append(stage, zoomWrap);
 
 
-  /* 채우기에는 폭 조절이 없다. 고정 비율에서만 폭 선택을 보여 준다. */
+  /* 본문 사이에서는 비율에 관계없이 틀 폭과 정렬을 조절한다. */
   const sizeField = el('div', 'field');
-  sizeField.appendChild(el('span', 'lab', '크기'));
-  const sizeModes = el('div', 'image-size-modes');
-  const sizeOptions = [['width', '화면 좌우 맞춤'], ['custom', '직접 지정']];
-  sizeModes.setAttribute('role', 'group');
-  sizeModes.setAttribute('aria-label', '이미지 크기 방식');
-  sizeOptions.forEach(([mode, label]) => {
-    const button = el('button', draft.imageSizeMode === mode ? 'on' : '', label);
-    button.type = 'button';
-    button.setAttribute('aria-pressed', String(draft.imageSizeMode === mode));
-    button.onclick = () => {
-      draft.imageSizeMode = mode;
-      [...sizeModes.children].forEach((item, i) => {
-        const on = sizeOptions[i][0] === mode;
-        item.classList.toggle('on', on);
-        item.setAttribute('aria-pressed', String(on));
-      });
-      szWrap.hidden = alignField.hidden = mode !== 'custom';
-      applySize(); preview();
-    };
-    sizeModes.appendChild(button);
-  });
-  sizeField.appendChild(sizeModes);
-
   const szWrap = el('div', 'slideh');
-  const szLab = el('span', 'lab', '직접 지정');
+  const szLab = el('span', 'lab', '크기');
   const szVal = el('span', 'lab-sub', draft.size + '%'); szVal.style.cssText = 'display:inline;margin-left:6px';
   szLab.appendChild(szVal); szWrap.appendChild(szLab);
   const sz = el('input', 'rng'); sz.type = 'range'; sz.min = 10; sz.max = 100; sz.step = 5; sz.value = draft.size;
   const applySize = () => {
     szVal.textContent = draft.size + '%';
-    sizer.style.width = draft.ratio === 'fill' ? '100%' : imageDisplaySize({ imageSizeMode: draft.imageSizeMode,
-      size: draft.size, imageRatio: draft.ratio }) + '%';
-    requestAnimationFrame(() => crop._setRatio(draft.ratio === 'fill' ? fillPreviewRatio : draft.ratio));
+    sizer.style.width = draft.placement === 'side' ? '100%' : draft.size + '%';
+    if (draft.placement === 'inline' && draft.ratio === 'fill') {
+      fillPreviewRatio = fillEditorRatio() * draft.size / 100;
+      const keep = crop._snapshot();
+      crop._setRatio(fillPreviewRatio);
+      crop._restore(keep);
+    }
+    preview();
   };
-  sz.oninput = () => { draft.size = +sz.value; applySize(); };
+  sz.oninput = () => { draft.size = +sz.value; draft.imageSizeMode = 'custom'; applySize(); };
   szWrap.appendChild(sz);
+  sizeField.appendChild(szWrap);
   const syncSizeFields = () => {
-    sizeField.hidden = draft.ratio === 'fill';
-    szWrap.hidden = alignField.hidden = draft.ratio === 'fill' || draft.imageSizeMode !== 'custom';
+    const side = draft.placement === 'side';
+    ratioField.hidden = sizeField.hidden = alignField.hidden = side;
+    sideField.hidden = !side;
+  };
+  const setPlacement = value => {
+    if (value === draft.placement || (value === 'side' && !canSideLayout())) return;
+    draft[draft.placement === 'side' ? 'sideCrop' : 'inlineCrop'] = crop._snapshot();
+    draft.placement = value;
+    Object.entries(placementButtons).forEach(([key, button]) => {
+      const on = key === value; button.classList.toggle('on', on);
+      button.setAttribute('aria-pressed', String(on));
+    });
+    crop._setRatio(value === 'side' ? sideEditorRatio()
+      : draft.ratio === 'fill' ? fillPreviewRatio : draft.ratio, true);
+    crop._restore(value === 'side' ? draft.sideCrop : draft.inlineCrop);
+    syncSizeFields(); applySize();
   };
   syncSizeFields();
 
   crop.style.borderRadius = draft.round ? '10px' : '0';
-  wrap.append(panelHeading, ratioField, body, sizeField, szWrap, alignField);
+  wrap.append(panelHeading, placementField, sideField, ratioField, body, sizeField, alignField);
   host.appendChild(wrap);
   applySize();
 
@@ -10231,9 +10431,11 @@ function buildImageEditor(host, block, initialSrc) {
       confirming = false; toast('이미지를 불러온 뒤 다시 확인해주세요'); return;
     }
     await raf2();
+    draft[draft.placement === 'side' ? 'sideCrop' : 'inlineCrop'] = crop._snapshot();
     const patch = { size: draft.size, imageSizeMode: draft.imageSizeMode,
       round: draft.round, imageAlign: draft.imageAlign,
-      imageRatio: draft.ratio, imageCrop: crop._snapshot() };
+      imageRatio: draft.ratio, imageCrop: draft.inlineCrop, sideCrop: draft.sideCrop,
+      imagePlacement: draft.placement, imageSide: draft.side };
     /* 원본 하나와 작은 좌표만 보존한다. 편집 확정마다 자른 PNG를 중복 저장하지 않는다. */
     const src = block && draft.src === block.src ? draft.src : await shrinkImage(draft.src, 1024);
     if (S.ui.stage !== 'format' || (block ? S.ui.selectedBlockId !== block.id
@@ -10541,7 +10743,7 @@ function buildTextEditor(host, block) {
   fmtSection.appendChild(line1);
 
   /* 2행: 정렬 | 색 */
-  const line2 = el('div', 'tool-line');
+  const line2 = el('div', 'tool-line align-color-line');
   const alignGrp = el('div', 'tool-grp');
   alignGrp.appendChild(el('span', 'lab', '정렬'));
   const alignKeys = Object.keys(ALIGN_ICON);
@@ -10642,15 +10844,18 @@ function openAvatarModal(cur, onDone, opts) {
      미니홈피 대문 사진은 4:3 이고 캔버스에서 훨씬 크게 나온다. 자르는 «일» 은 같으므로
      창을 새로 만들지 않고 이 둘만 받는다. */
   const R = o.ratio || '1:1', MAX = o.maxPx || 256;
-  const p = modal(o.title || '캐릭터 이미지',
-    o.sub || '정사각형으로 잘라 넣습니다. 끌어서 위치를 맞추세요.');
+  const p = modal(o.title || '캐릭터 이미지', '끌어서 위치를 맞추세요.');
   const crop = cropField(cur, R);
+  let pickedNewImage = false;
   crop._maxPx = MAX;
   const zoomWrap = el('div', 'slideh');
   zoomWrap.appendChild(el('span', 'lab', '확대'));
   const zoom = el('input', 'rng'); zoom.type = 'range'; zoom.step = '0.01';
   zoomWrap.appendChild(zoom);
-  crop._onScale = base => { zoom.min = base; zoom.max = base * 3; zoom.value = base; };
+  crop._onScale = base => {
+    zoom.min = base; zoom.max = base * 3; zoom.value = base;
+    if (pickedNewImage) crop._center();
+  };
   zoom.oninput = () => crop._zoom(parseFloat(zoom.value));
 
   const body = el('div', 'stack');
@@ -10659,8 +10864,8 @@ function openAvatarModal(cur, onDone, opts) {
   const imgBtns = el('div');
   imgBtns.style.cssText = 'position:absolute;right:8px;bottom:8px;z-index:4;display:flex;gap:6px;';
   imgBtns.hidden = !cur;
-  crop._onPick = () => { imgBtns.hidden = false; };
-  const pick = () => pickImage(d => { crop._setSrc(d); imgBtns.hidden = false; });
+  crop._onPick = () => { pickedNewImage = true; imgBtns.hidden = false; };
+  const pick = () => pickImage(d => { pickedNewImage = true; crop._setSrc(d); imgBtns.hidden = false; });
   crop.style.cursor = 'pointer';
   crop.addEventListener('click', e => { if (!crop._src) { e.stopPropagation(); pick(); } });
   const reBtn = el('button', 'btn btn-quiet');
@@ -10681,8 +10886,12 @@ function openAvatarModal(cur, onDone, opts) {
   const foot = el('div', 'modal-foot');
   const cancel = el('button', 'btn btn-quiet', '취소'); cancel.onclick = closeModal;
   const ok = el('button', 'btn btn-primary', '확인');
-  ok.onclick = () => {
-    const d = crop._export() || cur || '';
+  ok.onclick = async () => {
+    if (crop._src && !(await whenDrawable(crop.querySelector('img')))) {
+      toast('이미지를 불러온 뒤 다시 확인해주세요'); return;
+    }
+    if (!p.isConnected) return;
+    const d = crop._src ? (crop._export(pickedNewImage) || crop._src) : '';
     closeModal();
     /* 프로필은 캔버스에서 28px, 앨범 커버도 50px 남짓이다 — 원본 해상도를 들고 있을 이유가 없다 */
     shrinkImage(d, MAX).then(onDone);
@@ -10699,9 +10908,7 @@ function openBgImageModal(cur, onDone, t) {
   const was = { ...c };
   const bgKeys = ['bgImage', 'bgSize', 'bgX', 'bgY', 'bgRotation', 'bgBlur', 'bgOverlay', 'bgOverlayColor'];
   const beforeBg = t ? Object.fromEntries(bgKeys.map(key => [key, t[key]])) : null;
-  const p = modal('배경 이미지', t
-    ? '미리보기에서 실제 캔버스와 동일하게 표시됩니다.'
-    : '변경한 비율은 캔버스에 바로 적용됩니다.');
+  const p = modal('배경 이미지');
   const up = () => {
     /* t와 S.ui.themeDraft가 다른 객체일 수 있음 (클로저 문제)
        t의 배경 속성을 S.ui.themeDraft에 동기화해야 renderCanvas()에서 반영됨 */
@@ -10945,8 +11152,9 @@ function openBgImageModal(cur, onDone, t) {
   const cancelChanges = () => {
     Object.assign(c, was);
     if (t) Object.assign(t, beforeBg);
-    up(); closeModal(); render();
+    up(); closeModal(true); render();
   };
+  $('#modalRoot')._onCancel = cancelChanges;
   cancel.onclick = cancelChanges;
   p.parentElement.onclick = e => { if (e.target === p.parentElement) cancelChanges(); };
   const ok = el('button', 'btn btn-primary', '확인');
@@ -10957,13 +11165,13 @@ function openBgImageModal(cur, onDone, t) {
         c.mode = 'ratio';
         if (!RATIOS[c.ratio]) c.ratio = '9:16';
       }
-      up(); closeModal();
+      up(); closeModal(true);
       onDone(currentSrc, false);
     } else {
       /* 크롭 모드 */
-      const out = previewEl.crop._export() || cur || '';
+      const out = previewEl.crop._src ? (previewEl.crop._export() || previewEl.crop._src) : '';
       if (out) { c.mode = 'ratio'; if (!RATIOS[c.ratio]) c.ratio = '9:16'; }
-      closeModal();
+      closeModal(true);
       onDone(out, out !== (cur || ''));
     }
   };
@@ -11168,7 +11376,7 @@ function enhanceControls(root = document) {
     info.setAttribute('aria-label', name + ' 편집');
     card.querySelector('.edit-btn')?.setAttribute('aria-label', name + ' 편집');
   });
-  root.querySelectorAll('.theme-card:not(.is-add):not(.sign-card)').forEach(card => {
+  root.querySelectorAll('.theme-card:not(.is-add):not(.sign-card):not(.is-current)').forEach(card => {
     const name = card.querySelector('.nm')?.textContent || '테마';
     const preview = card.querySelector('.preview');
     preview.setAttribute('role', 'button'); preview.tabIndex = 0;
@@ -11284,8 +11492,6 @@ function renderSignListV2() {
     const text = s ? signatureText(s, theme()) : '서명 없음';
     const info = el('div', 'info');
     info.appendChild(el('div', 'name', text));
-    info.appendChild(el('div', 'colors-hint', selected ? '적용 중' : s ? '' : '캔버스에 서명을 표시하지 않습니다'));
-    if (!info.lastChild.textContent) info.lastChild.remove();
     info.setAttribute('role', 'button'); info.tabIndex = 0;
     info.setAttribute('aria-pressed', String(selected));
     info.setAttribute('aria-label', text + ' 적용');
@@ -11558,25 +11764,14 @@ function deleteCharEditV2() {
 /* 테마 그리드 렌더링 */
 function renderThemeGridV2() {
   const container = $('#themeGridContainer');
-  if (!container) return;
+  const pinned = $('#themeListPinned');
+  if (!container || !pinned) return;
   container.innerHTML = '';
+  pinned.innerHTML = '';
 
   const EDIT_SVG = '<svg viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>';
   const COPY_SVG = '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
-
-  S.themes.forEach(t => {
-    const builtIn = !!presetOf(t);
-    const card = el('div', 'theme-card' + (t.id === S.activeThemeId ? ' is-on' : '') + (builtIn ? ' is-preset' : ' is-custom'));
-    card.dataset.itemId = t.id;
-    card.title = '길게 눌러 순서 변경';
-    /* 제공 프리셋은 복제만, 직접 만든 테마는 편집한다. */
-    const editBtn = el('button', 'edit-btn');
-    editBtn.type = 'button';
-    editBtn.innerHTML = builtIn ? COPY_SVG : EDIT_SVG;
-    editBtn.title = builtIn ? '복제' : '수정';
-    editBtn.onclick = (e) => { e.stopPropagation(); builtIn ? duplicateThemeV2(t) : openThemeEditV2(t.id); };
-    card.appendChild(editBtn);
-    /* 프리뷰 영역 */
+  const previewFor = t => {
     const preview = el('div', 'preview');
     preview.style.background = t.bgImage ? `url(${t.bgImage}) center/cover` : t.bg;
     /* 말풍선 미리보기 */
@@ -11601,7 +11796,41 @@ function renderThemeGridV2() {
     const bubbleLabels = { bubble: '대화문', quote: '인용문', notif: '알림', sns: 'SNS', script: '대사', plain: '텍스트' };
     bubble.textContent = bubbleLabels[bs] || '텍스트';
     preview.appendChild(bubble);
-    card.appendChild(preview);
+    return preview;
+  };
+
+  /* 목록 순서는 유지하고, 현재 선택만 첫 줄에 한 번 더 읽기 전용으로 보여 준다. */
+  const active = S.themes.find(t => t.id === S.activeThemeId);
+  if (active) {
+    const current = el('div', 'theme-card is-current is-on' + (presetOf(active) ? ' is-preset' : ' is-custom'));
+    current.setAttribute('role', 'status');
+    current.setAttribute('aria-label', '현재 적용 중인 테마: ' + (active.name || '이름'));
+    const info = el('div', 'current-info');
+    info.append(el('span', 'current-label', '현재 적용 중'), el('div', 'nm', active.name || '이름'));
+    current.append(previewFor(active), info);
+    const editBtn = el('button', 'edit-btn');
+    editBtn.type = 'button';
+    editBtn.innerHTML = EDIT_SVG;
+    editBtn.title = presetOf(active) ? '복제하여 편집' : '편집';
+    editBtn.setAttribute('aria-label', editBtn.title);
+    editBtn.onclick = () => presetOf(active) ? duplicateThemeV2(active) : openThemeEditV2(active.id);
+    current.appendChild(editBtn);
+    pinned.appendChild(current);
+  }
+
+  S.themes.forEach(t => {
+    const builtIn = !!presetOf(t);
+    const card = el('div', 'theme-card' + (t.id === S.activeThemeId ? ' is-on' : '') + (builtIn ? ' is-preset' : ' is-custom'));
+    card.dataset.itemId = t.id;
+    card.title = '길게 눌러 순서 변경';
+    /* 제공 프리셋은 복제만, 직접 만든 테마는 편집한다. */
+    const editBtn = el('button', 'edit-btn');
+    editBtn.type = 'button';
+    editBtn.innerHTML = builtIn ? COPY_SVG : EDIT_SVG;
+    editBtn.title = builtIn ? '복제' : '수정';
+    editBtn.onclick = (e) => { e.stopPropagation(); builtIn ? duplicateThemeV2(t) : openThemeEditV2(t.id); };
+    card.appendChild(editBtn);
+    card.appendChild(previewFor(t));
     /* 이름 */
     card.appendChild(el('div', 'nm', t.name || '이름'));
     card.onclick = () => {
@@ -11633,12 +11862,8 @@ function renderThemeGridV2() {
   add.innerHTML = '<div class="preview">+</div><div class="nm">추가</div>';
   container.appendChild(add);
 
-  /* 내보내기/가져오기 버튼 — 상단, 우측 정렬 */
-  const parent = container.parentElement;
-  const existingIoRow = parent.querySelector('.io-row');
-  if (existingIoRow) existingIoRow.remove();
+  /* 현재 적용 중 카드와 함께 스크롤 상단에 고정한다. */
   const ioRow = el('div', 'io-row');
-  ioRow.style.cssText = 'display:flex;gap:6px;padding:var(--sp-sm) var(--sp-md);justify-content:flex-end';
   const expBtn = el('button', 'btn btn-quiet');
   expBtn.style.cssText = 'height:28px;padding:0 10px;font-size:11px';
   expBtn.textContent = '📤 내보내기';
@@ -11648,7 +11873,7 @@ function renderThemeGridV2() {
   impBtn.textContent = '📥 가져오기';
   impBtn.onclick = () => $('#settingsPick').click();
   ioRow.append(expBtn, impBtn);
-  parent.insertBefore(ioRow, container);
+  pinned.appendChild(ioRow);
 }
 
 let themeDragSuppressUntil = 0;
@@ -12048,8 +12273,6 @@ function syncThemeEditFormV2() {
     /* 대문 사진 */
     optWrap.appendChild(themeAvatarField(t, {
       label: '대문 사진', title: '미니홈피 대문 사진',
-      sub: '4:3 으로 잘라 넣습니다',
-      hint: '미지정 시 회색 사람 아이콘으로 대체됩니다.',
       ratio: '4:3', maxPx: 640
     }, rerender));
   } else if (frKind === 'buddy') {
@@ -12186,7 +12409,6 @@ function syncThemeEditFormV2() {
       canvasBody.appendChild(widthField);
     } else {
       /* 페이지 분할: 비율 */
-      canvasBody.appendChild(el('div', 'lab-sub', `테마 판형 기준 · 짧은 변 ${ratioShortSide()}px`));
       const ratioField = el('div', 'field');
 
       ratioField.appendChild(el('label', 'lab', '비율'));
@@ -13173,11 +13395,6 @@ function themeAvatarField(t, opts, onUpdate) {
     const clr = el('button', 'btn btn-quiet', '사진 지우기');
     clr.onclick = () => { t.headerAvatar = ''; update(); };
     side.appendChild(clr);
-  } else {
-    /* .hint 는 패널 «바깥» 여백(--pad)을 안고 있어 여기서는 혼자 안으로 들어가 보인다 —
-       칸 안에서 쓰는 잔글씨(.lab-sub)로 둔다. 다른 안내 줄과도 같은 결이 된다. */
-    side.appendChild(Object.assign(el('div', 'lab-sub'),
-      { textContent: o.hint || '미지정 시 회색 사람 아이콘으로 대체됩니다.' }));
   }
   row.append(avBtn, side);
   avBox.appendChild(row);
@@ -15009,7 +15226,8 @@ async function buildPNG() {
       /* 한 장만 남긴 저장용 캔버스에서는 그 장의 내용 묶음을 세로 중앙에 둔다.
          «위로» 를 고른 테마는 그대로 둔다 — 위 여백과 화면머리 아래에서 바로 시작한다.
          단을 쓰면 flex 가운데맞춤 대신 placeFlow 가 그 몫을 낸다 [renderCanvas 와 같은 이유]. */
-      cv.classList.toggle('ratio-center', !isTopAlign() && N < 2);
+      cv.classList.toggle('ratio-center', !isTopAlign() && N < 2
+        && !cv.querySelector('.side-page:not(.row-off)'));
       await raf2();
       layoutCols(i);
       /* 장마다 다시 잰다 — 남은 행이 맨 위부터 쌓이면서 줄 위치가 달라진다 */
@@ -15583,7 +15801,8 @@ $('#canvas').addEventListener('keydown', e => {
 
   function markTarget(x, y) {
     clearMarks(); st.target = null;
-    const rows = pageRows().filter(r => r.dataset.id && r.dataset.id !== st.id);
+    const rows = [...cv.querySelectorAll('.blk[data-id]')]
+      .filter(r => !r.closest('.row-off') && r.dataset.id !== st.id);
     let best = null, bd = Infinity;
     rows.forEach(r => {
       const rc = r.getBoundingClientRect(), mid = rc.top + rc.height / 2;
