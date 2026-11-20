@@ -275,6 +275,12 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .sz-up{font-size:1.25em}
 .sz-dn{font-size:.75em}
 .blk-text{white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}
+.blk-text.with-quote-line,.bub-quote-text{
+  border-inline-start:3px solid currentColor;
+  border-inline-start-color:color-mix(in srgb,currentColor 34%,transparent);
+}
+.blk-text.with-quote-line,.bub-quote-text{padding-inline-start:11px}
+.bub-quote-text{display:inline-block;max-width:100%;vertical-align:top}
 /* HTML 블록은 «가둬» 둔다. 이 세 줄이 안쪽 배치를 블록 밖으로 못 나가게 막는 울타리다.
    · position:relative  — 안쪽 absolute 가 블록을 기준으로 앉는다. 이게 없으면 더 바깥
      조상을 기준으로 잡아 캔버스 밖까지 나간다.
@@ -1539,12 +1545,22 @@ body:has(.sheet.is-settling) .stage{transition:none}
   background:var(--c-surface,#fff);
 }
 #formatWrap .edit-header{
-  position:sticky;top:0;z-index:5;background:var(--c-surface,#fff);
-  margin:0 calc(-1 * var(--pad));padding:var(--sp-xs) var(--pad) calc(var(--sp-sm) + var(--sp-md));
+  position:sticky;top:0;z-index:5;background:var(--block-editor-surface,var(--c-surface));
+  margin-inline:calc(-1 * var(--pad));padding:var(--sp-sm) var(--pad);
+  justify-content:space-between;
 }
-#formatWrap .edit-header::before{
-  content:"";position:absolute;left:0;right:0;bottom:100%;height:10px;
-  background:var(--c-surface,#fff);pointer-events:none;
+.edit-header-group{display:flex;align-items:center;gap:var(--sp-sm)}
+.edit-header-group > button{
+  display:grid;place-items:center;width:28px;height:28px;flex:0 0 28px;padding:0;font-size:16px;
+}
+#formatWrap .edit-header-group svg{
+  display:block;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+#formatWrap > .sec:has(> .edit-header){padding-top:0}
+#formatWrap .edit-header:has(+ .text-kind-tabs){margin-bottom:0}
+@media (width > 400px){
+  #formatWrap .edit-header{padding-block:calc(var(--sp-sm) + 2px)}
 }
 .edit-header .back-btn{
   width:28px;height:28px;border-radius:var(--r-sm);background:var(--c-surface-sunken);color:var(--c-text-secondary);
@@ -2037,17 +2053,6 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 .tool-line.compact .tool-grp{gap:6px}
 .tool-line.compact .icb{width:34px;height:34px;flex-basis:34px}
 .tool-line.compact .icb svg{width:17px;height:17px}
-/* 정렬/색 줄은 다른 줄의 좌우 여백을 따르고, 구분선 양쪽만 좁혀 한 줄에 담는다. */
-#formatWrap .tool-line.align-color-line{gap:2px;flex-wrap:nowrap;justify-content:space-between}
-#formatWrap .align-color-line .tool-grp{gap:6px}
-#formatWrap .align-color-line .tool-grp:last-child{gap:8px}
-#formatWrap .align-color-line .tool-sep{margin-inline:0;flex:0 0 1px}
-@media (max-width:359px){
-  #formatWrap .tool-line.align-color-line{gap:2px}
-  #formatWrap .align-color-line .tool-grp{gap:3px}
-  #formatWrap .align-color-line .tool-grp:last-child{gap:6px}
-  #formatWrap .align-color-line .icb{width:34px;height:34px;flex-basis:34px}
-}
 /* 글자 크기 — 정렬과 같은 동그란 버튼으로 맞춘다.
    예전에는 같은 «A» 를 11 · 14 · 17px 세 크기로만 보였는데, 동그라미 안에서 그 몇 px 차이는
    눈에 안 잡혔다. 좁은 화면은 단추가 «누르면 다음» 하나뿐이라 견줄 상대조차 없어서 더 그랬다.
@@ -2080,6 +2085,24 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 .char-chip .avatar{width:24px;height:24px;border-radius:var(--r-full);background:var(--c-border);flex-shrink:0;overflow:hidden}
 .char-chip .avatar img{width:100%;height:100%;object-fit:cover}
 .char-chip.is-on{background:var(--c-primary-muted);border-color:var(--c-primary);color:var(--c-primary-text)}
+.char-chip-split{
+  display:inline-flex;align-items:center;background:var(--c-surface);
+  border:1px solid var(--editor-control-line);border-radius:var(--r-full);
+}
+.char-chip-split.is-on{background:var(--c-primary-muted);border-color:var(--c-primary-hover)}
+.char-chip-split .char-chip{
+  height:calc(var(--ctl-sm) - 2px);padding-right:var(--sp-sm);
+  border:0;background:transparent;border-radius:var(--r-full) 0 0 var(--r-full);
+}
+.char-chip-more{
+  display:grid;place-items:center;width:24px;height:24px;margin-inline-end:3px;
+  color:var(--c-primary-text);background:var(--editor-well);
+  border:1px solid var(--editor-line);border-radius:50%;
+}
+.char-chip-more svg{width:16px;height:16px;fill:currentColor}
+.char-chip-split .char-chip:hover,.char-chip-more:hover,.char-chip-more[aria-expanded="true"]{
+  background:var(--c-primary-muted);
+}
 /* 수정 버튼 포함 */
 .char-chip.has-edit{padding-right:4px}
 .char-chip .edit-btn{
@@ -2099,6 +2122,11 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   border-radius:var(--r-card);box-shadow:var(--shadow-pop);padding:14px;width:280px;
 }
 .pop-title{font-size:var(--fs-label);color:var(--c-text-secondary);margin-bottom:10px}
+.character-position-pop{width:184px;padding:10px}
+.character-position-pop .pop-title{margin:0 4px 6px;overflow-wrap:anywhere}
+.character-position-pop .seg{background:var(--c-surface-sunken)}
+.character-position-pop .seg button{min-height:28px}
+.pop .inp[aria-invalid="true"]{border-color:var(--c-danger)}
 .pop-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin-bottom:12px}
 .pop-sw{aspect-ratio:1;border-radius:7px;border:1px solid rgba(0,0,0,.10);position:relative;cursor:pointer}
 .pop-sw:hover{transform:scale(1.1)}
@@ -2397,6 +2425,146 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   .modal,.savesheet{top:var(--viewport-top,0px);bottom:var(--viewport-bottom,0px)}
   .modal-panel{max-height:max(48px,calc(var(--app-vh,100dvh) - 32px))}
   .savesheet-panel{max-height:calc(var(--app-vh,100dvh) * .92)}
+}
+
+/* 편집기 표면과 조작 상태 */
+.sheet{
+  --editor-well:#F1F5F1;
+  --editor-line:#DCE7DE;
+  --editor-control-line:#A9BCAF;
+  --editor-active:#356344;
+  --editor-focus:0 0 0 3px rgba(106,168,122,.22);
+  --editor-lift:0 1px 2px rgba(30,55,38,.06),0 8px 20px -12px rgba(30,55,38,.24);
+}
+.topbar .brand{font-size:14px;font-weight:800;letter-spacing:-.025em}
+.sheet .inp-group{
+  border-radius:16px;border-color:var(--editor-line);box-shadow:var(--editor-lift);
+  transition:border-color var(--dur-fast),box-shadow var(--dur-fast);
+}
+.sheet .inp-group:focus-within{
+  border-color:var(--c-primary-hover);box-shadow:var(--editor-focus),var(--editor-lift);
+}
+.sheet .composer-ta{font-size:13px}
+.sheet .tab-line{font-weight:600;letter-spacing:-.015em}
+.sheet .tab-line.is-on{color:var(--editor-active);font-weight:800}
+.sheet .tab-indicator{background:var(--editor-active)}
+.sheet .section-header h3,.sheet .edit-header .edit-title{
+  font-size:13px;font-weight:800;letter-spacing:-.025em;
+}
+.sheet .setting-title,.sheet .settings-flow > .field > .lab{
+  font-weight:700;letter-spacing:-.015em;
+}
+.sheet .slideh-val input,.sheet .step input{font-variant-numeric:tabular-nums}
+.sheet .char-card .name{font-weight:650}
+.sheet .seg{background:var(--editor-well);border-radius:10px}
+.sheet .seg button{border-radius:6px;transition:background-color var(--dur-fast),color var(--dur-fast),box-shadow var(--dur-fast)}
+.sheet .seg button.is-on{
+  background:var(--c-surface);border-color:var(--editor-line);color:var(--editor-active);
+  box-shadow:0 1px 3px rgba(30,55,38,.12);
+}
+.sheet .tgl.is-on,.sheet .inp-group .btn-mini.is-send,
+.sheet .btn-fill:not(.btn-danger),.sheet .btn-primary:not(.btn-danger){
+  background:var(--editor-active);
+}
+.sheet .inp-group .btn-mini.is-send{border-color:var(--editor-active)}
+.sheet .inp:focus,.sheet .sel:focus,.sheet .step input:focus{
+  border-color:var(--c-primary-hover);box-shadow:var(--editor-focus);
+}
+.sheet button:focus-visible{outline-color:var(--editor-active);outline-offset:2px}
+.sheet .tab-line:focus-visible{outline-offset:-4px}
+#formatWrap .fmt-section .icb.is-on:not(.is-tint){
+  background:var(--c-primary-muted);color:var(--c-primary-text);border-color:var(--c-primary-hover);
+}
+#formatWrap .icb.is-mixed{background:var(--c-secondary-muted);border-color:var(--c-secondary-text);color:var(--c-secondary-text)}
+#formatWrap .fmt-section .sel{
+  background-color:var(--c-surface);border-color:var(--editor-control-line);
+  box-shadow:0 1px 2px rgba(30,55,38,.08);
+}
+#formatWrap .fmt-section .sel:focus{border-color:var(--editor-active);box-shadow:var(--editor-focus)}
+#formatWrap .fmt-section .icb:not(.is-on):not(.is-mixed){border-color:var(--editor-control-line)}
+#formatWrap .fmt-section{display:flex;flex-direction:column}
+#formatWrap .fmt-section .tool-line{
+  --format-gap:8px;
+  padding-inline:12px;gap:var(--format-gap);
+}
+#formatWrap .fmt-section .tool-grp{gap:var(--format-gap)}
+#formatWrap .fmt-section .tool-line > .tool-grp:only-child{flex:1}
+#formatWrap .fmt-section .format-buttons{
+  display:flex;flex-wrap:wrap;gap:var(--format-gap);
+}
+#formatWrap .fmt-section .tool-line .icb{box-shadow:none}
+#formatWrap .fmt-section .sel{flex:1;min-width:0;padding-left:8px}
+#formatWrap .fmt-section :is(.text-format-line,.text-effects-line){
+  justify-content:space-between;
+}
+#formatWrap .fmt-section .text-effects-line{flex-wrap:nowrap}
+#formatWrap .fmt-section .row-between{gap:var(--format-gap)}
+#formatWrap .fmt-section .text-effects-line .lab{white-space:nowrap}
+#formatWrap .fmt-section .subtitle-action{
+  height:26px;min-width:28px;padding:0 4px;font-size:10px;font-weight:700;letter-spacing:-.02em;
+}
+#formatWrap .fmt-section .subtitle-action[aria-pressed="true"]{background:var(--c-primary-muted)}
+#formatWrap .fmt-section .subtitle-action[aria-pressed="mixed"]{
+  background:var(--c-secondary-muted);border-style:dashed;border-color:var(--c-secondary-text);
+}
+#formatWrap .fmt-section .format-swatch{
+  width:26px;height:26px;flex:0 0 26px;border-radius:8px;
+}
+#formatWrap .fmt-section .format-swatch::after{display:none}
+#formatWrap .fmt-section .format-swatch.is-on{
+  border-color:var(--c-primary-hover);background:var(--c-primary-muted);
+}
+.format-swatch-color{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:15px;height:15px;border-radius:4px;
+  background:var(--tint);border:1px solid rgba(0,0,0,.18);
+}
+#formatWrap .edit-header-group svg,#formatWrap .icb > svg{
+  transition:transform var(--dur-fast) var(--ease-out);
+}
+.sheet .rng::-webkit-slider-thumb{transition:transform var(--dur-fast) var(--ease-out)}
+.sheet .rng::-moz-range-thumb{transition:transform var(--dur-fast) var(--ease-out)}
+.sheet .rng:active::-webkit-slider-thumb{transform:scale(.88)}
+.sheet .rng:active::-moz-range-thumb{transform:scale(.88)}
+.sheet .slideh:focus-within .slideh-val input{background:var(--c-primary-muted);color:var(--editor-active)}
+.sheet :is(.btn-mini,.btn-fill,.btn-primary,.seg button):active:not(:disabled){
+  transform:translateY(1px);
+}
+@media (hover:hover){
+  #formatWrap :is(.edit-header-group button,.icb):hover:not(:disabled) > svg{transform:scale(1.1)}
+  .sheet .rng:hover:not(:active)::-webkit-slider-thumb{transform:scale(1.12)}
+  .sheet .rng:hover:not(:active)::-moz-range-thumb{transform:scale(1.12)}
+  .sheet .tab-line:hover,.sheet .seg button:not(.is-on):hover:not(:disabled){
+    background:var(--c-primary-muted);color:var(--editor-active);
+  }
+  .sheet .inp-group .btn-mini.is-send:hover:not(:disabled),
+  .sheet :is(.btn-fill,.btn-primary):not(.btn-danger):hover:not(:disabled){background:#284E35}
+}
+#formatWrap :is(.edit-header-group button,.icb):active:not(:disabled) > svg{transform:scale(.94)}
+@media (min-width:900px){
+  .sheet{--block-editor-surface:var(--editor-well);background:var(--editor-well);border-color:var(--editor-line)}
+  .sheet.is-format .sheet-head{background:var(--editor-well);padding-bottom:0}
+  #formatWrap:has(.edit-header){border-top:0;padding-top:0}
+  #formatWrap .edit-header{border-bottom:0}
+  .sheet .sheet-body{background:#F9FBF9;border-color:var(--editor-line)}
+  .sheet .settings-panel > .tabs-line{background:#F9FBF9;border-color:var(--editor-line)}
+  .sheet .settings-content > .settings-list{gap:10px}
+  .theme-edit-fields > .section + .section{margin-top:8px}
+  .theme-edit-fields > .section{
+    padding-inline:12px;border:1px solid var(--editor-line);border-radius:12px;
+    background:var(--c-surface);box-shadow:var(--editor-lift);
+  }
+  .sheet .char-card:not(.is-reordering):not(.drop-before):not(.drop-after),
+  .sheet .theme-card:not(.is-add):not(.is-reordering):not(.drop-before):not(.drop-after){
+    box-shadow:var(--editor-lift);
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  .sheet .inp-group,.sheet .seg button,.sheet .tab-line{transition:none}
+  .sheet :is(.btn-mini,.btn-fill,.btn-primary,.seg button):active:not(:disabled){transform:none}
+  #formatWrap .edit-header-group svg,#formatWrap .icb > svg{transition:none;transform:none!important}
+  .sheet .rng::-webkit-slider-thumb{transition:none;transform:none!important}
+  .sheet .rng::-moz-range-thumb{transition:none;transform:none!important}
 }
 
 </style>
@@ -5209,7 +5377,8 @@ function richCoverage(kind) {
   /* 블록 전체 서식은 글 안의 태그가 없어도 모든 글자에 보인다. */
   const b = selBlock();
   if (['bold', 'italic', 'underline', 'strike'].includes(kind) && b && b[kind]) return 'on';
-  const r = liveRange();
+  const live = liveRange();
+  const r = live && !live.collapsed ? live : null;
   if (r && upIn(r.commonAncestorContainer, spec.is)) return 'on';
   const root = r ? r.cloneContents() : ta;
   const nodes = textNodesIn(root).filter(n => n.nodeValue.trim());
@@ -6015,7 +6184,7 @@ function syncViewportVars() {
     if (!isWide()) stage.scrollTop = atEnd ? stage.scrollHeight : scroll;
     if (moved && S.ui.stage === 'format') revealEditedBlock();
     placeActionMenu();
-    if (colorPopPlace) colorPopPlace();
+    if (editorPopPlace) editorPopPlace();
   });
 }
 
@@ -7111,7 +7280,14 @@ function renderBlock(b, th, f, prev, next) {
       + (bs === 'plain' || bs === 'script' ? ' as-plain' : '')
       + (bs === 'notif' ? ' as-notif' : '')
       + (bs === 'sns' ? ' as-sns' : ''));
-    bub.innerHTML = applyInline(b.text || '');
+    const bubbleText = applyInline(b.text || '');
+    if (b.quoteLine && bs !== 'quote') {
+      const quoted = el('span', 'bub-quote-text');
+      quoted.innerHTML = bubbleText;
+      bub.appendChild(quoted);
+    } else {
+      bub.innerHTML = bubbleText;
+    }
     /* SNS 스타일은 액션 아이콘을 추가 (댓글, 리트윗, 좋아요 + 북마크, 공유) */
     if (bs === 'sns') {
       const actions = el('div', 'sns-actions');
@@ -7208,7 +7384,7 @@ function renderBlock(b, th, f, prev, next) {
     return wrap;
   }
 
-  const t = el('div', 'blk-text');
+  const t = el('div', 'blk-text' + (b.quoteLine ? ' with-quote-line' : ''));
   const inner = applyInline(b.text || '');
   t.innerHTML = b.ann === 1 ? `<sup>${inner}</sup>` : b.ann === 2 ? `<sub>${inner}</sub>` : inner;
   style(t);
@@ -8676,12 +8852,12 @@ document.addEventListener('focusout', () => {
 window.addEventListener('scroll', syncViewportVars, { passive: true });
 document.addEventListener('scroll', () => {
   placeActionMenu();
-  if (colorPopPlace) colorPopPlace();
+  if (editorPopPlace) editorPopPlace();
 }, { capture: true, passive: true });
 if (window.visualViewport) {
   const placeOverlays = () => {
     placeActionMenu();
-    if (colorPopPlace) colorPopPlace();
+    if (editorPopPlace) editorPopPlace();
   };
   visualViewport.addEventListener('resize', placeOverlays);
   visualViewport.addEventListener('scroll', placeOverlays);
@@ -8855,9 +9031,8 @@ const ALIGN_ICON = {
   left: 'M4 6h16M4 12h11M4 18h16', center: 'M4 6h16M7 12h10M4 18h16',
   right: 'M4 6h16M9 12h11M4 18h16', justify: 'M4 6h16M4 12h16M4 18h16'
 };
-const ALIGN_NAME = { left: '왼쪽', center: '가운데', right: '오른쪽', justify: '양쪽' };
 /* 블록이 자기 값으로 들고 있을 수 있는 서식 — 있으면 전체 기본값보다 이것이 이긴다 */
-const BLOCK_OWN = ['align', 'font', 'sizeLv', 'bold', 'italic', 'underline', 'strike', 'color', 'ann'];
+const BLOCK_OWN = ['align', 'font', 'sizeLv', 'bold', 'italic', 'underline', 'strike', 'color', 'ann', 'quoteLine'];
 /* 서식은 세 층으로 쌓인다 — 테마 › 도구(전체 서식) › 블록.
    아래층일수록 좁게 이긴다. 다만 위층을 '다시' 건드리면 그 항목만은 전체가 새로 맞춰져야 한다.
    안 그러면 전체를 바꿔도 예전에 손댄 블록만 남아 '일부만 적용' 처럼 보인다.
@@ -8995,49 +9170,10 @@ function renderFormat() {
   }
   if (!isText) return;
 
-  /* 줄 순서는 '이 블록이 무엇인가' → '어떻게 보이는가' 순이다.
-     글꼴과 말풍선 여부가 블록의 성격을 정하고, 정렬·색·서식·주석은 그 안의 꾸밈이다.
-       글꼴
-       말풍선으로 출력
-       정렬 / 색 지정
-       서식 / 주석                                            */
-
-  /* 좁은 화면(<900px)에서는 단추를 다 늘어놓을 자리가 없다. 정렬·크기는 «지금 값 하나»만
-     보이고 누르면 다음 값으로 돌아가게 한다 — 고를 것이 넷·셋뿐이라 돌려 쓰는 편이 빠르다.
-     넓은 화면에서는 여태처럼 전부 펼친다 [isWide]. 폭이 바뀌면 render 가 다시 돈다. */
   const wide = isWide();
   const l1 = el('div', 'tool-line');
-  const g1 = el('div', 'tool-grp'); g1.appendChild(el('span', 'lab', '정렬'));
-  const alignKeys = Object.keys(ALIGN_ICON);
-  const curAlign = b ? (b.align || g.align) : g.align;
-  const setAlign = k => {
-    if (b) b.align = k; else { g.align = k; clearBlockOwn('align', '글 정렬'); }
-    save(); render();
-  };
-  const alignBtn = (k, on) => {
-    const btn = el('button', 'icb' + (on ? ' is-on' : ''));
-    btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="${ALIGN_ICON[k]}"/></svg>`;
-    return btn;
-  };
-  if (wide) {
-    alignKeys.forEach(k => {
-      const btn = alignBtn(k, curAlign === k);
-      btn.title = ALIGN_NAME[k];
-      btn.onclick = () => setAlign(k);
-      g1.appendChild(btn);
-    });
-  } else {
-    const i = Math.max(0, alignKeys.indexOf(curAlign));
-    /* 단추가 하나뿐이어도 켜짐은 표시한다 — 이 블록이 «제 정렬을 따로 들고 있는가» 다.
-       넓은 화면에서 넷 중 하나가 켜지는 것과 같은 뜻이고, 그 표시가 없으면 지금 보이는
-       그림이 «이 블록의 것» 인지 «테마 기본값» 인지 구별할 길이 없었다 [B/I/U 와 같은 규칙]. */
-    const btn = alignBtn(alignKeys[i], !!b && !!b.align && b.align !== g.align);
-    btn.title = ALIGN_NAME[alignKeys[i]] + ' · 누르면 다음';
-    btn.onclick = () => setAlign(alignKeys[(i + 1) % alignKeys.length]);
-    g1.appendChild(btn);
-  }
   const g2 = el('div', 'tool-grp'); g2.appendChild(el('span', 'lab', '색 지정'));
-  g2.appendChild(colorBtn('A', S.colors.text, '글자 색', v => {
+  g2.appendChild(colorBtn('text', S.colors.text, '글자 색', v => {
     if (v == null) {                       /* 기본값 — 테마의 글자색을 그대로 따라간다 */
       if (hasSel()) { formatSelection(() => clearRich('color')); return; }
       /* 고른 조각이 없으면 «이 블록 전부» 다 — 블록 값과 글 속 색을 함께 푼다.
@@ -9053,7 +9189,7 @@ function renderFormat() {
     }
     save(); render();
   }, true));
-  g2.appendChild(colorBtn('✏️', S.colors.highlight, '형광펜', v => {
+  g2.appendChild(colorBtn('highlight', S.colors.highlight, '형광펜', v => {
     /* 형광펜은 블록 단위 값이 없다. 선택이 없으면 글 전체에 건다. */
     if (v == null) {
       if (hasSel()) { formatSelection(() => clearRich('mark')); return; }
@@ -9069,7 +9205,7 @@ function renderFormat() {
     if (b) b.text = markup;
     save(); render();
   }, true));
-  /* 글자 크기 — 정렬·색과 같은 «꾸밈» 이라 한 줄에 둔다 [SIZE_LV] */
+  /* 글자 크기 */
   const g5b = el('div', 'tool-grp');
   g5b.appendChild(el('span', 'lab', '크기'));
   /* 선택 영역이 있으면 «그 조각만» · 없으면 블록 전체 — 서식(B/I/U) 과 같은 규칙이다.
@@ -9124,11 +9260,7 @@ function renderFormat() {
     segSz.appendChild(btn);
   }
   g5b.appendChild(segSz);
-  /* 좁을 때는 정렬·크기가 단추 하나씩이라 색까지 한 줄에 들어간다.
-     넓을 때는 정렬·크기를 다 펼치므로 색은 제 줄로 내린다. */
-  const l1s = el('div', 'tool-line');
-  if (wide) { l1.classList.add('compact'); l1.append(g1, el('div', 'tool-sep'), g5b); l1s.appendChild(g2); }
-  else { l1.append(g1, el('div', 'tool-sep'), g5b, el('div', 'tool-sep'), g2); }
+  l1.append(g5b, el('div', 'tool-sep'), g2);
 
   /* 글 서식 · 주석 */
   const l2 = el('div', 'tool-line');
@@ -9186,7 +9318,7 @@ function renderFormat() {
 
   /* 텍스트 블록의 말풍선/캐릭터 선택은 buildTextEditor 에서 처리한다 */
 
-  if (wide) wrap.append(l1, l2, l1s); else wrap.append(l1, l2);
+  wrap.append(l1, l2);
 
 }
 
@@ -9290,10 +9422,16 @@ const EYEDROPPER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" s
   + 'stroke-linecap="round" stroke-linejoin="round"><path d="M19 3a2.8 2.8 0 0 1 0 4l-1.5 1.5-3-3L16 4a2.8 2.8 0 0 1 3-1z"/>'
   + '<path d="M14.5 8.5 5 18v3h3l9.5-9.5"/></svg>';
 
-function colorBtn(label, val, title, onPick, clearable) {
+function colorBtn(kind, val, title, onPick, clearable) {
   let current = val;
   let savedRange = null;
-  const b = el('button', 'icb is-tint', label);
+  const b = el('button', 'icb is-tint');
+  /* 작은 크기에서 글자 실루엣과 납작한 형광펜 촉이 구분되도록 그린다. */
+  const glyph = kind === 'text'
+    ? '<path d="M6 15 11.3 4.5a.8.8 0 0 1 1.4 0L18 15M8.1 11h7.8"/>'
+    : '<path d="m11 8 4.4-4.4a1.5 1.5 0 0 1 2.2 0l2.8 2.8a1.5 1.5 0 0 1 0 2.2L16 13m-5-5-3.5 3.5 5 5L16 13m-5-5 5 5m-8.5-1.5-2 2v3h3l2-2"/>';
+  b.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${glyph}<path class="tint-track" d="M7 20h10"/><path class="tint-sample" d="M7 20h10"/></svg>`;
+  b.setAttribute('aria-label', title);
   const sync = c => {
     current = c;
     b.title = `${title} — ${c}`;
@@ -9318,8 +9456,68 @@ function colorBtn(label, val, title, onPick, clearable) {
   return b;
 }
 
-let colorPopPlace = null;
-function closePop() { colorPopPlace = null; $('#popRoot').innerHTML = ''; }
+let editorPopPlace = null;
+let positionPopAnchor = null;
+function closePop() {
+  const root = $('#popRoot');
+  const moveFocus = positionPopAnchor && root.contains(document.activeElement);
+  positionPopAnchor?.setAttribute('aria-expanded', 'false');
+  if (moveFocus) positionPopAnchor.focus({ preventScroll: true });
+  positionPopAnchor = null;
+  editorPopPlace = null;
+  root.innerHTML = '';
+}
+
+function placeEditorPop(pop, anchor) {
+  if (!pop.isConnected) return;
+  const bounds = visibleViewport(), top = bounds.top, bottom = bounds.bottom;
+  pop.style.maxHeight = Math.max(48, bottom - top - 20) + 'px';
+  pop.style.overflowY = 'auto';
+  const r = anchor.getBoundingClientRect();
+  const w = pop.offsetWidth || 250, h = pop.offsetHeight || 240;
+  pop.style.left = clamp(r.left + r.width / 2 - w / 2, 10, window.innerWidth - w - 10) + 'px';
+  const preferred = r.top - h - 10 >= top + 10 ? r.top - h - 10 : r.bottom + 10;
+  pop.style.top = clamp(preferred, top + 10, Math.max(top + 10, bottom - h - 10)) + 'px';
+}
+
+function openCharacterPosition(anchor, character) {
+  if (positionPopAnchor === anchor) { closePop(); return; }
+  closePop();
+  const mask = el('div', 'popmask');
+  mask.onclick = closePop;
+  const pop = el('div', 'pop character-position-pop');
+  const title = '말풍선 위치';
+  pop.setAttribute('role', 'group');
+  pop.setAttribute('aria-label', title);
+  pop.appendChild(el('div', 'pop-title', title));
+  const choices = el('div', 'seg');
+  [['left', '왼쪽'], ['right', '오른쪽']].forEach(([value, label]) => {
+    const active = (character.position || 'left') === value;
+    const button = el('button', active ? 'is-on' : '', label);
+    button.type = 'button';
+    button.setAttribute('aria-pressed', String(active));
+    button.onclick = () => {
+      character.position = value;
+      const restoreFocus = pop.contains(document.activeElement);
+      closePop(); save(); render();
+      if (restoreFocus) {
+        [...document.querySelectorAll('#formatWrap .char-chip-more')]
+          .find(more => more.dataset.characterId === character.id)?.focus({ preventScroll: true });
+      }
+    };
+    choices.appendChild(button);
+  });
+  pop.appendChild(choices);
+  $('#popRoot').append(mask, pop);
+  positionPopAnchor = anchor;
+  anchor.setAttribute('aria-expanded', 'true');
+  editorPopPlace = () => {
+    if (anchor.getClientRects().length) placeEditorPop(pop, anchor);
+    else closePop();
+  };
+  editorPopPlace();
+  choices.querySelector('.is-on')?.focus({ preventScroll: true });
+}
 
 function openColorPop(anchor, cur, title, onPick, clearable) {
   closePop();
@@ -9350,7 +9548,7 @@ function openColorPop(anchor, cur, title, onPick, clearable) {
         자주 쓰는 색은 여기서 점 하나로 끝내고, 그 밖의 색만 스포이드로 넘어간다. */
   function stage1() {
     pop.innerHTML = '';
-    pop.appendChild(el('div', 'pop-title', title + (hasSel() ? ' — 선택한 부분' : ' — 블록 전체')));
+    pop.appendChild(el('div', 'pop-title', title));
     const grid = el('div', 'pop-grid');
     if (clearable) {
       /* 지정한 색을 지우고 테마의 글자색을 그대로 따라가게 한다 */
@@ -9367,6 +9565,7 @@ function openColorPop(anchor, cur, title, onPick, clearable) {
       sw.style.background = c;
       sw.title = c;
       sw.onclick = () => commit(c);
+      sw.setAttribute('aria-pressed', String(c.toUpperCase() === current));
       if (userColor || baseColor) {
         const cell = el('div', 'pop-cell');
         const rm = el('button', 'pop-rm', '×');
@@ -9435,11 +9634,14 @@ function openColorPop(anchor, cur, title, onPick, clearable) {
     const swBox = el('div', 'pop-cur');
     const hex = el('input', 'inp'); hex.style.cssText = 'flex:1;min-width:0';
     const okb = el('button', 'btn btn-primary', addMode ? '추가' : '적용');
-    foot.append(swBox, hex, okb); pop.appendChild(foot);
+    foot.append(swBox, hex, okb);
+    pop.appendChild(foot);
+    hex.setAttribute('aria-label', 'HEX 색상');
 
     const paint = () => {
       const v = hsvToHex(hsv.h, hsv.s, hsv.v);
       hex.value = v; swBox.style.background = v;
+      hex.removeAttribute('aria-invalid'); okb.disabled = false;
       sv.style.background =
         `linear-gradient(to top,#000,transparent),linear-gradient(to right,#fff,${hsvToHex(hsv.h, 100, 100)})`;
       dot.style.left = hsv.s + '%'; dot.style.top = (100 - hsv.v) + '%';
@@ -9463,7 +9665,10 @@ function openColorPop(anchor, cur, title, onPick, clearable) {
     drag(sv, (x, y) => { hsv.s = x * 100; hsv.v = (1 - y) * 100; });
     drag(hue, x => { hsv.h = x * 360; });
     hex.oninput = () => {
-      if (!/^#[0-9a-f]{6}$/i.test(hex.value)) return;
+      if (!/^#[0-9a-f]{6}$/i.test(hex.value)) {
+        hex.setAttribute('aria-invalid', 'true'); okb.disabled = true;
+        return;
+      }
       Object.assign(hsv, hexToHsv(hex.value)); paint();
     };
     okb.onclick = () => {
@@ -9476,18 +9681,8 @@ function openColorPop(anchor, cur, title, onPick, clearable) {
     paint(); place();
   }
 
-  function place() {
-    if (!pop.isConnected) return;
-    const bounds = visibleViewport(), top = bounds.top, bottom = bounds.bottom;
-    pop.style.maxHeight = Math.max(48, bottom - top - 20) + 'px';
-    pop.style.overflowY = 'auto';
-    const r = anchor.getBoundingClientRect();
-    const w = pop.offsetWidth || 250, h = pop.offsetHeight || 240;
-    pop.style.left = clamp(r.left + r.width / 2 - w / 2, 10, window.innerWidth - w - 10) + 'px';
-    const preferred = r.top - h - 10 >= top + 10 ? r.top - h - 10 : r.bottom + 10;
-    pop.style.top = clamp(preferred, top + 10, Math.max(top + 10, bottom - h - 10)) + 'px';
-  }
-  colorPopPlace = place;
+  const place = () => placeEditorPop(pop, anchor);
+  editorPopPlace = place;
   stage1();
 }
 
@@ -9969,6 +10164,9 @@ function cropField(src, ratio, options = {}) {
 function buildEditHeader(host, block, onConfirm) {
   const hdr = el('div', 'edit-header');
   const isNew = !block;
+  const history = el('div', 'edit-header-group edit-history');
+  const actions = el('div', 'edit-header-group edit-actions');
+  hdr.append(history, actions);
 
   /* 실행취소/다시실행 — 새 블록/기존 블록 모두 표시 */
   const histBtn = (svg, title, checkFn, runFn) => {
@@ -9981,14 +10179,10 @@ function buildEditHeader(host, block, onConfirm) {
     btn.onclick = () => { runFn(); render(); };
     return btn;
   };
-  hdr.append(
+  history.append(
     histBtn('M15 18l-6-6 6-6', '실행 취소 (⌘Z)', canUndo, histUndo),
     histBtn('M9 18l6-6-6-6', '다시 실행 (⌘⇧Z)', canRedo, histRedo)
   );
-
-  /* 가운데 여백 */
-  const spacer = el('div'); spacer.style.flex = '1';
-  hdr.appendChild(spacer);
 
   if (!isNew) {
     /* 원복 — 이 블록만 따로 지정된 설정을 전체 설정으로 되돌림 */
@@ -9998,34 +10192,32 @@ function buildEditHeader(host, block, onConfirm) {
       return own.length > 0 || inl.length > 0;
     };
     if (hasOwn()) {
-      const btnReset = el('button', 'btn btn-outline', '↺');
-      btnReset.style.cssText = 'height:28px;width:28px;padding:0;font-size:16px;';
-      btnReset.title = '테마 설정 따르기';
+      const btnReset = el('button', 'btn btn-outline');
+      btnReset.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11a8 8 0 1 1 2 6m-2-6V5m0 6h6"/></svg>';
+        btnReset.title = '테마 설정 따르기';
       btnReset.onclick = () => {
         BLOCK_OWN.forEach(k => { delete block[k]; });
         if (HAS_TEXT.includes(block.type || 'text')) { block.text = stripInline(block.text); syncComposer(block); }
         save(); render(); toast('이 블록도 전체 설정을 따릅니다');
       };
-      hdr.appendChild(btnReset);
+      actions.appendChild(btnReset);
     }
     /* 복사 — 기존 블록만 */
     const btnCopy = el('button', 'btn btn-outline');
-    btnCopy.style.cssText = 'height:28px;width:28px;padding:0;';
     btnCopy.title = '복제';
-    btnCopy.innerHTML = '<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+    btnCopy.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M15 6V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h1"/></svg>';
     btnCopy.onclick = () => {
       const copy = Object.assign({}, block, { id: uid() });
       S.blocks.splice(S.blocks.indexOf(block) + 1, 0, copy);
       S.ui.selectedBlockId = copy.id;
       save(); render(); toast('이 블록을 복제했습니다');
     };
-    hdr.appendChild(btnCopy);
+    actions.appendChild(btnCopy);
   }
   /* 삭제 — 새 블록이면 취소, 기존 블록이면 삭제 확인 */
   const btnDel = el('button', 'btn btn-danger');
-  btnDel.style.cssText = 'height:28px;width:28px;padding:0;';
   btnDel.title = isNew ? '취소' : '삭제';
-  btnDel.innerHTML = '<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
+  btnDel.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5m4-5v5"/></svg>';
   btnDel.onclick = () => {
     if (isNew) {
       /* 새 블록 — 확인 없이 바로 취소 */
@@ -10038,14 +10230,13 @@ function buildEditHeader(host, block, onConfirm) {
       });
     }
   };
-  hdr.appendChild(btnDel);
+  actions.appendChild(btnDel);
   /* 저장/확인 — 패널 닫고 기본으로 복귀 (실시간 반영이라 확인 역할) */
   const btnSave = el('button', 'btn btn-fill');
-  btnSave.style.cssText = 'height:28px;width:28px;padding:0;';
   btnSave.title = '확인';
-  btnSave.innerHTML = '<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M20 6L9 17l-5-5"/></svg>';
+  btnSave.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>';
   btnSave.onclick = () => { if (onConfirm) onConfirm(); else backToDefault(); };
-  hdr.appendChild(btnSave);
+  actions.appendChild(btnSave);
   host.appendChild(hdr);
   return { btnSave };  /* 필요하면 저장 버튼 상태 제어 가능 */
 }
@@ -10630,8 +10821,7 @@ function buildTextEditor(host, block) {
   /* 텍스트 입력은 기존 #ta (composer)를 사용한다 — hasSel(), formatSelection() 등이 동작하려면 필수 */
 
   /* ═══ 대사/서술 탭 ═══ */
-  const tabs = el('div', 'tabs-line');
-  tabs.style.cssText = 'position:relative;margin:var(--sp-md);margin-bottom:0;';
+  const tabs = el('div', 'tabs-line text-kind-tabs');
   const tabSpeech = el('button', 'tab-line' + (block.asBubble ? ' is-on' : ''), '대사');
   const tabNarr = el('button', 'tab-line' + (!block.asBubble ? ' is-on' : ''), '서술');
   const indicator = el('div', 'tab-indicator');
@@ -10642,7 +10832,6 @@ function buildTextEditor(host, block) {
     tabNarr.classList.toggle('is-on', !isSpeech);
     indicator.style.left = isSpeech ? '0' : '50%';
     charSection.hidden = !isSpeech;
-    divider.hidden = !isSpeech;
   };
   tabSpeech.onclick = () => { block.asBubble = true; syncTabs(true); save(); renderCanvas(); };
   tabNarr.onclick = () => { block.asBubble = false; block.speakerId = null; syncTabs(false); save(); renderCanvas(); };
@@ -10654,39 +10843,34 @@ function buildTextEditor(host, block) {
   charSection.style.cssText = 'padding:var(--sp-md) var(--sp-md) var(--sp-sm);display:flex;flex-direction:column;gap:var(--sp-sm);';
   charSection.hidden = !block.asBubble;
 
-  /* 1행: 위치 토글 (오른쪽 정렬) */
-  const spk = S.characters.find(c => c.id === block.speakerId);
-  const posRow = el('div', 'tool-grp');
-  posRow.style.cssText = 'justify-content:flex-end;';
-  if (!spk) posRow.style.opacity = '0.5';
-  posRow.appendChild(el('span', 'lab', '위치'));
-  const sideTgl = el('div', 'tgl-text' + (!spk ? ' is-disabled' : ''));
-  const curPos = spk ? spk.position : 'left';
-  [['left', '좌'], ['right', '우']].forEach(([val, label]) => {
-    const btn = el('button', val === curPos ? 'is-on' : '', label);
-    btn.disabled = !spk;
-    btn.onclick = () => {
-      if (!spk) return;
-      spk.position = val; save(); render();
-    };
-    sideTgl.appendChild(btn);
-  });
-  posRow.appendChild(sideTgl);
-  if (!['quote', 'script', 'notif', 'sns'].includes(theme().bubbleStyle || 'bubble'))
-    charSection.appendChild(posRow);
-
-  /* 2행: 캐릭터 칩들 (char-chip 스타일 — 아바타 + 이름) */
+  /* 위치 선택은 말풍선 방향이 있는 테마의 캐릭터 칩에 둔다. */
+  const hasPosition = !['quote', 'script', 'notif', 'sns'].includes(th.bubbleStyle || 'bubble');
   const chipRow = el('div');
   chipRow.style.cssText = 'display:flex;flex-wrap:wrap;gap:var(--sp-sm);';
   S.characters.forEach(c => {
-    const chip = el('button', 'char-chip' + (block.speakerId === c.id ? ' is-on' : ''));
+    const selected = block.speakerId === c.id;
+    const chip = el('button', 'char-chip' + (selected ? ' is-on' : ''));
+    chip.setAttribute('aria-pressed', String(selected));
     const av = el('span', 'avatar');
     if (c.avatar) { const i = el('img'); i.src = c.avatar; av.appendChild(i); }
     else { av.innerHTML = initialSvg(c.name); av.style.cssText = 'display:grid;place-items:center;background:var(--slate);color:#fff;font-size:11px;'; }
     chip.appendChild(av);
     chip.appendChild(el('span', '', c.name || '이름'));
     chip.onclick = () => { block.speakerId = block.speakerId === c.id ? null : c.id; save(); render(); };
-    chipRow.appendChild(chip);
+    if (!hasPosition) {
+      chipRow.appendChild(chip);
+      return;
+    }
+    const group = el('div', 'char-chip-split' + (selected ? ' is-on' : ''));
+    const more = el('button', 'char-chip-more');
+    more.type = 'button';
+    more.dataset.characterId = c.id;
+    more.setAttribute('aria-expanded', 'false');
+    more.setAttribute('aria-label', (c.name || '이름') + ' 말풍선 위치');
+    more.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="18" cy="12" r="1.5"/></svg>';
+    more.onclick = () => openCharacterPosition(more, c);
+    group.append(chip, more);
+    chipRow.appendChild(group);
   });
   const addChip = el('button', 'char-chip');
   addChip.style.cssText = 'border-style:dashed;border-color:var(--c-primary);color:var(--c-primary-text);padding-left:var(--sp-sm);';
@@ -10698,31 +10882,20 @@ function buildTextEditor(host, block) {
 
   host.appendChild(charSection);
 
-  /* ═══ 구분선 (대사일 때만 표시) ═══ */
-  const divider = el('div', 'divider');
-  divider.style.marginBottom = '0';  /* tool-line에 이미 상단 패딩이 있으므로 */
-  divider.hidden = !block.asBubble;
-  host.appendChild(divider);
-
-  /* ═══ 서식 컨트롤 (tool-line 구조: 글꼴|크기, 정렬|색, 서식|주석) ═══ */
-  /* tool-line 자체에 padding이 있으므로 fmtSection에는 패딩 불필요 */
   const fmtSection = el('div', 'fmt-section');
-  fmtSection.style.cssText = 'display:flex;flex-direction:column;';
 
-  /* 1행: 글꼴 | 크기 */
-  const line1 = el('div', 'tool-line');
+  const fontLine = el('div', 'tool-line');
   const fontGrp = el('div', 'tool-grp');
   fontGrp.appendChild(el('span', 'lab', '글꼴'));
   const fontSel = fontSelect(block.font || g.font, v => {
     block.font = v; save(); render();
   });
-  fontSel.style.maxWidth = '120px';  /* 모바일에서 밀림 방지 */
+  fontSel.setAttribute('aria-label', '글꼴');
   fontGrp.appendChild(fontSel);
-  const sizeGrp = el('div', 'tool-grp');
-  sizeGrp.appendChild(el('span', 'lab', '크기'));
-  const onSel = hasSel();
-  const curSizeLv = onSel ? richSizeState() : (block.sizeLv ?? 0);
-  if (curSizeLv === 'mixed') sizeGrp.appendChild(el('span', 'lab', '혼합'));
+  fontLine.appendChild(fontGrp);
+  fmtSection.appendChild(fontLine);
+
+  const curSizeLv = hasSel() ? richSizeState() : (block.sizeLv ?? 0);
   const applySizeTE = v => {
     if (hasSel()) {
       formatSelection(() => {
@@ -10735,43 +10908,7 @@ function buildTextEditor(host, block) {
     if (v) block.sizeLv = v; else delete block.sizeLv;
     save(); render();
   };
-  SIZE_LV_UI.forEach(([lv, label, cls]) => {
-    const btn = el('button', 'icb' + (curSizeLv === lv ? ' is-on' : ''));
-    btn.style.boxShadow = 'none';
-    btn.innerHTML = `<span class="szA ${cls}">${cls === 's' ? 'a' : 'A'}</span>`;
-    btn.title = label;
-    btn.setAttribute('aria-label', `글자 크기 ${label}`);
-    btn.setAttribute('aria-pressed', String(curSizeLv === lv));
-    bindFormatAction(btn, () => applySizeTE(lv));
-    sizeGrp.appendChild(btn);
-  });
-  line1.append(fontGrp, el('div', 'tool-sep'), sizeGrp);
-  fmtSection.appendChild(line1);
-
-  /* 2행: 정렬 | 색 */
-  const line2 = el('div', 'tool-line align-color-line');
-  const alignGrp = el('div', 'tool-grp');
-  alignGrp.appendChild(el('span', 'lab', '정렬'));
-  const alignKeys = Object.keys(ALIGN_ICON);
-  const dialogueStyle = theme().bubbleStyle || 'bubble';
-  const speakerRight = spk?.position === 'right' && !['quote', 'script', 'notif', 'sns'].includes(dialogueStyle);
-  const curAlign = block.asBubble
-    ? dialogueStyle === 'quote' ? (speakerRight ? 'right' : 'left')
-      : block.align || (dialogueStyle === 'script' ? 'justify'
-        : dialogueStyle === 'plain' && speakerRight ? 'right' : 'left')
-    : block.align || g.align;
-  alignKeys.forEach(k => {
-    const btn = el('button', 'icb');
-    btn.style.boxShadow = 'none';
-    if (curAlign === k) btn.classList.add('is-on');
-    btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="${ALIGN_ICON[k]}"/></svg>`;
-    btn.title = ALIGN_NAME[k];
-    btn.onclick = () => { block.align = k; save(); render(); };
-    alignGrp.appendChild(btn);
-  });
-  const colorGrp = el('div', 'tool-grp');
-  colorGrp.appendChild(el('span', 'lab', '색'));
-  const colorA = colorBtn('A', S.colors.text, '글자 색', v => {
+  const colorA = colorBtn('text', block.color || S.colors.text, '글자색', v => {
     if (v == null) {
       /* 기본값 — 테마의 글자색을 그대로 따라간다 */
       if (hasSel()) { formatSelection(() => clearRich('color')); return; }
@@ -10784,9 +10921,8 @@ function buildTextEditor(host, block) {
     }
     save(); render();
   }, true);
-  colorA.style.boxShadow = 'none';
-  colorGrp.appendChild(colorA);
-  const colorH = colorBtn('✏️', S.colors.highlight, '형광펜', v => {
+
+  const colorH = colorBtn('highlight', S.colors.highlight, '형광펜', v => {
     /* 형광펜은 블록 단위 값이 없다. 선택이 없으면 글 전체에 건다. */
     if (v == null) {
       if (hasSel()) { formatSelection(() => clearRich('mark')); return; }
@@ -10799,32 +10935,26 @@ function buildTextEditor(host, block) {
     }
     const markup = reflowComposer(null);
     block.text = markup;
+    clearComposerSelection();
     save(); render();
   }, true);
-  colorH.style.boxShadow = 'none';
-  colorGrp.appendChild(colorH);
-  line2.append(alignGrp, el('div', 'tool-sep'), colorGrp);
-  fmtSection.appendChild(line2);
-
-  /* 3행: 서식 (BIUS + 윗주석 + 아랫주석 통합) */
-  const line3 = el('div', 'tool-line');
-  const styleGrp = el('div', 'tool-grp');
-  styleGrp.appendChild(el('span', 'lab', '서식'));
+  const formatLine = el('div', 'tool-line text-format-line');
+  const styleButtons = el('div', 'format-buttons');
+  styleButtons.setAttribute('role', 'group');
+  styleButtons.setAttribute('aria-label', '서식');
   [['B', 'bold', '굵게'], ['I', 'italic', '기울임'], ['U', 'underline', '밑줄'], ['S', 'strike', '취소선']].forEach(([label, key, title]) => {
     const coverage = richCoverage(key);
     const btn = el('button', 'icb' + (coverage === 'on' ? ' is-on' : coverage === 'mixed' ? ' is-mixed' : ''));
-    btn.style.boxShadow = 'none';
     const st = key === 'italic' ? 'font-style:italic' : key === 'underline' ? 'text-decoration:underline' : key === 'strike' ? 'text-decoration:line-through' : 'font-weight:700';
     btn.innerHTML = `<b style="${st}">${label}</b>`;
     btn.title = title;
     btn.setAttribute('aria-pressed', coverage === 'mixed' ? 'mixed' : String(coverage === 'on'));
     bindFormatAction(btn, () => { formatSelection(() => applyRich(key)); });
-    styleGrp.appendChild(btn);
+    styleButtons.appendChild(btn);
   });
   /* 윗주석/아랫주석도 서식에 통합 */
   [['윗주석', 'sup', 0], ['아랫주석', 'sub', 1]].forEach(([title, tag, idx]) => {
     const btn = el('button', 'icb' + (block.ann === idx + 1 ? ' is-on' : ''));
-    btn.style.boxShadow = 'none';
     btn.innerHTML = `<span class="ann">A<${tag}>2</${tag}></span>`;
     btn.title = title;
     btn.onclick = () => {
@@ -10832,10 +10962,41 @@ function buildTextEditor(host, block) {
       block.ann = block.ann === idx + 1 ? 0 : idx + 1;
       save(); render();
     };
-    styleGrp.appendChild(btn);
+    styleButtons.appendChild(btn);
   });
-  line3.appendChild(styleGrp);
-  fmtSection.appendChild(line3);
+  const paletteField = (label, button, coverage) => {
+    const group = el('div', 'tool-grp palette-field');
+    button.classList.add('format-swatch');
+    if (coverage !== 'off') button.classList.add(coverage === 'on' ? 'is-on' : 'is-mixed');
+    button.setAttribute('aria-pressed', coverage === 'mixed' ? 'mixed' : String(coverage === 'on'));
+    button.replaceChildren(el('span', 'format-swatch-color'));
+    group.append(el('span', 'lab', label), button);
+    return group;
+  };
+  const colorCoverage = richCoverage('color');
+  const textPalette = paletteField('글자색', colorA, colorCoverage === 'off' && block.color ? 'on' : colorCoverage);
+  formatLine.append(styleButtons, textPalette);
+  fmtSection.appendChild(formatLine);
+
+  const caption = el('div', 'tool-grp');
+  const subtitleButton = el('button', 'btn btn-outline subtitle-action', 'CC');
+  subtitleButton.setAttribute('aria-label', '캡션 처리');
+  const subtitleState = curSizeLv === 'mixed' ? 'mixed' : String(curSizeLv === -1);
+  subtitleButton.setAttribute('aria-pressed', subtitleState);
+  bindFormatAction(subtitleButton, () => applySizeTE(curSizeLv === -1 ? 0 : -1));
+  caption.append(el('span', 'lab', '캡션 처리'), subtitleButton);
+
+  const effectsLine = el('div', 'tool-line text-effects-line');
+  const quote = toggleRow('인용 처리', '', !!block.quoteLine, on => {
+    if (on) block.quoteLine = true;
+    else delete block.quoteLine;
+    save(); render();
+  });
+  const quoteButton = quote.querySelector('button');
+  quoteButton.classList.add('tgl-sm');
+  quoteButton.setAttribute('aria-label', '인용 처리');
+  effectsLine.append(paletteField('형광펜', colorH, richCoverage('mark')), caption, quote);
+  fmtSection.appendChild(effectsLine);
 
   host.appendChild(fmtSection);
 }
@@ -12177,7 +12338,7 @@ function syncThemeEditFormV2() {
   container.appendChild(header);
 
   /* ═══ 바디 ═══ */
-  const body = el('div');
+  const body = el('div', 'theme-edit-fields');
   body.style.padding = 'var(--sp-md)';
 
   /* 테마명 */
