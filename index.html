@@ -150,6 +150,45 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
    캔버스는 transform 으로 줄어드는데 transform 은 자리를 안 줄여 준다 — 줄어든 만큼의
    자리는 이 상자가 대신 잡는다(크기는 fitCanvas 가 넣어 준다). */
 .canvas-fit{position:relative;overflow:visible}
+.stage .canvas [data-decoration-edit]{
+  pointer-events:auto;cursor:pointer;transform-origin:var(--decoration-hover-origin,50% 50%)
+}
+.stage .canvas [data-decoration-edit]:focus-visible{outline:2px solid var(--c-primary);outline-offset:2px}
+@media (hover:hover) and (pointer:fine){
+  .shell:not([inert]) .stage .canvas [data-decoration-edit]{transition:scale .14s ease}
+  .shell:not([inert]) .stage .canvas [data-decoration-edit]:hover:not([data-decoration-empty]){scale:1.045}
+  .shell:not([inert]) .stage .canvas:not(.bulk) .blk:not(.is-sel):hover{
+    outline:1px solid color-mix(in srgb,currentColor 32%,transparent);outline-offset:3px
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  .shell:not([inert]) .stage .canvas [data-decoration-edit]{transition:none}
+  .shell:not([inert]) .stage .canvas [data-decoration-edit]:hover{scale:none}
+}
+.decoration-fields{margin-top:12px;gap:12px}
+.decoration-fields .field{margin:0}
+.decoration-input{position:relative}
+.decoration-input .inp{padding-inline-end:42px}
+.decoration-clear{
+  position:absolute;inset-inline-end:2px;inset-block:0;display:grid;place-items:center;width:36px;
+  background:none;border:0;border-radius:var(--r-sm);color:var(--c-text-secondary);cursor:pointer
+}
+.decoration-clear[hidden]{display:none}
+.decoration-clear svg{width:20px;height:20px}
+.decoration-clear circle{fill:currentColor;opacity:.12}
+.decoration-clear:hover circle,.decoration-clear:focus-visible circle{opacity:.22}
+.decoration-clear path{fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round}
+.decoration-photo{display:grid;gap:8px}
+.decoration-photo-stage{min-height:0}
+.decoration-photo-stage .crop{max-width:min(100%,calc(180px * var(--ar,1)),calc(36dvh * var(--ar,1)))}
+.decoration-photo:not(.has-photo) :is(.decoration-photo-stage,.slideh,.decoration-photo-remove){display:none}
+.decoration-photo-actions{display:flex;gap:8px}
+.decoration-photo-actions .btn{flex:1;min-height:36px}
+.decoration-photo:not(.has-photo) .decoration-photo-pick{
+  min-height:44px;justify-content:flex-start;padding-inline:var(--sp-md);
+  border:1px dashed var(--c-border-strong);background:var(--c-surface)
+}
+.decoration-photo:not(.has-photo) .decoration-photo-pick:hover{background:var(--c-surface-sunken)}
 /* 미리보기 컨트롤 묶음: 선택 삭제 막대 + 줌 컨트롤 */
 .preview-controls{
   position:fixed;top:calc(env(safe-area-inset-top) + 54px);left:calc((100vw - var(--sheet-w,0px))/2);
@@ -200,6 +239,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 /* 비율 지정 한 장에 들어가는 내용은 위에 붙이지 않고 세로 가운데에 놓는다.
    여러 장은 페이지를 나눌 때만 각 장에 이 클래스를 붙여 개별적으로 가운데 맞춘다. */
 .canvas.ratio-center{justify-content:center}
+.canvas.ratio-bottom{justify-content:flex-end}
 /* 배경 이미지 — 회전·흐림이 캔버스 밖으로 새지 않게 별도 레이어로 깐다 */
 .canvas > .cv-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
 .canvas > .cv-html-top{z-index:4}
@@ -261,7 +301,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 }
 /* outline 은 1px 아래로 못 내려간다. 같은 1px 이라도 파선은 점이 뭉쳐 굵어 보이므로
    선택 표시는 실선 헤어라인으로 바꾸고 농도를 낮춰 눈에 덜 걸리게 한다. */
-.blk:hover{outline:1px dashed rgba(66,68,72,.14);outline-offset:3px}
 .blk.is-sel{outline:1px solid rgba(66,68,72,.30);outline-offset:3px}
 .blk.dragging{opacity:.45;outline:2px solid var(--c-primary);outline-offset:4px}
 .blk.drop-before{box-shadow:0 -3px 0 -1px var(--c-primary)}
@@ -283,7 +322,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   border-inline-start-color:color-mix(in srgb,currentColor 34%,transparent);
 }
 .blk-text.with-quote-line,.bub-quote-text{padding-inline-start:11px}
-.bub-quote-text{display:inline-block;max-width:100%;vertical-align:top}
+.bub-quote-text{display:block;min-width:0;overflow-wrap:anywhere}
 /* HTML 블록은 «가둬» 둔다. 이 세 줄이 안쪽 배치를 블록 밖으로 못 나가게 막는 울타리다.
    · position:relative  — 안쪽 absolute 가 블록을 기준으로 앉는다. 이게 없으면 더 바깥
      조상을 기준으로 잡아 캔버스 밖까지 나간다.
@@ -456,21 +495,21 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 /* 제작자 서명 — 캔버스 맨 아래 오른쪽 고정.
    배경·글자색이 어떻게 바뀌어도 본문과 같은 색을 쓴다. 흐리게(opacity) 두면
    어두운 테마에서 배경에 잠겨 안 보인다. 크기만 줄인다. */
-.blk.is-footer{margin-top:auto}
+.canvas-signature{position:relative;flex:0 0 auto;margin-top:auto}
 .blk-footer{font-size:.85em;text-align:right;padding-top:4px;overflow-wrap:anywhere;min-width:0}
 /* 비율 판형의 서명은 장마다 아래 16px에 고정한다. 아래 여백은 서명 위치가 아니라
    본문과 서명 사이의 예약 공간이다. 앞 장에는 같은 위치에 사본을 둔다. */
 .canvas.foot-pinned{padding-bottom:calc(var(--cv-pb,32px) + var(--foot-h,0px))}
-.canvas .blk.is-footer.foot-pin{
+.canvas .canvas-signature.foot-pin{
   position:absolute;margin:0;
   left:var(--cv-pl,32px);right:var(--cv-pr,32px);bottom:var(--sign-edge,16px);
 }
 .canvas.fit-footer{padding-bottom:var(--sign-edge,16px)}
-.canvas.fit-footer > .blk.is-footer{margin-top:calc(var(--cv-pb,32px) - var(--cv-gap,10px))}
+.canvas.fit-footer > .canvas-signature{margin-top:calc(var(--cv-pb,32px) - var(--cv-gap,10px))}
 /* WebKit 다단에서 column-span 요소의 위 여백은 본문도 함께 옮긴다.
    서명만 아래로 옮기고 캔버스 높이를 같은 양 늘려 하단 위치를 유지한다. */
 .canvas.fit-footer.has-cols{padding-bottom:calc(var(--sign-edge,16px) + var(--cv-pb,32px))}
-.canvas.fit-footer.has-cols > .blk.is-footer{margin-top:0;transform:translateY(var(--cv-pb,32px))}
+.canvas.fit-footer.has-cols > .canvas-signature{margin-top:0;transform:translateY(var(--cv-pb,32px))}
 .canvas > .foot-ghost{
   position:absolute;margin:0;pointer-events:none;
   left:var(--cv-pl,32px);right:var(--cv-pr,32px);
@@ -579,7 +618,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
    한 줄 몫을 더 준다(글자 크기 14 기준 약 26px). */
 .hd-kakao{--hd-size:1.3em;padding-top:1.85em;padding-bottom:1em;padding-left:var(--hd-side-pad,28px);padding-right:var(--hd-side-pad,28px)}
 .hd-kakao .hd-row{position:relative;display:flex;justify-content:space-between}
-.hd-kakao .hd-mid{position:absolute;left:50%;transform:translateX(-50%);width:calc(100% - 100px)}
+.hd-kakao .hd-mid{position:absolute;inset-inline:50px}
 .hd-kakao svg{stroke-width:2.2}
 
 /* 신문 제호 — 한복판에 통째로 앉은 제호, 그 아래 한 줄로 적은 말(날짜·판 따위).
@@ -663,7 +702,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .hd-insta-dm .hd-status-dot{width:calc(7 * var(--insta-u));height:calc(7 * var(--insta-u));border-radius:50%;background:#44d62c;flex-shrink:0}
 .hd-insta-dm .hd-actions{display:flex;gap:calc(10 * var(--insta-u));flex-shrink:0}
 .canvas > .cv-foot-insta-dm{position:absolute;left:0;right:0;bottom:0;background:transparent;
-  padding:calc(10 * var(--insta-u)) 18px calc(12 * var(--insta-u));line-height:1.4}
+  padding:calc(10 * var(--insta-u)) 18px 18px;line-height:1.4}
 /* 인스타 DM 푸터: 전체를 하나의 둥근 박스로 감싸기 */
 .cv-foot-insta-dm .ft-row{display:flex;align-items:center;gap:calc(12 * var(--insta-u));
   background:rgba(239,239,239,.95);border-radius:calc(24 * var(--insta-u));
@@ -675,17 +714,14 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .cv-foot-insta-dm .ft-camera svg{width:calc(20 * var(--insta-u));height:calc(20 * var(--insta-u));margin-top:calc(-2.5 * var(--insta-u))}
 .cv-foot-insta-dm .ft-input{flex:1;min-width:0;display:flex;align-items:center;gap:calc(4 * var(--insta-u));
   min-height:calc(36 * var(--insta-u))}
-.cv-foot-insta-dm .ft-placeholder{flex:1;min-width:0;font-size:calc(14 * var(--insta-u));opacity:.5;
+.cv-foot-insta-dm .ft-signature{flex:1;min-width:0;font-size:calc(14 * var(--insta-u));opacity:.5;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:calc(36 * var(--insta-u))}
 .cv-foot-insta-dm .ft-icons{display:flex;align-items:center;gap:calc(16 * var(--insta-u));flex-shrink:0}
 .cv-foot-insta-dm .ft-icons svg{width:calc(26 * var(--insta-u));height:calc(26 * var(--insta-u))}
 .hd-insta-dm .insta-icon,.cv-foot-insta-dm .insta-icon{display:block;overflow:visible}
-/* 입력창은 서명과 별개다. 본문·서명과 입력창 사이에 테마 아래 여백을 둔다. */
+/* DM 입력창에는 서명이 들어간다. 본문 아래에는 입력창 높이와 테마 여백을 확보한다. */
 .canvas.has-insta-dm{padding-bottom:calc(var(--insta-foot-h,0px) + var(--cv-pb,32px))}
 .canvas.has-insta-dm.foot-pinned{padding-bottom:calc(var(--cv-pb,32px) + var(--foot-h,0px))}
-.canvas.has-insta-dm .blk.is-footer.foot-pin{bottom:calc(var(--insta-foot-h,0px) + var(--sign-edge,16px))}
-.canvas.has-insta-dm.fit-footer{padding-bottom:calc(var(--insta-foot-h,0px) + var(--sign-edge,16px))}
-.canvas.has-insta-dm.fit-footer.has-cols{padding-bottom:calc(var(--insta-foot-h,0px) + var(--sign-edge,16px) + var(--cv-pb,32px))}
 
 /* 프리뷰 장식 — 잠금화면은 고정 글꼴·크기 + 글래스 효과, 뉴스·논문은 본문 14px 기준 비율.
    잠금화면 머리의 높이는 고정한다. 기존의 % 최소 높이는 페이지를 재는 동안의 auto 높이와
@@ -700,6 +736,9 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   text-shadow:0 0 20px rgba(255,255,255,.35),0 0 60px rgba(255,255,255,.2),0 2px 4px rgba(0,0,0,.15)}
 /* 통합 제목: 본문 너비, 들여쓴 태그, 제목, 서명, 구분선. */
 .hd-paper{--title-pl:0px;--title-pr:0px;display:flex;flex-direction:column;gap:.68em;padding:0 0 calc(9em / 14);text-align:left;letter-spacing:.008em}
+/* 1px 구분선을 제외하고 서명 글자의 아래쪽에 8px을 남긴다.
+   alignPaperHeaderInk가 글자 아래의 줄 상자 여백을 보정한다. */
+.cv-head.head-sized.hd-paper:has(.paper-authors){justify-content:flex-end;padding-bottom:9px}
 .hd-paper .paper-journal,.hd-paper .paper-title,.hd-paper .paper-authors{letter-spacing:.008em;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hd-paper .paper-journal{font-size:.9em;font-weight:600;padding-left:calc(3 * var(--title-u));line-height:1.2}
 .hd-paper .paper-title{font-size:2.2em;font-weight:800;line-height:1.2}
@@ -710,9 +749,9 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .hd-paper[data-align="right"] .paper-authors{padding-left:0;padding-right:calc(3 * var(--title-u))}
 .hd-paper::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;opacity:.2}
 /* 본문도 태그·서명과 같은 들여쓰기 기준에서 시작한다. */
-.canvas:has(> .hd-paper) > .blk:not(.is-footer){padding-left:var(--title-body-inset,3px)}
-.canvas:has(> .hd-paper[data-align="center"]) > .blk:not(.is-footer){padding-left:0}
-.canvas:has(> .hd-paper[data-align="right"]) > .blk:not(.is-footer){padding-left:0;padding-right:var(--title-body-inset,3px)}
+.canvas:has(> .hd-paper) > .blk{padding-left:var(--title-body-inset,3px)}
+.canvas:has(> .hd-paper[data-align="center"]) > .blk{padding-left:0}
+.canvas:has(> .hd-paper[data-align="right"]) > .blk{padding-left:0;padding-right:var(--title-body-inset,3px)}
 /* 배경 복제 층을 화면과 저장본에 공통으로 사용한다. 블러는 헤더 아래에서 페이드한다. */
 .hd-insta-dm,.cv-foot-insta-dm{backdrop-filter:none;-webkit-backdrop-filter:none;background:transparent}
 .insta-glass{position:absolute;inset:0 0 -32px;overflow:hidden;pointer-events:none;z-index:0}
@@ -875,7 +914,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   padding:12px;background:#fff;border:1px solid #A9D8E2;border-radius:14px;
   box-shadow:0 1px 4px rgba(30,90,105,.18);
 }
-/* 책머리 — 왼쪽에 방문 수, 가운데에 «○○의 미니홈피», 오른쪽에 홈설정 */
+/* 책머리 — 왼쪽에 방문 수, 가운데에 «○○의 미니홈피», 오른쪽에 서명 */
 .fr-cyworld .mh-top{height:26px;gap:10px;flex:0 0 auto}
 .fr-cyworld .mh-hits{flex-shrink:0;color:#8A8A8A;letter-spacing:.5px}
 .fr-cyworld .mh-hits b{color:#F06E28;font-weight:400}
@@ -883,8 +922,9 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   font-size:15px;font-weight:700;color:#3A3A3A;
   overflow:hidden;text-overflow:ellipsis;
 }
-.fr-cyworld .mh-set{flex-shrink:0;color:#F06E28;display:flex;align-items:center;gap:3px}
-.fr-cyworld .mh-set::before{content:'';width:7px;height:7px;border-radius:50%;background:#F06E28}
+.fr-cyworld .mh-set{max-width:33%;flex-shrink:0;color:#F06E28;display:flex;align-items:center;gap:3px;line-height:14px}
+.fr-cyworld .mh-signature{overflow:hidden;text-overflow:ellipsis}
+.fr-cyworld .mh-signature-dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex:none}
 .fr-cyworld .mh-pages{flex:1 1 auto;min-height:0;display:flex;margin-top:8px}
 .fr-cyworld .mh-page{
   border:1px solid #DDEEF1;border-radius:8px;background:#fff;
@@ -943,13 +983,12 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 }
 .canvas.has-cols > .cv-head{column-span:all;margin-bottom:var(--cv-gap,10px)}
 /* 서명은 단에 안 든다 — 바닥을 가로질러 통째로 눕는다 */
-.canvas.has-cols > .blk.is-footer{column-span:all;margin-top:auto}
+.canvas.has-cols > .canvas-signature{column-span:all;margin-top:auto}
 /* 한 블록이 단 경계에서 두 동강 나면 말풍선이 위아래로 잘린다 — 통째로 다음 단에 넘긴다 */
-.canvas.has-cols > .blk{margin-bottom:var(--cv-gap,10px);break-inside:avoid}
-.canvas.has-cols > .blk:last-child{margin-bottom:0}
+.canvas.has-cols > :is(.blk,.canvas-signature){margin-bottom:var(--cv-gap,10px);break-inside:avoid}
+.canvas.has-cols > :is(.blk,.canvas-signature):last-child{margin-bottom:0}
 /* DM 입력창은 absolute 요소지만 DOM에서는 마지막 자식이다. 그 앞의 서명에
    단용 블록 간격이 남으면 아래 여백에 blockGap이 한 번 더 붙는다. */
-.canvas.has-cols.has-insta-dm > .blk.is-footer{margin-bottom:0}
 /* ② 비율 지정 [.has-colpage] — 여기서는 CSS 단을 안 쓴다. 장을 나누는 셈이 줄 자리를
    직접 재야 하는데 [renderPageMarks], CSS 단은 줄을 어느 단에 넣을지 브라우저가 정해
    버려 그 셈이 닿지 않는다. 그래서 캔버스는 기둥(flex) 그대로 두고, 줄 폭만 한 단으로
@@ -958,7 +997,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .canvas.has-colpage > .blk{width:var(--cv-colw);align-self:flex-start}
 .canvas.has-colpage > .cv-head.head-flow{width:calc(var(--cv-colw) + var(--cv-pl,32px) + var(--cv-pr,32px));align-self:flex-start}
 /* 서명은 단에 안 든다 — 장 바닥을 가로질러 통째로 눕는다 */
-.canvas.has-colpage > .blk.is-footer{width:auto;align-self:stretch}
+.canvas.has-colpage > .canvas-signature{width:auto;align-self:stretch}
 .canvas.head-pinned{padding-top:calc(var(--cv-pt,32px) + var(--head-hold,0px))}
 .canvas .cv-head.head-pin{position:absolute;margin:0;left:0;right:0;top:0}
 .canvas > .head-ghost{position:absolute;margin:0;pointer-events:none;left:0;right:0}
@@ -1062,18 +1101,19 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 /* 알림 글씨는 설정 크기 그대로, 이름과 본문 행간은 130%를 유지한다. */
 .blk-bubble.n-row .who{font-size:1em !important;line-height:1.3 !important;font-weight:600 !important;opacity:1 !important;padding:0 !important;margin:0 !important;width:100%}
 .blk-bubble .bub.as-notif{background:transparent !important;border-radius:0 !important;padding:0 !important;margin:0 !important;font-size:1em;line-height:1.3 !important;opacity:.9;width:100%}
-/* SNS 스타일 — 트위터/X 형태의 게시물. 블록 전체에 배경 적용. */
+/* SNS 스타일 — 아바타 지름 대비 위아래 패딩은 각각 1/4로 둔다. */
 .blk-bubble.x-row{
+  --sns-avatar-size:36px;
   background:var(--sns-bg,transparent);
-  padding:12px 14px;border-radius:0;gap:12px;
+  padding:calc(var(--sns-avatar-size) / 4) 14px;border-radius:0;gap:10px;
   align-items:flex-start;
 }
-/* SNS 아바타 — 48px */
+/* SNS 프로필은 다른 말풍선 프리셋의 프로필 확대 설정과 별개다. */
 .blk-bubble.x-row .av{
-  width:calc(48px * var(--dialog-av-scale,1)) !important;
-  height:calc(48px * var(--dialog-av-scale,1)) !important;
-  flex:0 0 calc(48px * var(--dialog-av-scale,1)) !important;
-  border-radius:50% !important;
+  width:var(--sns-avatar-size);
+  height:var(--sns-avatar-size);
+  flex:0 0 var(--sns-avatar-size);
+  border-radius:50%;
 }
 .blk-bubble.x-row .av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 /* SNS col — 이름·본문·아이콘 간격 균일하게 */
@@ -1086,9 +1126,9 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 /* SNS 본문 */
 .blk-bubble .bub.as-sns{background:transparent !important;border-radius:0 !important;padding:0 !important;margin:0 !important;width:100%}
 /* SNS 액션 아이콘 */
-.blk-bubble .bub.as-sns .sns-actions{display:flex;align-items:center;gap:40px;margin-top:10px}
+.blk-bubble .bub.as-sns .sns-actions{display:flex;align-items:center;gap:40px;margin-top:8px}
 .blk-bubble .bub.as-sns .sns-action{opacity:0.5}
-.blk-bubble .bub.as-sns .sns-action svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+.blk-bubble .bub.as-sns .sns-action svg{display:block;width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
 /* SNS 우측 액션 (북마크, 공유) */
 .blk-bubble .bub.as-sns .sns-actions-right{display:flex;gap:12px;margin-left:auto}
 /* SNS 대사 묶기 — 간격 좁히고 구분선 추가 */
@@ -1110,7 +1150,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 @media (hover:hover) and (pointer:fine) {
 @supports (text-box-trim: trim-both) {
   /* 알림은 이름과 본문 첫 줄 사이도 본문 행간과 같은 기준을 쓴다. */
-  .blk-bubble .bub:not(.as-quote):not(.as-plain):not(.as-notif){
+  .blk-bubble .bub:not(.as-quote,.as-plain,.as-notif,.has-quote-line){
     text-box: trim-both cap alphabetic;
     /* 위아래는 잘라낸 몫을 돌려주고, 좌우는 그보다 조금 좁게 준다.
        세로는 trim 이 «잉크» 에 맞춰 잘라 주는데 가로는 글자마다 붙어 있는 왼쪽 여백
@@ -1528,6 +1568,8 @@ body:has(.sheet.is-settling) .stage{transition:none}
   padding:var(--sp-md) 0;cursor:pointer;user-select:none;
 }
 .section-header:hover{opacity:0.8}
+.sheet .section-header[aria-disabled="true"],
+.sheet .section-header[aria-disabled="true"]:hover{cursor:default;opacity:.5;color:inherit}
 .section-header h3{font-size:var(--fs-sm);font-weight:var(--fw-bold);display:flex;align-items:center;gap:var(--sp-sm)}
 .section-header .caret{width:16px;height:16px;color:var(--c-text-tertiary,#AEAEB2);transition:transform 0.2s}
 .section.open .section-header .caret{transform:rotate(180deg)}
@@ -1564,7 +1606,8 @@ body:has(.sheet.is-settling) .stage{transition:none}
 #formatWrap .edit-header:has(+ .text-kind-tabs){margin-bottom:0}
 .desktop-tools-toggle,#desktopInsertTabs{display:none}
 .desktop-tools-pane{display:contents}
-.block-editor-content{padding:var(--sp-md)}
+.block-editor-content{display:flex;flex-direction:column;gap:var(--sp-md);padding:var(--sp-md);min-width:0}
+.theme-bg-source > .lab{margin:0;color:var(--c-text-secondary);font-weight:650}
 .theme-bg-html{
   display:block;width:100%;min-height:128px;resize:vertical;padding:10px 12px;
   border:1px solid var(--c-border-strong);border-radius:var(--r-sm);background:var(--c-surface);
@@ -2010,7 +2053,6 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 .settings-flow .seg button{min-height:30px}
 .signature-settings .seg button{height:34px;min-height:34px;display:flex;align-items:center;justify-content:center}
 .settings-flow .seg button small{margin:3px 0 0}
-.image-editor{display:flex;flex-direction:column;gap:20px}
 .image-editor .crop-ratios,.bg-image-settings .crop-ratios{margin:0;gap:4px;padding:4px;border-radius:var(--r-sm);background:var(--c-surface)}
 .image-editor .crop-ratios button,.bg-image-settings .crop-ratios button{background:transparent;min-height:34px;font-size:11px}
 .image-editor .crop-ratios button.on,.bg-image-settings .crop-ratios button.on{background:var(--c-primary-muted);border-color:var(--c-primary);color:var(--c-primary-text)}
@@ -2021,12 +2063,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 .image-placement-options button:disabled{opacity:.45;cursor:not-allowed}
 .image-placement-options svg,.image-side-options svg{width:27px;height:27px;flex:0 0 27px;stroke:currentColor;fill:none;stroke-width:1.6}
 .image-editor [hidden]{display:none!important}
-.panel-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 20px}
-.panel-heading h3{font-size:var(--fs-title);font-weight:600;line-height:1.4;margin:0;color:var(--c-text)}
-.image-editor > .panel-heading{margin:0}
-.image-round .lab{font-size:10px;color:var(--c-text-secondary);font-weight:400}
-.image-round .row-between{gap:7px}
-.image-editor .image-content{display:flex;flex-direction:column;gap:10px}
+.image-editor .image-content{display:flex;flex-direction:column;gap:var(--sp-md)}
 .image-editor > .field{margin:0}
 .image-editor .slideh > .lab{margin:0;min-width:48px}
 .image-editor .field > .lab{font-size:12px;font-weight:700;color:var(--c-text);margin-bottom:8px}
@@ -2137,7 +2174,9 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 .pop .inp[aria-invalid="true"]{border-color:var(--c-danger)}
 .pop-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin-bottom:12px}
 .pop-sw{aspect-ratio:1;border-radius:7px;border:1px solid rgba(0,0,0,.10);position:relative;cursor:pointer}
-.pop-sw:hover{transform:scale(1.1)}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .pop-sw:hover{transform:scale(1.1);transform-origin:center}
+}
 .pop-sw .del{
   position:absolute;top:-4px;right:-4px;width:14px;height:14px;border-radius:50%;
   background:var(--c-danger,#C75B58);border:1px solid var(--c-surface,#fff);
@@ -2484,10 +2523,10 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   #formatWrap .fmt-section .text-effects-line{--format-gap:4px}
   #formatWrap .fmt-section .text-effects-line .lab{font-size:10px}
 }
-#formatWrap .fmt-section .subtitle-action{
+#formatWrap .fmt-section :is(.subtitle-action,.quote-action){
   height:26px;min-width:28px;padding:0 4px;font-size:10px;font-weight:700;letter-spacing:-.02em;
 }
-#formatWrap .fmt-section .subtitle-action[aria-pressed="true"]{background:var(--c-primary-muted)}
+#formatWrap .fmt-section :is(.subtitle-action,.quote-action)[aria-pressed="true"]{background:var(--c-primary-muted)}
 #formatWrap .fmt-section .subtitle-action[aria-pressed="mixed"]{
   background:var(--c-secondary-muted);border-style:dashed;border-color:var(--c-secondary-text);
 }
@@ -2505,6 +2544,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 }
 .edit-header-button > svg,.action-menu-item > .icon,
 #formatWrap .icb > svg,#formatWrap .format-buttons :is(b,.ann){
+  transform-origin:center;transform-box:border-box;
   transition:transform var(--dur-fast) var(--ease-out);
 }
 #formatWrap .format-buttons :is(sup,sub){display:inline-block;color:inherit}
@@ -2594,14 +2634,15 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   #desktopBlockIntro:not([hidden]) + #formatWrap:has(.fmt-section){
     flex:0 1 auto;margin-bottom:0;border-bottom:0;border-radius:0;
   }
+  #formatWrap:has(.block-editor-content){flex:0 1 auto}
   .sheet.desktop-text-editor #formatWrap > .sec{padding:0}
   .sheet.desktop-text-editor #formatWrap .fmt-section .tool-line{padding-inline:var(--pad)}
-  #formatWrap:has(.block-editor-content) > .sec{padding:0 var(--pad) 14px;min-width:0}
+  #formatWrap:has(.block-editor-content) > .sec{padding:0 var(--pad);min-width:0}
   #formatWrap .block-editor-content{width:100%;min-width:0;margin-inline:auto;padding-inline:0}
   #formatWrap .block-editor-content .inp-group{width:100%;min-width:0}
-  #formatWrap .fmt-section .tool-line{padding-block:11px}
+  #formatWrap .fmt-section .tool-line{padding-block:var(--sp-md)}
   #formatWrap .fmt-section .lab{font-size:12px;font-weight:650}
-  #formatWrap :is(.fmt-section .icb,.subtitle-action){
+  #formatWrap :is(.fmt-section .icb,.subtitle-action,.quote-action){
     transition:background-color var(--dur-fast),border-color var(--dur-fast),box-shadow var(--dur-fast);
   }
   #themeEditContent{container-type:inline-size}
@@ -2636,13 +2677,13 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   @media (prefers-reduced-motion:reduce){.desktop-tools-pane,.desktop-tools-toggle svg{transition:none}}
 }
 @media (min-width:900px) and (hover:hover) and (pointer:fine){
-  #formatWrap :is(.fmt-section .icb,.subtitle-action):hover:not(:disabled){
+  #formatWrap :is(.fmt-section .icb,.subtitle-action,.quote-action):hover:not(:disabled){
     box-shadow:0 2px 5px rgba(30,55,38,.15);
   }
-  #formatWrap .fmt-section :is(.icb,.subtitle-action):hover:not([aria-pressed="true"]):not([aria-pressed="mixed"]){
+  #formatWrap .fmt-section :is(.icb,.subtitle-action,.quote-action):hover:not([aria-pressed="true"]):not([aria-pressed="mixed"]){
     background:var(--editor-well);border-color:var(--c-primary-hover);
   }
-  #formatWrap .fmt-section :is(.icb,.subtitle-action)[aria-pressed="true"]:hover{border-color:var(--editor-active)}
+  #formatWrap .fmt-section :is(.icb,.subtitle-action,.quote-action)[aria-pressed="true"]:hover{border-color:var(--editor-active)}
   #formatWrap .fmt-section .format-buttons .icb:not(.is-on):not(.is-mixed):hover{background:var(--c-surface)}
   #formatWrap .fmt-section .format-buttons .icb.is-on:hover{background:var(--c-primary-muted)}
   #formatWrap .fmt-section .format-buttons .icb.is-mixed:hover{background:var(--c-secondary-muted);border-color:var(--c-secondary-text)}
@@ -2656,7 +2697,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   #formatWrap .icb > svg,#formatWrap .format-buttons :is(b,.ann){transition:none;transform:none!important}
   .sheet .rng::-webkit-slider-thumb{transition:none;transform:none!important}
   .sheet .rng::-moz-range-thumb{transition:none;transform:none!important}
-  #formatWrap :is(.fmt-section .icb,.subtitle-action),.action-menu-item{transition:none}
+  #formatWrap :is(.fmt-section .icb,.subtitle-action,.quote-action),.action-menu-item{transition:none}
 }
 
 </style>
@@ -3031,6 +3072,7 @@ const DEF_THEME = () => ({
 /* 프리셋.json과 같은 설정·순서. 예시 텍스트는 프리셋에만 저장한다. */
 const PRESET_THEMES = [
   {
+    "presetId": "kakao",
     "name": "kakaotalk",
     "bg": "#B2C7D9",
     "fg": "#37373E",
@@ -3063,7 +3105,7 @@ const PRESET_THEMES = [
     "brBR": 8,
     "brBL": 8,
     "header": "kakao",
-    "headerTitle": "대화상대",
+    "headerTitle": "캐릭터명",
     "headerAvatar": "",
     "headerBg": "",
     "headerMark": "",
@@ -3071,8 +3113,7 @@ const PRESET_THEMES = [
     "frameMood": "",
     "signShow": true,
     "signAlign": "right",
-    "signSep": "·",
-    "presetId": "kakao",
+    "signSep": "/",
     "bubblePreset": "kakaotalk",
     "tailPos": "top",
     "bubbleShadow": true,
@@ -3081,28 +3122,29 @@ const PRESET_THEMES = [
       "align": "justify",
       "weight": 400,
       "font": "KoPubWorld Dotum",
-      "size": 14,
-      "lineHeight": 1.6,
-      "letterSpacing": -0.008,
-      "blockGap": 20,
+      "size": 12,
+      "lineHeight": 1.7,
+      "letterSpacing": -0.01,
+      "blockGap": 30,
       "vAlign": "top",
       "columns": 1,
       "columnGap": 24
     },
     "canvas": {
-      "mode": "ratio",
+      "mode": "fit",
       "ratio": "3:4",
       "width": 560,
-      "mt": 20,
-      "mb": 20,
-      "ml": 40,
-      "mr": 40,
+      "mt": 0,
+      "mb": 40,
+      "ml": 50,
+      "mr": 50,
       "marginDetail": false,
-      "marginLink": true
+      "marginLink": false
     },
     "useFont": true
   },
   {
+    "presetId": "line",
     "name": "LINE",
     "bg": "#A0C6DC",
     "fg": "#1A1A1A",
@@ -3127,15 +3169,15 @@ const PRESET_THEMES = [
     "highlight": "#A8E6CF",
     "bubbleStyle": "bubble",
     "showTail": false,
-    "tailShape": "plain",
-    "bubbleRadius": 18,
+    "tailShape": "modern",
+    "bubbleRadius": 14,
     "brDetail": true,
-    "brTL": 18,
-    "brTR": 18,
-    "brBR": 18,
-    "brBL": 3,
+    "brTL": 14,
+    "brTR": 14,
+    "brBR": 14,
+    "brBL": 2,
     "header": "kakao",
-    "headerTitle": "대화상대",
+    "headerTitle": "캐릭터명",
     "headerAvatar": "",
     "headerBg": "",
     "headerMark": "",
@@ -3143,9 +3185,8 @@ const PRESET_THEMES = [
     "frameMood": "",
     "signShow": true,
     "signAlign": "right",
-    "signSep": "·",
-    "presetId": "line",
-    "bubblePreset": "plain",
+    "signSep": "/",
+    "bubblePreset": "modern",
     "tailPos": "top",
     "bubbleShadow": true,
     "brLink": false,
@@ -3153,33 +3194,34 @@ const PRESET_THEMES = [
       "align": "justify",
       "weight": 400,
       "font": "NanumSquare Neo",
-      "size": 14,
-      "lineHeight": 1.6,
-      "letterSpacing": -0.008,
-      "blockGap": 20,
+      "size": 12,
+      "lineHeight": 1.7,
+      "letterSpacing": -0.01,
+      "blockGap": 30,
       "vAlign": "top",
       "columns": 1,
       "columnGap": 24
     },
     "canvas": {
-      "mode": "ratio",
+      "mode": "fit",
       "ratio": "3:4",
       "width": 560,
-      "mt": 30,
-      "mb": 30,
-      "ml": 40,
-      "mr": 40,
+      "mt": 0,
+      "mb": 40,
+      "ml": 50,
+      "mr": 50,
       "marginDetail": false,
       "marginLink": true
     },
     "useFont": true
   },
   {
+    "presetId": "imessage-light",
     "name": "iMessage(light)",
     "bg": "#FFFFFF",
     "fg": "#37373E",
-    "bubbleBg": "#0B84FE",
-    "bubbleFg": "#FFFFFF",
+    "bubbleBg": "#EDEDED",
+    "bubbleFg": "#37373E",
     "bgImage": "",
     "bgSize": 100,
     "bgRotation": 0,
@@ -3194,8 +3236,8 @@ const PRESET_THEMES = [
     "myName": true,
     "myAvatar": false,
     "roundAvatar": true,
-    "myBubbleBg": "#EDEDED",
-    "myBubbleFg": "#37373E",
+    "myBubbleBg": "#0B84FE",
+    "myBubbleFg": "#FFFFFF",
     "highlight": "#CFE5FF",
     "bubbleStyle": "bubble",
     "showTail": true,
@@ -3207,7 +3249,7 @@ const PRESET_THEMES = [
     "brBR": 18,
     "brBL": 18,
     "header": "imessage",
-    "headerTitle": "대화상대",
+    "headerTitle": "캐릭터명",
     "headerAvatar": "",
     "headerBg": "#EDEDED",
     "headerMark": "",
@@ -3215,40 +3257,41 @@ const PRESET_THEMES = [
     "frameMood": "",
     "signShow": true,
     "signAlign": "right",
-    "signSep": "·",
-    "presetId": "imessage-light",
+    "signSep": "/",
     "bubblePreset": "imessage",
     "brLink": true,
     "fmt": {
       "align": "justify",
       "weight": 400,
       "font": "Pretendard",
-      "size": 14,
-      "lineHeight": 1.5,
-      "letterSpacing": -0.008,
+      "size": 12,
+      "lineHeight": 1.7,
+      "letterSpacing": -0.01,
       "blockGap": 30,
       "vAlign": "top",
       "columns": 1,
       "columnGap": 24
     },
     "canvas": {
-      "mode": "ratio",
+      "mode": "fit",
       "ratio": "3:4",
       "width": 560,
       "mt": 30,
       "mb": 30,
-      "ml": 50,
-      "mr": 50,
-      "marginDetail": false
+      "ml": 70,
+      "mr": 70,
+      "marginDetail": false,
+      "marginLink": true
     },
     "useFont": true
   },
   {
+    "presetId": "imessage-dark",
     "name": "iMessage(dark)",
     "bg": "#26262B",
     "fg": "#EDEDED",
-    "bubbleBg": "#0B84FE",
-    "bubbleFg": "#FFFFFF",
+    "bubbleBg": "#EDEDED",
+    "bubbleFg": "#37373E",
     "bgImage": "",
     "bgSize": 100,
     "bgRotation": 0,
@@ -3263,8 +3306,8 @@ const PRESET_THEMES = [
     "myName": true,
     "myAvatar": false,
     "roundAvatar": true,
-    "myBubbleBg": "#37373E",
-    "myBubbleFg": "#EDEDED",
+    "myBubbleBg": "#0B84FE",
+    "myBubbleFg": "#FFFFFF",
     "highlight": "#CFE5FF",
     "bubbleStyle": "bubble",
     "showTail": true,
@@ -3276,7 +3319,7 @@ const PRESET_THEMES = [
     "brBR": 18,
     "brBL": 18,
     "header": "imessage",
-    "headerTitle": "대화상대",
+    "headerTitle": "캐릭터명",
     "headerAvatar": "",
     "headerBg": "#37373E",
     "headerMark": "",
@@ -3284,35 +3327,36 @@ const PRESET_THEMES = [
     "frameMood": "",
     "signShow": true,
     "signAlign": "right",
-    "signSep": "·",
-    "presetId": "imessage-dark",
+    "signSep": "/",
     "bubblePreset": "imessage",
     "brLink": true,
     "fmt": {
       "align": "justify",
       "weight": 400,
       "font": "Pretendard",
-      "size": 14,
-      "lineHeight": 1.5,
-      "letterSpacing": -0.008,
+      "size": 12,
+      "lineHeight": 1.7,
+      "letterSpacing": -0.01,
       "blockGap": 30,
       "vAlign": "top",
       "columns": 1,
       "columnGap": 24
     },
     "canvas": {
-      "mode": "ratio",
+      "mode": "fit",
       "ratio": "3:4",
       "width": 560,
       "mt": 30,
       "mb": 30,
-      "ml": 50,
-      "mr": 50,
-      "marginDetail": false
+      "ml": 70,
+      "mr": 70,
+      "marginDetail": false,
+      "marginLink": true
     },
     "useFont": true
   },
   {
+    "presetId": "insta-dm",
     "name": "insta DM",
     "bg": "#FFFFFF",
     "fg": "#1A1A1A",
@@ -3338,14 +3382,14 @@ const PRESET_THEMES = [
     "bubbleStyle": "bubble",
     "showTail": false,
     "tailShape": "modern",
-    "bubbleRadius": 20,
+    "bubbleRadius": 14,
     "brDetail": true,
-    "brTL": 20,
-    "brTR": 20,
-    "brBR": 20,
+    "brTL": 14,
+    "brTR": 14,
+    "brBR": 14,
     "brBL": 2,
     "header": "insta-dm",
-    "headerTitle": "대화상대",
+    "headerTitle": "캐릭터명",
     "headerAvatar": "",
     "headerBg": "",
     "headerMark": "",
@@ -3353,8 +3397,7 @@ const PRESET_THEMES = [
     "frameMood": "",
     "signShow": true,
     "signAlign": "center",
-    "signSep": "|",
-    "presetId": "insta-dm",
+    "signSep": "/",
     "bubblePreset": "modern",
     "groupRuns": true,
     "brLink": false,
@@ -3362,66 +3405,109 @@ const PRESET_THEMES = [
       "align": "justify",
       "weight": 400,
       "font": "Pretendard",
-      "size": 14,
-      "lineHeight": 1.6,
-      "letterSpacing": -0.008,
-      "blockGap": 18,
+      "size": 13,
+      "lineHeight": 1.7,
+      "letterSpacing": -0.01,
+      "blockGap": 30,
       "vAlign": "top",
       "columns": 1,
       "columnGap": 24
     },
     "canvas": {
-      "mode": "ratio",
-      "ratio": "3:4",
+      "mode": "fit",
+      "ratio": "9:16",
       "width": 560,
-      "mt": 30,
-      "mb": 30,
-      "ml": 50,
-      "mr": 50,
+      "mt": 2,
+      "mb": 20,
+      "ml": 72,
+      "mr": 72,
       "marginDetail": false,
-      "marginLink": true
+      "marginLink": false
     },
     "useFont": true,
     "signItalic": false,
     "signBold": false
   },
   {
-    presetId: 'bubble', name: 'Bubble',
-    bg: '#EEEEEE', fg: '#1A1A1A', bubbleBg: '#FFFFFF', bubbleFg: '#1A1A1A',
-    myBubbleBg: '#FFFFFF', myBubbleFg: '#1A1A1A', highlight: '#FFE79A',
-    bubbleStyle: 'bubble', bubblePreset: 'bubble', groupRuns: true,
-    bubbleRadius: 18, brDetail: true, brTL: 2, brTR: 18, brBR: 18, brBL: 18, brLink: false,
-    showTail: false, tailShape: 'bubble',
-    showName: true, showAvatar: true, myName: true, myAvatar: true, roundAvatar: true,
-    header: 'bubble', headerTitle: '대화상대', bubbleHeaderSubtitle: '1226',
-    artistTag: true, artistTagColor: '#F080A6',
-    signShow: true,
-    bubbleShadow: false, useFont: true,
-    fmt: { align: 'justify', weight: 400, font: 'Pretendard', size: 14, lineHeight: 1.6,
-      letterSpacing: -0.008, blockGap: 30, vAlign: 'top', columns: 1, columnGap: 24 },
-    canvas: { mode: 'ratio', ratio: '3:4', width: 560, mt: 40, mb: 40, ml: 40, mr: 40,
-      marginDetail: false, marginLink: true }
-  },
-  {
-    presetId: 'mobile-reading', name: '모바일 읽기',
-    bg: '#F4F5F2', fg: '#242A28', bubbleBg: '#FFFFFF', bubbleFg: '#242A28',
-    myBubbleBg: '#DDEBE4', myBubbleFg: '#242A28', highlight: '#FFE79A',
-    bubbleStyle: 'bubble', bubblePreset: 'kakaotalk', groupRuns: true,
-    bubbleRadius: 15, showTail: false, bubbleShadow: false,
-    showName: true, showAvatar: true, myName: false, myAvatar: false, roundAvatar: true,
-    header: 'kakao', headerTitle: '대화',
-    signShow: true, signAlign: 'right', decorSignSize: 12,
-    decorMusicSize: 14,
-    useFont: true,
-    fmt: { align: 'left', weight: 400, font: 'Pretendard', size: 18, lineHeight: 1.6,
-      letterSpacing: -0.008, blockGap: 16, runGap: 7, vAlign: 'top', columns: 1, columnGap: 24 },
-    canvas: { mode: 'ratio', ratio: '3:4', width: 560, shortSide: 400,
-      mt: 24, mb: 24, ml: 22, mr: 22, marginDetail: false, marginLink: false }
-  },
-  {
-    "name": "iOS",
-    "bg": "#FFFFFF",
+    "presetId": "bubble",
+    "name": "Bubble",
+    "bg": "#EEEEEE",
     "fg": "#1A1A1A",
+    "bubbleBg": "#FFFFFF",
+    "bubbleFg": "#1A1A1A",
+    "bgImage": "",
+    "bgSize": 100,
+    "bgRotation": 0,
+    "bgX": 50,
+    "bgY": 50,
+    "bgBlur": 0,
+    "bgOverlay": 0,
+    "bgOverlayColor": "#000000",
+    "paper": 0,
+    "showName": true,
+    "showAvatar": true,
+    "myName": true,
+    "myAvatar": true,
+    "roundAvatar": true,
+    "myBubbleBg": "#FFFFFF",
+    "myBubbleFg": "#1A1A1A",
+    "highlight": "#FFE79A",
+    "bubbleStyle": "bubble",
+    "showTail": false,
+    "tailShape": "bubble",
+    "bubbleRadius": 18,
+    "brDetail": true,
+    "brTL": 2,
+    "brTR": 18,
+    "brBR": 18,
+    "brBL": 18,
+    "header": "bubble",
+    "headerTitle": "캐릭터명",
+    "headerAvatar": "",
+    "headerBg": "",
+    "headerMark": "",
+    "frame": "none",
+    "frameMood": "",
+    "signShow": true,
+    "signAlign": "right",
+    "signSep": "/",
+    "bubblePreset": "bubble",
+    "groupRuns": true,
+    "brLink": false,
+    "bubbleHeaderSubtitle": "0",
+    "artistTag": true,
+    "artistTagColor": "#F080A6",
+    "bubbleShadow": false,
+    "useFont": true,
+    "fmt": {
+      "align": "justify",
+      "weight": 400,
+      "font": "Pretendard",
+      "size": 13,
+      "lineHeight": 1.7,
+      "letterSpacing": -0.01,
+      "blockGap": 40,
+      "vAlign": "top",
+      "columns": 1,
+      "columnGap": 24
+    },
+    "canvas": {
+      "mode": "fit",
+      "ratio": "3:4",
+      "width": 560,
+      "mt": 20,
+      "mb": 30,
+      "ml": 46,
+      "mr": 46,
+      "marginDetail": false,
+      "marginLink": true
+    }
+  },
+  {
+    "presetId": "ios",
+    "name": "IPhone 잠금",
+    "bg": "#FFFFFF",
+    "fg": "#404040",
     "bubbleBg": "#EDEDF0",
     "bubbleFg": "#1A1A1A",
     "bgImage": "",
@@ -3459,38 +3545,40 @@ const PRESET_THEMES = [
     "frameMood": "",
     "signShow": true,
     "signAlign": "right",
-    "signSep": "·",
-    "presetId": "ios",
+    "signSep": "/",
     "groupRuns": true,
-    "lockDate": "3월 12일 화요일",
+    "lockDate": "12월 25일 (금)",
     "lockTime": "3:08",
-    "notifBg": "rgba(255,255,255,0.1)",
+    "notifBg": "rgba(26,26,26,0)",
     "lockGlass": true,
-    "lockFg": "#404040",
+    "lockFg": "#1E88E5",
     "fmt": {
       "align": "justify",
       "weight": 400,
       "font": "Pretendard",
-      "size": 16,
-      "lineHeight": 1.6,
-      "letterSpacing": -0.009000000000000001,
-      "blockGap": 20,
-      "vAlign": "top"
+      "size": 13,
+      "lineHeight": 1.9,
+      "letterSpacing": -0.02,
+      "blockGap": 40,
+      "vAlign": "top",
+      "columns": 1,
+      "columnGap": 24
     },
     "canvas": {
-      "mode": "ratio",
+      "mode": "fit",
       "ratio": "3:4",
       "width": 560,
       "mt": 0,
       "mb": 40,
-      "ml": 50,
-      "mr": 50,
+      "ml": 64,
+      "mr": 64,
       "marginDetail": false,
-      "marginLink": false
+      "marginLink": true
     },
     "useFont": true
   },
   {
+    "presetId": "buddy",
     "name": "buddybuddy",
     "bg": "#FFFFFF",
     "fg": "#26262B",
@@ -3523,7 +3611,7 @@ const PRESET_THEMES = [
     "brBR": 0,
     "brBL": 0,
     "header": "none",
-    "headerTitle": "대화상대",
+    "headerTitle": "캐릭터명",
     "headerAvatar": "",
     "headerBg": "",
     "headerMark": "",
@@ -3531,8 +3619,7 @@ const PRESET_THEMES = [
     "frameMood": "",
     "signShow": true,
     "signAlign": "right",
-    "signSep": "·",
-    "presetId": "buddy",
+    "signSep": "/",
     "bubblePreset": "plain",
     "groupRuns": true,
     "brLink": true,
@@ -3540,16 +3627,16 @@ const PRESET_THEMES = [
       "align": "justify",
       "weight": 400,
       "font": "Galmuri11",
-      "size": 11,
+      "size": 12,
       "lineHeight": 1.8,
-      "letterSpacing": -0.008,
-      "blockGap": 30,
+      "letterSpacing": -0.01,
+      "blockGap": 40,
       "vAlign": "top",
       "columns": 1,
       "columnGap": 24
     },
     "canvas": {
-      "mode": "ratio",
+      "mode": "fit",
       "ratio": "3:4",
       "width": 560,
       "mt": 20,
@@ -3557,11 +3644,12 @@ const PRESET_THEMES = [
       "ml": 30,
       "mr": 30,
       "marginDetail": false,
-      "marginLink": true
+      "marginLink": false
     },
     "useFont": true
   },
   {
+    "presetId": "cyworld",
     "name": "cyworld",
     "bg": "#FFFFFF",
     "fg": "#37373E",
@@ -3594,16 +3682,15 @@ const PRESET_THEMES = [
     "brBR": 15,
     "brBL": 15,
     "header": "none",
-    "headerTitle": "대화상대",
+    "headerTitle": "캐릭터명",
     "headerAvatar": "",
     "headerBg": "",
     "headerMark": "",
     "frame": "cyworld",
-    "frameMood": "#mood",
+    "frameMood": "( ꐦ•̀ ︿ •́ )",
     "signShow": true,
     "signAlign": "right",
-    "signSep": "·",
-    "presetId": "cyworld",
+    "signSep": "/",
     "bubblePreset": "imessage",
     "tailPos": "bottom",
     "groupRuns": true,
@@ -3612,10 +3699,10 @@ const PRESET_THEMES = [
       "align": "justify",
       "weight": 400,
       "font": "KoPubWorld Dotum",
-      "size": 13,
+      "size": 12,
       "lineHeight": 1.6,
-      "letterSpacing": -0.008,
-      "blockGap": 10,
+      "letterSpacing": -0.01,
+      "blockGap": 20,
       "vAlign": "center",
       "columns": 1,
       "columnGap": 24
@@ -3624,222 +3711,20 @@ const PRESET_THEMES = [
       "mode": "ratio",
       "ratio": "9:16",
       "width": 560,
-      "mt": 20,
-      "mb": 20,
-      "ml": 30,
-      "mr": 30,
-      "marginDetail": false
+      "mt": 0,
+      "mb": 0,
+      "ml": 0,
+      "mr": 0,
+      "marginDetail": false,
+      "marginLink": true
     },
     "useFont": true
   },
   {
-    "name": "simple(white)",
+    "presetId": "chapter",
+    "name": "news",
     "bg": "#FFFFFF",
-    "fg": "#37373E",
-    "bubbleBg": "#EDEDED",
-    "bubbleFg": "#37373E",
-    "bgImage": "",
-    "bgSize": 100,
-    "bgRotation": 0,
-    "bgX": 50,
-    "bgY": 50,
-    "bgBlur": 0,
-    "bgOverlay": 0,
-    "bgOverlayColor": "#000000",
-    "paper": 0,
-    "showName": true,
-    "showAvatar": true,
-    "myName": true,
-    "myAvatar": true,
-    "roundAvatar": false,
-    "myBubbleBg": "#8A8F98",
-    "myBubbleFg": "#FFFFFF",
-    "highlight": "#E4E4E6",
-    "bubbleStyle": "bubble",
-    "showTail": true,
-    "tailShape": "curve",
-    "bubbleRadius": 20,
-    "brDetail": false,
-    "brTL": 20,
-    "brTR": 20,
-    "brBR": 20,
-    "brBL": 2,
-    "header": "none",
-    "headerTitle": "캐릭터",
-    "headerAvatar": "",
-    "headerBg": "",
-    "headerMark": "",
-    "frame": "none",
-    "frameMood": "",
-    "signShow": true,
-    "signAlign": "right",
-    "signSep": "·",
-    "presetId": "simple-white",
-    "bubblePreset": "modern",
-    "fmt": {
-      "align": "justify",
-      "weight": 400,
-      "font": "Pretendard",
-      "size": 14,
-      "lineHeight": 1.6,
-      "letterSpacing": -0.008,
-      "blockGap": 20,
-      "vAlign": "top",
-      "columns": 1,
-      "columnGap": 24
-    },
-    "canvas": {
-      "mode": "ratio",
-      "ratio": "3:4",
-      "width": 560,
-      "mt": 40,
-      "mb": 40,
-      "ml": 40,
-      "mr": 40,
-      "marginDetail": false
-    },
-    "useFont": true
-  },
-  {
-    "name": "simple(grey)",
-    "bg": "#EDEDED",
-    "fg": "#424448",
-    "bubbleBg": "#424448",
-    "bubbleFg": "#FFFFFF",
-    "bgImage": "",
-    "bgSize": 100,
-    "bgRotation": 0,
-    "bgX": 50,
-    "bgY": 50,
-    "bgBlur": 0,
-    "bgOverlay": 0,
-    "bgOverlayColor": "#000000",
-    "paper": 0,
-    "showName": true,
-    "showAvatar": true,
-    "myName": true,
-    "myAvatar": true,
-    "roundAvatar": false,
-    "myBubbleBg": "#C9C9C9",
-    "myBubbleFg": "#424448",
-    "highlight": "#E4E4E6",
-    "bubbleStyle": "bubble",
-    "showTail": true,
-    "tailShape": "curve",
-    "bubbleRadius": 20,
-    "brDetail": false,
-    "brTL": 20,
-    "brTR": 20,
-    "brBR": 20,
-    "brBL": 2,
-    "header": "none",
-    "headerTitle": "캐릭터",
-    "headerAvatar": "",
-    "headerBg": "",
-    "headerMark": "",
-    "frame": "none",
-    "frameMood": "",
-    "signShow": true,
-    "signAlign": "right",
-    "signSep": "·",
-    "presetId": "simple-grey",
-    "bubblePreset": "modern",
-    "fmt": {
-      "align": "justify",
-      "weight": 400,
-      "font": "Pretendard",
-      "size": 14,
-      "lineHeight": 1.6,
-      "letterSpacing": -0.008,
-      "blockGap": 20,
-      "vAlign": "top",
-      "columns": 1,
-      "columnGap": 24
-    },
-    "canvas": {
-      "mode": "ratio",
-      "ratio": "3:4",
-      "width": 560,
-      "mt": 40,
-      "mb": 40,
-      "ml": 40,
-      "mr": 40,
-      "marginDetail": false
-    },
-    "useFont": true
-  },
-  {
-    "name": "simple(black)",
-    "bg": "#26262B",
-    "fg": "#EDEDED",
-    "bubbleBg": "#37373E",
-    "bubbleFg": "#EDEDED",
-    "bgImage": "",
-    "bgSize": 100,
-    "bgRotation": 0,
-    "bgX": 50,
-    "bgY": 50,
-    "bgBlur": 0,
-    "bgOverlay": 0,
-    "bgOverlayColor": "#000000",
-    "paper": 0,
-    "showName": true,
-    "showAvatar": true,
-    "myName": true,
-    "myAvatar": true,
-    "roundAvatar": false,
-    "myBubbleBg": "#4A4A55",
-    "myBubbleFg": "#FFFFFF",
-    "highlight": "#E4E4E6",
-    "bubbleStyle": "bubble",
-    "showTail": true,
-    "tailShape": "curve",
-    "bubbleRadius": 20,
-    "brDetail": false,
-    "brTL": 20,
-    "brTR": 20,
-    "brBR": 20,
-    "brBL": 2,
-    "header": "none",
-    "headerTitle": "캐릭터",
-    "headerAvatar": "",
-    "headerBg": "",
-    "headerMark": "",
-    "frame": "none",
-    "frameMood": "",
-    "signShow": true,
-    "signAlign": "right",
-    "signSep": "·",
-    "presetId": "simple-black",
-    "bubblePreset": "modern",
-    "fmt": {
-      "align": "justify",
-      "weight": 400,
-      "font": "Pretendard",
-      "size": 14,
-      "lineHeight": 1.6,
-      "letterSpacing": -0.008,
-      "blockGap": 20,
-      "vAlign": "top",
-      "columns": 1,
-      "columnGap": 24
-    },
-    "canvas": {
-      "mode": "ratio",
-      "ratio": "3:4",
-      "width": 560,
-      "mt": 40,
-      "mb": 40,
-      "ml": 40,
-      "mr": 40,
-      "marginDetail": false
-    },
-    "useFont": true
-  },
-  {
-    "name": "article",
-    "bg": "#404040",
-    "fg": "#E5E5E5",
+    "fg": "#404040",
     "bubbleBg": "#FFFFFF",
     "bubbleFg": "#E8DFD3",
     "bgImage": "",
@@ -3859,7 +3744,7 @@ const PRESET_THEMES = [
     "myBubbleBg": "#FFFFFF",
     "myBubbleFg": "#F5EFE7",
     "highlight": "#8B7355",
-    "bubbleStyle": "quote",
+    "bubbleStyle": "plain",
     "showTail": true,
     "tailShape": "curve",
     "bubbleRadius": 12,
@@ -3877,8 +3762,7 @@ const PRESET_THEMES = [
     "frameMood": "",
     "signShow": true,
     "signAlign": "right",
-    "signSep": "·",
-    "presetId": "chapter",
+    "signSep": "/",
     "groupRuns": true,
     "paperJournal": "소제목",
     "paperTitle": "제목",
@@ -3886,29 +3770,31 @@ const PRESET_THEMES = [
       "align": "justify",
       "weight": 400,
       "font": "Pretendard",
-      "size": 17,
-      "lineHeight": 1.5,
-      "letterSpacing": 0,
+      "size": 13,
+      "lineHeight": 1.6,
+      "letterSpacing": -0.005,
       "blockGap": 20,
-      "vAlign": "center",
-      "columns": 1,
+      "vAlign": "top",
+      "columns": 2,
       "columnGap": 24
     },
     "canvas": {
-      "mode": "fit",
-      "ratio": "1:1",
-      "width": 560,
-      "mt": 20,
-      "mb": 20,
-      "ml": 40,
-      "mr": 40,
+      "mode": "ratio",
+      "ratio": "4:3",
+      "width": 920,
+      "mt": 40,
+      "mb": 40,
+      "ml": 70,
+      "mr": 70,
       "marginDetail": false,
       "marginLink": true
     },
     "useFont": true,
-    "paperTagColor": "#599E5B"
+    "paperTagColor": "#FDD835",
+    "paperPlacement": "column"
   },
   {
+    "presetId": "square-white",
     "name": "square(cream)",
     "bg": "#FFFEF8",
     "fg": "#552609",
@@ -3941,7 +3827,7 @@ const PRESET_THEMES = [
     "brBR": 18,
     "brBL": 18,
     "header": "kakao",
-    "headerTitle": "작품명",
+    "headerTitle": "캐릭터명",
     "headerAvatar": "",
     "headerBg": "",
     "headerMark": "",
@@ -3949,8 +3835,7 @@ const PRESET_THEMES = [
     "frameMood": "",
     "signShow": true,
     "signAlign": "right",
-    "signSep": "·",
-    "presetId": "square-white",
+    "signSep": "/",
     "bubblePreset": "plain",
     "groupRuns": true,
     "brLink": true,
@@ -3958,7 +3843,7 @@ const PRESET_THEMES = [
       "align": "justify",
       "weight": 400,
       "font": "Noto Sans KR",
-      "size": 16,
+      "size": 13,
       "lineHeight": 1.6,
       "letterSpacing": -0.008,
       "blockGap": 20,
@@ -3970,16 +3855,17 @@ const PRESET_THEMES = [
       "mode": "ratio",
       "ratio": "1:1",
       "width": 560,
-      "mt": 30,
+      "mt": 10,
       "mb": 30,
       "ml": 50,
       "mr": 50,
       "marginDetail": false,
-      "marginLink": true
+      "marginLink": false
     },
     "useFont": true
   },
   {
+    "presetId": "square-black",
     "name": "square(slate)",
     "bg": "#1E293B",
     "fg": "#CBD5E1",
@@ -4012,7 +3898,7 @@ const PRESET_THEMES = [
     "brBR": 18,
     "brBL": 18,
     "header": "kakao",
-    "headerTitle": "작품명",
+    "headerTitle": "캐릭터명",
     "headerAvatar": "",
     "headerBg": "",
     "headerMark": "",
@@ -4020,8 +3906,7 @@ const PRESET_THEMES = [
     "frameMood": "",
     "signShow": true,
     "signAlign": "right",
-    "signSep": "·",
-    "presetId": "square-black",
+    "signSep": "/",
     "bubblePreset": "plain",
     "groupRuns": true,
     "brLink": true,
@@ -4029,7 +3914,7 @@ const PRESET_THEMES = [
       "align": "justify",
       "weight": 400,
       "font": "Noto Sans KR",
-      "size": 17,
+      "size": 13,
       "lineHeight": 1.6,
       "letterSpacing": -0.008,
       "blockGap": 20,
@@ -4041,16 +3926,17 @@ const PRESET_THEMES = [
       "mode": "ratio",
       "ratio": "1:1",
       "width": 560,
-      "mt": 30,
+      "mt": 10,
       "mb": 30,
       "ml": 50,
       "mr": 50,
       "marginDetail": false,
-      "marginLink": true
+      "marginLink": false
     },
     "useFont": true
   },
   {
+    "presetId": "twitter",
     "name": "Twitter",
     "bg": "#FFFFFF",
     "fg": "#1A1A1A",
@@ -4091,106 +3977,36 @@ const PRESET_THEMES = [
     "frameMood": "",
     "signShow": true,
     "signAlign": "right",
-    "signSep": "·",
-    "presetId": "twitter",
+    "signSep": "/",
     "groupRuns": true,
     "snsBg": "#FFFFFF",
     "fmt": {
       "align": "justify",
       "weight": 400,
       "font": "Pretendard",
-      "size": 15,
-      "lineHeight": 1.6,
-      "letterSpacing": 0,
-      "blockGap": 20,
+      "size": 11,
+      "lineHeight": 1.8,
+      "letterSpacing": -0.01,
+      "blockGap": 30,
       "vAlign": "center",
       "columns": 1,
       "columnGap": 24
     },
-    "canvas": {
-      "mode": "ratio",
-      "ratio": "1:1",
-      "width": 560,
-      "mt": 30,
-      "mb": 30,
-      "ml": 40,
-      "mr": 40,
-      "marginDetail": false,
-      "marginLink": true
-    },
-    "useFont": true
-  },
-  {
-    "name": "News",
-    "bg": "#FFFFFF",
-    "fg": "#1A1A1A",
-    "bubbleBg": "#EDEDF0",
-    "bubbleFg": "#1A1A1A",
-    "bgImage": "",
-    "bgSize": 100,
-    "bgRotation": 0,
-    "bgX": 50,
-    "bgY": 50,
-    "bgBlur": 0,
-    "bgOverlay": 0,
-    "bgOverlayColor": "#000000",
-    "paper": 0,
-    "showName": true,
-    "showAvatar": true,
-    "myName": false,
-    "myAvatar": false,
-    "roundAvatar": true,
-    "myBubbleBg": "#424448",
-    "myBubbleFg": "#FFFFFF",
-    "highlight": "#FFE79A",
-    "bubbleStyle": "bubble",
-    "showTail": true,
-    "tailShape": "curve",
-    "bubbleRadius": 12,
-    "brDetail": false,
-    "brTL": 12,
-    "brTR": 12,
-    "brBR": 12,
-    "brBL": 12,
-    "header": "paper",
-    "headerTitle": "",
-    "headerAvatar": "",
-    "headerBg": "",
-    "headerMark": "",
-    "frame": "none",
-    "frameMood": "",
-    "signShow": true,
-    "signAlign": "right",
-    "signSep": "·",
     "canvas": {
       "mode": "fit",
       "ratio": "9:16",
       "width": 560,
       "mt": 40,
       "mb": 40,
-      "ml": 30,
-      "mr": 30,
+      "ml": 52,
+      "mr": 52,
       "marginDetail": false,
       "marginLink": true
     },
-    "fmt": {
-      "align": "justify",
-      "weight": 400,
-      "font": "Pretendard",
-      "size": 14,
-      "lineHeight": 1.5,
-      "letterSpacing": 0,
-      "blockGap": 20,
-      "vAlign": "top",
-      "columns": 2,
-      "columnGap": 24
-    },
-    "useFont": true,
-    "paperJournal": "2026년 12월 26일",
-    "paperTitle": "뉴스 제목",
-    "presetId": "newspapers"
+    "useFont": true
   },
   {
+    "presetId": "script",
     "name": "script",
     "bg": "#FFFFFF",
     "fg": "#26262B",
@@ -4223,7 +4039,7 @@ const PRESET_THEMES = [
     "brBR": 18,
     "brBL": 18,
     "header": "kakao",
-    "headerTitle": "작품명",
+    "headerTitle": "캐릭터명",
     "headerAvatar": "",
     "headerBg": "",
     "headerMark": "",
@@ -4231,15 +4047,14 @@ const PRESET_THEMES = [
     "frameMood": "",
     "signShow": true,
     "signAlign": "right",
-    "signSep": "·",
-    "presetId": "script",
+    "signSep": "/",
     "groupRuns": true,
     "brLink": true,
     "fmt": {
       "align": "justify",
       "weight": 400,
       "font": "Bookk Myungjo",
-      "size": 12,
+      "size": 13,
       "lineHeight": 1.6,
       "letterSpacing": -0.008,
       "blockGap": 20,
@@ -4259,14 +4074,9 @@ const PRESET_THEMES = [
       "marginLink": true
     },
     "useFont": true
-  },
-
+  }
 ];
-
-/* 기본 테마의 본문 크기를 13px로 통일한다. 이전 기본값은 저장본에서 사용자가
-   글씨를 직접 바꿨는지 판별하는 데 쓴다. */
-const PRESET_PREVIOUS_BODY_SIZE = new Map(PRESET_THEMES.map(p => [p.presetId, p.fmt?.size]));
-PRESET_THEMES.forEach(p => { if (p.fmt) p.fmt.size = 13; });
+const DEFAULT_PRESET_ID = "twitter";
 
 /* 기본으로 딸려 오는 테마인가. presetId로 찾는다 — 이름을 바꿔도 프리셋 연결이 유지된다. */
 const presetOf = t => t && PRESET_THEMES.find(p => p.presetId === t.presetId);
@@ -4289,9 +4099,10 @@ function syncBuiltinThemes() {
 
 const S = {
   blocks: [], characters: [], themes: [], activeThemeId: null,
+  decorationContentByTheme: Object.create(null),
   signatures: [], activeSignId: null,
   /* [원본 lyLh · lyBlockGap · lyGap] 행간=줄 높이 배수 · 문단 간격=글 블록 사이 · 말풍선 간격=다른 화자 사이 */
-  /* vAlign — 한 장 안에서 내용 묶음을 어디에 놓는가(위 / 가운데). 비율을 지정한 판형에서만
+  /* vAlign — 한 장 안에서 내용 묶음을 어디에 놓는가(위 / 가운데 / 아래). 비율을 지정한 판형에서만
      쓸모가 있다 — 내용에 맞춤은 높이가 내용을 따라오므로 남는 자리가 없다. */
   /* columns · columnGap — 단 나누기. 문서와 같은 눈금으로, 몇 단이고 사이가 얼마인가 둘뿐이다. */
   format: { align: 'left', weight: 400, font: 'Pretendard', size: 14, lineHeight: 1.5, letterSpacing: 0, blockGap: 20, vAlign: 'center', columns: 1, columnGap: 24 },
@@ -4354,7 +4165,7 @@ addEventListener('unhandledrejection', e => diag('window:unhandledrejection', {
   message: String(e && e.reason && (e.reason.message || e.reason) || '').slice(0, 180)
 }));
 /* 기본값을 바꾸면 올린다. 저장본의 판이 낮으면 내용은 지키고 기본값만 새로 잡는다. */
-const SCHEMA = 26;
+const SCHEMA = 27;
 const SIGNATURE_SCHEMA = 17;
 /* 저장이 조용히 실패하면 안 된다 — 특히 캐릭터 이미지처럼 큰 값을 넣은 직후에
    용량이 넘치면, 화면에는 멀쩡히 보이는데 새로고침하면 사라져 원인을 알 수 없다. */
@@ -4368,7 +4179,7 @@ let _quotaWarned = false;
 const HIST_MAX = 80, HIST_MERGE_MS = 700;
 let _histPrev = null, _undoS = [], _redoS = [], _histAt = 0, _histLock = false;
 const snapOf = () => JSON.stringify({ v: SCHEMA, blocks: S.blocks, characters: S.characters,
-  themes: S.themes, activeThemeId: S.activeThemeId, signatures: S.signatures, activeSignId: S.activeSignId, format: S.format, canvas: S.canvas, colors: S.colors });
+  themes: S.themes, activeThemeId: S.activeThemeId, signatures: S.signatures, activeSignId: S.activeSignId, format: S.format, canvas: S.canvas, colors: S.colors, decorationContentByTheme: S.decorationContentByTheme });
 function histRecord() {
   if (_histLock) return;
   const now = Date.now();
@@ -4388,6 +4199,7 @@ function histApply(json) {
   try {
     S.blocks = d.blocks || []; S.characters = d.characters || [];
     S.themes = d.themes || []; S.activeThemeId = d.activeThemeId;
+    S.decorationContentByTheme = normalizeDecorationContent(d.decorationContentByTheme);
     S.signatures = d.signatures || []; S.activeSignId = d.activeSignId ?? null;
     Object.assign(S.format, d.format || {});
     Object.assign(S.canvas, d.canvas || {});
@@ -4453,6 +4265,9 @@ function validateState() {
   if (!S.themes.length) {
     S.themes = PRESET_THEMES.map(p => Object.assign(DEF_THEME(), JSON.parse(JSON.stringify(p))));
   }
+  Object.keys(S.decorationContentByTheme).forEach(id => {
+    if (!S.themes.some(t => String(t.id) === id)) delete S.decorationContentByTheme[id];
+  });
   /* 2. activeThemeId 검증: 존재하지 않으면 첫 번째 테마로 */
   if (!S.themes.some(t => t.id === S.activeThemeId)) {
     S.activeThemeId = S.themes[0]?.id;
@@ -4485,7 +4300,7 @@ const save = () => {
   histRecord();
   syncHistBtns();
   try {
-    localStorage.setItem(KEY, JSON.stringify({ v: SCHEMA, blocks: S.blocks, characters: S.characters, themes: S.themes, activeThemeId: S.activeThemeId, signatures: S.signatures, activeSignId: S.activeSignId, format: S.format, canvas: S.canvas, colors: S.colors }));
+    localStorage.setItem(KEY, snapOf());
     _quotaWarned = false;
   } catch (e) {
     diag('save:error', { name: e && e.name ? e.name : 'unknown' });
@@ -4506,6 +4321,7 @@ function load() {
     /* 테마 이전이 원본 배열도 고치므로 서명은 먼저 별도 복사해 둔다. */
     signSource = d && JSON.parse(JSON.stringify(d));
     if (d) {
+      S.decorationContentByTheme = normalizeDecorationContent(d.decorationContentByTheme);
       Object.assign(S, { blocks: d.blocks || [], characters: d.characters || [], themes: d.themes || [], activeThemeId: d.activeThemeId, signatures: [], activeSignId: null });
       /* 판이 낮은 저장본은 예전 기본값(행간 100 · 여백 30 …)을 그대로 들고 있다.
          블록·캐릭터·테마는 지키고 서식·캔버스만 새 기본값으로 되돌린다. */
@@ -4534,16 +4350,8 @@ function load() {
     });
     S.activeThemeId = S.themes[0]?.id;
   }
-  /* 첫 방문은 입력 블록·캐릭터가 없는 빈 문서로 시작한다. */
+  if (!loaded) S.activeThemeId = S.themes.find(t => t.presetId === DEFAULT_PRESET_ID)?.id;
   if (!S.themes.some(t => t.id === S.activeThemeId)) S.activeThemeId = S.themes[0]?.id ?? null;
-  /* 프레임을 두른 테마 둘이 뒤늦게 합류했다 — 이미 쓰던 사람 목록에도 한 번 넣어 준다.
-     판이 오를 때 «딱 한 번» 이다: 부팅마다 채우면 일부러 지운 테마가 자꾸 되살아난다. */
-  if (loaded && (loaded.v || 0) < 8) {
-    const have = new Set(S.themes.map(t => t && t.name));
-    PRESET_THEMES.forEach(p => {
-      if (!have.has(p.name)) S.themes.push(Object.assign(DEF_THEME(), JSON.parse(JSON.stringify(p))));
-    });
-  }
   /* v16: Bubble을 추가하고 개발 중 철회한 색 테마만 정리한다. */
   if (loaded && (loaded.v || 0) < 16) {
     const retired = new Set(['palette-bubble-rose', 'palette-mint', 'palette-sky',
@@ -4601,7 +4409,7 @@ function load() {
      그 흰 값을 그대로 쓰던 테마만이다 — 색을 손댔으면 그건 그 사람의 버디버디다.
      («없음» 은 배경을 안 그리므로 기본 꼴로 쓰는 사람 화면은 꿈쩍하지 않는다.) */
   if (loaded && (loaded.v || 0) < 12) {
-    const bp = PRESET_THEMES.find(p => p.name === '버디버디');
+    const bp = PRESET_THEMES.find(p => p.presetId === 'buddy');
     S.themes.forEach(t => {
       if (!t || t.name !== '버디버디' || !bp) return;
       if (t.bubbleBg !== '#FFFFFF' || t.myBubbleBg !== '#FFFFFF') return;
@@ -4658,8 +4466,12 @@ function load() {
      이름을 바꿔도 프리셋 연결이 유지되도록 하기 위한 마이그레이션이다. */
   if (loaded && (loaded.v || 0) < 25) S.themes.forEach(t => {
     if (!t.presetId) {
-      const p = PRESET_THEMES.find(p => p.name === t.name);
-      if (p) t.presetId = p.presetId;
+      const previousNames = { iOS: 'ios', article: 'chapter', News: 'newspapers',
+        '모바일 읽기': 'mobile-reading', 'simple(white)': 'simple-white',
+        'simple(grey)': 'simple-grey', 'simple(black)': 'simple-black' };
+      const previousId = Object.hasOwn(previousNames, t.name) ? previousNames[t.name] : null;
+      const presetId = previousId || PRESET_THEMES.find(p => p.name === t.name)?.presetId;
+      if (presetId) t.presetId = presetId;
     }
   });
   /* 이전 버전에서 프리셋을 복제하면 presetId까지 복사되었다.
@@ -4723,26 +4535,12 @@ function load() {
     });
   }
 
-  /* 새 모바일 판형은 별도 프리셋으로 추가한다. 기존 테마의 서식·판형은 건드리지 않는다. */
-  if (loaded && (loaded.v || 0) < 22 && !S.themes.some(t => t.presetId === 'mobile-reading')) {
-    const p = PRESET_THEMES.find(t => t.presetId === 'mobile-reading');
-    S.themes.push(Object.assign(DEF_THEME(), JSON.parse(JSON.stringify(p))));
-  }
-  if (loaded && (loaded.v || 0) < 23) {
-    S.themes.forEach(t => {
-      if (t.presetId === 'mobile-reading' && t.decorMusicSize == null) t.decorMusicSize = 14;
-    });
-  }
-  if (loaded && (loaded.v || 0) < 24) {
-    S.themes.forEach(t => {
-      const oldSize = PRESET_PREVIOUS_BODY_SIZE.get(t.presetId);
-      if (oldSize != null && t.fmt?.size === oldSize) t.fmt.size = 13;
-    });
-  }
-
   if (!loaded) {
-    S.signatures = [];
-    S.activeSignId = null;
+    S.characters = [{ id: uid(), name: '캐릭터명', avatar: '', useCustomBubble: false,
+      bubbleBg: '#6C7A89', bubbleFg: '#FFFFFF', position: 'left' }];
+    const signature = { id: uid(), charName: '캐릭터명', maker: '@제작자' };
+    S.signatures = [signature];
+    S.activeSignId = signature.id;
   } else {
     const converted = normalizeSignatureData(signSource, (loaded.v || 0) < SIGNATURE_SCHEMA);
     S.signatures = converted.signatures;
@@ -4758,6 +4556,19 @@ function load() {
   }
   S.blocks = S.blocks.filter(b => b.type !== 'footer');
   S.themes.forEach(t => { normalizeHeaderSettings(t); stripLegacySign(t); });
+  if (loaded && (loaded.v || 0) < 27) {
+    // 제공 목록은 새 순서로 교체하되 남아 있는 테마의 문서 ID와 사용자 테마는 유지한다.
+    const retired = new Set(['mobile-reading', 'simple-white', 'simple-grey', 'simple-black', 'newspapers']);
+    const kept = S.themes.filter(t => !presetOf(t) && !retired.has(t.presetId));
+    const builtins = PRESET_THEMES.map(p => S.themes.find(t => t.presetId === p.presetId)
+      || { presetId: p.presetId, id: uid() });
+    const oldActive = S.themes.find(t => t.id === S.activeThemeId);
+    S.themes = [...builtins, ...kept];
+    if (retired.has(oldActive?.presetId)) {
+      const replacement = oldActive.presetId === 'newspapers' ? 'chapter' : DEFAULT_PRESET_ID;
+      S.activeThemeId = builtins.find(t => t.presetId === replacement)?.id;
+    }
+  }
   syncBuiltinThemes();
   validateState();
 }
@@ -4795,9 +4606,12 @@ const HEADER_DEFAULTS = {
   paper: { height: 112, fontSize: 20 }
 };
 const headerDefault = th => HEADER_DEFAULTS[headKind(th)] || {};
-const headerDecorPx = th => headerDefault(th).fontSize ?? 14;
+const headerDecorPx = th => headKind(th) === 'paper' ? fmt().size : (headerDefault(th).fontSize ?? 14);
 const headerSvgScale = th => headerDefault(th).svgScale ?? 1;
-const headerHeightPx = th => headerDefault(th).height ?? 64;
+const headerHeightPx = th => {
+  const { height = 64, fontSize } = headerDefault(th);
+  return headKind(th) === 'paper' ? height * headerDecorPx(th) / fontSize : height;
+};
 const headerInt = (th, key, min, max, fallback) => headerDefault(th)[key] ?? fallback;
 function normalizeHeaderSettings(t) {
   if (t.header === 'ebook' || t.header === 'ebook-modern') t.header = 'kakao';
@@ -4807,7 +4621,7 @@ function normalizeHeaderSettings(t) {
 }
 function signatureText(s, th) {
   return s ? [signField(s.charName), signField(s.maker)].filter(Boolean)
-    .join(th.signSep === '|' ? ' | ' : ' · ') : '';
+    .join(['|', '/'].includes(th.signSep) ? ' ' + th.signSep + ' ' : ' · ') : '';
 }
 const signText = th => signatureText(activeSign(), th);
 /* 장식이 실제로 차지하는 자리. 테마 전환 뒤 숨겨진 header 값이 남아 있어도
@@ -4817,7 +4631,7 @@ const decorationLayout = th => {
   const head = frame === 'none' ? headKind(th) : 'none';
   const role = frame !== 'none' ? 'frame' : head === 'paper' ? 'content-title'
     : head === 'insta-dm' ? 'edge-pair' : head === 'none' ? 'none' : 'edge-head';
-  const sign = frame === 'buddy' ? 'frame' : head === 'paper' ? 'header' : 'footer';
+  const sign = frame === 'buddy' ? 'frame' : frame === 'cyworld' || head === 'paper' ? 'header' : head === 'insta-dm' ? 'input' : 'footer';
   return { frame, head, role, sign, bottomAccessory: head === 'insta-dm' };
 };
 const visibleHeadKind = th => decorationLayout(th).head;
@@ -4892,9 +4706,13 @@ const themeCanvas = (th) => (th && th.canvas) || S.canvas || DEF_CANVAS;
 const canvas = () => themeCanvas(theme());
 /* 프레임이 판형을 못 박으면 «내용 맞춤» 은 없다 — 창은 정해진 크기의 그릇이다 [FRAME_RATIO] */
 const isFit = () => !lockRatio() && (canvas().mode || 'ratio') === 'fit';
-/* 내용 묶음을 장의 위에 붙이는가 — 안 그러면 여태처럼 세로 가운데다 [.canvas.ratio-center].
+/* 비율 판형 안에서 내용 묶음의 세로 위치를 고른다.
    테마의 글자 서식에 산다 [fontControls] — 같은 글을 테마만 바꿔 다르게 앉힐 수 있다. */
-const isTopAlign = () => (fmt().vAlign || 'center') === 'top';
+const pageVAlign = () => {
+  const value = fmt().vAlign;
+  return value === 'top' || value === 'bottom' ? value : 'center';
+};
+const isTopAlign = () => pageVAlign() === 'top';
 const charOf = id => S.characters.find(c => c.id === id);
 const selBlock = () => S.blocks.find(b => b.id === S.ui.selectedBlockId);
 /* 작성창에서 고칠 글자가 있는 종류 */
@@ -6320,9 +6138,9 @@ function frameNode(th) {
     const input = el('div', 'fb-input');
     input.appendChild(frTxt('fb-send', '보내기(S)'));
     /* 만든이 — 선택 서명을 표시하고, 없으면 대화명으로 채운다 */
-    const maker = signText(th) || name || '버디버디';
-    panel.append(chat, icons, input,
-      frRow('fb-status', frTxt('', '만든이 : ' + maker)));
+    const signature = signText(th);
+    const maker = frTxt(signature ? 'fb-signature' : '', '만든이 : ' + (signature || name || '버디버디'));
+    panel.append(chat, icons, input, frRow('fb-status', maker));
     body.appendChild(panel);
     f.appendChild(body);
     return f;
@@ -6341,10 +6159,18 @@ function frameNode(th) {
   const hits = el('div', 'mh-hits');
   hits.appendChild(document.createTextNode('TODAY '));
   hits.appendChild(Object.assign(el('b'), { textContent: '486' }));
-  hits.appendChild(document.createTextNode('  TOTAL 1052'));
-  book.appendChild(frRow('mh-top', hits, el('div', 'fr-sp'),
-    frTxt('mh-title', name ? name + '의 미니홈피' : '미니홈피'),
-    el('div', 'fr-sp'), el('div', 'mh-set', '홈설정')));
+  hits.appendChild(document.createTextNode(' TOTAL 1004'));
+  const top = frRow('mh-top', hits, el('div', 'fr-sp'),
+    frTxt('mh-title', name ? name + '의 미니홈피' : '미니홈피'), el('div', 'fr-sp'));
+  const signature = th.signShow ? signText(th) : '';
+  if (signature) {
+    const slot = el('div', 'mh-set');
+    const dot = el('span', 'mh-signature-dot');
+    dot.setAttribute('aria-hidden', 'true');
+    slot.append(dot, frTxt('mh-signature', signature));
+    top.appendChild(slot);
+  }
+  book.appendChild(top);
 
   const left = el('div', 'mh-page mh-left');
   const today = el('div', 'mh-today');
@@ -6386,7 +6212,9 @@ const SIGNATURE_EDGE = 16;
 
 function renderCanvas() {
   const renderAt = performance.now(); diag('render:start', { blocks: S.blocks.length });
-  const cv = $('#canvas'), th = theme(), f = fmt();
+  const cv = $('#canvas'), th = decorationTheme(theme()), f = fmt();
+  const focused = document.activeElement;
+  const restoreDecorationFocus = cv.contains(focused) && focused.hasAttribute('data-decoration-edit');
   buddyPeerExtra = 0;
   cv.style.setProperty('--canvas-w', canvasW() + 'px');
   const preview = S.ui.imagePreview;
@@ -6397,7 +6225,7 @@ function renderCanvas() {
       : [...S.blocks, preview.block])
     : S.blocks;
   /* 이전 렌더의 중앙 정렬과 서명 자리가 페이지 높이 계산에 섞이지 않게 먼저 푼다. */
-  cv.classList.remove('ratio-center', 'foot-pinned', 'fit-footer');
+  cv.classList.remove('ratio-center', 'ratio-bottom', 'foot-pinned', 'fit-footer');
   cv.style.setProperty('--cv-ratio', String(RATIOS[ratioKey()] || 1));
   cv.style.setProperty('--cv-bg', th.bg);
   cv.style.setProperty('--cv-fg', th.fg);
@@ -6575,8 +6403,10 @@ function renderCanvas() {
       const hdSize = headerDecorPx(th);
       hd.style.fontSize = hdSize + 'px';
       hd.classList.add('head-sized');
-      hd.style.height = headerHeightPx(th) + 'px';
-      hd.style.minHeight = '0';
+      const hdHeight = headerHeightPx(th) + 'px';
+      const isPaper = hd.classList.contains('hd-paper');
+      hd.style.height = isPaper ? 'auto' : hdHeight;
+      hd.style.minHeight = isPaper ? hdHeight : '0';
       hd.style.overflow = 'hidden';
       hd.style.setProperty('--hd-svg-scale', String(headerSvgScale(th)));
       hd.style.setProperty('--hd-side-pad', headerInt(th, 'sidePadding', 0, 80,
@@ -6591,7 +6421,7 @@ function renderCanvas() {
         if (time) time.style.fontSize = (Math.min(104, canvasW() * .19) * hdSize / 16) + 'px';
       }
       cv.appendChild(hd);
-      if (hd.classList.contains('hd-paper')) alignPaperHeaderInk(hd, cv);
+      if (isPaper) alignPaperHeaderInk(hd, cv);
     }
     blocks.forEach((b, i) => cv.appendChild(renderBlock(b, th, f, blocks[i - 1], blocks[i + 1])));
     /* 서명 내용은 선택된 목록에서 읽고, 배치와 서식은 테마를 따른다. */
@@ -6599,7 +6429,7 @@ function renderCanvas() {
     if (th.signShow && decoration.sign === 'footer') {
       const text = signText(th);
       if (text) {
-        const signWrap = el('div', 'blk is-footer');
+        const signWrap = el('div', 'canvas-signature');
         const signEl = el('div', 'blk-footer');
         signEl.textContent = text;
         signEl.style.textAlign = th.signAlign || 'right';
@@ -6644,11 +6474,19 @@ function renderCanvas() {
     /* 한 장이면 세로 가운데는 여기서 준다 — «위로» 를 고르면 안 준다(기본 flex-start 가 곧 위다) */
     /* 단을 쓰면 flex 가운데맞춤을 안 쓴다 — placeFlow 가 장마다 남는 자리를 이미 반씩
        나눠 앉힌다. 둘을 같이 걸면 가운데를 두 번 잡아 아래로 밀린다. */
-    cv.classList.toggle('ratio-center', pages <= 1 && !isTopAlign() && !colOn()
-      && !cv.querySelector('.side-page'));
+    const flexAlign = pages <= 1 && !colOn() && !cv.querySelector('.side-page');
+    cv.classList.toggle('ratio-center', flexAlign && pageVAlign() === 'center');
+    cv.classList.toggle('ratio-bottom', flexAlign && pageVAlign() === 'bottom');
   }
   syncCanvasBackgrounds(cv, Math.max(1, pages || 1));
   fitCanvas();
+  markDecorationTargets(cv, th);
+  markSignatureTargets(cv);
+  if (restoreDecorationFocus) {
+    const target = focused.hasAttribute('data-signature-edit')
+      ? cv.querySelector('[data-signature-edit][tabindex="0"]') : decorationEntry();
+    target?.focus({ preventScroll: true });
+  }
   ensureCanvasFonts();
   diag('render:done', { blocks: S.blocks.length, ms: Math.round(performance.now() - renderAt) });
 }
@@ -7095,7 +6933,8 @@ function ensureCanvasFonts() {
   ensureFontsLoaded($('#canvas')).then(() => {
     fresh.forEach(n => { _fontSeen.add(n); _fontLoading.delete(n); });
     /* 저장 중의 화면 DOM은 페이지별 출력이 참조한다. 저장이 끝나면 한 번 다시 그린다. */
-    if (!exportBusy) renderCanvas();
+    if (decorationPointer !== null) decorationFontRefresh = true;
+    else if (!exportBusy) renderCanvas();
   }).catch(() => {
     /* 실패 시 재시도 가능하도록 로딩 Set에서 제거 */
     fresh.forEach(n => _fontLoading.delete(n));
@@ -7340,7 +7179,7 @@ function renderBlock(b, th, f, prev, next) {
     const hasTail = bs === 'bubble' && preset.hasTail && (tTop ? !cont : !more);
     const tailAtBottom = bs === 'bubble' && preset.hasTail && !tTop;
     /* modern(corner)은 꼬리가 아래에 붙으니 아바타도 마지막 장(!more)에 표시 */
-    const avatarHere = bs === 'bubble' && (tailAtBottom || preset.isCorner) ? !more : !cont;
+    const avatarHere = bs === 'bubble' && (tailAtBottom || preset.isCorner || presetKey === 'plain') ? !more : !cont;
 
     /* 알림·SNS 스타일은 이미지·이름 무조건 표시 (대사 묶기에서도 유지) */
     const avOn = (bs === 'notif' || bs === 'sns') ? true : (isMe ? th.myAvatar : th.showAvatar);
@@ -7437,13 +7276,13 @@ function renderBlock(b, th, f, prev, next) {
     const bub = el('div', 'bub'
       + (hasTail && !isCornerTail ? ' has-tail t-img' + (tTop ? ' t-top' : '') : '')
       + (isCornerTail ? ' t-corner' : '')
-      + (bs === 'quote' ? ' as-quote' : '')
+      + (bs === 'quote' ? ' as-quote' : b.quoteLine ? ' has-quote-line' : '')
       + (bs === 'plain' || bs === 'script' ? ' as-plain' : '')
       + (bs === 'notif' ? ' as-notif' : '')
       + (bs === 'sns' ? ' as-sns' : ''));
     const bubbleText = applyInline(b.text || '');
     if (b.quoteLine && bs !== 'quote') {
-      const quoted = el('span', 'bub-quote-text');
+      const quoted = el('div', 'bub-quote-text');
       quoted.innerHTML = bubbleText;
       bub.appendChild(quoted);
     } else {
@@ -7718,7 +7557,12 @@ function instaDmFooterNode(th) {
   const camera = el('div', 'ft-camera');
   camera.appendChild(instaIcon('camera'));
   const input = el('div', 'ft-input');
-  input.appendChild(Object.assign(el('span', 'ft-placeholder'), { textContent: '메시지 보내기…' }));
+  const signature = el('span', 'ft-signature', th.signShow ? signText(th) : '');
+  const size = decorPx(th.decorSignSize);
+  if (size != null) signature.style.fontSize = size + 'px';
+  if (th.signBold) signature.style.fontWeight = 'bold';
+  if (th.signItalic) signature.style.fontStyle = 'italic';
+  input.appendChild(signature);
   const icons = el('div', 'ft-icons');
   ['mic', 'gallery', 'plus'].forEach(k => icons.appendChild(instaIcon(k)));
   input.appendChild(icons);
@@ -7818,7 +7662,7 @@ function ensureNewsFont() {
 }
 /* 제목은 적은 그대로 쓴다. 비워 두면 자리는 지키되 아무것도 안 적는다 —
    빈칸에 '이름' 같은 대신 글자를 넣으면 그것이 저장본에 그대로 찍힌다. */
-/* 새 장식의 텍스트 설정은 두 테마 편집 화면이 같은 필드를 사용한다. */
+/* 제목 장식의 렌더링과 직접 편집은 같은 내용 필드를 읽는다. */
 const TITLE_HEADER_FIELDS = {
   bubble: [['headerTitle', '이름', '예) 사해이'], ['bubbleHeaderSubtitle', '기념일', '예) 1226']],
   'lock-clock': [['lockDate', '날짜', '예) 12월 26일 금요일'], ['lockTime', '시간', '예) 3:08']],
@@ -7827,24 +7671,255 @@ const TITLE_HEADER_FIELDS = {
 };
 /* 이전 title(1) 저장본도 입력값을 보존해 통합 제목으로 표시한다. */
 const titleHeaderValue = (t, key) => t[key] ?? t[({paperJournal: 'onlineCategory', paperTitle: 'onlineHeadline'})[key]] ?? '';
+/* 내용은 테마 원본과 별도로 저장한다. 빈 문자열도 문서에서 의도적으로 정한 값이다. */
+const PROFILE_FIELDS = [['headerTitle', '이름'], ['headerAvatar', '프로필 사진']];
+const DECORATION_EDIT = {
+  imessage: { targets: '.hd-name, .hd-av', fields: PROFILE_FIELDS },
+  'insta-dm': { targets: '.hd-name, .hd-story-ring', fields: PROFILE_FIELDS },
+  kakao: { targets: '.hd-title', fields: [['headerTitle', '이름']] },
+  bubble: { targets: '.bubble-head-title, .bubble-head-number', fields: TITLE_HEADER_FIELDS.bubble },
+  'lock-clock': { targets: '.lock-date, .lock-time', fields: TITLE_HEADER_FIELDS['lock-clock'] },
+  paper: { targets: '.paper-journal, .paper-title', fields: TITLE_HEADER_FIELDS.paper },
+  cyworld: { targets: '.mh-title, .mh-today, .mh-photo', fields: [
+    ['headerTitle', '이름'], ['frameMood', 'TODAY IS'], ['headerAvatar', '대문 사진']
+  ], photoRatio: '4:3' },
+  buddy: { targets: '.fb-peer span', fields: [['headerTitle', '대화명']] }
+};
+const DECORATION_KEYS = new Set(Object.values(DECORATION_EDIT).flatMap(({ fields }) => fields.map(([key]) => key)));
+let decorationDraft = null;
+let decorationPointer = null, decorationFontRefresh = false;
+const decorationEntry = () => $('#canvas [data-decoration-edit]:not([data-signature-edit])[tabindex="0"]');
+
+function normalizeDecorationContent(content) {
+  const result = Object.create(null);
+  for (const [id, entry] of Object.entries(content || {})) {
+    const fields = Object.entries(entry || {}).filter(([key, value]) =>
+      DECORATION_KEYS.has(key) && typeof value === 'string');
+    if (fields.length) result[id] = Object.fromEntries(fields);
+  }
+  return result;
+}
+function decorationConfig(th) {
+  const { frame, head } = decorationLayout(th);
+  return DECORATION_EDIT[frame === 'none' ? head : frame];
+}
+function decorationTheme(th) {
+  const values = !exportBusy && decorationDraft?.id === th.id
+    ? decorationDraft.values : S.decorationContentByTheme[th.id];
+  return values ? { ...th, ...values } : th;
+}
+function markEditTarget(node, rect, useTextCenter = false) {
+  if (useTextCenter && rect.width && rect.height) {
+    const range = document.createRange();
+    range.selectNodeContents(node);
+    const text = range.getBoundingClientRect();
+    if (text.width && text.height) {
+      const x = clamp((text.left + text.width / 2 - rect.left) / rect.width, 0, 1);
+      const y = clamp((text.top + text.height / 2 - rect.top) / rect.height, 0, 1);
+      node.style.setProperty('--decoration-hover-origin', (x * 100) + '% ' + (y * 100) + '%');
+    }
+  }
+  node.dataset.decorationEdit = '';
+}
+function labelEditTarget(node, label) {
+  node.tabIndex = 0;
+  node.setAttribute('role', 'button');
+  node.setAttribute('aria-label', label);
+}
+function markDecorationTargets(cv, th) {
+  const config = decorationConfig(th);
+  if (!config || S.ui.bulk || exportBusy) return;
+
+  let first = null;
+  cv.querySelectorAll(config.targets).forEach(node => {
+    const photo = node.matches('.hd-av,.hd-story-ring,.mh-photo');
+    const rect = node.getBoundingClientRect();
+    if (node.closest('.blk') || (!photo && !node.textContent.trim()) || rect.width < 1 || rect.height < 1) return;
+    markEditTarget(node, rect, !photo);
+    if (!first) first = node;
+  });
+  if (!first) {
+    first = cv.querySelector('.cv-head, .canvas-empty');
+    if (!first) return;
+    first.dataset.decorationEdit = '';
+    first.dataset.decorationEmpty = '';
+  }
+  labelEditTarget(first, '장식 편집 · ' + config.fields.map(([, label]) => label).join(', '));
+}
+function markSignatureTargets(cv) {
+  const sign = activeSign();
+  if (!sign || S.ui.bulk || exportBusy) return;
+  const targets = cv.querySelectorAll('.canvas-signature .blk-footer, .foot-ghost .blk-footer, .cv-head .paper-authors, .cv-frame :is(.fb-signature,.mh-set), .cv-foot-insta-dm .ft-signature');
+  [...targets].filter(node => node.textContent.trim()).forEach((node, index) => {
+    markEditTarget(node, node.getBoundingClientRect(), true);
+    node.dataset.signatureEdit = sign.id;
+    if (index === 0) labelEditTarget(node, '서명 편집 · ' + node.textContent);
+  });
+}
+function activateCanvasEdit(target) {
+  const signatureId = target.dataset.signatureEdit;
+  if (!signatureId) { openDecorationEditor(); return; }
+  if (S.ui.bulk || exportBusy || activeOverlay()) return;
+  const open = () => {
+    if (!is2Panel() && S.ui.stage !== 'tools') setStage('tools');
+    if (S.ui.editingSignId !== signatureId || !S.ui.signDraft) {
+      clearSettingsDrafts();
+      renderCanvas();
+      openSignEditV2(signatureId);
+    }
+    $('#signNameV2').focus({ preventScroll: true });
+  };
+  if (S.ui.editingSignId === signatureId || !confirmDiscardSettingsDraft(open)) open();
+}
+
+function openDecorationEditor() {
+  if (S.ui.bulk || exportBusy || activeOverlay()) return;
+  const base = theme(), config = decorationConfig(base);
+  if (!config) return;
+  const original = S.decorationContentByTheme[base.id] || {};
+  const draft = { id: base.id, values: { ...original } };
+  const panel = modal('장식 편집');
+  const root = $('#modalRoot');
+  decorationDraft = draft;
+  const body = el('div', 'stack decoration-fields');
+  let photo, pickedPhoto = false;
+  const valueOf = key => draft.values[key] ?? titleHeaderValue(base, key);
+  const preview = () => renderCanvas();
+
+  const close = () => {
+    decorationDraft = null;
+    closeModal(true);
+    preview();
+    decorationEntry()?.focus({ preventScroll: true });
+  };
+  root._onCancel = close;
+  const setValue = (key, value) => {
+    if (value === titleHeaderValue(base, key)) delete draft.values[key];
+    else draft.values[key] = value;
+    preview();
+  };
+  for (const [key, label, placeholder] of config.fields) {
+    if (key === 'headerAvatar') {
+      const field = el('div', 'field');
+      const ratio = config.photoRatio || '1:1';
+      photo = cropField(valueOf(key), ratio);
+      photo._maxPx = ratio === '4:3' ? 640 : 256;
+      const zoom = el('input', 'rng');
+      zoom.type = 'range'; zoom.step = '0.01';
+      zoom.setAttribute('aria-label', '사진 확대');
+      const controls = el('div', 'decoration-photo');
+      controls.setAttribute('role', 'group');
+      controls.setAttribute('aria-label', label);
+      const stage = el('div', 'crop-stage decoration-photo-stage');
+      stage.appendChild(photo);
+      const zoomRow = el('div', 'slideh');
+      zoomRow.append(el('span', 'lab', '확대'), zoom);
+      const actions = el('div', 'decoration-photo-actions');
+      const pick = el('button', 'btn btn-quiet decoration-photo-pick');
+      const remove = el('button', 'btn btn-quiet decoration-photo-remove', '사진 지우기');
+      const syncPhotoControls = () => {
+        controls.classList.toggle('has-photo', !!photo._src);
+        pick.textContent = photo._src ? '사진 변경' : '사진 선택';
+      };
+      const onPick = () => {
+        pickedPhoto = true;
+        photo._center();
+        syncPhotoControls();
+        setValue(key, photo._src);
+      };
+      photo._onPick = onPick;
+      photo._onScale = scale => {
+        zoom.min = scale; zoom.max = scale * 3; zoom.value = scale;
+        if (pickedPhoto) photo._center();
+      };
+      zoom.oninput = () => photo._zoom(Number(zoom.value));
+      pick.onclick = () => pickImage(src => {
+        if (!panel.isConnected) return;
+        photo._setSrc(src);
+        onPick();
+      });
+      remove.onclick = () => {
+        photo._setSrc('');
+        pickedPhoto = false;
+        syncPhotoControls();
+        setValue(key, '');
+        pick.focus();
+      };
+      syncPhotoControls();
+      actions.append(pick, remove);
+      controls.append(stage, zoomRow, actions);
+      field.append(el('span', 'lab', label), controls);
+      body.appendChild(field);
+      continue;
+    }
+    const field = el('div', 'field');
+    const caption = el('label', 'lab', label);
+    const control = el('div', 'decoration-input');
+    const input = el('input', 'inp');
+    input.id = 'decoration-' + key;
+    caption.htmlFor = input.id;
+    input.value = valueOf(key);
+    input.placeholder = placeholder || '';
+    if (key === 'bubbleHeaderSubtitle') input.inputMode = 'numeric';
+    const clear = el('button', 'decoration-clear');
+    clear.type = 'button';
+    clear.setAttribute('aria-label', label + ' 지우기');
+    clear.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 9 6 6m0-6-6 6"/></svg>';
+    clear.hidden = !input.value;
+    input.oninput = () => {
+      if (key === 'bubbleHeaderSubtitle') input.value = input.value.replace(/[^0-9]/g, '');
+      clear.hidden = !input.value;
+      setValue(key, input.value);
+    };
+    clear.onclick = () => {
+      input.value = '';
+      input.focus({ preventScroll: true });
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    };
+    control.append(input, clear);
+    field.append(caption, control);
+    body.appendChild(field);
+  }
+  const foot = el('div', 'modal-foot');
+  const cancel = el('button', 'btn btn-quiet', '취소');
+  cancel.onclick = close;
+  const confirm = el('button', 'btn btn-primary', '저장');
+  confirm.onclick = async () => {
+    if (confirm.disabled) return;
+    confirm.disabled = true;
+    if (photo?._src) {
+      if (!(await whenDrawable(photo.querySelector('img')))) {
+        confirm.disabled = false;
+        toast('이미지를 불러온 뒤 다시 저장해주세요');
+        return;
+      }
+      if (!panel.isConnected) return;
+      const image = photo._export(pickedPhoto);
+      if (image && image !== photo._src) draft.values.headerAvatar = image;
+    }
+    const fields = Object.entries(draft.values);
+    if (fields.length !== Object.keys(original).length || fields.some(([key, value]) => original[key] !== value)) {
+      if (fields.length) S.decorationContentByTheme[base.id] = draft.values;
+      else delete S.decorationContentByTheme[base.id];
+      _histAt = 0;
+      save();
+      _histAt = 0;
+    }
+    close();
+  };
+  foot.append(cancel, confirm);
+  if (config === DECORATION_EDIT.paper || config === DECORATION_EDIT.buddy) {
+    const note = el('p', 'lab-sub', config === DECORATION_EDIT.paper
+      ? '저자는 도구의 서명 탭에서 편집할 수 있습니다.'
+      : '만든이는 선택한 서명을 사용합니다.');
+    body.appendChild(note);
+  }
+  panel.append(body, foot);
+}
+
 const titleTagColor = t => t.paperTagColor ?? t.onlineCategoryColor ?? '#1a73e8';
 function titleHeaderControls(t, kind, up) {
   const wrap = el('div', 'stack');
-  TITLE_HEADER_FIELDS[kind].forEach(([key, label, initial]) => {
-    const field = el('div', 'field');
-    field.appendChild(el('label', 'lab', label));
-    const input = el('input', 'inp');
-    const isBubbleNumber = kind === 'bubble' && key === 'bubbleHeaderSubtitle';
-    const value = titleHeaderValue(t, key);
-    input.value = isBubbleNumber ? String(value).replace(/[^0-9]/g, '') : value;
-    input.placeholder = initial;
-    if (isBubbleNumber) { input.inputMode = 'numeric'; input.pattern = '[0-9]*'; }
-    input.oninput = () => {
-      if (isBubbleNumber) input.value = input.value.replace(/[^0-9]/g, '');
-      t[key] = input.value; up();
-    };
-    field.appendChild(input); wrap.appendChild(field);
-  });
   if (kind === 'paper') {
     const placementField = el('div', 'field');
     placementField.appendChild(el('label', 'lab', '제목 배치'));
@@ -7867,6 +7942,7 @@ function titleHeaderControls(t, kind, up) {
     wrap.appendChild(colorField('소제목 색', titleTagColor(t), v => { t.paperTagColor = v; up(); }));
   }
   if (kind === 'lock-clock') {
+    /* 시계 스타일 탭과 자동 색상 버튼은 현재 UI에서 숨긴다.
     const styleField = el('div', 'field');
     styleField.appendChild(el('label', 'lab', '시계 스타일'));
     const items = [['normal', '기본'], ['glass', '글래스']];
@@ -7894,6 +7970,8 @@ function titleHeaderControls(t, kind, up) {
       return color;
     };
     wrap.appendChild(makeColor());
+    */
+    wrap.appendChild(colorField('글자색', t.lockFg || '', value => { t.lockFg = value; up(); }));
   }
   return wrap;
 }
@@ -7906,6 +7984,7 @@ function alignPaperHeaderInk(head, cv) {
   const g = document.createElement('canvas').getContext('2d');
   if (!g) return;
   const scale = cv.getBoundingClientRect().width / cv.offsetWidth || 1;
+  const authorGapAdjustment = 8 - parseFloat(getComputedStyle(head).rowGap);
   for (const node of head.children) {
     if (!node.textContent.trim()) { node.style.display = 'none'; continue; }
     const cs = getComputedStyle(node);
@@ -7920,7 +7999,8 @@ function alignPaperHeaderInk(head, cv) {
     marker.remove();
     const top = Math.max(0, baseline - ink.actualBoundingBoxAscent);
     const bottom = Math.max(0, box.height / scale - baseline - ink.actualBoundingBoxDescent);
-    node.style.marginTop = -top + 'px';
+    const gap = node.classList.contains('paper-authors') ? authorGapAdjustment : 0;
+    node.style.marginTop = (gap - top) + 'px';
     node.style.marginBottom = -bottom + 'px';
   }
 }
@@ -7957,7 +8037,8 @@ function headerNode(th) {
     logoMark.style.setProperty('--bubble-logo', 'url("' + BUBBLE_LOGO + '")');
     logoMark.appendChild(logo);
     const number = String(th.bubbleHeaderSubtitle ?? '').replace(/[^0-9]/g, '');
-    sub.append(logoMark, el('span', 'bubble-head-number', '+ ' + number));
+    sub.appendChild(logoMark);
+    if (number) sub.appendChild(el('span', 'bubble-head-number', '+ ' + number));
     head.append(row, sub);
     return head;
   }
@@ -7967,7 +8048,7 @@ function headerNode(th) {
     TITLE_HEADER_FIELDS[kind].forEach(([key], i) => {
       const node = Object.assign(el('div', classes[i]), { textContent: titleHeaderValue(th, key) });
       if (kind === 'lock-clock' && i === 1) {
-        node.classList.toggle('is-glass', !!th.lockGlass);
+        node.classList.toggle('is-glass', th.lockGlass !== false);
         if (th.lockFg) {
           node.style.setProperty('--lock-glass-color', th.lockFg);
         }
@@ -8301,17 +8382,13 @@ function musicNode(b, th) {
 }
 
 /* ═══ 페이지 자동 분할 (F-WEB-019) [원본 page-split-save-script] ═══ */
-const pageRows = () => [...$('#canvas').children].filter(n => n.classList.contains('blk'));
 /* 서명은 장마다 바닥에 따로 놓인다 — 장을 나눌 때 세는 줄에서는 빠진다 */
 // 본문과 함께 움직이는 제목도 높이 계산·장 배치·내보내기의 같은 흐름에 포함한다.
 const flowRows = () => [...$('#canvas').children].filter(n =>
-  (n.classList.contains('blk') && !n.classList.contains('is-footer'))
+  n.classList.contains('blk')
   || n.classList.contains('side-page')
   || (n.classList.contains('cv-head') && n.classList.contains('head-flow')));
-const footRow = () => {
-  const f = pageRows().filter(n => n.classList.contains('is-footer'));
-  return f[f.length - 1] || null;
-};
+const footRow = () => $('#canvas > .canvas-signature');
 /* 맨 위·맨 아래에 못 박은 화면머리와 서명이 본문에서 가져가는 높이(제 높이 + 블록 간격).
    renderPageMarks 가 정하고, 저장이 장을 나눌 때 같은 값을 그대로 쓴다. */
 let footHold = 0, headHold = 0;
@@ -8390,9 +8467,9 @@ function layoutFitColumns(cv) {
     positions[side] += heights[i][side];
   });
   const contentH = Math.max(...positions);
-  const dmFoot = cv.querySelector('.cv-foot-insta-dm:not(.eb-foot-ghost)');
   const footerGap = foot ? padB() : 0;
-  const bottomInset = foot ? SIGNATURE_EDGE + (dmFoot ? dmFoot.offsetHeight : 0) : padB();
+  const dmFoot = cv.querySelector('.cv-foot-insta-dm:not(.eb-foot-ghost)');
+  const bottomInset = foot ? SIGNATURE_EDGE : padB() + (dmFoot?.offsetHeight || 0);
   if (foot) {
     foot.style.position = 'absolute'; foot.style.left = padL() + 'px';
     foot.style.right = padR() + 'px'; foot.style.top = (top + contentH + footerGap) + 'px';
@@ -8414,7 +8491,7 @@ function groupSpans(rg, N) {
    [순서] 높이는 «앉히기 전에» 다 재 둔다. 한 칸이라도 옮기면 뒤의 줄자리가 모두 흔들린다.
    [세로 가운데] 남는 자리를 반씩 나누는 것은 «장» 단위다 — 한 장 안의 여러 단이 서로 다른
    높이에서 시작하면 단으로 안 읽힌다. 그래서 그 장에서 가장 긴 단을 기준으로 잡는다. */
-function placeFlow(rows, items, H, avail, hold, topAlign, step) {
+function placeFlow(rows, items, H, avail, hold, verticalAlign, step) {
   const tall = items.map(it => {
     const a = rows[it.r[0]], b = rows[it.r[1] - 1];
     return (a && b) ? b.offsetTop + b.offsetHeight - a.offsetTop : 0;
@@ -8424,7 +8501,9 @@ function placeFlow(rows, items, H, avail, hold, topAlign, step) {
     .some(row => row.classList.contains('side-page'))).map(it => it.p));
   items.forEach((it, i) => { slack[it.p] = Math.max(slack[it.p] || 0, tall[i]); });
   Object.keys(slack).forEach(k => {
-    slack[k] = topAlign || fixedPages.has(+k) ? 0 : Math.max(0, Math.round((avail - slack[k]) / 2));
+    const remaining = Math.max(0, avail - slack[k]);
+    slack[k] = verticalAlign === 'top' || fixedPages.has(+k) ? 0
+      : verticalAlign === 'bottom' ? remaining : Math.round(remaining / 2);
   });
   items.forEach(it => {
     const first = rows[it.r[0]];
@@ -8702,13 +8781,9 @@ function renderPageMarks() {
        제목 높이를 두 번 빼고 본문 묶음을 아래로 밀게 된다. */
     head.classList.add('head-flow');
   }
-  /* 하단 장식과 서명이 차지할 몫을 먼저 빼고 장을 센다.
-     인스타 입력창은 서명을 포함하지 않으므로 둘의 높이와 사이 간격을 함께 확보한다. */
-  /* DM 입력창은 페이지 끝에 붙는다. 서명은 입력창 위 고정 간격에, 본문은
-     아래 여백만큼 그 위에 둔다. pageBox.inner는 이미 아래 여백을 뺐다. */
-  const footH = dmFoot ? dmh + (foot ? fh : -gap) : (foot ? fh : decorFootHeight);
-  if (dmFoot) footHold = dmh;
-  const hold = headHold + (footH ? footH + (foot ? SIGNATURE_EDGE : gap) : 0);
+  /* DM은 서명을 입력창에 담으므로 하단 장식 높이만 예약한다. */
+  const footReserve = dmFoot ? dmh : foot ? fh + SIGNATURE_EDGE : decorFootHeight ? decorFootHeight + gap : 0;
+  const hold = headHold + footReserve;
   pageRangeHold = hold;
   /* 장을 세기 «전에» 쪼개 둔다 — 한 단에 안 들어가는 글은 여기서 여러 블록이 되고,
      그다음부터는 pageRanges 가 그 사이를 끊을 수 있다 [splitTallRows]. */
@@ -8733,7 +8808,7 @@ function renderPageMarks() {
   /* 서명은 장 수와 정렬에 관계없이 하단에 고정한다. */
   const pin = !!foot || (!!decorFoot && (pages > 1 || !!dmFoot || !isTopAlign()));
   if (pin) {
-    footHold = footH + (foot ? SIGNATURE_EDGE : gap);
+    footHold = footReserve;
     cv.style.setProperty('--foot-h', footHold + 'px');
     cv.classList.add('foot-pinned');
     if (foot) foot.classList.add('foot-pin');
@@ -8756,9 +8831,8 @@ function renderPageMarks() {
   const avail = Math.max(1, box.inner - headHold - footHold);
   const rows = flowRows();
   /* «위로» 면 장의 맨 위(위 여백 + 화면머리 몫)에서 바로 시작한다 — 남는 자리는 아래에 몰린다 */
-  const top = isTopAlign();
   placeFlow(rows, rg.map((r, k) => ({ r, p: Math.floor(k / N), c: k % N })),
-    H, avail, headHold, top, N > 1 ? colStep() : 0);
+    H, avail, headHold, pageVAlign(), N > 1 ? colStep() : 0);
   /* 구분선·사본은 «장» 마다다 — 단마다 붙이면 한 장 안에 선이 여러 개 생긴다 */
   for (let i = 0; i < pages; i++) {
     if (i) {
@@ -8788,7 +8862,7 @@ function renderPageMarks() {
       const g = foot.cloneNode(true);
       g.className = 'foot-ghost';
       g.removeAttribute('data-id');
-      g.style.top = ((i + 1) * H - fh - SIGNATURE_EDGE - (dmFoot ? dmh : 0)) + 'px';
+      g.style.top = ((i + 1) * H - fh - SIGNATURE_EDGE) + 'px';
       cv.appendChild(g);
     }
     /* 하단 장식은 마지막 장에 진짜가 있고, 앞 장에 사본을 깐다. */
@@ -10151,7 +10225,7 @@ function groupSidePages(cv, blocks) {
       }
       row = following;
     }
-    body.style.justifyContent = isTopAlign() ? 'flex-start' : 'center';
+    body.style.justifyContent = ({ top: 'flex-start', bottom: 'flex-end' })[pageVAlign()] || 'center';
   });
 }
 function positionFillImages(cv) {
@@ -10237,7 +10311,9 @@ function cropField(src, ratio, options = {}) {
     box._src = s || '';
     if (!s) { box.appendChild(el('div', 'crop-empty', '이미지를 선택하세요')); img = null; return; }
     img = el('img'); img.src = s;
+    const sourceImage = img;
     img.onload = () => {
+      if (img !== sourceImage) return;
       st.natW = img.naturalWidth; st.natH = img.naturalHeight;
       img.style.width = st.natW + 'px'; img.style.height = st.natH + 'px';
       refit();
@@ -10620,19 +10696,11 @@ function buildImageEditor(host, block, initialSrc) {
   alignField.appendChild(alignSeg);
 
 
-  /* 패널 제목 옆의 보조 조작 — 비율·정렬 필드와 위계를 구분한다. */
-  const topRow = el('div');
-  topRow.className = 'image-round';
-  const panelHeading = el('div', 'panel-heading');
-  panelHeading.appendChild(el('h3', '', '삽입 이미지'));
   const roundToggle = toggleRow('모서리 둥글게', '', draft.round, v => {
     draft.round = v; crop.style.borderRadius = v ? '10px' : '0';
     preview();
   });
-  roundToggle.style.cssText = 'margin:0;padding:0;';
   roundToggle.querySelector('.tgl').classList.add('tgl-sm');
-  topRow.appendChild(roundToggle);
-  panelHeading.appendChild(topRow);
 
 
   const crop = cropField(draft.src, draft.placement === 'side' ? sideEditorRatio()
@@ -10797,7 +10865,7 @@ function buildImageEditor(host, block, initialSrc) {
   syncSizeFields();
 
   crop.style.borderRadius = draft.round ? '10px' : '0';
-  wrap.append(panelHeading, placementField, sideField, ratioField, body, sizeField, alignField);
+  wrap.append(body, placementField, sideField, ratioField, sizeField, alignField, roundToggle);
   host.appendChild(wrap);
   applySize();
 
@@ -10856,14 +10924,12 @@ function buildHtmlEditor(host, block) {
 
   /* 컴포저 입력 영역 — inp-group 스타일 */
   const wrap = el('div', 'block-editor-content');
-  const panelHeading = el('div', 'panel-heading');
-  panelHeading.appendChild(el('h3', '', 'HTML'));
-  wrap.appendChild(panelHeading);
 
   const grp = el('div', 'inp-group');
 
   /* 텍스트 입력 영역 — 모노스페이스 */
   const ta = el('textarea', 'composer-ta');
+  ta.setAttribute('aria-label', 'HTML 코드');
   ta.placeholder = '<div>HTML 코드</div>';
   ta.value = draft.src;
   ta.style.cssText = 'font-family:var(--font-mono,"SF Mono",Menlo,monospace);font-size:11px;min-height:80px;';
@@ -10919,15 +10985,11 @@ function buildDividerEditor(host, block) {
   buildEditHeader(host, block, () => doConfirm());
 
   const wrap = el('div', 'block-editor-content');
-  const panelHeading = el('div', 'panel-heading');
-  panelHeading.appendChild(el('h3', '', '구분선'));
-  wrap.appendChild(panelHeading);
 
   /* 선택 항목 자체가 종류를 설명하므로 이름은 접근성 그룹에만 둔다. */
 
   /* segment 버튼들 */
   const seg = el('div', 'seg');
-  seg.style.marginBottom = 'var(--sp-lg)';
   seg.setAttribute('role', 'group');
   seg.setAttribute('aria-label', '구분선 종류');
   DIVIDER_STYLES.forEach(ds => {
@@ -10949,7 +11011,7 @@ function buildDividerEditor(host, block) {
 
   /* 미리보기 */
   const preview = el('div');
-  preview.style.cssText = 'background:var(--c-surface-sunken);border-radius:var(--r-sm);padding:var(--sp-lg) var(--sp-md);margin-bottom:var(--sp-md);';
+  preview.style.cssText = 'background:var(--c-surface-sunken);border-radius:var(--r-sm);padding:var(--sp-lg) var(--sp-md);';
   const previewInner = el('div');
   preview.appendChild(previewInner);
   wrap.appendChild(preview);
@@ -11180,14 +11242,17 @@ function buildTextEditor(host, block, intro, isDraft, desktopChips) {
   caption.append(el('span', 'lab', '캡션'), subtitleButton);
 
   const effectsLine = el('div', 'tool-line text-effects-line');
-  const quote = toggleRow('인용 처리', '', !!block.quoteLine, on => {
-    if (on) block.quoteLine = true;
-    else delete block.quoteLine;
+  const quote = el('div', 'tool-grp');
+  const quoteButton = el('button', 'btn btn-outline quote-action');
+  quoteButton.setAttribute('aria-label', '인용 처리');
+  quoteButton.setAttribute('aria-pressed', String(!!block.quoteLine));
+  quoteButton.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M10 6H5L3 11v7h7v-7H6zm11 0h-5l-2 5v7h7v-7h-4z"/></svg>';
+  bindFormatAction(quoteButton, () => {
+    if (block.quoteLine) delete block.quoteLine;
+    else block.quoteLine = true;
     save(); render();
   });
-  const quoteButton = quote.querySelector('button');
-  quoteButton.classList.add('tgl-sm');
-  quoteButton.setAttribute('aria-label', '인용 처리');
+  quote.append(el('span', 'lab', '인용'), quoteButton);
   effectsLine.append(textPalette, paletteField('형광펜', colorH, richCoverage('mark')), caption, quote);
   fmtSection.appendChild(effectsLine);
 
@@ -11610,6 +11675,8 @@ function fontControls(g, up, light) {
 function syncSettingsViews() {
   const panel = $('#settingsPanel'), slider = $('#tabSlider');
   const visible = is2Panel() || panel.classList.contains('is-open');
+  const cyworldBackground = panel.querySelector('.cyworld-background-settings');
+  if (cyworldBackground) enhanceControls(cyworldBackground);
   const returnFocus = !visible && panel.contains(document.activeElement);
   panel.inert = !visible;
   const active = Number(slider.dataset.active || 0);
@@ -11693,8 +11760,15 @@ function enhanceControls(root = document) {
     if (button.matches('.seg button,.tgl-text button')) button.setAttribute('aria-pressed', String(button.classList.contains('is-on')));
   });
   root.querySelectorAll('.section-header').forEach(header => {
-    header.setAttribute('role', 'button'); header.tabIndex = 0;
-    header.setAttribute('aria-expanded', String(header.closest('.section').classList.contains('open')));
+    const section = header.closest('.section');
+    const cyworldBackground = section.classList.contains('cyworld-background-settings');
+    if (cyworldBackground) {
+      section.classList.toggle('open', !isWide() && !!S.ui.themeEditSections?.bg);
+      header.setAttribute('aria-disabled', String(isWide()));
+    }
+    header.setAttribute('role', 'button');
+    header.tabIndex = cyworldBackground && isWide() ? -1 : 0;
+    header.setAttribute('aria-expanded', String(section.classList.contains('open')));
   });
   root.querySelectorAll('.tgl').forEach(toggle => {
     toggle.setAttribute('role', 'switch');
@@ -12625,111 +12699,28 @@ function syncThemeEditFormV2() {
   optWrap.style.marginTop = 'var(--sp-md)';
   let hasOpts = false;
 
-  /* ── 프레임 옵션 ── */
-  if (frKind === 'cyworld') {
-    hasOpts = true;
-    /* 미니홈피: 이름 + 기분 */
-    const grid = el('div', 'grid-2');
-    const nf = el('div', 'field');
-    nf.appendChild(el('label', 'lab', '이름'));
-    const ni = el('input', 'inp');
-    ni.value = t.headerTitle || '';
-    ni.placeholder = '예) 사해이';
-    ni.oninput = () => { t.headerTitle = ni.value; up(); };
-    nf.appendChild(ni);
-    grid.appendChild(nf);
-
-    const mf = el('div', 'field');
-    mf.appendChild(el('label', 'lab', 'TODAY IS'));
-    const mi = el('input', 'inp');
-    mi.value = t.frameMood || '';
-    mi.placeholder = '예) 맑음';
-    mi.oninput = () => { t.frameMood = mi.value; up(); };
-    mf.appendChild(mi);
-    grid.appendChild(mf);
-    optWrap.appendChild(grid);
-
-    /* 대문 사진 */
-    optWrap.appendChild(themeAvatarField(t, {
-      label: '대문 사진', title: '미니홈피 대문 사진',
-      ratio: '4:3', maxPx: 640
-    }, rerender));
-  } else if (frKind === 'buddy') {
-    hasOpts = true;
-    /* 버디버디: 대화명 */
-    const tf = el('div', 'field');
-    tf.appendChild(el('label', 'lab', '대화명'));
-    const ti = el('input', 'inp');
-    ti.value = t.headerTitle || '';
-    ti.placeholder = '이름';
-    ti.oninput = () => { t.headerTitle = ti.value; up(); };
-    tf.appendChild(ti);
-    optWrap.appendChild(tf);
-  }
-
-  /* ── 헤더 옵션 ── */
-  if (TITLE_HEADER_FIELDS[hdKind]) {
+  if (hdKind === 'paper' || hdKind === 'lock-clock') {
     hasOpts = true;
     optWrap.appendChild(titleHeaderControls(t, hdKind, up));
-    /* Article 제목 배치는 titleHeaderControls에서 테마별로 고른다. */
-  } else if (hdKind === 'news') {
+  } else if (hdKind === 'imessage') {
     hasOpts = true;
-    /* 신문: 제호 + 날짜 */
-    const grid = el('div', 'grid-2');
-    const mf = el('div', 'field');
-    mf.appendChild(el('label', 'lab', '제호'));
-    const mi = el('input', 'inp');
-    mi.value = t.headerMark ?? '';
-    mi.placeholder = NEWS_MARK;
-    mi.oninput = () => { t.headerMark = mi.value; up(); };
-    mf.appendChild(mi);
-    grid.appendChild(mf);
-
-    const df = el('div', 'field');
-    df.appendChild(el('label', 'lab', '날짜 · 한 줄'));
-    const di = el('input', 'inp');
-    di.value = t.headerTitle || '';
-    di.placeholder = '예) 1986년 12월 26일 금요일';
-    di.oninput = () => { t.headerTitle = di.value; up(); };
-    df.appendChild(di);
-    grid.appendChild(df);
-    optWrap.appendChild(grid);
-  } else if (hdKind === 'imessage' || hdKind === 'kakao' || hdKind === 'insta-dm') {
-    hasOpts = true;
-    /* 메시지1/2/인스타: 이름 + 배경색 + (아이메시지/인스타만 프로필) */
-    const nf = el('div', 'field');
-    nf.appendChild(el('label', 'lab', '이름'));
-    const ni = el('input', 'inp');
-    ni.value = t.headerTitle || '';
-    ni.placeholder = '예) 사해이';
-    ni.oninput = () => { t.headerTitle = ni.value; up(); };
-    nf.appendChild(ni);
-    optWrap.appendChild(nf);
-
-    /* 프로필 사진 — 아이메시지/인스타 */
-    if (hdKind === 'imessage' || hdKind === 'insta-dm') {
-      optWrap.appendChild(themeAvatarField(t, {}, rerender));
-    }
-    /* 배경색 — 아이메시지만 (인스타는 무조건 투명) */
-    if (hdKind === 'imessage') {
-      const auto = mixHex(t.bg, t.fg, .055 / HD_BAND_A);
-      const cur = (t.headerBg || '').trim();
-      const bgField = el('div', 'field');
-      bgField.style.marginTop = 'var(--sp-md)';
-      const bgHead = el('div', 'tgl-inline');
-      bgHead.appendChild(el('label', 'lab', '배경색'));
-      const rs = el('button', 'btn btn-quiet btn-sm', '↺');
-      rs.title = '자동으로 되돌리기';
-      rs.disabled = !cur;
-      rs.style.cssText = 'width:24px;height:24px;padding:0;margin-left:auto';
-      rs.onclick = () => { t.headerBg = ''; rerender(); };
-      bgHead.appendChild(rs);
-      bgField.appendChild(bgHead);
-      const cf = colorField('', cur || auto, v => { t.headerBg = v; rs.disabled = false; up(); });
-      cf.style.marginTop = '6px';
-      bgField.appendChild(cf);
-      optWrap.appendChild(bgField);
-    }
+    const auto = mixHex(t.bg, t.fg, .055 / HD_BAND_A);
+    const cur = (t.headerBg || '').trim();
+    const bgField = el('div', 'field');
+    bgField.style.marginTop = 'var(--sp-md)';
+    const bgHead = el('div', 'tgl-inline');
+    bgHead.appendChild(el('label', 'lab', '배경색'));
+    const rs = el('button', 'btn btn-quiet btn-sm', '↺');
+    rs.title = '자동으로 되돌리기';
+    rs.disabled = !cur;
+    rs.style.cssText = 'width:24px;height:24px;padding:0;margin-left:auto';
+    rs.onclick = () => { t.headerBg = ''; rerender(); };
+    bgHead.appendChild(rs);
+    bgField.appendChild(bgHead);
+    const cf = colorField('', cur || auto, v => { t.headerBg = v; rs.disabled = false; up(); });
+    cf.style.marginTop = '6px';
+    bgField.appendChild(cf);
+    optWrap.appendChild(bgField);
   }
 
   if (hasOpts) frameBody.appendChild(optWrap);
@@ -12837,7 +12828,7 @@ function syncThemeEditFormV2() {
   marginGroup.appendChild(marginGrid);
   canvasBody.appendChild(marginGroup);
 
-  /* 정렬 — 페이지 분할 모드에서 내용을 위에 붙일지 가운데에 둘지 */
+  /* 정렬 — 비율 판형 안에서 내용의 세로 위치 */
   if (!isFit()) {
     const vAlignField = el('div', 'field');
 
@@ -12852,27 +12843,32 @@ function syncThemeEditFormV2() {
   body.appendChild(canvasSection);
 
   /* ═══ 배경 ═══ */
-  const bgSection = el('div', 'section' + (openSec.bg ? ' open' : ''));
+  const bgSection = el('div', 'section' + (frKind === 'cyworld' ? ' cyworld-background-settings' : '') + (openSec.bg ? ' open' : ''));
   const bgHeader = el('div', 'section-header');
   bgHeader.innerHTML = '<h3>배경</h3><svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>';
-  bgHeader.onclick = () => { openSec.bg = !openSec.bg; bgSection.classList.toggle('open'); };
+  bgHeader.onclick = () => {
+    if (frKind === 'cyworld' && isWide()) return;
+    openSec.bg = !openSec.bg;
+    bgSection.classList.toggle('open', openSec.bg);
+  };
   bgSection.appendChild(bgHeader);
-  const bgBody = el('div', 'section-body');
-  const bgGrid = el('div', 'grid-2');
-  bgGrid.appendChild(colorField('배경색', t.bg, v => { t.bg = v; up(); }));
-  bgGrid.appendChild(colorField('글자색', t.fg, v => { t.fg = v; up(); }));
-  bgBody.appendChild(bgGrid);
-  const backgroundType = settingGroup('카드 배경');
-  backgroundType.style.marginTop = 'var(--sp-md)';
-  backgroundType.appendChild(segment([['image', '색상·이미지'], ['html', 'HTML']], t.bgMode === 'html' ? 'html' : 'image', mode => {
+  const bgBody = el('div', 'section-body settings-flow theme-background-settings');
+  const backgroundTabs = segment([['image', '색·이미지'], ['html', 'HTML']], t.bgMode === 'html' ? 'html' : 'image', mode => {
     if (mode === 'html') t.bgMode = mode;
     else delete t.bgMode;
     rerender();
-  }));
-  bgBody.appendChild(backgroundType);
+  });
+  backgroundTabs.setAttribute('role', 'group');
+  backgroundTabs.setAttribute('aria-label', '배경 방식');
+  for (const button of backgroundTabs.children) button.setAttribute('aria-pressed', String(button.classList.contains('is-on')));
+  const bgGrid = el('div', 'setting-grid');
+  bgGrid.appendChild(colorField('배경색', t.bg, v => { t.bg = v; up(); }));
+  bgGrid.appendChild(colorField('글자색', t.fg, v => { t.fg = v; up(); }));
+  bgBody.append(backgroundTabs, bgGrid);
   if (t.bgMode === 'html') {
     const field = settingGroup();
-    const label = el('label', 'setting-title', '배경 HTML');
+    field.classList.add('theme-bg-source');
+    const label = el('label', 'lab', '배경 HTML');
     label.htmlFor = 'themeBgHtml';
     const input = el('textarea', 'theme-bg-html');
     input.id = 'themeBgHtml';
@@ -12887,8 +12883,7 @@ function syncThemeEditFormV2() {
     field.append(label, input);
     bgBody.appendChild(field);
   } else if (frKind === 'none') {
-    const bgiField = el('div', 'field');
-    bgiField.style.marginTop = 'var(--sp-md)';
+    const bgiField = el('div', 'setting-group theme-bg-source');
     bgiField.appendChild(el('label', 'lab', '배경 이미지'));
     const pickBtn = el('button', 'btn btn-quiet', t.bgImage ? '이미지 변경' : '이미지 선택');
     pickBtn.style.width = '100%';
@@ -12901,7 +12896,6 @@ function syncThemeEditFormV2() {
     bgBody.appendChild(bgiField);
   } else {
     const bgNote = el('div', 'lab-sub');
-    bgNote.style.marginTop = 'var(--sp-md)';
     bgNote.textContent = (FRAMES.find(f => f[0] === frKind) || [, ''])[1] + "은 배경 이미지 설정이 불가합니다.";
     bgBody.appendChild(bgNote);
   }
@@ -12933,7 +12927,7 @@ function syncThemeEditFormV2() {
   styleHead.appendChild(grouping);
   styleField.appendChild(styleHead);
   const styleSeg = el('div', 'seg');
-  [['bubble', '말풍선'], ['quote', '인용'], ['script', '각본'], ['notif', '알림'], ['sns', '트윗'], ['plain', '없음']].forEach(([v, l]) => {
+  [['bubble', '말풍선'], ['script', '각본'], ['notif', '알림'], ['sns', '트윗'], ['plain', '없음']].forEach(([v, l]) => {
     const b = el('button', (t.bubbleStyle || 'bubble') === v ? 'is-on' : '', l);
     b.onclick = () => {
       t.bubbleStyle = v;
@@ -12947,7 +12941,6 @@ function syncThemeEditFormV2() {
 
   const bs = t.bubbleStyle || 'bubble';
   const isBubble = bs === 'bubble';
-  const isQuote = bs === 'quote';
   const isNotif = bs === 'notif';
   const isSns = bs === 'sns';
   const isScript = bs === 'script';
@@ -13116,16 +13109,6 @@ function syncThemeEditFormV2() {
     colors.appendChild(colorGrid);
     bubbleBody.appendChild(colors);
   }
-  if (isQuote) {
-    /* 인용 색상 — 좌측/우측 인용선 색만 (말풍선 색과 연동) */
-    const colorGrid = el('div', 'setting-grid');
-
-    colorGrid.appendChild(colorField('좌측 인용선', t.bubbleBg, v => { t.bubbleBg = v; up(); }));
-    colorGrid.appendChild(colorField('우측 인용선', t.myBubbleBg || t.bubbleBg, v => { t.myBubbleBg = v; up(); }));
-    const colors = settingGroup('색상');
-    colors.appendChild(colorGrid);
-    bubbleBody.appendChild(colors);
-  }
   if (isNotif) {
     /* 색을 바꿔도 사용자가 정한 유리 두께를 지킨다. */
     const colorGrid = el('div', 'setting-grid');
@@ -13268,8 +13251,10 @@ function syncThemeEditFormV2() {
   }
   if (sign && (decor || t.signShow)) {
     const signDetails = el('div', 'settings-flow settings-stack');
-    const standard = signatureSlot(t) === 'footer';
-    if (standard) {
+    const slot = signatureSlot(t);
+    const standard = slot === 'footer';
+    const canStyle = standard || slot === 'input';
+    if (canStyle) {
       const fixed = el('label', 'tgl-inline setting-trigger');
       fixed.appendChild(el('span', 'lab', '서명 크기 고정'));
       const check = el('input'); check.type = 'checkbox';
@@ -13295,7 +13280,7 @@ function syncThemeEditFormV2() {
     separatorField.appendChild(el('span', 'lab setting-title', '구분 기호'));
     separatorField.appendChild(signatureSeparator(t.signSep || '·', v => { t.signSep = v; rerender(); }));
     formatGrid.appendChild(separatorField);
-    if (standard) {
+    if (canStyle) {
       const formatField = el('div', 'field');
       formatField.appendChild(el('span', 'lab setting-title', '서식'));
       formatField.appendChild(signatureStyles(t.signBold, t.signItalic, (key, value) => {
@@ -13759,39 +13744,6 @@ function initSettingsPanelV2() {
    칸 이름은 사진 «옆» 이 아니라 «위» 다 — 옆에 두면 44px 짜리 단추 한가운데에 맞춰 떠서,
    위의 '이름' 칸과 왼쪽 끝도 위아래 자리도 어긋난다. 위에 두면 이 구획의 다른 칸들과
    같은 줄에서 시작한다. 옆에 남는 것은 «그래서 어떻게 되나» 뿐이다. */
-function themeAvatarField(t, opts, onUpdate) {
-  const o = opts || {};
-  const update = onUpdate || render;  /* 패널 전체를 다시 그려야 버튼·지우기가 갱신된다 */
-  const label = o.label || '프로필 사진';
-  const avBox = el('div');
-  avBox.appendChild(el('span', 'lab', label));
-  const row = el('div', 'row'); row.style.alignItems = 'center';
-  const avBtn = el('button', 'av-chip');
-  avBtn.style.cssText = 'width:44px;height:44px;flex:0 0 44px';
-  /* 정사각이 아니면 동그란 칩이 거짓말이 된다 — 모서리만 살짝 둥근 네모로 보여 준다 */
-  if (o.ratio && o.ratio !== '1:1') avBtn.style.borderRadius = '6px';
-  avBtn.title = label + ' 편집';
-  if (t.headerAvatar) { const i = el('img'); i.src = t.headerAvatar; avBtn.appendChild(i); }
-  else {
-    avBtn.classList.add('is-pick');
-    /* 캔버스 헤더와 같은 사람 실루엣 아이콘 */
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('viewBox', '0 0 24 24');
-    svg.innerHTML = '<circle cx="12" cy="7.6" r="4.9"/><path d="M12 14.6c-5.4 0-9.1 3.3-9.1 7.2V24h18.2v-2.2c0-3.9-3.7-7.2-9.1-7.2z"/>';
-    avBtn.appendChild(svg);
-  }
-  avBtn.onclick = () => openAvatarModal(t.headerAvatar, d => { t.headerAvatar = d; update(); }, o);
-  const side = el('div'); side.style.flex = '1';
-  if (t.headerAvatar) {
-    const clr = el('button', 'btn btn-quiet', '사진 지우기');
-    clr.onclick = () => { t.headerAvatar = ''; update(); };
-    side.appendChild(clr);
-  }
-  row.append(avBtn, side);
-  avBox.appendChild(row);
-  return avBox;
-}
-
 /* ── 공용 조각 ───────────────────────────────────────────── */
 function settingGroup(title) {
   const group = el('div', 'setting-group');
@@ -13799,9 +13751,10 @@ function settingGroup(title) {
   return group;
 }
 function signatureSeparator(cur, on) {
-  const group = segment([['·', '·'], ['|', '|']], cur, value => {
+  const separators = [['·', '가운뎃점'], ['|', '세로선'], ['/', '슬래시']];
+  const group = segment(separators.map(([symbol]) => [symbol, symbol]), cur, value => {
     [...group.children].forEach((button, i) => {
-      const selected = ['·', '|'][i] === value;
+      const selected = separators[i][0] === value;
       button.classList.toggle('is-on', selected);
       button.setAttribute('aria-pressed', String(selected));
     });
@@ -13810,8 +13763,8 @@ function signatureSeparator(cur, on) {
   group.setAttribute('role', 'group');
   group.setAttribute('aria-label', '구분 기호');
   [...group.children].forEach((button, i) => {
-    button.setAttribute('aria-label', ['가운뎃점', '세로선'][i]);
-    button.setAttribute('aria-pressed', String(['·', '|'][i] === cur));
+    button.setAttribute('aria-label', separators[i][1]);
+    button.setAttribute('aria-pressed', String(separators[i][0] === cur));
   });
   return group;
 }
@@ -13847,11 +13800,12 @@ function segment(items, cur, on) {
 }
 /* 글 정렬은 기존 글 정렬 SVG를 재사용하고, 세로 정렬은 별도 축으로 표시한다. */
 function alignmentSegment(cur, on, { vertical = false, name = '글 정렬' } = {}) {
-  const items = vertical ? [['top', '상단 정렬'], ['center', '중앙 정렬']] :
+  const items = vertical ? [['top', '상단 정렬'], ['center', '중앙 정렬'], ['bottom', '하단 정렬']] :
     [['left', '좌측 정렬'], ['center', '중앙 정렬'], ['right', '우측 정렬']];
   const paths = vertical ? {
     top: 'M6 4h12M12 8v12M8 12l4-4 4 4',
-    center: 'M7 12h10M12 3v6M9 6l3 3 3-3M12 21v-6M9 18l3-3 3 3'
+    center: 'M7 12h10M12 3v6M9 6l3 3 3-3M12 21v-6M9 18l3-3 3 3',
+    bottom: 'M6 20h12M12 4v12m-4-4 4 4 4-4'
   } : ALIGN_ICON;
   const group = segment(items.map(([key]) => [key,
     `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${paths[key]}"/></svg>`, true]), cur, value => {
@@ -14582,6 +14536,10 @@ function captureCloneAt(cv) {
   host.style.cssText = 'position:fixed;left:-100000px;top:0;margin:0;padding:0;overflow:hidden;'
     + 'pointer-events:none;z-index:-2147483647;width:' + w + 'px;height:' + h + 'px';
   const clone = cv.cloneNode(true);
+  clone.querySelectorAll('[data-decoration-edit]').forEach(node => {
+    for (const attr of ['data-decoration-edit', 'data-decoration-empty', 'data-signature-edit', 'tabindex', 'role', 'aria-label']) node.removeAttribute(attr);
+    node.style.removeProperty('--decoration-hover-origin');
+  });
   copyTypography(cv, clone);
   clone.style.setProperty('transform', 'none', 'important');
   clone.style.setProperty('transition', 'none', 'important');
@@ -15527,7 +15485,7 @@ async function buildPNG() {
       const box = pageBox();
       const avail = Math.max(1, box.inner - headHold - footHold);
       placeFlow(rows, segs.slice(p * N, p * N + N).map((r, c) => ({ r, p: 0, c })),
-        box.h, avail, headHold, isTopAlign(), colStep());
+        box.h, avail, headHold, pageVAlign(), colStep());
     };
     const stamp = new Date().toISOString().slice(0, 10);
 
@@ -15621,8 +15579,9 @@ async function buildPNG() {
       /* 한 장만 남긴 저장용 캔버스에서는 그 장의 내용 묶음을 세로 중앙에 둔다.
          «위로» 를 고른 테마는 그대로 둔다 — 위 여백과 화면머리 아래에서 바로 시작한다.
          단을 쓰면 flex 가운데맞춤 대신 placeFlow 가 그 몫을 낸다 [renderCanvas 와 같은 이유]. */
-      cv.classList.toggle('ratio-center', !isTopAlign() && N < 2
-        && !cv.querySelector('.side-page:not(.row-off)'));
+      const flexAlign = N < 2 && !cv.querySelector('.side-page:not(.row-off)');
+      cv.classList.toggle('ratio-center', flexAlign && pageVAlign() === 'center');
+      cv.classList.toggle('ratio-bottom', flexAlign && pageVAlign() === 'bottom');
       await raf2();
       layoutCols(i);
       /* 장마다 다시 잰다 — 남은 행이 맨 위부터 쌓이면서 줄 위치가 달라진다 */
@@ -16247,8 +16206,7 @@ $('#canvas').addEventListener('keydown', e => {
   stage.addEventListener('pointerdown', e => {
     if (e.pointerType && e.pointerType !== 'mouse') return;
     if (e.button != null && e.button !== 0) return;
-    if (e.target.closest('.blk')) return;
-    if (e.target.closest('button,a,input,select,textarea')) return;
+    if (e.target.closest('.blk,[data-decoration-edit],button,a,input,select,textarea')) return;
     s = { x: e.clientX, y: e.clientY, l: stage.scrollLeft, t: stage.scrollTop, pid: e.pointerId, on: false };
   });
   stage.addEventListener('pointermove', e => {
@@ -16519,6 +16477,30 @@ initComposerV2();
 document.querySelectorAll('[data-edit-icon]').forEach(button => setEditHeaderIcon(button, button.dataset.editIcon));
 initSettingsPanelV2();
 initSignatureEditorV2();
+// 글꼴 로딩이 누르는 도중 편집 지점을 교체하면 브라우저가 click을 보내지 않는다.
+$('#canvas').addEventListener('pointerdown', e => {
+  if (e.isPrimary && e.button === 0 && e.target.closest('[data-decoration-edit]')) decorationPointer = e.pointerId;
+});
+const finishDecorationPointer = e => {
+  if (e.type !== 'blur' && e.pointerId !== decorationPointer) return;
+  decorationPointer = null;
+  if (!decorationFontRefresh) return;
+  requestAnimationFrame(() => {
+    if (decorationPointer !== null || !decorationFontRefresh) return;
+    decorationFontRefresh = false;
+    if (!exportBusy) renderCanvas();
+  });
+};
+['pointerup', 'pointercancel', 'blur'].forEach(type => window.addEventListener(type, finishDecorationPointer, type !== 'blur'));
+$('#canvas').addEventListener('click', e => {
+  const target = e.target.closest('[data-decoration-edit]');
+  if (target) activateCanvasEdit(target);
+});
+$('#canvas').addEventListener('keydown', e => {
+  if (!e.target.hasAttribute('data-decoration-edit') || !['Enter', ' '].includes(e.key)) return;
+  e.preventDefault();
+  activateCanvasEdit(e.target);
+});
 load();
 /* 되돌리기의 «출발점» — 불러온 직후 상태가 첫 장이다 [histRecord] */
 setTimeout(() => { if (_histPrev === null) _histPrev = snapOf(); }, 0);
