@@ -79,6 +79,7 @@
   /* ── 전환 ── */
   --ease-out:cubic-bezier(0.22,0.61,0.36,1);
   --dur-fast:0.15s; --dur-normal:0.25s;
+  --control-hover-scale:1.1; --control-press-scale:.94;
 
   /* ── 레이아웃 ── */
   --topbar-h:52px; --tab-h:44px;
@@ -201,6 +202,8 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .canvas.ratio-center{justify-content:center}
 /* 배경 이미지 — 회전·흐림이 캔버스 밖으로 새지 않게 별도 레이어로 깐다 */
 .canvas > .cv-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.canvas > .cv-html-top{z-index:4}
+.cv-html-top img{display:block;width:100%;height:100%}
 .cv-bg i{
   position:absolute;inset:0;display:block;
   background-image:var(--bgi,none);background-repeat:no-repeat;
@@ -1308,6 +1311,8 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
    (접어 놓고 창을 넓히면 다시 열 데가 없어진다).
    .is-format / .is-tools 와 같은 자리 다툼이라, 이기려면 뒤에 와야 한다. */
 @media (max-width:899.98px){
+  #formatWrap{order:1}
+  #sheetFoot{order:2}
   .sheet.is-compact .opt-row,
   .sheet.is-compact #formatWrap,.sheet.is-compact .sheet-body{display:none!important}
   .sheet.is-compact .sheet-head{padding-bottom:10px}
@@ -1438,13 +1443,11 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   display:flex;align-items:center;gap:var(--sp-sm,8px);
   padding:var(--sp-sm,8px) var(--sp-md,12px);
   font-size:var(--fs-sm,12px);color:var(--c-text);
-  cursor:pointer;transition:background .1s;
+  cursor:pointer;transition:color var(--dur-fast);
   border:none;background:none;width:100%;text-align:left;
 }
-.action-menu-item:hover{background:var(--c-surface-sunken)}
 .action-menu-item.is-danger{color:var(--c-danger)}
-.action-menu-item .icon{font-size:16px;width:20px;text-align:center}
-.action-menu-divider{height:1px;background:var(--c-divider);margin:var(--sp-xs,4px) 0}
+.action-menu-item .icon{display:grid;place-items:center;font-size:16px;width:20px;text-align:center}
 
 /* ═══════════════════════════════════════════════════════════════
    v2 컴포넌트: 언더라인 탭
@@ -1550,15 +1553,24 @@ body:has(.sheet.is-settling) .stage{transition:none}
   justify-content:space-between;
 }
 .edit-header-group{display:flex;align-items:center;gap:var(--sp-sm)}
-.edit-header-group > button{
+.edit-header .edit-header-button{
   display:grid;place-items:center;width:28px;height:28px;flex:0 0 28px;padding:0;font-size:16px;
 }
-#formatWrap .edit-header-group svg{
+.edit-header .edit-header-button > svg{
   display:block;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;
   stroke-linecap:round;stroke-linejoin:round;
 }
 #formatWrap > .sec:has(> .edit-header){padding-top:0}
 #formatWrap .edit-header:has(+ .text-kind-tabs){margin-bottom:0}
+.desktop-tools-toggle,#desktopInsertTabs{display:none}
+.desktop-tools-pane{display:contents}
+.block-editor-content{padding:var(--sp-md)}
+.theme-bg-html{
+  display:block;width:100%;min-height:128px;resize:vertical;padding:10px 12px;
+  border:1px solid var(--c-border-strong);border-radius:var(--r-sm);background:var(--c-surface);
+  font:12px/1.5 ui-monospace,Menlo,monospace;
+}
+.theme-bg-html:focus{border-color:var(--c-primary-hover)}
 @media (width > 400px){
   #formatWrap .edit-header{padding-block:calc(var(--sp-sm) + 2px)}
 }
@@ -1567,7 +1579,6 @@ body:has(.sheet.is-settling) .stage{transition:none}
   border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;
 }
 .edit-header .back-btn:hover{background:var(--c-border)}
-.edit-header .back-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
 .edit-header .edit-title{font-size:var(--fs-sm);font-weight:var(--fw-bold)}
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1820,9 +1831,6 @@ body:has(.sheet.is-settling) .stage{transition:none}
 /* 세그먼트 확장 (index.html 전용) */
 .seg button:has(small){height:auto;padding:3px 2px;line-height:1.15}
 .seg svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round}
-.column-ratios .column-shape{display:flex;align-items:center;gap:5px;width:62px;max-width:100%;margin:2px auto 5px}
-.column-ratios .column-shape i{display:block;height:3px;border-radius:3px;background:currentColor}
-.column-ratios button small{margin:0}
 
 /* 토글 (v2) */
 .tgl{width:44px;height:26px;flex:0 0 44px;border-radius:var(--r-full);background:var(--c-border-strong);position:relative;cursor:pointer;transition:background-color .16s}
@@ -2268,7 +2276,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   .stage{padding:32px}
   /* 미리보기는 창 크기나 옆 막대에 따라 커졌다 작아졌다 하면 안 된다 — 한 값으로 못 박는다.
      캔버스 폭은 화면과 무관하게 :root 의 --canvas-w 하나로만 정해진다. */
-  :root{--sheet-w:400px}
+  :root{--sheet-w:clamp(400px,34vw,496px)}
   .sheet{
     position:relative;inset:auto;flex:0 0 var(--sheet-w);width:var(--sheet-w);max-height:none;height:100%;
     border-radius:0;border-left:1px solid var(--c-border);box-shadow:none;padding-top:14px;
@@ -2276,39 +2284,14 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   .sheet.is-format,.sheet.is-tools{max-height:none}
   .sheet.is-format,.sheet.is-tools,.sheet.is-full{height:100%;max-height:none}
   .sheet.is-format #ta{max-height:30vh}
-  .toast{bottom:32px;left:auto;right:432px;transform:none}
+  .toast{bottom:32px;left:auto;right:calc(var(--sheet-w) + 32px);transform:none}
 
-  /* ── 넓은 화면에서는 단계를 오가지 않는다 ──────────────────────
-     좁을 때는 시트 한 칸을 도구·서식·작성창이 번갈아 쓰지만, 여기서는 세로로 자리가 남는다.
-     한꺼번에 세워 두고 무엇을 고르든 화면이 갈아엎히지 않게 한다.
-
-       작성창    ← 손이 가장 자주 가는 자리라 맨 위다
-       블록 서식 ← 블록을 골랐을 때만. 그냥 쓰는 중에는 안 뜬다
-       ────
-       도구            ← 아래
-  */
-  /* 처음에는 «도구가 위, 작성 묶음이 아래» 를 반씩 못 박아 뒀다. 그랬더니 어느 쪽을 보든
-     늘 절반이라, 긴 설정도 긴 서식도 그 절반 안에서만 굴러야 했다.
-     이제 둘을 뒤집고[order] 여닫는다 — 손이 가장 자주 가는 작성창이 맨 위에 서고,
-     도구는 그 아래에 밀려 있다가 누르면 열린다 [setDeskPane].
-     열린 쪽이 80%, 밀린 쪽이 20% 다. 처음은 작성창이 열린 쪽이다. */
-  .dock{
-    order:1;flex:1 1 80%;min-height:0;
-    transition:flex-basis .22s cubic-bezier(.22,.61,.36,1)
-  }
-  /* 가르는 선은 «아래 칸의 윗변» 이다 — 위아래를 뒤집었으니 선도 따라 옮겨 온다 */
+  /* 작성창은 위에 두고 블록 서식과 설정이 각자 스크롤한다. */
+  .dock{flex:0 1 auto;max-height:min(66%,calc(100% - 120px))}
   .sheet-body{
-    order:2;flex:0 0 20%;min-height:60px;overflow-y:auto;
-    display:flex;flex-direction:column;overflow:clip;
-    border-top:2px solid var(--c-border-strong);
-    transition:flex-basis .22s cubic-bezier(.22,.61,.36,1)
+    flex:1;min-height:120px;display:flex;flex-direction:column;overflow:clip;
+    border-top:1px solid var(--c-border);
   }
-  .sheet.pane-tools .sheet-body{flex-basis:80%}
-  /* 밀린 작성 묶음은 제 안에서 굴린다 — 창이 낮으면 20% 가 «작성창 + 확정 단추» 보다
-     작아지는데, .sheet-head 와 .sheet-foot 은 안 줄어드는 칸이라[flex:0 0 auto]
-     그대로 두면 시트 밖으로 삐져나간다 [.sheet.is-tools .dock 과 같은 뿌리]. */
-  .sheet.pane-tools .dock{flex-basis:20%;overflow-y:auto}
-  @media (prefers-reduced-motion:reduce){ .sheet-body,.dock{transition:none} }
   .sheet-head{padding-top:12px}
   /* 콘텐츠만 늘었다 줄었다 하고, 확정 단추는 그 바로 뒤에 붙는다(바닥 고정 아님) */
   #formatWrap{flex:0 1 auto;min-height:0;max-height:none;
@@ -2333,22 +2316,18 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   .seg button{min-width:0}
 }
 
-@media (min-width:1400px){
-  :root{--sheet-w:440px}
-}
-
 /* ── 아주 넓은 화면 — 세로로 쌓지 않고 독 두 개로 가른다 ──────────
    한 기둥에 넷을 쌓으면 각자 몫이 얇아져 스크롤만 늘어난다. 자리가 남으면
    «쓰는 곳(삽입 메뉴 + 작성창 + 블록 서식)» 과 «설정하는 곳(도구)» 을 좌우로 벌린다. */
 @media (min-width:1500px){
-  :root{--sheet-w:790px}
+  :root{--sheet-w:clamp(790px,52vw,960px)}
   .sheet{
-    display:grid;grid-template-columns:430px minmax(0,1fr);grid-template-rows:minmax(0,1fr);
+    display:grid;grid-template-columns:minmax(420px,1.15fr) minmax(0,1fr);grid-template-rows:minmax(0,1fr);
     padding-top:0;
   }
   /* 칸 사이 선은 배경색을 깔아 만들지 않는다 — 한쪽이 비면 그 배경이 그대로 회색 덩어리로 보인다.
      테두리로 그으면 비어 있어도 흰 바탕이 이어진다. */
-  .dock{grid-column:1;grid-row:1;min-height:0}
+  .dock{grid-column:1;grid-row:1;min-height:0;max-height:none}
   .sheet-head{padding-top:14px}
   #formatWrap{overflow-y:auto}
   /* 여기서는 좌우로 갈라지므로 «가르는 선» 도 위가 아니라 옆이다 [한 기둥 배치의 border-top] */
@@ -2356,6 +2335,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
     display:flex;flex-direction:column;min-height:0;overflow:clip}
   .savesheet{z-index:100}
 }
+
 
 
 /* 좁아지면 삽입 칩의 이름을 접는다. */
@@ -2482,7 +2462,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 }
 #formatWrap .fmt-section .sel:focus{border-color:var(--editor-active);box-shadow:var(--editor-focus)}
 #formatWrap .fmt-section .icb:not(.is-on):not(.is-mixed){border-color:var(--editor-control-line)}
-#formatWrap .fmt-section{display:flex;flex-direction:column}
+#formatWrap .fmt-section{display:flex;flex-direction:column;container-type:inline-size}
 #formatWrap .fmt-section .tool-line{
   --format-gap:8px;
   padding-inline:12px;gap:var(--format-gap);
@@ -2490,7 +2470,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 #formatWrap .fmt-section .tool-grp{gap:var(--format-gap)}
 #formatWrap .fmt-section .tool-line > .tool-grp:only-child{flex:1}
 #formatWrap .fmt-section .format-buttons{
-  display:flex;flex-wrap:wrap;gap:var(--format-gap);
+  display:flex;flex:1;justify-content:space-between;gap:var(--format-gap);
 }
 #formatWrap .fmt-section .tool-line .icb{box-shadow:none}
 #formatWrap .fmt-section .sel{flex:1;min-width:0;padding-left:8px}
@@ -2500,6 +2480,10 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 #formatWrap .fmt-section .text-effects-line{flex-wrap:nowrap}
 #formatWrap .fmt-section .row-between{gap:var(--format-gap)}
 #formatWrap .fmt-section .text-effects-line .lab{white-space:nowrap}
+@container (width < 365px){
+  #formatWrap .fmt-section .text-effects-line{--format-gap:4px}
+  #formatWrap .fmt-section .text-effects-line .lab{font-size:10px}
+}
 #formatWrap .fmt-section .subtitle-action{
   height:26px;min-width:28px;padding:0 4px;font-size:10px;font-weight:700;letter-spacing:-.02em;
 }
@@ -2519,9 +2503,13 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   width:15px;height:15px;border-radius:4px;
   background:var(--tint);border:1px solid rgba(0,0,0,.18);
 }
-#formatWrap .edit-header-group svg,#formatWrap .icb > svg{
+.edit-header-button > svg,.action-menu-item > .icon,
+#formatWrap .icb > svg,#formatWrap .format-buttons :is(b,.ann){
   transition:transform var(--dur-fast) var(--ease-out);
 }
+#formatWrap .format-buttons :is(sup,sub){display:inline-block;color:inherit}
+#formatWrap .format-buttons .annotation-control.is-on{color:var(--c-text)}
+#formatWrap .format-buttons .annotation-control.is-on :is(sup,sub){color:var(--c-primary-text);font-weight:800}
 .sheet .rng::-webkit-slider-thumb{transition:transform var(--dur-fast) var(--ease-out)}
 .sheet .rng::-moz-range-thumb{transition:transform var(--dur-fast) var(--ease-out)}
 .sheet .rng:active::-webkit-slider-thumb{transform:scale(.88)}
@@ -2530,8 +2518,16 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 .sheet :is(.btn-mini,.btn-fill,.btn-primary,.seg button):active:not(:disabled){
   transform:translateY(1px);
 }
-@media (hover:hover){
-  #formatWrap :is(.edit-header-group button,.icb):hover:not(:disabled) > svg{transform:scale(1.1)}
+@media (hover:hover) and (pointer:fine){
+  .edit-header-button:hover:not(:disabled) > svg,
+  .action-menu-item:hover:not(:disabled) > .icon,
+  #formatWrap .icb:hover:not(:disabled) > svg,
+  #formatWrap .format-buttons button:hover:not(:disabled) :is(b,.ann){
+    transform:scale(var(--control-hover-scale));
+  }
+  .action-menu-item:hover:not(.is-danger){color:var(--c-primary-text)}
+  #formatWrap .format-buttons button:hover:not(:disabled) :is(b,sup,sub){color:var(--c-primary-text)}
+  #formatWrap .format-buttons .annotation-control:hover :is(sup,sub){font-weight:800}
   .sheet .rng:hover:not(:active)::-webkit-slider-thumb{transform:scale(1.12)}
   .sheet .rng:hover:not(:active)::-moz-range-thumb{transform:scale(1.12)}
   .sheet .tab-line:hover,.sheet .seg button:not(.is-on):hover:not(:disabled){
@@ -2540,12 +2536,42 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   .sheet .inp-group .btn-mini.is-send:hover:not(:disabled),
   .sheet :is(.btn-fill,.btn-primary):not(.btn-danger):hover:not(:disabled){background:#284E35}
 }
-#formatWrap :is(.edit-header-group button,.icb):active:not(:disabled) > svg{transform:scale(.94)}
+.edit-header-button:active:not(:disabled) > svg,.action-menu-item:active:not(:disabled) > .icon,
+#formatWrap .icb:active:not(:disabled) > svg,
+#formatWrap .format-buttons button:active:not(:disabled) :is(b,.ann){
+  transform:scale(var(--control-press-scale));
+}
 @media (min-width:900px){
-  .sheet{--block-editor-surface:var(--editor-well);background:var(--editor-well);border-color:var(--editor-line)}
-  .sheet.is-format .sheet-head{background:var(--editor-well);padding-bottom:0}
-  #formatWrap:has(.edit-header){border-top:0;padding-top:0}
-  #formatWrap .edit-header{border-bottom:0}
+  .sheet{--block-editor-surface:var(--editor-well);background:var(--editor-well);border-color:var(--editor-line);padding-top:0}
+  #btnSettings,#btnAdd{display:none}
+  #desktopInsertTabs{
+    display:flex;flex:0 0 auto;gap:4px;margin:12px 8px 10px;padding:4px;
+    border:1px solid var(--editor-line);border-radius:12px;background:var(--c-surface);
+  }
+  #desktopInsertTabs .tab-line{
+    height:36px;gap:4px;border:1px solid transparent;border-radius:8px;font-size:11.5px;font-weight:700;white-space:nowrap;
+  }
+  #desktopInsertTabs .tab-line.is-on{
+    background:var(--c-primary-muted);border-color:var(--c-primary-hover);color:var(--editor-active);font-weight:800;
+  }
+  #desktopInsertTabs .tab-line span{font-size:9.5px;line-height:1}
+  #desktopBlockIntro{
+    flex:0 0 auto;margin:0 8px;background:var(--c-surface);border-radius:14px 14px 0 0;
+    border:1px solid var(--editor-line);border-bottom:0;
+  }
+  #desktopBlockIntro .edit-header{justify-content:space-between;margin:0;padding:10px var(--pad)}
+  .sheet.desktop-text-editor .sheet-head{
+    margin:0 8px;padding:8px 0 10px;background:var(--c-surface);border-inline:1px solid var(--editor-line);
+  }
+  #desktopSpeakerChips,.sheet.desktop-text-editor .sheet-head:has(+ #desktopSpeakerChips[hidden]){
+    margin:0 8px 12px;background:var(--c-surface);border:1px solid var(--editor-line);
+    border-top:0;border-radius:0 0 14px 14px;
+  }
+  #desktopSpeakerChips{flex:0 0 auto}
+  .sheet.desktop-text-editor .inp-group{align-items:stretch;background:#F7FAF7;box-shadow:none}
+  .sheet.desktop-text-editor .inp-group:focus-within{box-shadow:var(--editor-focus)}
+  .sheet.desktop-text-editor #ta{min-height:64px;max-height:min(26vh,240px);line-height:1.6}
+  .sheet:not(.desktop-text-editor) .sheet-head{display:none}
   .sheet .sheet-body{background:#F9FBF9;border-color:var(--editor-line)}
   .sheet .settings-panel > .tabs-line{background:#F9FBF9;border-color:var(--editor-line)}
   .sheet .settings-content > .settings-list{gap:10px}
@@ -2558,13 +2584,79 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   .sheet .theme-card:not(.is-add):not(.is-reordering):not(.drop-before):not(.drop-after){
     box-shadow:var(--editor-lift);
   }
+  .sheet .composer-ta{font-size:14px}
+  #formatWrap{
+    flex:1;margin:0 8px 12px;padding-top:0;background:var(--c-surface);
+    border:1px solid var(--editor-line);border-radius:14px;scrollbar-width:none;
+  }
+  #formatWrap::-webkit-scrollbar{display:none}
+  #desktopBlockIntro:not([hidden]) + #formatWrap{border-top:0;border-radius:0 0 14px 14px}
+  #desktopBlockIntro:not([hidden]) + #formatWrap:has(.fmt-section){
+    flex:0 1 auto;margin-bottom:0;border-bottom:0;border-radius:0;
+  }
+  .sheet.desktop-text-editor #formatWrap > .sec{padding:0}
+  .sheet.desktop-text-editor #formatWrap .fmt-section .tool-line{padding-inline:var(--pad)}
+  #formatWrap:has(.block-editor-content) > .sec{padding:0 var(--pad) 14px;min-width:0}
+  #formatWrap .block-editor-content{width:100%;min-width:0;margin-inline:auto;padding-inline:0}
+  #formatWrap .block-editor-content .inp-group{width:100%;min-width:0}
+  #formatWrap .fmt-section .tool-line{padding-block:11px}
+  #formatWrap .fmt-section .lab{font-size:12px;font-weight:650}
+  #formatWrap :is(.fmt-section .icb,.subtitle-action){
+    transition:background-color var(--dur-fast),border-color var(--dur-fast),box-shadow var(--dur-fast);
+  }
+  #themeEditContent{container-type:inline-size}
+  @container (min-width:380px){
+    #themeEditContent .grid2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+}
+@media (900px <= width < 1500px){
+  .sheet .dock{flex:1 1 auto;max-height:100%;padding-bottom:56px}
+  .sheet.is-tools :is(#desktopBlockIntro,.sheet-head,#formatWrap,#desktopSpeakerChips){display:none}
+  .desktop-tools-pane{
+    position:absolute;inset-inline:8px;bottom:8px;z-index:7;display:flex;flex-direction:column;
+    height:48px;min-height:48px;overflow:hidden;border:1px solid var(--editor-line);border-radius:12px;
+    background:#F9FBF9;transition:height var(--dur-normal) var(--ease-out);
+  }
+  .sheet.is-tools .desktop-tools-pane{height:calc(100% - 76px)}
+  .desktop-tools-pane .sheet-body{
+    flex:1;min-height:0;margin:0;border:0;overflow:clip;transition:none;
+  }
+  .desktop-tools-toggle{
+    display:flex;flex:0 0 46px;justify-content:space-between;align-items:center;
+    padding:10px var(--pad);background:var(--c-surface);
+    color:var(--editor-active);font-size:13px;font-weight:800;
+  }
+  .desktop-tools-toggle[aria-expanded="true"]{background:#F9FBF9}
+  .desktop-tools-toggle svg{
+    width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+    transition:transform var(--dur-fast) var(--ease-out);
+  }
+  .desktop-tools-toggle[aria-expanded="true"] svg{transform:rotate(180deg)}
+  .desktop-tools-toggle:hover{background:var(--editor-well)}
+  @media (prefers-reduced-motion:reduce){.desktop-tools-pane,.desktop-tools-toggle svg{transition:none}}
+}
+@media (min-width:900px) and (hover:hover) and (pointer:fine){
+  #formatWrap :is(.fmt-section .icb,.subtitle-action):hover:not(:disabled){
+    box-shadow:0 2px 5px rgba(30,55,38,.15);
+  }
+  #formatWrap .fmt-section :is(.icb,.subtitle-action):hover:not([aria-pressed="true"]):not([aria-pressed="mixed"]){
+    background:var(--editor-well);border-color:var(--c-primary-hover);
+  }
+  #formatWrap .fmt-section :is(.icb,.subtitle-action)[aria-pressed="true"]:hover{border-color:var(--editor-active)}
+  #formatWrap .fmt-section .format-buttons .icb:not(.is-on):not(.is-mixed):hover{background:var(--c-surface)}
+  #formatWrap .fmt-section .format-buttons .icb.is-on:hover{background:var(--c-primary-muted)}
+  #formatWrap .fmt-section .format-buttons .icb.is-mixed:hover{background:var(--c-secondary-muted);border-color:var(--c-secondary-text)}
+  #formatWrap .fmt-section .sel:hover{border-color:var(--c-primary-hover)}
+  .sheet .section-header:hover{opacity:1;color:var(--editor-active)}
 }
 @media (prefers-reduced-motion:reduce){
   .sheet .inp-group,.sheet .seg button,.sheet .tab-line{transition:none}
   .sheet :is(.btn-mini,.btn-fill,.btn-primary,.seg button):active:not(:disabled){transform:none}
-  #formatWrap .edit-header-group svg,#formatWrap .icb > svg{transition:none;transform:none!important}
+  .edit-header-button > svg,.action-menu-item > .icon,
+  #formatWrap .icb > svg,#formatWrap .format-buttons :is(b,.ann){transition:none;transform:none!important}
   .sheet .rng::-webkit-slider-thumb{transition:none;transform:none!important}
   .sheet .rng::-moz-range-thumb{transition:none;transform:none!important}
+  #formatWrap :is(.fmt-section .icb,.subtitle-action),.action-menu-item{transition:none}
 }
 
 </style>
@@ -2615,6 +2707,14 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 
     <!-- 작성창과 블록 편집기는 같은 독에 놓인다. -->
     <div class="dock" id="dock">
+      <div class="desktop-insert-tabs tabs-line" id="desktopInsertTabs" role="group" aria-label="블록 종류">
+        <button type="button" class="tab-line is-on" data-kind="text" aria-pressed="true"><span aria-hidden="true">📝</span>본문</button>
+        <button type="button" class="tab-line" data-kind="image" aria-pressed="false"><span aria-hidden="true">🖼️</span>이미지</button>
+        <button type="button" class="tab-line" data-kind="html" aria-pressed="false"><span aria-hidden="true">💻</span>HTML</button>
+        <button type="button" class="tab-line" data-kind="divider" aria-pressed="false"><span aria-hidden="true">➖</span>구분선</button>
+      </div>
+      <div id="desktopBlockIntro" hidden></div>
+      <div id="formatWrap" hidden></div>
       <div class="sheet-head" id="sheetHead">
         <!-- v2: 인풋 그룹 (설정 버튼 + 입력창 + 추가/전송 버튼) -->
         <div id="composerRow" style="padding: 0 var(--pad);">
@@ -2637,13 +2737,16 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
         <div class="opt-row" id="optRow" hidden></div>
       </div>
 
-      <!-- 가운데 — 서식이거나, 사진 편집기거나 -->
-      <div id="formatWrap" hidden></div>
+      <div id="desktopSpeakerChips" hidden></div>
 
       <!-- 마지막 — 지금 내용을 확정하는 단추 하나 -->
       <div class="sheet-foot" id="sheetFoot" hidden></div>
     </div>
 
+    <div class="desktop-tools-pane">
+    <button type="button" class="desktop-tools-toggle" id="desktopToolsToggle" aria-controls="settingsPanel" aria-expanded="false">
+      도구 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>
+    </button>
     <div class="sheet-body" id="sheetBody">
       <!-- ═══════════════════════════════════════════════════════════════
            v2 설정 패널 - 캐릭터/서명/테마 탭 + 슬라이딩 뷰
@@ -2664,20 +2767,12 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
           <!-- 1: 캐릭터 편집 -->
           <div class="settings-content" id="charEditView">
             <div class="edit-header">
-              <button type="button" class="back-btn" id="btnCharBack">
-                <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-              </button>
+              <button type="button" class="back-btn" id="btnCharBack" data-edit-icon="back"></button>
               <span class="edit-title">편집</span>
               <div style="flex:1"></div>
-              <button type="button" class="btn btn-outline" id="btnCharDupeV2" style="height:28px;width:28px;padding:0;" title="복제">
-                <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              </button>
-              <button type="button" class="btn btn-danger" id="btnCharDeleteV2" style="height:28px;width:28px;padding:0;" title="삭제">
-                <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-              </button>
-              <button type="button" class="btn btn-fill" id="btnCharSaveV2" style="height:28px;width:28px;padding:0;" title="저장">
-                <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M20 6L9 17l-5-5"/></svg>
-              </button>
+              <button type="button" class="btn btn-outline" id="btnCharDupeV2" data-edit-icon="copy" title="복제"></button>
+              <button type="button" class="btn btn-danger" id="btnCharDeleteV2" data-edit-icon="delete" title="삭제"></button>
+              <button type="button" class="btn btn-fill" id="btnCharSaveV2" data-edit-icon="confirm" title="저장"></button>
             </div>
             <!-- 아바타+이름 가로 배치 -->
             <div style="display:flex;gap:12px;align-items:center;padding:var(--sp-md);">
@@ -2732,20 +2827,12 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
           </div>
           <div class="settings-content" id="signEditView">
             <div class="edit-header">
-              <button type="button" class="back-btn" id="btnSignBack">
-                <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-              </button>
+              <button type="button" class="back-btn" id="btnSignBack" data-edit-icon="back"></button>
               <span class="edit-title">편집</span>
               <div style="flex:1"></div>
-              <button type="button" class="btn btn-outline" id="btnSignDupeV2" style="height:28px;width:28px;padding:0;" title="복사">
-                <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              </button>
-              <button type="button" class="btn btn-danger" id="btnSignDeleteV2" style="height:28px;width:28px;padding:0;" title="삭제">
-                <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-              </button>
-              <button type="button" class="btn btn-fill" id="btnSignSaveV2" style="height:28px;width:28px;padding:0;" title="저장">
-                <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M20 6L9 17l-5-5"/></svg>
-              </button>
+              <button type="button" class="btn btn-outline" id="btnSignDupeV2" data-edit-icon="copy" title="복사"></button>
+              <button type="button" class="btn btn-danger" id="btnSignDeleteV2" data-edit-icon="delete" title="삭제"></button>
+              <button type="button" class="btn btn-fill" id="btnSignSaveV2" data-edit-icon="confirm" title="저장"></button>
             </div>
             <div class="setting-grid">
               <div class="field"><label class="lab" for="signNameV2">이름</label><input type="text" class="inp" id="signNameV2" placeholder="예) 해이"></div>
@@ -2754,6 +2841,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
           </div>
         </div>
       </div>
+    </div>
     </div>
   </section>
 </div>
@@ -2764,8 +2852,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 <div class="action-menu" id="actionMenu" hidden>
             <button class="action-menu-item" data-action="image"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></span> 이미지</button>
             <button class="action-menu-item" data-action="html"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7"/></svg></span> HTML</button>
-            <button class="action-menu-item" data-action="music"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span> 재생음악</button>
-            <div class="action-menu-divider"></div>
+            <!-- 재생음악은 기존 문서 편집·출력에서만 유지한다. -->
             <button class="action-menu-item" data-action="divider"><span class="icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5"><path d="M5 12h14"/></svg></span> 구분선</button>
           </div>
 <div id="popRoot"></div>
@@ -2808,6 +2895,7 @@ const isWide = () => !!(window.matchMedia && window.matchMedia('(min-width:900px
 const is2Panel = () => !!(window.matchMedia && window.matchMedia('(min-width:1500px)').matches);
 /* v2: 인풋 그룹 버튼들 */
 const BTN_SETTINGS = document.getElementById('btnSettings');
+const DESKTOP_TOOLS = document.getElementById('desktopToolsToggle');
 const BTN_ADD = document.getElementById('btnAdd');
 const ACTION_MENU = document.getElementById('actionMenu');
 /* 이름 첫 글자를 글자로 그대로 넣으면 글꼴 baseline 탓에 원 안에서 아래로 쏠린다.
@@ -4212,8 +4300,6 @@ const S = {
   ui: {
     stage: 'composer', insertMode: null,
     panel: 'compact', previewZoom: 1,
-    /* 데스크톱 한 기둥 배치에서 «지금 열려 있는 칸» [setDeskPane] — 처음은 작성창이다 */
-    deskPane: 'dock',
     /* 손잡이로 정한 시트 높이 [SNAPS · setSnap]. null 은 «원본 크기» — 단계마다 제 높이를
        그대로 쓴다(작성 중이면 한 줄, 서식이 떠 있으면 그만큼). snapLast 는 직전 크기다. */
     snap: null, snapLast: 45,
@@ -5970,53 +6056,14 @@ function closeActionMenu() {
   syncBtnAddState();
 }
 
-/* 설정 패널만 닫기 (내부용) — 2패널에서는 닫지 않음 */
-function closeSettingsPanel() {
-  /* 2패널에서는 설정 패널을 닫지 않는다 */
-  if (is2Panel()) return;
-  const panel = $('#settingsPanel');
-  if (!panel || !panel.classList.contains('is-open')) return;
-
-  /* 테마/캐릭터 수정 중이면 확인 모달 표시 */
-  const doClose = () => {
-    S.ui.editingSignId = null; S.ui.signDraft = null;
-    toggleSettingsPanel(false);
-    setSnap(null);
-    /* 탭 UI 초기화 — 다음에 열 때 캐릭터 목록으로 */
-    resetSettingsTabUI();
-    /* 패널 닫으면 stage도 composer로 (tools → composer) */
-    if (S.ui.stage === 'tools') {
-      S.ui.stage = 'composer';
-      S.ui.deskPane = 'dock';
-    }
-  };
-
-  if (confirmDiscardThemeDraft(doClose)) return;
-  if (confirmDiscardCharDraft(doClose)) return;
-  if (confirmDiscardSignDraft(doClose)) return;
-  doClose();
-}
-
-/* 블록 편집 해제 (내부용) */
-function closeBlockEdit() {
-  if (S.ui.selectedBlockId) {
-    endEdit();
-  }
-}
-
-/* 모든 오버레이 닫기 — 상호 배타성의 핵심 */
-function closeAllOverlays(except) {
-  if (except !== 'menu') closeActionMenu();
-  if (except !== 'settings') closeSettingsPanel();
-  if (except !== 'format') closeBlockEdit();
-}
-
 /* v2: 버튼 상태 동기화 — 입력창 내용에 따라 +/전송 아이콘 전환 */
 function syncBtnAddState() {
   if (!BTN_ADD) return;
   const ta = $('#ta');
   const hasText = !!(ta.innerText || ta.textContent || '').replace(/\u00A0/g, ' ').trim();
   const open = !!ACTION_MENU && !ACTION_MENU.hidden;
+  const draftConfirm = $('#desktopBlockIntro [data-draft-confirm]');
+  if (draftConfirm) draftConfirm.disabled = !hasText;
   BTN_ADD.classList.toggle('is-send', hasText);
   BTN_ADD.classList.toggle('is-on', open && !hasText);
   BTN_ADD.innerHTML = hasText ? ICON_SEND : (open ? ICON_X : ICON_PLUS);
@@ -6029,37 +6076,39 @@ function syncBtnAddState() {
 function initComposerV2() {
   if (!BTN_SETTINGS || !BTN_ADD || !ACTION_MENU) return;
 
-  /* btnSettings: 설정/도구 패널 토글 — 다른 모든 UI 닫음 */
-  bindStickyTap(BTN_SETTINGS, () => {
-    closeAllOverlays('settings');
-    if (S.ui.stage === 'tools') {
-      closeToolsToComposer();
-    } else {
+  const toggleTools = () => {
+    if (is2Panel()) return;
+    if (S.ui.stage === 'tools') setStage('composer');
+    else {
       setStage('tools');
       if (!isWide() && S.ui.stage === 'tools') setSnap(70);
     }
+  };
+  bindStickyTap(BTN_SETTINGS, toggleTools);
+  DESKTOP_TOOLS.addEventListener('click', toggleTools);
+  $('#desktopInsertTabs').addEventListener('click', e => {
+    const tab = e.target.closest('button[data-kind]');
+    if (!tab) return;
+    if (tab.dataset.kind === 'text') {
+      if (S.ui.newKind || (selBlock() && selBlock().type !== 'text') || S.ui.stage === 'tools') setStage('composer');
+    } else if (S.ui.newKind !== tab.dataset.kind && selBlock()?.type !== tab.dataset.kind) {
+      startNew(tab.dataset.kind);
+    }
   });
 
-  /* btnAdd: 전송 모드면 커밋, 아니면 액션 메뉴 토글 — 다른 모든 UI 닫음 */
+  /* 전송할 글이 없을 때만 요소 메뉴를 토글한다. */
   bindStickyTap(BTN_ADD, function toggleAddMenu() {
-    if (S.ui.stage === 'tools' && confirmDiscardSettingsDraft(toggleAddMenu)) return;
+    if (S.ui.stage === 'tools' && !is2Panel() && confirmDiscardSettingsDraft(toggleAddMenu)) return;
     syncBtnAddState();
     if (BTN_ADD.classList.contains('is-send')) {
+      if (S.ui.stage === 'tools' && !is2Panel()) setStage('composer');
       commitWithCleanup();
       return;
     }
-    /* 다른 UI 모두 닫기 */
-    closeAllOverlays('menu');
-    /* 도구 패널 열려 있으면 닫기 — 테마/캐릭터 수정 중이면 확인 */
-    if (S.ui.stage === 'tools') {
-      if (confirmDiscardThemeDraft(() => { closeToolsToComposer(); })) return;
-      if (confirmDiscardCharDraft(() => { closeToolsToComposer(); })) return;
-      if (confirmDiscardSignDraft(() => { closeToolsToComposer(); })) return;
-      closeToolsToComposer();
-    }
-    /* 액션 메뉴 토글 */
-    const isOpen = !ACTION_MENU.hidden;
-    ACTION_MENU.hidden = isOpen;
+    const wasOpen = !ACTION_MENU.hidden;
+    if (S.ui.stage !== 'composer') setStage('composer');
+    closePop();
+    ACTION_MENU.hidden = wasOpen;
     syncBtnAddState();
     placeActionMenu();
   });
@@ -6071,25 +6120,10 @@ function initComposerV2() {
     }
   });
 
-  /* 입력창 포커스 시 — 모든 오버레이 닫기 (입력 모드로 전환)
-     블록 편집(format) 중에는 닫지 않는다 — 서식 패널 안에서 render() 를 부르면
-     컴포저가 포커스를 다시 받아 편집기가 닫히는 것을 막는다.
-     설정 패널(tools)은 닫는다 — 사용자가 입력창 클릭 시 상호 배타 UX.
-     테마/캐릭터 수정 중이면 저장 확인 모달을 표시한다. */
   $('#ta').addEventListener('focus', () => {
     if (S.ui.stage === 'format') return;
-    /* 테마 또는 캐릭터 수정 중이면 확인 모달 표시 */
-    if (S.ui.stage === 'tools') {
-      const doClose = () => {
-        S.ui.panel = 'compact';
-        resetSettingsTabUI();
-        setStage('composer');
-      };
-      if (confirmDiscardThemeDraft(doClose)) return;
-      if (confirmDiscardCharDraft(doClose)) return;
-      if (confirmDiscardSignDraft(doClose)) return;
-    }
-    closeAllOverlays();
+    if (S.ui.stage === 'tools' && !is2Panel()) setStage('composer');
+    else closeActionMenu();
   });
 
   /* 액션 메뉴 항목 클릭 핸들러 */
@@ -6103,9 +6137,6 @@ function initComposerV2() {
           break;
         case 'html':
           startNew('html');
-          break;
-        case 'music':
-          startNew('music');
           break;
         case 'divider':
           startNew('divider');
@@ -6360,7 +6391,7 @@ function renderCanvas() {
   cv.style.setProperty('--canvas-w', canvasW() + 'px');
   const preview = S.ui.imagePreview;
   const previewActive = S.ui.stage === 'format' && preview &&
-    (preview.blockId ? S.ui.selectedBlockId === preview.blockId : S.ui.newKind === 'image');
+    (preview.blockId ? S.ui.selectedBlockId === preview.blockId : !isWide() && S.ui.newKind === 'image');
   const blocks = previewActive
     ? (preview.blockId ? S.blocks.map(b => b.id === preview.blockId ? { ...b, ...preview.block } : b)
       : [...S.blocks, preview.block])
@@ -6482,7 +6513,15 @@ function renderCanvas() {
   cv.innerHTML = '';
   cv.classList.toggle('bulk', !!S.ui.bulk);
 
-  if (th.bgImage) {
+  if (th.bgMode === 'html') {
+    if (typeof th.bgHtml === 'string' && th.bgHtml.trim()) {
+      const layer = el('div', 'cv-bg cv-html-base');
+      const image = el('i');
+      image.style.setProperty('--bgs', '100%');
+      layer.appendChild(image);
+      cv.appendChild(layer);
+    }
+  } else if (th.bgImage) {
     const layer = el('div', 'cv-bg');
     const i = el('i'), u = el('u');
     i.style.setProperty('--bgi', `url("${th.bgImage}")`);
@@ -6849,24 +6888,146 @@ async function paintGlassSlice(cv, node, background, W, H, layer, tint = '', fad
   if (layer.parentNode === node) layer.replaceChildren(img);
 }
 
+let htmlBackgroundSource, htmlBackgroundRaster;
+const htmlBackgroundMime = /^(?:image\/(?:png|jpeg|gif|webp|avif|svg\+xml)|font\/(?:woff2?|ttf|otf)|application\/(?:font-woff|x-font-ttf))(?:;|$)/i;
+
+async function prepareHtmlBackgroundSource(raw) {
+  const doc = new DOMParser().parseFromString(raw, 'text/html');
+  doc.querySelectorAll('script,iframe,object,embed,link,meta,base,form,video,audio,source,foreignObject').forEach(node => node.remove());
+  const resources = new Map();
+  const inline = value => {
+    const url = value.trim();
+    if (!url || url.startsWith('#')) return Promise.resolve(url);
+    if (!resources.has(url)) resources.set(url, (async () => {
+      if (/^data:/i.test(url)) {
+        if (htmlBackgroundMime.test(url.slice(5))) return url;
+        return '';
+      }
+      try {
+        const parsed = new URL(url, location.href);
+        if (parsed.protocol !== 'https:' && !(parsed.protocol === 'http:' && parsed.origin === location.origin)) throw new Error();
+        const response = await fetch(parsed.href, { mode: 'cors', credentials: 'omit', signal: AbortSignal.timeout(5000) });
+        const blob = await response.blob();
+        if (!response.ok || !htmlBackgroundMime.test(blob.type) || blob.size > 8 * 1024 * 1024) throw new Error();
+        return await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        });
+      } catch (_) { return ''; }
+    })());
+    return resources.get(url);
+  };
+  const inlineCss = async value => {
+    const css = value.replace(/@import[^;]*;/gi, '');
+    const urls = /url\(\s*(?:"([^"]*)"|'([^']*)'|([^)]*))\s*\)/gi;
+    const matches = [...css.matchAll(urls)];
+    const resolved = await Promise.all(matches.map(match => inline(match[1] ?? match[2] ?? match[3])));
+    let index = 0;
+    return css.replace(urls, () => `url("${resolved[index++].replace(/"/g, '%22')}")`);
+  };
+  await Promise.all([...doc.querySelectorAll('*')].map(async node => {
+    for (const attr of [...node.attributes]) {
+      const name = attr.name.toLowerCase();
+      if (name.startsWith('on') || ['srcset', 'srcdoc', 'action', 'formaction', 'ping', 'poster'].includes(name)) {
+        node.removeAttribute(attr.name);
+      } else if (name === 'style' || /url\(/i.test(attr.value)) {
+        node.setAttribute(attr.name, await inlineCss(attr.value));
+      } else if (['src', 'href', 'xlink:href'].includes(name)) {
+        const image = /^(img|image)$/i.test(node.localName);
+        const value = image ? await inline(attr.value) : attr.value.startsWith('#') ? attr.value : '';
+        if (value) node.setAttribute(attr.name, value);
+        else node.removeAttribute(attr.name);
+      }
+    }
+    if (node.localName === 'style') node.textContent = await inlineCss(node.textContent);
+  }));
+  return doc;
+}
+
+async function rasterHtmlBackground(doc, w, h, top) {
+  const root = doc.documentElement.cloneNode(true);
+  const head = root.querySelector('head');
+  const viewport = doc.createElement('style');
+  viewport.textContent = `html,body{margin:0;padding:0;width:${w}px;height:${h}px;overflow:hidden}body{position:relative;font-family:system-ui,sans-serif}*{box-sizing:border-box}`;
+  head.prepend(viewport);
+  const layer = doc.createElement('style');
+  if (top) for (const node of [root, root.querySelector('body')]) node.style.setProperty('background', 'transparent', 'important');
+  layer.textContent = top
+    ? 'html,body{background:transparent!important}body *{visibility:hidden!important}[data-layer="top"],[data-layer="top"] *{visibility:visible!important}'
+    : '[data-layer="top"],[data-layer="top"] *{visibility:hidden!important}';
+  head.appendChild(layer);
+  const ratio = Math.min(2, 4096 / Math.max(w, h));
+  const width = Math.max(1, Math.round(w * ratio)), height = Math.max(1, Math.round(h * ratio));
+  const markup = new XMLSerializer().serializeToString(root);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${w} ${h}"><foreignObject width="${w}" height="${h}">${markup}</foreignObject></svg>`;
+  const image = new Image();
+  image.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  if (!(await whenDrawable(image))) throw new Error('HTML 배경을 그리지 못했습니다');
+  const png = pngDataURL(image, width, height);
+  if (!png) throw new Error('HTML 배경을 이미지로 변환하지 못했습니다');
+  return png;
+}
+
+function htmlBackgroundAt(raw, w, h) {
+  if (htmlBackgroundSource?.raw !== raw) htmlBackgroundSource = { raw, ready: prepareHtmlBackgroundSource(raw) };
+  const source = htmlBackgroundSource;
+  if (htmlBackgroundRaster?.source !== source || htmlBackgroundRaster.w !== w || htmlBackgroundRaster.h !== h) {
+    const ready = source.ready.then(async doc => {
+      const [base, top] = await Promise.all([
+        rasterHtmlBackground(doc, w, h, false),
+        doc.querySelector('[data-layer="top"]') ? rasterHtmlBackground(doc, w, h, true) : null
+      ]);
+      return { base, top };
+    });
+    htmlBackgroundRaster = { source, w, h, ready };
+  }
+  return htmlBackgroundRaster.ready;
+}
+
 let _glassScene = [];
 const _glassBackgrounds = new Map();
 function syncCanvasBackgrounds(cv, pages = 1) {
-  cv.querySelectorAll(':scope > .bg-ghost, .insta-glass, .lock-glass, .notif-glass').forEach(n => n.remove());
-  const bg = cv.querySelector(':scope > .cv-bg:not(.cv-tex)');
+  cv.querySelectorAll(':scope > .bg-ghost, :scope > .cv-html-top, .insta-glass, .lock-glass, .notif-glass').forEach(n => n.remove());
+  const bg = cv.querySelector(':scope > .cv-bg:not(.cv-tex,.cv-html-top)');
   const H = isFit() ? cv.offsetHeight : pageBox().h;
   const W = cv.offsetWidth;
+  const bgLayers = bg ? [bg] : [];
   if (bg) {
     bg.style.height = H + 'px'; bg.style.bottom = 'auto';
     for (let i = 1; i < pages; i++) {
       const copy = bg.cloneNode(true);
       copy.classList.add('bg-ghost');
       copy.style.top = (i * H) + 'px'; cv.appendChild(copy);
+      bgLayers.push(copy);
     }
   }
   if (!H || !W) return;
   const th = theme();
-  const scene = [W, H, th.bg, th.bgImage, th.bgRotation, th.bgSize,
+  const raw = bg?.classList.contains('cv-html-base') ? th.bgHtml.trim() : '';
+  const token = {};
+  cv._htmlBgSync = token;
+  delete cv.dataset.htmlBgError;
+  let ready = Promise.resolve();
+  if (raw) {
+    ready = htmlBackgroundAt(raw, W, H).then(({ base, top }) => {
+      if (cv._htmlBgSync !== token || bg.parentNode !== cv) return;
+      for (const layer of bgLayers) layer.firstElementChild.style.setProperty('--bgi', `url("${base}")`);
+      if (top) for (let i = 0; i < pages; i++) {
+        const overlay = el('div', 'cv-bg cv-html-top');
+        overlay.style.cssText = `top:${i * H}px;height:${H}px;bottom:auto`;
+        overlay.setAttribute('aria-hidden', 'true');
+        const image = el('img'); image.alt = ''; image.src = top;
+        overlay.appendChild(image); cv.appendChild(overlay);
+      }
+    }).catch(error => {
+      if (cv._htmlBgSync !== token) return;
+      cv.dataset.htmlBgError = 'true';
+      console.warn('HTML 배경 생성 실패', error);
+    });
+  }
+  const scene = [W, H, th.bg, th.bgImage, th.bgRotation, th.bgSize, raw,
     th.bgX, th.bgY, th.bgBlur, th.bgOverlay, th.bgOverlayColor];
   if (scene.some((value, index) => value !== _glassScene[index])) {
     _glassScene = scene; _glassBackgrounds.clear();
@@ -6874,7 +7035,7 @@ function syncCanvasBackgrounds(cv, pages = 1) {
   const blurred = (radius, saturation = 1) => {
     const key = radius + '/' + saturation;
     if (!_glassBackgrounds.has(key)) {
-      const promise = glassBackground(cv, bg, W, H, radius, saturation);
+      const promise = ready.then(() => glassBackground(cv, bg, W, H, radius, saturation));
       _glassBackgrounds.set(key, promise);
       promise.catch(() => { if (_glassBackgrounds.get(key) === promise) _glassBackgrounds.delete(key); });
     }
@@ -6913,7 +7074,7 @@ function syncCanvasBackgrounds(cv, pages = 1) {
       console.warn('알림 배경 표면 생성 실패', error); layer.remove();
     }));
   });
-  cv._glassReady = Promise.all(clocks);
+  cv._glassReady = Promise.all([ready, ...clocks]);
   return cv._glassReady;
 }
 
@@ -8644,39 +8805,42 @@ function renderPageMarks() {
 }
 
 /* ── 시트 ────────────────────────────────────────────────── */
+let desktopTextDraft = { type: 'text', text: '' };
+function desktopTextComposerActive() {
+  return isWide() && S.ui.stage === 'composer' && !selBlock() && !S.ui.newKind;
+}
+function stashDesktopText() {
+  if (desktopTextComposerActive()) desktopTextDraft.text = $('#ta').value;
+}
 function setStage(st) {
-  /* 넓은 화면에서는 V2 설정 패널이 단계와 상관없이 늘 떠 있다 — 자리를 옮겨도
-     편집기는 눈앞에 그대로다. 그때 초안을 비우면 고치던 값이 소리 없이 되돌아간다.
-     도구가 실제로 사라지는 좁은 화면에서만 '나가는 것' 으로 친다. */
-  const closesTools = st !== 'tools' && S.ui.stage === 'tools' && !isWide();
-  /* 나가는 길이면 먼저 묻는다 — 답을 받고 나서 같은 자리로 다시 온다 */
-  if (closesTools && confirmDiscardThemeDraft(() => setStage(st))) return;
-  if (closesTools && confirmDiscardCharDraft(() => setStage(st))) return;
-  if (closesTools && confirmDiscardSignDraft(() => setStage(st))) return;
+  const previous = S.ui.stage;
+  const closesTools = st !== 'tools' && previous === 'tools' && !is2Panel();
+  if (closesTools && confirmDiscardSettingsDraft(() => setStage(st))) return false;
+  stashDesktopText();
+  closeActionMenu();
+  closePop();
   S.ui.newKind = null;
   S.ui.stage = st;
   if (st !== 'format') S.ui.imagePreview = null;
-  /* 데스크톱 한 기둥 배치에서 «열려 있을 칸» 도 함께 옮긴다 [setDeskPane] — 캔버스의 블록을
-     눌러 들어오는 길처럼 시트 밖에서 시작한 이동은 칸을 누른 적이 없어 저절로 안 따라온다.
-     그러면 서식이 밀린 칸 안에서 열려, 고치러 왔는데 고칠 데가 안 보인다. */
-  S.ui.deskPane = st === 'tools' ? 'tools' : 'dock';
   if (st === 'tools' && document.activeElement && document.activeElement.blur) document.activeElement.blur();
   S.ui.panel = (st === 'tools' || st === 'format') ? 'full' : (S.ui.panel || 'compact');
   if (closesTools) {
-    S.ui.editingCharacterId = null; S.ui.charDraft = null;
-    S.ui.editingSignId = null; S.ui.signDraft = null;
-    S.ui.editingThemeId = null; S.ui.themeDraft = null; S.ui.canvasSnapshot = null;
+    S.ui.panel = st === 'format' ? 'full' : 'compact';
+    if (!isWide()) setSnap(null);
+    clearSettingsDrafts();
     /* 탭 UI 초기화 — 다음에 열 때 캐릭터 목록으로 */
     resetSettingsTabUI();
   }
-  /* 블록 편집은 서식 단계에서만 산다. 어느 경로로 빠져나가든 작성창을 비운다.
-     selectedBlockId가 이미 null이어도 입력창에 텍스트가 남아 있을 수 있으므로 항상 비운다. */
-  if (st !== 'format') endEdit();
-  if (st === 'composer') { S.ui.insertMode = null; }
+  if (st !== 'format' && (previous === 'format' || S.ui.selectedBlockId)) endEdit();
+  if (st === 'composer') {
+    S.ui.insertMode = null;
+    if (isWide() && previous !== 'composer') $('#ta').value = desktopTextDraft.text;
+  }
   if (st === 'tools') S.ui.bulk = false;
   /* v2: 도구 단계 진입/이탈 시 설정 패널 토글 — 2패널에서는 항상 열림 */
   toggleSettingsPanel(st === 'tools' || is2Panel());
   render();
+  return true;
 }
 function themeDraftDirty() {
   const d = S.ui.themeDraft;
@@ -8805,18 +8969,6 @@ function confirmDiscardThemeDraft(onDiscard) {
   p.appendChild(foot);
   return true;
 }
-function closeToolsToComposer() {
-  const doClose = () => {
-    S.ui.panel = 'compact';
-    /* 탭 UI 초기화 — 다음에 열 때 캐릭터 목록으로 */
-    resetSettingsTabUI();
-    setStage('composer');
-  };
-  if (confirmDiscardThemeDraft(doClose)) return;
-  if (confirmDiscardCharDraft(doClose)) return;
-  if (confirmDiscardSignDraft(doClose)) return;
-  doClose();
-}
 const measureSheet = () => {
   syncComposerHeight();
   const root = document.documentElement, sheet = $('#sheet'), stage = $('.stage');
@@ -8829,17 +8981,17 @@ const measureSheet = () => {
   placeActionMenu();
 };
 /* 좁음↔넓음을 넘나들면 무엇을 띄울지가 통째로 달라진다 — 그 경계에서만 다시 그린다 */
-let _wasWide = isWide();
+let _wasWide = isWide(), _wasTwoPanel = is2Panel();
 window.addEventListener('resize', () => {
   const now = isWide();
-  if (now === _wasWide) return;
-  _wasWide = now;
-  /* 넓을 때는 도구가 늘 떠 있어 다른 단계에서도 초안을 안고 있을 수 있다. 좁아지면 그
-     편집기가 화면에서 사라지므로, 고치던 것이 있으면 도구 단계로 데려가 눈앞에 남긴다. */
-  if (!now && (themeDraftDirty() || charDraftDirty() || signDraftDirty()) && S.ui.stage !== 'tools') { setStage('tools'); return; }
+  const twoPanel = is2Panel();
+  if (now === _wasWide && twoPanel === _wasTwoPanel) return;
+  _wasWide = now; _wasTwoPanel = twoPanel;
+  if (!twoPanel && S.ui.stage !== 'tools' && (themeDraftDirty() || charDraftDirty() || signDraftDirty())) {
+    setStage('tools'); return;
+  }
+  toggleSettingsPanel(S.ui.stage === 'tools' || twoPanel);
   render();
-  /* 2패널로 넓어지면 설정 패널을 연다 */
-  if (is2Panel()) toggleSettingsPanel(true);
 });
 window.addEventListener('resize', syncViewportVars);
 document.addEventListener('focusin', syncViewportVars);
@@ -8881,6 +9033,13 @@ function renderComposer() {
   if (toolsNarrow) { $('#optRow').hidden = true; }
 
   const b = selBlock();
+  const type = S.ui.newKind || b?.type || 'text';
+  $('#sheet').classList.toggle('desktop-text-editor', !S.ui.newKind && (!b || b.type === 'text'));
+  $('#desktopInsertTabs').querySelectorAll('button').forEach(tab => {
+    const current = tab.dataset.kind === (['image', 'html', 'divider'].includes(type) ? type : 'text');
+    tab.classList.toggle('is-on', current);
+    tab.setAttribute('aria-pressed', String(current));
+  });
   /* 사진·음악·HTML·구분선은 칸이 따로 있어 작성창을 쓰지 않는다 — 그동안 작성창은 쉰다.
      텍스트 블록은 기존 #ta를 사용해야 hasSel(), formatSelection() 등이 동작한다. */
   const editorOn = !!S.ui.newKind || (!!b && (b.type === 'image' || b.type === 'music' || b.type === 'html' || b.type === 'divider'));
@@ -9012,8 +9171,12 @@ function commit() {
     const nb = { id: uid(), type: 'html', src: raw, text: raw };
     S.blocks.push(nb);
     expandBlock(nb);
-  } else raw.split(/\n\s*\n/).map(s => s.trim()).filter(Boolean)
-    .forEach(text => S.blocks.push({ id: uid(), type: 'text', text }));
+  } else {
+    const style = isWide() ? desktopTextDraft : {};
+    raw.split(/\n\s*\n/).map(s => s.trim()).filter(Boolean)
+      .forEach(text => S.blocks.push({ ...style, id: uid(), type: 'text', text }));
+    if (isWide()) desktopTextDraft = { type: 'text', text: '' };
+  }
   /* 문단마다 전체 localStorage를 다시 쓰지 않고 대량 붙여넣기도 한 번만 저장한다. */
   diag('blocks:created', { total: S.blocks.length });
   save(); diag('save:done', { blocks: S.blocks.length });
@@ -9095,7 +9258,14 @@ function renderFormat() {
        · 사진을 꽂는 동안   — 그 편집기
        · HTML 을 적는 동안       — 아무것도 (태그를 그대로 넣는 자리라 글자 서식이 낄 데가 없다) */
   const b = selBlock();
-  const on = S.ui.insertMode !== 'html' && (!!b || !!S.ui.newKind);
+  const intro = $('#desktopBlockIntro');
+  const desktopChips = $('#desktopSpeakerChips');
+  intro.replaceChildren();
+  intro.hidden = true;
+  desktopChips.replaceChildren();
+  desktopChips.hidden = true;
+  const desktopDraft = desktopTextComposerActive();
+  const on = S.ui.insertMode !== 'html' && (!!b || !!S.ui.newKind || desktopDraft);
   wrap.hidden = !on;
   _confirm = null;          /* 사진 편집기가 있으면 아래에서 다시 걸어 준다 */
   if (!on) { wrap.innerHTML = ''; return; }
@@ -9107,15 +9277,6 @@ function renderFormat() {
     const host = el('div', 'sec');
     if (S.ui.newKind === 'image') {
       buildImageEditor(host, null, S.ui.newSrc || '');
-      wrap.appendChild(host);
-    } else if (S.ui.newKind === 'music') {
-      /* 음악 블록을 먼저 만들고 선택한 뒤 편집기를 연다 */
-      const newBlock = { id: uid(), type: 'music', title: '', artist: '' };
-      S.blocks.push(newBlock);
-      S.ui.selectedBlockId = newBlock.id;
-      S.ui.newKind = null;
-      save();
-      buildMusicEditor(host, newBlock);
       wrap.appendChild(host);
     } else if (S.ui.newKind === 'html') {
       /* HTML도 이미지·음악과 마찬가지로 패널에서 편집한다 — newKind 는 확정 시점까지 유지 */
@@ -9133,9 +9294,11 @@ function renderFormat() {
   const isText = !b || b.type === 'text';
 
   /* 텍스트 블록은 전용 편집기를 쓴다 — v2 구조: 입력란 + 대사/서술 탭 + 캐릭터 + 서식 */
-  if (b && b.type === 'text') {
+  if (b?.type === 'text' || desktopDraft) {
     const host = el('div', 'sec');
-    buildTextEditor(host, b);
+    const introHost = isWide() ? intro : host;
+    if (isWide()) intro.hidden = false;
+    buildTextEditor(host, b || desktopTextDraft, introHost, desktopDraft, isWide() ? desktopChips : null);
     wrap.appendChild(host);
     return;
   }
@@ -9501,7 +9664,7 @@ function openCharacterPosition(anchor, character) {
       const restoreFocus = pop.contains(document.activeElement);
       closePop(); save(); render();
       if (restoreFocus) {
-        [...document.querySelectorAll('#formatWrap .char-chip-more')]
+        [...document.querySelectorAll('#dock .char-chip-more')]
           .find(more => more.dataset.characterId === character.id)?.focus({ preventScroll: true });
       }
     };
@@ -9723,7 +9886,7 @@ function leaveOverlay(root) {
   overlayFocus.delete(root);
   syncOverlayLocks();
   if (previous?.isConnected && !previous.closest('[inert],[hidden]')) previous.focus({ preventScroll: true });
-  else if (!activeOverlay()) $('#btnSettings').focus({ preventScroll: true });
+  else if (!activeOverlay()) (is2Panel() ? $('#desktopInsertTabs .is-on') : isWide() ? DESKTOP_TOOLS : BTN_SETTINGS)?.focus({ preventScroll: true });
 }
 function closeModal(skipCancel = false) {
   const root = $('#modalRoot');
@@ -10158,10 +10321,27 @@ function cropField(src, ratio, options = {}) {
   return box;
 }
 
+const EDIT_HEADER_ICONS = {
+  back: '<path d="M15 18l-6-6 6-6"/>',
+  next: '<path d="M9 18l6-6-6-6"/>',
+  reset: '<path d="M4 11a8 8 0 1 1 2 6m-2-6V5m0 6h6"/>',
+  copy: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M15 6V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h1"/>',
+  delete: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5m4-5v5"/>',
+  confirm: '<path d="m5 12 4 4L19 6"/>',
+};
+function setEditHeaderIcon(button, icon) {
+  button.classList.add('edit-header-button');
+  button.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${EDIT_HEADER_ICONS[icon]}</svg>`;
+}
+
 /* ═══ 블록 편집 헤더 ═══════════════════════════════════════════
    [<][>] 실행취소/다시실행 + [복사][삭제][저장]
    모든 블록 편집 패널 상단에 통일된 헤더로 사용한다. */
 function buildEditHeader(host, block, onConfirm) {
+  if (isWide()) {
+    host = $('#desktopBlockIntro');
+    host.hidden = false;
+  }
   const hdr = el('div', 'edit-header');
   const isNew = !block;
   const history = el('div', 'edit-header-group edit-history');
@@ -10169,9 +10349,9 @@ function buildEditHeader(host, block, onConfirm) {
   hdr.append(history, actions);
 
   /* 실행취소/다시실행 — 새 블록/기존 블록 모두 표시 */
-  const histBtn = (svg, title, checkFn, runFn) => {
+  const histBtn = (icon, title, checkFn, runFn) => {
     const btn = el('button', 'back-btn');
-    btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="${svg}"/></svg>`;
+    setEditHeaderIcon(btn, icon);
     btn.title = title;
     const ok = checkFn();
     btn.disabled = !ok;
@@ -10180,8 +10360,8 @@ function buildEditHeader(host, block, onConfirm) {
     return btn;
   };
   history.append(
-    histBtn('M15 18l-6-6 6-6', '실행 취소 (⌘Z)', canUndo, histUndo),
-    histBtn('M9 18l6-6-6-6', '다시 실행 (⌘⇧Z)', canRedo, histRedo)
+    histBtn('back', '실행 취소 (⌘Z)', canUndo, histUndo),
+    histBtn('next', '다시 실행 (⌘⇧Z)', canRedo, histRedo)
   );
 
   if (!isNew) {
@@ -10193,8 +10373,8 @@ function buildEditHeader(host, block, onConfirm) {
     };
     if (hasOwn()) {
       const btnReset = el('button', 'btn btn-outline');
-      btnReset.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11a8 8 0 1 1 2 6m-2-6V5m0 6h6"/></svg>';
-        btnReset.title = '테마 설정 따르기';
+      setEditHeaderIcon(btnReset, 'reset');
+      btnReset.title = '테마 설정 따르기';
       btnReset.onclick = () => {
         BLOCK_OWN.forEach(k => { delete block[k]; });
         if (HAS_TEXT.includes(block.type || 'text')) { block.text = stripInline(block.text); syncComposer(block); }
@@ -10205,7 +10385,7 @@ function buildEditHeader(host, block, onConfirm) {
     /* 복사 — 기존 블록만 */
     const btnCopy = el('button', 'btn btn-outline');
     btnCopy.title = '복제';
-    btnCopy.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M15 6V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h1"/></svg>';
+    setEditHeaderIcon(btnCopy, 'copy');
     btnCopy.onclick = () => {
       const copy = Object.assign({}, block, { id: uid() });
       S.blocks.splice(S.blocks.indexOf(block) + 1, 0, copy);
@@ -10217,7 +10397,7 @@ function buildEditHeader(host, block, onConfirm) {
   /* 삭제 — 새 블록이면 취소, 기존 블록이면 삭제 확인 */
   const btnDel = el('button', 'btn btn-danger');
   btnDel.title = isNew ? '취소' : '삭제';
-  btnDel.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5m4-5v5"/></svg>';
+  setEditHeaderIcon(btnDel, 'delete');
   btnDel.onclick = () => {
     if (isNew) {
       /* 새 블록 — 확인 없이 바로 취소 */
@@ -10234,7 +10414,7 @@ function buildEditHeader(host, block, onConfirm) {
   /* 저장/확인 — 패널 닫고 기본으로 복귀 (실시간 반영이라 확인 역할) */
   const btnSave = el('button', 'btn btn-fill');
   btnSave.title = '확인';
-  btnSave.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>';
+  setEditHeaderIcon(btnSave, 'confirm');
   btnSave.onclick = () => { if (onConfirm) onConfirm(); else backToDefault(); };
   actions.appendChild(btnSave);
   host.appendChild(hdr);
@@ -10406,14 +10586,14 @@ function buildImageEditor(host, block, initialSrc) {
     });
   };
   /* 통일된 헤더 */
-  buildEditHeader(host, block, () => doConfirm());
-  const confirmButton = host.querySelector('button[title="확인"]');
+  const { btnSave: confirmButton } = buildEditHeader(host, block, () => doConfirm());
+  const syncConfirm = () => { confirmButton.disabled = isWide() && isNew && !draft.src; };
+  syncConfirm();
   confirmButton.onclick = null;
   bindStickyTap(confirmButton, () => doConfirm());
 
   /* 이미지 자르기 영역 */
-  const wrap = el('div', 'image-editor');
-  wrap.style.cssText = 'padding:var(--sp-md);';
+  const wrap = el('div', 'image-editor block-editor-content');
 
   const alignField = el('div', 'field');
   const alignItems = [['left', '좌측 정렬'], ['center', '중앙 정렬'], ['right', '우측 정렬']];
@@ -10536,6 +10716,7 @@ function buildImageEditor(host, block, initialSrc) {
   /* 미리보기(자르기 틀)를 누르면 곧바로 이미지 선택으로 간다 — 별도 버튼을 두지 않는다 */
   const took = d => {
     draft.src = d; draft.inlineCrop = draft.sideCrop = null;
+    syncConfirm();
     crop.style.cursor = 'grab'; imgBtns.hidden = false;
   };
   crop._onPick = took;                       /* 창에 떨군 사진 */
@@ -10554,7 +10735,7 @@ function buildImageEditor(host, block, initialSrc) {
   rmBtn.style.cssText = 'box-shadow:var(--shadow-pop);width:32px;height:32px;padding:0;';
   rmBtn.innerHTML = '<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
   rmBtn.title = '삭제';
-  rmBtn.onclick = e => { e.stopPropagation(); draft.src = ''; crop._setSrc(''); imgBtns.hidden = true; crop.style.cursor = 'pointer'; preview(); };
+  rmBtn.onclick = e => { e.stopPropagation(); draft.src = ''; syncConfirm(); crop._setSrc(''); imgBtns.hidden = true; crop.style.cursor = 'pointer'; preview(); };
   imgBtns.append(reBtn, rmBtn);
 
   const stage = el('div', 'crop-stage'); stage.style.position = 'relative';
@@ -10666,14 +10847,15 @@ function buildImageEditor(host, block, initialSrc) {
 /* HTML 블록 편집 — 쇼케이스 스타일: 헤더 + 컴포저 입력 영역 */
 function buildHtmlEditor(host, block) {
   const isNew = !block;
-  const draft = { src: block ? (block.src || block.text || '') : '' };
+  const draft = { src: block ? (block.src || block.text || '') : (isWide() ? S.ui.newSrc : '') };
 
   /* 헤더 */
-  buildEditHeader(host, block, () => doConfirm());
+  const { btnSave } = buildEditHeader(host, block, () => doConfirm());
+  const syncConfirm = () => { btnSave.disabled = isWide() && isNew && !draft.src.trim(); };
+  syncConfirm();
 
   /* 컴포저 입력 영역 — inp-group 스타일 */
-  const wrap = el('div');
-  wrap.style.cssText = 'padding:var(--sp-md);';
+  const wrap = el('div', 'block-editor-content');
   const panelHeading = el('div', 'panel-heading');
   panelHeading.appendChild(el('h3', '', 'HTML'));
   wrap.appendChild(panelHeading);
@@ -10687,6 +10869,8 @@ function buildHtmlEditor(host, block) {
   ta.style.cssText = 'font-family:var(--font-mono,"SF Mono",Menlo,monospace);font-size:11px;min-height:80px;';
   ta.oninput = () => {
     draft.src = ta.value;
+    if (isNew && isWide()) S.ui.newSrc = draft.src;
+    syncConfirm();
     /* 실시간 반영 — 기존 블록이면 바로 저장 */
     if (block) {
       block.src = ta.value;
@@ -10707,7 +10891,9 @@ function buildHtmlEditor(host, block) {
     if (!raw) { toast('HTML 내용을 입력하세요'); return; }
     if (isNew) {
       addBlock({ type: 'html', src: raw, text: raw });
-      S.ui.selectedBlockId = S.blocks[S.blocks.length - 1].id;
+      const added = S.blocks[S.blocks.length - 1];
+      S.ui.selectedBlockId = added.id;
+      expandBlock(added);
       save();
       toast('HTML을 추가했습니다');
     }
@@ -10732,8 +10918,7 @@ function buildDividerEditor(host, block) {
   /* 통일된 헤더 — doConfirm은 아래에서 정의 */
   buildEditHeader(host, block, () => doConfirm());
 
-  const wrap = el('div');
-  wrap.style.cssText = 'padding:var(--sp-md);';
+  const wrap = el('div', 'block-editor-content');
   const panelHeading = el('div', 'panel-heading');
   panelHeading.appendChild(el('h3', '', '구분선'));
   wrap.appendChild(panelHeading);
@@ -10811,12 +10996,17 @@ function buildDividerEditor(host, block) {
 }
 
 /* 텍스트 블록 편집 — v2 구조: 헤더 + 입력란 + 대사/서술 탭 + 캐릭터 + 서식 */
-function buildTextEditor(host, block) {
+function buildTextEditor(host, block, intro, isDraft, desktopChips) {
   const g = fmtStore();
   const th = theme();
 
   /* ═══ 헤더 (undo/redo + 액션 버튼들) ═══ */
-  buildEditHeader(host, block, () => backToDefault());
+  const { btnSave } = buildEditHeader(intro, isDraft ? null : block, isDraft ? commitWithCleanup : backToDefault);
+  if (isDraft) {
+    btnSave.setAttribute('data-draft-confirm', '');
+    btnSave.disabled = !$('#ta').textContent.trim();
+    intro.querySelector('button[title="취소"]').hidden = true;
+  }
 
   /* 텍스트 입력은 기존 #ta (composer)를 사용한다 — hasSel(), formatSelection() 등이 동작하려면 필수 */
 
@@ -10832,11 +11022,12 @@ function buildTextEditor(host, block) {
     tabNarr.classList.toggle('is-on', !isSpeech);
     indicator.style.left = isSpeech ? '0' : '50%';
     charSection.hidden = !isSpeech;
+    if (desktopChips) desktopChips.hidden = !isSpeech;
   };
   tabSpeech.onclick = () => { block.asBubble = true; syncTabs(true); save(); renderCanvas(); };
   tabNarr.onclick = () => { block.asBubble = false; block.speakerId = null; syncTabs(false); save(); renderCanvas(); };
   tabs.append(tabSpeech, tabNarr, indicator);
-  host.appendChild(tabs);
+  intro.appendChild(tabs);
 
   /* ═══ 캐릭터 선택 (대사일 때만 표시) ═══ */
   const charSection = el('div', 'char-section');
@@ -10876,11 +11067,12 @@ function buildTextEditor(host, block) {
   addChip.style.cssText = 'border-style:dashed;border-color:var(--c-primary);color:var(--c-primary-text);padding-left:var(--sp-sm);';
   addChip.innerHTML = PLUS_SVG + '<span>추가</span>';
   addChip.querySelector('svg').style.cssText = 'width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;';
-  addChip.onclick = () => { setStage('tools'); openCharEditV2('new'); };
+  addChip.onclick = openCharacterFromBlock;
   chipRow.appendChild(addChip);
   charSection.appendChild(chipRow);
 
-  host.appendChild(charSection);
+  (desktopChips || intro).appendChild(charSection);
+  if (desktopChips) desktopChips.hidden = !block.asBubble;
 
   const fmtSection = el('div', 'fmt-section');
 
@@ -10954,9 +11146,10 @@ function buildTextEditor(host, block) {
   });
   /* 윗주석/아랫주석도 서식에 통합 */
   [['윗주석', 'sup', 0], ['아랫주석', 'sub', 1]].forEach(([title, tag, idx]) => {
-    const btn = el('button', 'icb' + (block.ann === idx + 1 ? ' is-on' : ''));
+    const btn = el('button', 'icb annotation-control' + (block.ann === idx + 1 ? ' is-on' : ''));
     btn.innerHTML = `<span class="ann">A<${tag}>2</${tag}></span>`;
     btn.title = title;
+    btn.setAttribute('aria-pressed', String(block.ann === idx + 1));
     btn.onclick = () => {
       clearRich('sup'); clearRich('sub');
       block.ann = block.ann === idx + 1 ? 0 : idx + 1;
@@ -10975,7 +11168,7 @@ function buildTextEditor(host, block) {
   };
   const colorCoverage = richCoverage('color');
   const textPalette = paletteField('글자색', colorA, colorCoverage === 'off' && block.color ? 'on' : colorCoverage);
-  formatLine.append(styleButtons, textPalette);
+  formatLine.appendChild(styleButtons);
   fmtSection.appendChild(formatLine);
 
   const caption = el('div', 'tool-grp');
@@ -10984,7 +11177,7 @@ function buildTextEditor(host, block) {
   const subtitleState = curSizeLv === 'mixed' ? 'mixed' : String(curSizeLv === -1);
   subtitleButton.setAttribute('aria-pressed', subtitleState);
   bindFormatAction(subtitleButton, () => applySizeTE(curSizeLv === -1 ? 0 : -1));
-  caption.append(el('span', 'lab', '캡션 처리'), subtitleButton);
+  caption.append(el('span', 'lab', '캡션'), subtitleButton);
 
   const effectsLine = el('div', 'tool-line text-effects-line');
   const quote = toggleRow('인용 처리', '', !!block.quoteLine, on => {
@@ -10995,7 +11188,7 @@ function buildTextEditor(host, block) {
   const quoteButton = quote.querySelector('button');
   quoteButton.classList.add('tgl-sm');
   quoteButton.setAttribute('aria-label', '인용 처리');
-  effectsLine.append(paletteField('형광펜', colorH, richCoverage('mark')), caption, quote);
+  effectsLine.append(textPalette, paletteField('형광펜', colorH, richCoverage('mark')), caption, quote);
   fmtSection.appendChild(effectsLine);
 
   host.appendChild(fmtSection);
@@ -11416,7 +11609,8 @@ function fontControls(g, up, light) {
 /* 설정 패널 열기/닫기 */
 function syncSettingsViews() {
   const panel = $('#settingsPanel'), slider = $('#tabSlider');
-  const visible = isWide() || panel.classList.contains('is-open');
+  const visible = is2Panel() || panel.classList.contains('is-open');
+  const returnFocus = !visible && panel.contains(document.activeElement);
   panel.inert = !visible;
   const active = Number(slider.dataset.active || 0);
   [...slider.children].forEach((view, i) => {
@@ -11434,6 +11628,8 @@ function syncSettingsViews() {
   indicator.style.left = (tabPosition * 100 / SETTINGS_LISTS.length) + '%';
   indicator.style.width = (100 / SETTINGS_LISTS.length) + '%';
   BTN_SETTINGS.setAttribute('aria-expanded', String(visible));
+  DESKTOP_TOOLS.setAttribute('aria-expanded', String(visible));
+  if (returnFocus) (isWide() ? DESKTOP_TOOLS : BTN_SETTINGS).focus({ preventScroll: true });
   const focused = document.activeElement;
   if (focused !== document.body && focused.closest('#settingsPanel [inert]')) {
     const view = slider.children[active];
@@ -11575,7 +11771,7 @@ function toggleSettingsPanel(open) {
   if (BTN_SETTINGS) BTN_SETTINGS.classList.toggle('is-on', willOpen);
   if (willOpen) {
     /* 열릴 때 시트 크기 자동 조정 — 높이가 충분하지 않으면 45%로 */
-    if (S.ui.snap == null || S.ui.snap < 30) setSnap(45);
+    if (!isWide() && (S.ui.snap == null || S.ui.snap < 30)) setSnap(45);
     /* 열릴 때 현재 탭 데이터 갱신 */
     const slider = $('#tabSlider');
     const active = Number(slider?.dataset.active || 0);
@@ -11584,13 +11780,30 @@ function toggleSettingsPanel(open) {
   syncSettingsViews();
 }
 
+function clearSettingsDrafts() {
+  S.ui.editingThemeId = null; S.ui.themeDraft = null; S.ui.canvasSnapshot = null;
+  S.ui.editingCharacterId = null; S.ui.charDraft = null;
+  S.ui.editingSignId = null; S.ui.signDraft = null;
+}
+function openCharacterFromBlock() {
+  if (!is2Panel()) {
+    setStage('tools');
+    openCharEditV2('new');
+    return;
+  }
+  if (S.ui.editingCharacterId !== 'new' || $('#tabSlider').dataset.active !== '1') {
+    if (confirmDiscardSettingsDraft(openCharacterFromBlock)) return;
+    clearSettingsDrafts();
+    openCharEditV2('new');
+  }
+  $('#charNameV2').focus({ preventScroll: true });
+}
+
 /* 탭 이동도 편집기 이탈이다 — 같은 탭을 다시 눌러 목록으로 갈 때도 초안을 확인한다. */
 function switchSettingsTab(tabIndex) {
   if (!SETTINGS_LISTS[tabIndex]) return;
   const doSwitch = () => {
-    S.ui.editingThemeId = null; S.ui.themeDraft = null; S.ui.canvasSnapshot = null;
-    S.ui.editingCharacterId = null; S.ui.charDraft = null;
-    S.ui.editingSignId = null; S.ui.signDraft = null;
+    clearSettingsDrafts();
     SETTINGS_LISTS[tabIndex]();
     setSettingsView(tabIndex * 2);
     renderCanvas();
@@ -11905,6 +12118,7 @@ function saveCharEditV2() {
   resetSettingsTabUI();
   renderCharListV2();
   renderCanvas();
+  if (is2Panel() && selBlock()) renderFormat();
 }
 
 /* 캐릭터 삭제 */
@@ -11924,6 +12138,7 @@ function deleteCharEditV2() {
       resetSettingsTabUI();
       renderCharListV2();
       renderCanvas();
+      if (is2Panel() && selBlock()) renderFormat();
     }
   });
 }
@@ -12266,7 +12481,7 @@ function syncThemeEditFormV2() {
   /* ═══ 헤더 (< 편집 + 액션 버튼들) ═══ */
   const header = el('div', 'edit-header');
   const backBtn = el('button', 'back-btn');
-  backBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>';
+  setEditHeaderIcon(backBtn, 'back');
   backBtn.onclick = () => {
     const goBack = () => {
       S.ui.editingThemeId = null;
@@ -12286,9 +12501,8 @@ function syncThemeEditFormV2() {
 
   /* 복제 버튼 */
   const dupeBtn = el('button', 'btn btn-outline');
-  dupeBtn.style.cssText = 'height:28px;width:28px;padding:0';
   dupeBtn.title = '복제';
-  dupeBtn.innerHTML = '<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+  setEditHeaderIcon(dupeBtn, 'copy');
   dupeBtn.onclick = () => copyEditor($('#themeEditView'), () => {
     const copy = JSON.parse(JSON.stringify(t));
     copy.id = uid();
@@ -12307,9 +12521,8 @@ function syncThemeEditFormV2() {
   /* 삭제 버튼 */
   if (S.themes.length > 1) {
     const delBtn = el('button', 'btn btn-danger');
-    delBtn.style.cssText = 'height:28px;width:28px;padding:0';
     delBtn.title = '삭제';
-    delBtn.innerHTML = '<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
+    setEditHeaderIcon(delBtn, 'delete');
     delBtn.onclick = () => {
       confirmDelete('테마 삭제', '이 테마를 삭제하시겠습니까?', () => {
         S.themes = S.themes.filter(x => x.id !== t.id);
@@ -12329,10 +12542,9 @@ function syncThemeEditFormV2() {
 
   /* 저장 버튼 */
   const saveBtn = el('button', 'btn btn-fill');
-  saveBtn.style.cssText = 'height:28px;width:28px;padding:0';
   saveBtn.title = '테마 저장 (Ctrl/⌘+Enter)';
   saveBtn.setAttribute('aria-keyshortcuts', 'Control+Enter Meta+Enter');
-  saveBtn.innerHTML = '<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M20 6L9 17l-5-5"/></svg>';
+  setEditHeaderIcon(saveBtn, 'confirm');
   saveBtn.onclick = saveThemeEditV2;
   header.appendChild(saveBtn);
   container.appendChild(header);
@@ -12650,8 +12862,31 @@ function syncThemeEditFormV2() {
   bgGrid.appendChild(colorField('배경색', t.bg, v => { t.bg = v; up(); }));
   bgGrid.appendChild(colorField('글자색', t.fg, v => { t.fg = v; up(); }));
   bgBody.appendChild(bgGrid);
-  /* 배경 이미지 버튼 (프레임 없을 때만) */
-  if (frKind === 'none') {
+  const backgroundType = settingGroup('카드 배경');
+  backgroundType.style.marginTop = 'var(--sp-md)';
+  backgroundType.appendChild(segment([['image', '색상·이미지'], ['html', 'HTML']], t.bgMode === 'html' ? 'html' : 'image', mode => {
+    if (mode === 'html') t.bgMode = mode;
+    else delete t.bgMode;
+    rerender();
+  }));
+  bgBody.appendChild(backgroundType);
+  if (t.bgMode === 'html') {
+    const field = settingGroup();
+    const label = el('label', 'setting-title', '배경 HTML');
+    label.htmlFor = 'themeBgHtml';
+    const input = el('textarea', 'theme-bg-html');
+    input.id = 'themeBgHtml';
+    input.spellcheck = false;
+    input.value = t.bgHtml || '';
+    let timer;
+    input.oninput = () => {
+      t.bgHtml = input.value;
+      clearTimeout(timer);
+      timer = setTimeout(() => { if (input.isConnected) up(); }, 300);
+    };
+    field.append(label, input);
+    bgBody.appendChild(field);
+  } else if (frKind === 'none') {
     const bgiField = el('div', 'field');
     bgiField.style.marginTop = 'var(--sp-md)';
     bgiField.appendChild(el('label', 'lab', '배경 이미지'));
@@ -12968,17 +13203,6 @@ function syncThemeEditFormV2() {
     v => { t.fmt.columns = +v; rerender(); }));
   textBody.appendChild(colField);
   if ((t.fmt.columns || 1) > 1) {
-    const ratioField = el('div', 'field');
-    ratioField.style.marginTop = 'var(--sp-md)';
-    ratioField.appendChild(el('label', 'lab', '단 너비'));
-    const ratioChoices = [['1:2', 1, 2], ['1:1', 1, 1], ['2:1', 2, 1]]
-      .map(([key, left, right]) => [key,
-        `<span class="column-shape"><i style="flex:${left}"></i><i style="flex:${right}"></i></span><small>${key}</small>`, true]);
-    const ratioControl = segment(ratioChoices, t.fmt.columnRatio || '1:1',
-      v => { t.fmt.columnRatio = v; rerender(); });
-    ratioControl.classList.add('column-ratios');
-    ratioField.appendChild(ratioControl);
-    textBody.appendChild(ratioField);
     const gapField = el('div', 'field');
     gapField.style.marginTop = 'var(--sp-md)';
     gapField.appendChild(stepH('단 간격', t.fmt.columnGap ?? 24, 0, 80, 2, v => { t.fmt.columnGap = v; up(); }));
@@ -14669,7 +14893,7 @@ async function blockedImages(node) {
 /* 페이지 배경은 SVG 안의 CSS 이미지 디코딩에 맡기지 않는다. 최종 출력 캔버스에
    직접 합성할 표면을 만들고, SVG에서는 원래 배경 층만 감춘다. 글래스 좌표 계산은 공유한다. */
 async function prepareExportBackground(root) {
-  const layers = [...root.querySelectorAll(':scope > .cv-bg:not(.cv-tex)')];
+  const layers = [...root.querySelectorAll(':scope > .cv-bg:not(.cv-tex,.cv-html-top)')];
   if (!layers.length) return;
   const W = root.offsetWidth, H = layers[0].offsetHeight;
   const surface = await glassBackground(root, layers[0], W, H, 0, 1, exportRatio(W, H));
@@ -15311,6 +15535,7 @@ async function buildPNG() {
     /* 화면이 아니라 줄바꿈·상자 크기를 못 박은 클론을 SVG 로 뽑아 정확한 크기로 그린다 */
     const shoot = async () => {
       await syncCanvasBackgrounds(cv, 1);
+      if (cv.dataset.htmlBgError) throw new Error('HTML 배경을 그리지 못해 저장할 수 없습니다.');
       /* Android 는 화면 DOM → 수동 복제본 → html-to-image 복제본처럼 레이아웃을 두 번
          다시 만들지 않는다. 레퍼런스와 같이 화면에 실제로 놓인 캔버스를 곧장 넘긴다.
          라이브러리가 만드는 단 한 번의 복제본은 같은 문서·같은 계산 스타일·같은 내장
@@ -15623,7 +15848,9 @@ $('#settingsPick').onchange = e => {
    setStage 는 '자리를 옮기면 하던 것을 접는다' 는 뜻이라 이 값을 지운다 —
    그러니 자리를 먼저 옮기고 나서 세워야 한다. 순서를 바꾸면 세우자마자 지워진다. */
 function startNew(kind, src) {
-  if (!isWide() && confirmDiscardSettingsDraft(() => startNew(kind, src))) return;
+  if (!is2Panel() && S.ui.stage === 'tools' && confirmDiscardSettingsDraft(() => startNew(kind, src))) return;
+  stashDesktopText();
+  if (selBlock()) endEdit();
   setStage('format');
   S.ui.newKind = kind;
   S.ui.newSrc = src || '';
@@ -15658,7 +15885,6 @@ function render() {
   $('#sheet').classList.toggle('is-tools', S.ui.stage === 'tools');
   $('#sheet').classList.toggle('is-compact', S.ui.panel === 'compact');
   $('#sheet').classList.toggle('is-full', S.ui.panel === 'full');
-  $('#sheet').classList.toggle('pane-tools', S.ui.deskPane === 'tools');
   applySnap();
   requestAnimationFrame(measureSheet);
 }
@@ -15798,43 +16024,6 @@ function setSnap(n, animate = false) {
   });
 })();
 
-/* 데스크톱 한 기둥 배치에서 어느 칸을 열어 둘 것인가 [.sheet.pane-tools].
-   [주의] 여기서 render() 를 부르면 안 된다 — 칸을 누를 때마다 패널이 통째로 새로 그려져
-   치던 자리와 골라 둔 선택 영역을 잃는다. class 만 갈아 끼우고 높이만 다시 잰다.
-   (상태는 S.ui 에 남아, 다음 render() 도 같은 자리를 다시 그린다.) */
-function setDeskPane(p) {
-  if (S.ui.deskPane === p) return;
-  S.ui.deskPane = p;
-  $('#sheet').classList.toggle('pane-tools', p === 'tools');
-  requestAnimationFrame(measureSheet);
-}
-/* 밀려 있는 칸을 누르면 그쪽이 열린다. 누른 것을 삼키지는 않는다 —
-   접힌 칸의 탭을 눌러 «열면서 그 탭으로» 가는 것이 한 번에 되어야 한다.
-   두 칸이 나란히 서는 폭에서만 뜻이 있다: 좁은 화면은 한 칸을 번갈아 쓰고,
-   1500px 부터는 좌우로 갈라져 둘 다 늘 보인다. */
-(function initDeskPanes() {
-  const split = () => window.matchMedia('(min-width:900px) and (max-width:1499.98px)').matches;
-  let pointerFocus = false;
-  document.addEventListener('pointerdown', () => { pointerFocus = true; }, true);
-  document.addEventListener('pointerup', () => { pointerFocus = false; }, true);
-  document.addEventListener('pointercancel', () => { pointerFocus = false; }, true);
-  document.addEventListener('keydown', () => { pointerFocus = false; }, true);
-  const bind = (sel, pane) => {
-    const node = $(sel);
-    /* 클릭이 확정된 뒤 넓힌다. 포인터를 누르는 도중 버튼이 움직이지 않게 한다. */
-    node.addEventListener('click', e => {
-      // 설정 버튼이 연 tools를 같은 클릭의 버블링으로 dock으로 되돌리지 않는다.
-      if (pane === 'dock' && e.target.closest('#btnSettings')) return;
-      if (split()) setDeskPane(pane);
-    });
-    node.addEventListener('focusin', e => {
-      if (split() && !pointerFocus && e.target.matches(':focus-visible')) setDeskPane(pane);
-    });
-  };
-  bind('#sheetBody', 'tools');
-  bind('#dock', 'dock');
-})();
-
 let suppressBlockTapUntil = 0;
 let editedSourcePosition = 0;
 function revealEditedBlock() {
@@ -15855,11 +16044,11 @@ function revealEditedBlock() {
   stage.scrollTop += r.top - target;
 }
 function editCanvasBlock(id, sourcePosition = 0) {
-  if (!isWide() && confirmDiscardSettingsDraft(() => editCanvasBlock(id, sourcePosition))) return;
+  if (!is2Panel() && S.ui.stage === 'tools' && confirmDiscardSettingsDraft(() => editCanvasBlock(id, sourcePosition))) return false;
   const block = S.blocks.find(item => item.id === id);
-  if (!block) return;
+  if (!block) return false;
+  stashDesktopText();
   editedSourcePosition = sourcePosition;
-  closeAllOverlays('format');
   S.ui.selectedBlockId = block.id;
   $('#ta').value = HAS_TEXT.includes(block.type) ? blockSource(block) : '';
   setStage('format'); autoGrow();
@@ -15867,6 +16056,7 @@ function editCanvasBlock(id, sourcePosition = 0) {
     if (S.ui.selectedBlockId !== block.id) return;
     measureSheet(); revealEditedBlock();
   });
+  return true;
 }
 function syncCanvasKeyboard() {
   const rows = [...$('#canvas').querySelectorAll('.blk:not(.row-off)')];
@@ -15894,8 +16084,10 @@ $('#canvas').addEventListener('keydown', e => {
   const row = e.target.closest('.blk');
   if (!row || e.target !== row || e.isComposing || e.ctrlKey || e.metaKey || e.altKey) return;
   if (e.key === 'Enter' || e.key === ' ') {
-    e.preventDefault(); editCanvasBlock(row.dataset.id, +(row.dataset.sourceStart || 0));
-    (focusableIn($('#formatWrap'))[0] || $('#ta')).focus({ preventScroll: true });
+    e.preventDefault();
+    if (editCanvasBlock(row.dataset.id, +(row.dataset.sourceStart || 0))) {
+      (focusableIn($('#desktopBlockIntro'))[0] || focusableIn($('#formatWrap'))[0] || $('#ta')).focus({ preventScroll: true });
+    }
   } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
     const rows = [...$('#canvas').querySelectorAll('.blk:not(.row-off)')];
     const next = rows[clamp(rows.indexOf(row) + (e.key === 'ArrowDown' ? 1 : -1), 0, rows.length - 1)];
@@ -16017,8 +16209,7 @@ $('#canvas').addEventListener('keydown', e => {
         setStage('composer'); return;
       }
       /* 블록 선택 시 다른 모든 UI 닫기 — 상호 배타 */
-      editCanvasBlock(b.id, position);
-      if (HAS_TEXT.includes(b.type) && window.matchMedia('(pointer:fine)').matches) focusComposerEnd();
+      if (editCanvasBlock(b.id, position) && HAS_TEXT.includes(b.type) && window.matchMedia('(pointer:fine)').matches) focusComposerEnd();
       return;
     }
     if (!s.moved || !s.target) return;
@@ -16175,11 +16366,14 @@ $('#ta').addEventListener('blur', () => {
    들어갔다. 포커스는 mousedown 의 기본 동작으로 옮겨 가므로 그것만 막는다 — click 은
    그대로 살아 있어 단추 동작은 안 바뀐다.
    직접 값을 적거나 끌어야 하는 칸(입력칸·고르기·슬라이더)은 포커스를 받아야 하니 비켜 준다. */
-$('#formatWrap').addEventListener('mousedown', e => {
+const retainComposerSelection = e => {
   const t = e.target;
   if (t && t.closest && t.closest('input,select,textarea,[contenteditable="true"]')) return;
   e.preventDefault();
-});
+};
+$('#formatWrap').addEventListener('mousedown', retainComposerSelection);
+$('#desktopBlockIntro').addEventListener('mousedown', retainComposerSelection);
+$('#desktopSpeakerChips').addEventListener('mousedown', retainComposerSelection);
 let _selSig = '';
 function selectionSig() {
   const ta = $('#ta'), sel = window.getSelection();
@@ -16203,12 +16397,12 @@ function onSelChange() {
   const sig = selectionSig();
   if (sig === _selSig) return;          /* 선택이 그대로면 다시 그리지 않는다 */
   _selSig = sig;
-  if (S.ui.stage === 'format') renderFormat();
+  if (S.ui.stage === 'format' || desktopTextComposerActive()) renderFormat();
 }
 ['select', 'mouseup', 'touchend', 'keyup'].forEach(ev => $('#ta').addEventListener(ev, onSelChange));
 document.addEventListener('selectionchange', () => {
   trackSel();
-  if (!_composerComposing && S.ui.stage === 'format' && selectionSig() !== 'outside') onSelChange();
+  if (!_composerComposing && (S.ui.stage === 'format' || desktopTextComposerActive()) && selectionSig() !== 'outside') onSelChange();
 });
 $('#ta').addEventListener('keydown', e => {
   /* 그냥 Enter 는 줄바꿈이다 — 블록은 빈 줄로 나누므로 Enter 를 전송으로 쓰면 여러 줄을 못 쓴다.
@@ -16265,7 +16459,7 @@ document.addEventListener('keydown', e => {
     else if ($('#modalRoot').firstChild) closeModal();
     else if ($('#popRoot').firstChild) closePop();
     else if (!ACTION_MENU.hidden) closeActionMenu();
-    else if (S.ui.stage !== 'composer') setStage('composer');
+    else if (S.ui.stage !== 'composer' && !(is2Panel() && e.target.closest?.('#settingsPanel'))) setStage('composer');
   }
 });
 
@@ -16322,6 +16516,7 @@ window.addEventListener('resize', () => {
 loadPalette();
 initComposer();
 initComposerV2();
+document.querySelectorAll('[data-edit-icon]').forEach(button => setEditHeaderIcon(button, button.dataset.editIcon));
 initSettingsPanelV2();
 initSignatureEditorV2();
 load();
