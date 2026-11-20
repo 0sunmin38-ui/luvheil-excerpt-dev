@@ -1,0 +1,372 @@
+[
+  {
+    "engine": "chromium",
+    "result": [
+      {
+        "kind": "none",
+        "margin": 20,
+        "slot": "footer",
+        "x": 20,
+        "right": 20,
+        "bottom": 20,
+        "gapToDm": null,
+        "bodyPad": {
+          "top": 20,
+          "right": 20,
+          "bottom": 20,
+          "left": 20
+        }
+      },
+      {
+        "kind": "none",
+        "margin": 60,
+        "slot": "footer",
+        "x": 60,
+        "right": 60,
+        "bottom": 60,
+        "gapToDm": null,
+        "bodyPad": {
+          "top": 60,
+          "right": 60,
+          "bottom": 60,
+          "left": 60
+        }
+      },
+      {
+        "kind": "imessage",
+        "margin": 20,
+        "slot": "footer",
+        "x": 20,
+        "right": 20,
+        "bottom": 20,
+        "gapToDm": null,
+        "bodyPad": {
+          "top": 20,
+          "right": 20,
+          "bottom": 20,
+          "left": 20
+        }
+      },
+      {
+        "kind": "imessage",
+        "margin": 60,
+        "slot": "footer",
+        "x": 60,
+        "right": 60,
+        "bottom": 60,
+        "gapToDm": null,
+        "bodyPad": {
+          "top": 60,
+          "right": 60,
+          "bottom": 60,
+          "left": 60
+        }
+      },
+      {
+        "kind": "insta-dm",
+        "margin": 20,
+        "slot": "footer",
+        "x": 20,
+        "right": 20,
+        "bottom": 80,
+        "gapToDm": 20,
+        "bodyPad": {
+          "top": 20,
+          "right": 20,
+          "bottom": 20,
+          "left": 20
+        }
+      },
+      {
+        "kind": "insta-dm",
+        "margin": 60,
+        "slot": "footer",
+        "x": 60,
+        "right": 60,
+        "bottom": 120,
+        "gapToDm": 60,
+        "bodyPad": {
+          "top": 60,
+          "right": 60,
+          "bottom": 60,
+          "left": 60
+        }
+      },
+      {
+        "kind": "paper",
+        "margin": 20,
+        "slot": "header",
+        "x": 20,
+        "right": 20,
+        "bottom": 661,
+        "gapToDm": null,
+        "bodyPad": {
+          "top": 20,
+          "right": 20,
+          "bottom": 20,
+          "left": 20
+        }
+      },
+      {
+        "kind": "paper",
+        "margin": 60,
+        "slot": "header",
+        "x": 60,
+        "right": 60,
+        "bottom": 621,
+        "gapToDm": null,
+        "bodyPad": {
+          "top": 60,
+          "right": 60,
+          "bottom": 60,
+          "left": 60
+        }
+      },
+      {
+        "kind": "cyworld",
+        "margin": 20,
+        "slot": "footer",
+        "x": 272,
+        "right": 78,
+        "bottom": 92,
+        "gapToDm": null,
+        "bodyPad": {
+          "top": 102,
+          "right": 78,
+          "bottom": 92,
+          "left": 272
+        }
+      },
+      {
+        "kind": "cyworld",
+        "margin": 60,
+        "slot": "footer",
+        "x": 312,
+        "right": 118,
+        "bottom": 132,
+        "gapToDm": null,
+        "bodyPad": {
+          "top": 142,
+          "right": 118,
+          "bottom": 132,
+          "left": 312
+        }
+      },
+      {
+        "kind": "buddy",
+        "margin": 20,
+        "slot": "frame",
+        "x": 15,
+        "right": 15,
+        "bottom": 15,
+        "gapToDm": null,
+        "bodyPad": {
+          "top": 135,
+          "right": 46,
+          "bottom": 152,
+          "left": 46
+        }
+      },
+      {
+        "kind": "buddy",
+        "margin": 60,
+        "slot": "frame",
+        "x": 15,
+        "right": 15,
+        "bottom": 15,
+        "gapToDm": null,
+        "bodyPad": {
+          "top": 175,
+          "right": 86,
+          "bottom": 192,
+          "left": 86
+        }
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "result": [
+      {
+        "kind": "none",
+        "margin": 20,
+        "slot": "footer",
+        "x": 20,
+        "right": 20,
+        "bottom": 20,
+        "gapToDm": null,
+        "bodyPad": {
+          "top": 20,
+          "right": 20,
+          "bottom": 20,
+          "left": 20
+        }
+      },
+      {
+        "kind": "none",
+        "margin": 60,
+        "slot": "footer",
+        "x": 60,
+        "right": 60,
+        "bottom": 60,
+        "gapToDm": null,
+        "bodyPad": {
+          "top": 60,
+          "right": 60,
+          "bottom": 60,
+          "left": 60
+        }
+      },
+      {
+        "kind": "imessage",
+        "margin": 20,
+        "slot": "footer",
+        "x": 20,
+        "right": 20,
+        "bottom": 20,
+        "gapToDm": null,
+        "bodyPad": {
+          "top": 20,
+          "right": 20,
+          "bottom": 20,
+          "left": 20
+        }
+      },
+      {
+        "kind": "imessage",
+        "margin": 60,
+        "slot": "footer",
+        "x": 60,
+        "right": 60,
+        "bottom": 60,
+        "gapToDm": null,
+        "bodyPad": {
+          "top": 60,
+          "right": 60,
+          "bottom": 60,
+          "left": 60
+        }
+      },
+      {
+        "kind": "insta-dm",
+        "margin": 20,
+        "slot": "footer",
+        "x": 20,
+        "right": 20,
+        "bottom": 80,
+        "gapToDm": 20,
+        "bodyPad": {
+          "top": 20,
+          "right": 20,
+          "bottom": 20,
+          "left": 20
+        }
+      },
+      {
+        "kind": "insta-dm",
+        "margin": 60,
+        "slot": "footer",
+        "x": 60,
+        "right": 60,
+        "bottom": 120,
+        "gapToDm": 60,
+        "bodyPad": {
+          "top": 60,
+          "right": 60,
+          "bottom": 60,
+          "left": 60
+        }
+      },
+      {
+        "kind": "paper",
+        "margin": 20,
+        "slot": "header",
+        "x": 20,
+        "right": 20,
+        "bottom": 662,
+        "gapToDm": null,
+        "bodyPad": {
+          "top": 20,
+          "right": 20,
+          "bottom": 20,
+          "left": 20
+        }
+      },
+      {
+        "kind": "paper",
+        "margin": 60,
+        "slot": "header",
+        "x": 60,
+        "right": 60,
+        "bottom": 622,
+        "gapToDm": null,
+        "bodyPad": {
+          "top": 60,
+          "right": 60,
+          "bottom": 60,
+          "left": 60
+        }
+      },
+      {
+        "kind": "cyworld",
+        "margin": 20,
+        "slot": "footer",
+        "x": 272,
+        "right": 78,
+        "bottom": 92,
+        "gapToDm": null,
+        "bodyPad": {
+          "top": 102,
+          "right": 78,
+          "bottom": 92,
+          "left": 272
+        }
+      },
+      {
+        "kind": "cyworld",
+        "margin": 60,
+        "slot": "footer",
+        "x": 312,
+        "right": 118,
+        "bottom": 132,
+        "gapToDm": null,
+        "bodyPad": {
+          "top": 142,
+          "right": 118,
+          "bottom": 132,
+          "left": 312
+        }
+      },
+      {
+        "kind": "buddy",
+        "margin": 20,
+        "slot": "frame",
+        "x": 15,
+        "right": 15,
+        "bottom": 15,
+        "gapToDm": null,
+        "bodyPad": {
+          "top": 135,
+          "right": 46,
+          "bottom": 152,
+          "left": 46
+        }
+      },
+      {
+        "kind": "buddy",
+        "margin": 60,
+        "slot": "frame",
+        "x": 15,
+        "right": 15,
+        "bottom": 15,
+        "gapToDm": null,
+        "bodyPad": {
+          "top": 175,
+          "right": 86,
+          "bottom": 192,
+          "left": 86
+        }
+      }
+    ]
+  }
+]

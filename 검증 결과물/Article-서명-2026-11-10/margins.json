@@ -1,0 +1,1036 @@
+[
+  {
+    "engine": "chromium",
+    "result": [
+      {
+        "kind": "imessage",
+        "margin": 20,
+        "frame": false,
+        "canvas": {
+          "pt": 20,
+          "pl": 20,
+          "pr": 20,
+          "pb": 20
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 90,
+          "padding": [
+            "0px",
+            "30px",
+            "0px",
+            "30px"
+          ]
+        },
+        "content": {
+          "x": 30,
+          "y": 18
+        },
+        "body": {
+          "x": 20,
+          "y": 110
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "imessage",
+        "margin": 60,
+        "frame": false,
+        "canvas": {
+          "pt": 60,
+          "pl": 60,
+          "pr": 60,
+          "pb": 60
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 90,
+          "padding": [
+            "0px",
+            "30px",
+            "0px",
+            "30px"
+          ]
+        },
+        "content": {
+          "x": 30,
+          "y": 18
+        },
+        "body": {
+          "x": 60,
+          "y": 150
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "kakao",
+        "margin": 20,
+        "frame": false,
+        "canvas": {
+          "pt": 20,
+          "pl": 20,
+          "pr": 20,
+          "pb": 20
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 60,
+          "padding": [
+            "0px",
+            "28px",
+            "0px",
+            "28px"
+          ]
+        },
+        "content": {
+          "x": 28,
+          "y": 24
+        },
+        "body": {
+          "x": 20,
+          "y": 80
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "kakao",
+        "margin": 60,
+        "frame": false,
+        "canvas": {
+          "pt": 60,
+          "pl": 60,
+          "pr": 60,
+          "pb": 60
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 60,
+          "padding": [
+            "0px",
+            "28px",
+            "0px",
+            "28px"
+          ]
+        },
+        "content": {
+          "x": 28,
+          "y": 24
+        },
+        "body": {
+          "x": 60,
+          "y": 120
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "bubble",
+        "margin": 20,
+        "frame": false,
+        "canvas": {
+          "pt": 20,
+          "pl": 20,
+          "pr": 20,
+          "pb": 20
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 80,
+          "padding": [
+            "0px",
+            "13.8px",
+            "0px",
+            "13.8px"
+          ]
+        },
+        "content": {
+          "x": 14,
+          "y": 14
+        },
+        "body": {
+          "x": 20,
+          "y": 100
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "bubble",
+        "margin": 60,
+        "frame": false,
+        "canvas": {
+          "pt": 60,
+          "pl": 60,
+          "pr": 60,
+          "pb": 60
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 80,
+          "padding": [
+            "0px",
+            "13.8px",
+            "0px",
+            "13.8px"
+          ]
+        },
+        "content": {
+          "x": 14,
+          "y": 14
+        },
+        "body": {
+          "x": 60,
+          "y": 140
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "lock-clock",
+        "margin": 20,
+        "frame": false,
+        "canvas": {
+          "pt": 20,
+          "pl": 20,
+          "pr": 20,
+          "pb": 20
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 240,
+          "padding": [
+            "0px",
+            "18px",
+            "0px",
+            "18px"
+          ]
+        },
+        "content": {
+          "x": 18,
+          "y": 116
+        },
+        "body": {
+          "x": 20,
+          "y": 260
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "lock-clock",
+        "margin": 60,
+        "frame": false,
+        "canvas": {
+          "pt": 60,
+          "pl": 60,
+          "pr": 60,
+          "pb": 60
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 240,
+          "padding": [
+            "0px",
+            "18px",
+            "0px",
+            "18px"
+          ]
+        },
+        "content": {
+          "x": 18,
+          "y": 116
+        },
+        "body": {
+          "x": 60,
+          "y": 300
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "insta-dm",
+        "margin": 20,
+        "frame": false,
+        "canvas": {
+          "pt": 20,
+          "pl": 20,
+          "pr": 20,
+          "pb": 20
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 70,
+          "padding": [
+            "0px",
+            "18px",
+            "0px",
+            "18px"
+          ]
+        },
+        "content": {
+          "x": 18,
+          "y": 14
+        },
+        "body": {
+          "x": 20,
+          "y": 90
+        },
+        "dmFoot": true
+      },
+      {
+        "kind": "insta-dm",
+        "margin": 60,
+        "frame": false,
+        "canvas": {
+          "pt": 60,
+          "pl": 60,
+          "pr": 60,
+          "pb": 60
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 70,
+          "padding": [
+            "0px",
+            "18px",
+            "0px",
+            "18px"
+          ]
+        },
+        "content": {
+          "x": 18,
+          "y": 14
+        },
+        "body": {
+          "x": 60,
+          "y": 130
+        },
+        "dmFoot": true
+      },
+      {
+        "kind": "paper",
+        "margin": 20,
+        "frame": false,
+        "canvas": {
+          "pt": 20,
+          "pl": 20,
+          "pr": 20,
+          "pb": 20
+        },
+        "box": {
+          "x": 20,
+          "y": 20,
+          "w": 520,
+          "h": 112,
+          "padding": [
+            "0px",
+            "0px",
+            "0px",
+            "0px"
+          ]
+        },
+        "content": {
+          "x": 20,
+          "y": 39
+        },
+        "body": {
+          "x": 20,
+          "y": 156
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "paper",
+        "margin": 60,
+        "frame": false,
+        "canvas": {
+          "pt": 60,
+          "pl": 60,
+          "pr": 60,
+          "pb": 60
+        },
+        "box": {
+          "x": 60,
+          "y": 60,
+          "w": 440,
+          "h": 112,
+          "padding": [
+            "0px",
+            "0px",
+            "0px",
+            "0px"
+          ]
+        },
+        "content": {
+          "x": 60,
+          "y": 79
+        },
+        "body": {
+          "x": 60,
+          "y": 196
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "cyworld",
+        "margin": 20,
+        "frame": true,
+        "canvas": {
+          "pt": 102,
+          "pl": 272,
+          "pr": 78,
+          "pb": 92
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 747,
+          "h": 560,
+          "padding": [
+            "16px",
+            "26px",
+            "16px",
+            "16px"
+          ]
+        },
+        "content": {
+          "x": 16,
+          "y": 16
+        },
+        "body": {
+          "x": 272,
+          "y": 102
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "cyworld",
+        "margin": 60,
+        "frame": true,
+        "canvas": {
+          "pt": 142,
+          "pl": 312,
+          "pr": 118,
+          "pb": 132
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 747,
+          "h": 560,
+          "padding": [
+            "16px",
+            "26px",
+            "16px",
+            "16px"
+          ]
+        },
+        "content": {
+          "x": 16,
+          "y": 16
+        },
+        "body": {
+          "x": 312,
+          "y": 142
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "buddy",
+        "margin": 20,
+        "frame": true,
+        "canvas": {
+          "pt": 135,
+          "pl": 46,
+          "pr": 46,
+          "pb": 152
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 747,
+          "padding": [
+            "3px",
+            "3px",
+            "3px",
+            "3px"
+          ]
+        },
+        "content": {
+          "x": 3,
+          "y": 43
+        },
+        "body": {
+          "x": 46,
+          "y": 135
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "buddy",
+        "margin": 60,
+        "frame": true,
+        "canvas": {
+          "pt": 175,
+          "pl": 86,
+          "pr": 86,
+          "pb": 192
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 747,
+          "padding": [
+            "3px",
+            "3px",
+            "3px",
+            "3px"
+          ]
+        },
+        "content": {
+          "x": 3,
+          "y": 43
+        },
+        "body": {
+          "x": 86,
+          "y": 175
+        },
+        "dmFoot": false
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "result": [
+      {
+        "kind": "imessage",
+        "margin": 20,
+        "frame": false,
+        "canvas": {
+          "pt": 20,
+          "pl": 20,
+          "pr": 20,
+          "pb": 20
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 90,
+          "padding": [
+            "0px",
+            "30px",
+            "0px",
+            "30px"
+          ]
+        },
+        "content": {
+          "x": 30,
+          "y": 18
+        },
+        "body": {
+          "x": 20,
+          "y": 110
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "imessage",
+        "margin": 60,
+        "frame": false,
+        "canvas": {
+          "pt": 60,
+          "pl": 60,
+          "pr": 60,
+          "pb": 60
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 90,
+          "padding": [
+            "0px",
+            "30px",
+            "0px",
+            "30px"
+          ]
+        },
+        "content": {
+          "x": 30,
+          "y": 18
+        },
+        "body": {
+          "x": 60,
+          "y": 150
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "kakao",
+        "margin": 20,
+        "frame": false,
+        "canvas": {
+          "pt": 20,
+          "pl": 20,
+          "pr": 20,
+          "pb": 20
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 60,
+          "padding": [
+            "0px",
+            "28px",
+            "0px",
+            "28px"
+          ]
+        },
+        "content": {
+          "x": 28,
+          "y": 24
+        },
+        "body": {
+          "x": 20,
+          "y": 80
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "kakao",
+        "margin": 60,
+        "frame": false,
+        "canvas": {
+          "pt": 60,
+          "pl": 60,
+          "pr": 60,
+          "pb": 60
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 60,
+          "padding": [
+            "0px",
+            "28px",
+            "0px",
+            "28px"
+          ]
+        },
+        "content": {
+          "x": 28,
+          "y": 24
+        },
+        "body": {
+          "x": 60,
+          "y": 120
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "bubble",
+        "margin": 20,
+        "frame": false,
+        "canvas": {
+          "pt": 20,
+          "pl": 20,
+          "pr": 20,
+          "pb": 20
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 80,
+          "padding": [
+            "0px",
+            "13.8px",
+            "0px",
+            "13.8px"
+          ]
+        },
+        "content": {
+          "x": 14,
+          "y": 14
+        },
+        "body": {
+          "x": 20,
+          "y": 100
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "bubble",
+        "margin": 60,
+        "frame": false,
+        "canvas": {
+          "pt": 60,
+          "pl": 60,
+          "pr": 60,
+          "pb": 60
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 80,
+          "padding": [
+            "0px",
+            "13.8px",
+            "0px",
+            "13.8px"
+          ]
+        },
+        "content": {
+          "x": 14,
+          "y": 14
+        },
+        "body": {
+          "x": 60,
+          "y": 140
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "lock-clock",
+        "margin": 20,
+        "frame": false,
+        "canvas": {
+          "pt": 20,
+          "pl": 20,
+          "pr": 20,
+          "pb": 20
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 240,
+          "padding": [
+            "0px",
+            "18px",
+            "0px",
+            "18px"
+          ]
+        },
+        "content": {
+          "x": 18,
+          "y": 116
+        },
+        "body": {
+          "x": 20,
+          "y": 260
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "lock-clock",
+        "margin": 60,
+        "frame": false,
+        "canvas": {
+          "pt": 60,
+          "pl": 60,
+          "pr": 60,
+          "pb": 60
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 240,
+          "padding": [
+            "0px",
+            "18px",
+            "0px",
+            "18px"
+          ]
+        },
+        "content": {
+          "x": 18,
+          "y": 116
+        },
+        "body": {
+          "x": 60,
+          "y": 300
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "insta-dm",
+        "margin": 20,
+        "frame": false,
+        "canvas": {
+          "pt": 20,
+          "pl": 20,
+          "pr": 20,
+          "pb": 20
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 70,
+          "padding": [
+            "0px",
+            "18px",
+            "0px",
+            "18px"
+          ]
+        },
+        "content": {
+          "x": 18,
+          "y": 14
+        },
+        "body": {
+          "x": 20,
+          "y": 90
+        },
+        "dmFoot": true
+      },
+      {
+        "kind": "insta-dm",
+        "margin": 60,
+        "frame": false,
+        "canvas": {
+          "pt": 60,
+          "pl": 60,
+          "pr": 60,
+          "pb": 60
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 70,
+          "padding": [
+            "0px",
+            "18px",
+            "0px",
+            "18px"
+          ]
+        },
+        "content": {
+          "x": 18,
+          "y": 14
+        },
+        "body": {
+          "x": 60,
+          "y": 130
+        },
+        "dmFoot": true
+      },
+      {
+        "kind": "paper",
+        "margin": 20,
+        "frame": false,
+        "canvas": {
+          "pt": 20,
+          "pl": 20,
+          "pr": 20,
+          "pb": 20
+        },
+        "box": {
+          "x": 20,
+          "y": 20,
+          "w": 520,
+          "h": 112,
+          "padding": [
+            "0px",
+            "0px",
+            "0px",
+            "0px"
+          ]
+        },
+        "content": {
+          "x": 20,
+          "y": 39
+        },
+        "body": {
+          "x": 20,
+          "y": 156
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "paper",
+        "margin": 60,
+        "frame": false,
+        "canvas": {
+          "pt": 60,
+          "pl": 60,
+          "pr": 60,
+          "pb": 60
+        },
+        "box": {
+          "x": 60,
+          "y": 60,
+          "w": 440,
+          "h": 112,
+          "padding": [
+            "0px",
+            "0px",
+            "0px",
+            "0px"
+          ]
+        },
+        "content": {
+          "x": 60,
+          "y": 79
+        },
+        "body": {
+          "x": 60,
+          "y": 196
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "cyworld",
+        "margin": 20,
+        "frame": true,
+        "canvas": {
+          "pt": 102,
+          "pl": 272,
+          "pr": 78,
+          "pb": 92
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 747,
+          "h": 560,
+          "padding": [
+            "16px",
+            "26px",
+            "16px",
+            "16px"
+          ]
+        },
+        "content": {
+          "x": 16,
+          "y": 16
+        },
+        "body": {
+          "x": 272,
+          "y": 102
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "cyworld",
+        "margin": 60,
+        "frame": true,
+        "canvas": {
+          "pt": 142,
+          "pl": 312,
+          "pr": 118,
+          "pb": 132
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 747,
+          "h": 560,
+          "padding": [
+            "16px",
+            "26px",
+            "16px",
+            "16px"
+          ]
+        },
+        "content": {
+          "x": 16,
+          "y": 16
+        },
+        "body": {
+          "x": 312,
+          "y": 142
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "buddy",
+        "margin": 20,
+        "frame": true,
+        "canvas": {
+          "pt": 135,
+          "pl": 46,
+          "pr": 46,
+          "pb": 152
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 747,
+          "padding": [
+            "3px",
+            "3px",
+            "3px",
+            "3px"
+          ]
+        },
+        "content": {
+          "x": 3,
+          "y": 43
+        },
+        "body": {
+          "x": 46,
+          "y": 135
+        },
+        "dmFoot": false
+      },
+      {
+        "kind": "buddy",
+        "margin": 60,
+        "frame": true,
+        "canvas": {
+          "pt": 175,
+          "pl": 86,
+          "pr": 86,
+          "pb": 192
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "w": 560,
+          "h": 747,
+          "padding": [
+            "3px",
+            "3px",
+            "3px",
+            "3px"
+          ]
+        },
+        "content": {
+          "x": 3,
+          "y": 43
+        },
+        "body": {
+          "x": 86,
+          "y": 175
+        },
+        "dmFoot": false
+      }
+    ]
+  }
+]

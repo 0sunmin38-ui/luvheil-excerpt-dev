@@ -113,7 +113,7 @@ const assert = require('assert/strict');
       renderCanvas();
       return { rows: document.querySelectorAll('#canvas .blk[data-id="decorated"]').length,
         pages: document.querySelectorAll('#canvas .pagemark').length + 1, overflow: $('#canvas').dataset.paginationOverflow || '',
-        head: !!document.querySelector('.cv-head.head-flow') };
+        head: !!document.querySelector('.cv-head.hd-paper') };
     });
     assert.ok(decorated.rows > 1 && decorated.head && !decorated.overflow, JSON.stringify(decorated));
     await page.evaluate(() => { window.splitDeliveries = []; });
