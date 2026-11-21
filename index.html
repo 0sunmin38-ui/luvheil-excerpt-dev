@@ -209,6 +209,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 }
 .preview-zoom button{min-width:34px;height:30px;padding:0 8px;border-radius:var(--r-full);font-size:13px;font-weight:700;color:var(--text)}
 .preview-zoom button:hover{background:var(--c-surface-sunken)}
+.preview-zoom button[aria-pressed="true"]{background:var(--c-primary-muted);color:var(--c-primary-text)}
 .preview-zoom .zoom-label{min-width:52px;font-size:10.5px;color:var(--c-text-secondary)}
 /* 좁은 화면: 줌 컨트롤만 숨기고 벌크 바는 유지, 상단바 아래에 배치 */
 @media (max-width:899.98px){
@@ -243,7 +244,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 /* 배경 이미지 — 회전·흐림이 캔버스 밖으로 새지 않게 별도 레이어로 깐다 */
 .canvas > .cv-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
 .canvas > .cv-html-top{z-index:4}
-.cv-html-top img{display:block;width:100%;height:100%}
+:is(.cv-html-base,.cv-html-top) > img{display:block;width:100%;height:100%}
 .cv-bg i{
   position:absolute;inset:0;display:block;
   background-image:var(--bgi,none);background-repeat:no-repeat;
@@ -1695,6 +1696,11 @@ body:has(.sheet.is-settling) .stage{transition:none}
   padding:6px;background-color:#F5F5F5;border-radius:4px;
 }
 /* 말풍선 미리보기 */
+.theme-card .preview.is-dialog-preview{
+  flex-direction:column;align-items:stretch;gap:4px;
+}
+.theme-card .is-dialog-preview .bubble-preview{align-self:flex-start;width:auto;min-width:52%;padding:3px 5px}
+.theme-card .is-dialog-preview .bubble-preview.has-tail-right{align-self:flex-end;text-align:right}
 .theme-card .bubble-preview{
   width:100%;padding:6px 8px;border-radius:8px;
   font-size:8px;line-height:1.3;text-align:left;
@@ -1732,7 +1738,7 @@ body:has(.sheet.is-settling) .stage{transition:none}
 .theme-card.is-custom{background:rgba(132,191,147,.07)}
 .theme-card.is-custom .nm::before{content:'●';font-size:6px;color:var(--c-primary,#84BF93);margin-right:4px;vertical-align:2px}
 .theme-list-pinned{position:sticky;top:-12px;z-index:5;background:var(--c-surface,#fff);margin:-12px -12px 12px;padding:12px 12px 4px}
-.theme-list-pinned .io-row{display:flex;gap:6px;justify-content:flex-end;padding:8px 0 0}
+.theme-list-pinned .io-row{display:flex;gap:6px;justify-content:flex-end;padding:0 0 8px}
 .theme-card.is-current{
   display:grid;grid-template-columns:64px minmax(0,1fr);align-items:center;
   gap:12px;padding:10px 44px 10px 10px;text-align:left;cursor:default;background:var(--c-primary-muted);
@@ -1915,21 +1921,10 @@ body:has(.sheet.is-settling) .stage{transition:none}
 .steph .step input{flex:1;min-width:0;width:100%;height:30px}
 /* 슬라이더 가로 배치 .slideh (v2) */
 .slideh{display:flex;align-items:center;gap:var(--sp-md)}
-.slideh > .lab{margin:0;flex:0 0 auto;font-size:var(--fs-xs);color:var(--c-text-secondary)}
+.slideh .lab{margin:0;font-size:var(--fs-xs);color:var(--c-text-secondary)}
 .slideh .rng{flex:1;min-width:0;margin:0}
-.slideh .val{
-  flex:0 0 40px;height:28px;padding:0 var(--sp-xs);
-  text-align:center;font-size:var(--fs-sm);color:var(--c-text);
-  background:var(--c-surface-sunken);border:none;border-radius:var(--r-sm);
-}
-.slideh-val{position:relative;display:flex;align-items:center;flex:0 0 auto}
-.slideh-val input{
-  width:48px;height:28px;text-align:left;padding-left:8px;padding-right:18px;
-  border:none;background:var(--c-surface-sunken);border-radius:var(--r-sm);
-  font-size:var(--fs-sm);color:var(--c-text);
-}
-.slideh-val input:focus{outline:none;background:var(--c-surface);box-shadow:0 0 0 1px var(--c-primary)}
-.slideh-val .unit{position:absolute;right:6px;font-size:var(--fs-xs);color:var(--c-text-tertiary);pointer-events:none}
+.slideh-caption{display:flex;align-items:baseline;gap:6px;flex:none;white-space:nowrap}
+.slideh-value{color:var(--c-text-secondary);font-size:var(--fs-xs);font-variant-numeric:tabular-nums;min-width:4ch}
 /* 레이아웃 헬퍼 (index.html 전용) */
 
 /* 단위 표시 스테퍼 (v2) */
@@ -2473,7 +2468,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 .sheet .setting-title,.sheet .settings-flow > .field > .lab{
   font-weight:700;letter-spacing:-.015em;
 }
-.sheet .slideh-val input,.sheet .step input{font-variant-numeric:tabular-nums}
+.sheet .step input{font-variant-numeric:tabular-nums}
 .sheet .char-card .name{font-weight:650}
 .sheet .seg{background:var(--editor-well);border-radius:10px}
 .sheet .seg button{border-radius:6px;transition:background-color var(--dur-fast),color var(--dur-fast),box-shadow var(--dur-fast)}
@@ -2550,11 +2545,10 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 #formatWrap .format-buttons :is(sup,sub){display:inline-block;color:inherit}
 #formatWrap .format-buttons .annotation-control.is-on{color:var(--c-text)}
 #formatWrap .format-buttons .annotation-control.is-on :is(sup,sub){color:var(--c-primary-text);font-weight:800}
-.sheet .rng::-webkit-slider-thumb{transition:transform var(--dur-fast) var(--ease-out)}
-.sheet .rng::-moz-range-thumb{transition:transform var(--dur-fast) var(--ease-out)}
-.sheet .rng:active::-webkit-slider-thumb{transform:scale(.88)}
-.sheet .rng:active::-moz-range-thumb{transform:scale(.88)}
-.sheet .slideh:focus-within .slideh-val input{background:var(--c-primary-muted);color:var(--editor-active)}
+.rng::-webkit-slider-thumb{transition:transform var(--dur-fast) var(--ease-out)}
+.rng::-moz-range-thumb{transition:transform var(--dur-fast) var(--ease-out)}
+.rng:active::-webkit-slider-thumb{transform:scale(.88)}
+.rng:active::-moz-range-thumb{transform:scale(.88)}
 .sheet :is(.btn-mini,.btn-fill,.btn-primary,.seg button):active:not(:disabled){
   transform:translateY(1px);
 }
@@ -2568,8 +2562,8 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   .action-menu-item:hover:not(.is-danger){color:var(--c-primary-text)}
   #formatWrap .format-buttons button:hover:not(:disabled) :is(b,sup,sub){color:var(--c-primary-text)}
   #formatWrap .format-buttons .annotation-control:hover :is(sup,sub){font-weight:800}
-  .sheet .rng:hover:not(:active)::-webkit-slider-thumb{transform:scale(1.12)}
-  .sheet .rng:hover:not(:active)::-moz-range-thumb{transform:scale(1.12)}
+  .rng:hover:not(:active)::-webkit-slider-thumb{transform:scale(1.12)}
+  .rng:hover:not(:active)::-moz-range-thumb{transform:scale(1.12)}
   .sheet .tab-line:hover,.sheet .seg button:not(.is-on):hover:not(:disabled){
     background:var(--c-primary-muted);color:var(--editor-active);
   }
@@ -2695,8 +2689,8 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   .sheet :is(.btn-mini,.btn-fill,.btn-primary,.seg button):active:not(:disabled){transform:none}
   .edit-header-button > svg,.action-menu-item > .icon,
   #formatWrap .icb > svg,#formatWrap .format-buttons :is(b,.ann){transition:none;transform:none!important}
-  .sheet .rng::-webkit-slider-thumb{transition:none;transform:none!important}
-  .sheet .rng::-moz-range-thumb{transition:none;transform:none!important}
+  .rng::-webkit-slider-thumb{transition:none;transform:none!important}
+  .rng::-moz-range-thumb{transition:none;transform:none!important}
   #formatWrap :is(.fmt-section .icb,.subtitle-action,.quote-action),.action-menu-item{transition:none}
 }
 
@@ -2727,7 +2721,8 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
       <div class="bulk-row-top" id="bulkRowTop" hidden></div>
       <div class="preview-zoom" id="previewZoom" aria-label="미리보기 확대 축소">
         <button type="button" id="zoomOut" aria-label="미리보기 축소">−</button>
-        <button type="button" class="zoom-label" id="zoomReset" title="화면 맞춤">맞춤</button>
+        <button type="button" class="zoom-label" id="zoomReset" title="가로 맞춤" aria-pressed="true">맞춤</button>
+        <button type="button" class="zoom-label" id="zoomFitHeight" aria-pressed="false">세로 맞춤</button>
         <button type="button" id="zoomIn" aria-label="미리보기 확대">＋</button>
       </div>
     </div>
@@ -6210,6 +6205,38 @@ const RATIOS = { '9:16': 9 / 16, '3:4': 3 / 4, '1:1': 1, '4:3': 4 / 3, '16:9': 1
 /* 서명의 하단 위치는 사용자가 조절하는 본문 아래 여백과 분리한다. */
 const SIGNATURE_EDGE = 16;
 
+function themeGradient(th) {
+  const settings = th.bgGradient || {};
+  const start = hexOf(settings.start) || hexOf(th.bg) || 'FFFFFF';
+  const end = hexOf(settings.end) || hexOf(mixHex(th.bg, th.fg, .22)) || 'DCE8F2';
+  return {
+    start: '#' + start, end: '#' + end,
+    type: settings.type === 'radial' ? 'radial' : 'linear',
+    angle: Number.isFinite(settings.angle) ? clamp(settings.angle, 0, 360) : 135
+  };
+}
+function gradientCss({ start, end, type, angle }) {
+  return type === 'radial'
+    ? `radial-gradient(circle farthest-corner at center, ${start}, ${end})`
+    : `linear-gradient(${angle}deg, ${start}, ${end})`;
+}
+function drawBackgroundGradient(ctx, gradient, w, h) {
+  const { start, end, type, angle } = gradient;
+  const x = w / 2, y = h / 2;
+  let fill;
+  if (type === 'radial') {
+    fill = ctx.createRadialGradient(x, y, 0, x, y, Math.hypot(x, y));
+  } else {
+    const a = angle * Math.PI / 180, dx = Math.sin(a), dy = -Math.cos(a);
+    const extent = Math.abs(x * dx) + Math.abs(y * dy);
+    fill = ctx.createLinearGradient(x - dx * extent, y - dy * extent, x + dx * extent, y + dy * extent);
+  }
+  fill.addColorStop(0, start);
+  fill.addColorStop(1, end);
+  ctx.fillStyle = fill;
+  ctx.fillRect(0, 0, w, h);
+}
+
 function renderCanvas() {
   const renderAt = performance.now(); diag('render:start', { blocks: S.blocks.length });
   const cv = $('#canvas'), th = decorationTheme(theme()), f = fmt();
@@ -6344,8 +6371,8 @@ function renderCanvas() {
   if (th.bgMode === 'html') {
     if (typeof th.bgHtml === 'string' && th.bgHtml.trim()) {
       const layer = el('div', 'cv-bg cv-html-base');
-      const image = el('i');
-      image.style.setProperty('--bgs', '100%');
+      const image = el('img');
+      image.alt = '';
       layer.appendChild(image);
       cv.appendChild(layer);
     }
@@ -6370,6 +6397,12 @@ function renderCanvas() {
     u.style.setProperty('--bgo-c', th.bgOverlayColor || '#000000');
     u.style.setProperty('--bgo', String((th.bgOverlay ?? 0) / 100));
     layer.append(i, u); cv.appendChild(layer);
+  }
+  if (th.bgColorMode === 'gradient') {
+    const layer = cv.querySelector(':scope > .cv-bg') || cv.appendChild(el('div', 'cv-bg'));
+    const gradient = themeGradient(th);
+    layer.style.backgroundImage = gradientCss(gradient);
+    layer.dataset.bgGradient = JSON.stringify(gradient);
   }
   /* 종이결은 배경 이미지 «위» 다 — 결은 종이의 성질이라, 무엇을 깔든 그 위에 앉는다.
      0 이면 층 자체를 안 만든다: 안 쓰는 테마에까지 그림 한 장을 깔아 둘 이유가 없다. */
@@ -6579,8 +6612,13 @@ async function glassBackground(cv, bg, W, H, blur, saturation, resolution = 1) {
   const b = sample.getContext('2d'); if (!b) throw new Error('배경 캔버스를 만들지 못했습니다');
   b.scale(sampleScale, sampleScale);
   b.fillStyle = getComputedStyle(cv).backgroundColor; b.fillRect(0, 0, W, H);
-  const imageNode = bg && bg.querySelector('i');
-  if (imageNode) {
+  if (bg?.dataset.bgGradient) drawBackgroundGradient(b, JSON.parse(bg.dataset.bgGradient), W, H);
+  const htmlImage = bg?.querySelector(':scope > img[src]');
+  const imageNode = bg?.querySelector('i');
+  if (htmlImage) {
+    if (!(await whenDrawable(htmlImage))) throw new Error('HTML 배경 이미지를 받지 못했습니다');
+    b.drawImage(htmlImage, 0, 0, W, H);
+  } else if (imageNode) {
     const cs = getComputedStyle(imageNode);
     const match = cs.backgroundImage.match(/^url\(["']?([^"')]+)["']?\)$/);
     if (match) {
@@ -6609,7 +6647,7 @@ async function glassBackground(cv, bg, W, H, blur, saturation, resolution = 1) {
       }
     }
   }
-  if (imageNode && blur > 0) blurPixels(b, sample.width, sample.height, blur * sampleScale, saturation);
+  if ((imageNode || htmlImage || bg?.dataset.bgGradient) && blur > 0) blurPixels(b, sample.width, sample.height, blur * sampleScale, saturation);
   return sample;
 }
 function glassPosition(node, cv, H) {
@@ -6799,7 +6837,8 @@ async function rasterHtmlBackground(doc, w, h, top) {
   const ratio = Math.min(2, 4096 / Math.max(w, h));
   const width = Math.max(1, Math.round(w * ratio)), height = Math.max(1, Math.round(h * ratio));
   const markup = new XMLSerializer().serializeToString(root);
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${w} ${h}"><foreignObject width="${w}" height="${h}">${markup}</foreignObject></svg>`;
+  // CSS viewport의 단위와 미디어 쿼리는 출력 해상도가 아닌 판형의 논리 크기를 사용한다.
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><foreignObject width="${w}" height="${h}">${markup}</foreignObject></svg>`;
   const image = new Image();
   image.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   if (!(await whenDrawable(image))) throw new Error('HTML 배경을 그리지 못했습니다');
@@ -6809,7 +6848,13 @@ async function rasterHtmlBackground(doc, w, h, top) {
 }
 
 function htmlBackgroundAt(raw, w, h) {
-  if (htmlBackgroundSource?.raw !== raw) htmlBackgroundSource = { raw, ready: prepareHtmlBackgroundSource(raw) };
+  if (htmlBackgroundSource?.raw !== raw) {
+    const ready = prepareHtmlBackgroundSource(raw);
+    htmlBackgroundSource = { raw, ready };
+    ready.catch(() => {
+      if (htmlBackgroundSource?.ready === ready) htmlBackgroundSource = null;
+    });
+  }
   const source = htmlBackgroundSource;
   if (htmlBackgroundRaster?.source !== source || htmlBackgroundRaster.w !== w || htmlBackgroundRaster.h !== h) {
     const ready = source.ready.then(async doc => {
@@ -6820,6 +6865,9 @@ function htmlBackgroundAt(raw, w, h) {
       return { base, top };
     });
     htmlBackgroundRaster = { source, w, h, ready };
+    ready.catch(() => {
+      if (htmlBackgroundRaster?.ready === ready) htmlBackgroundRaster = null;
+    });
   }
   return htmlBackgroundRaster.ready;
 }
@@ -6844,14 +6892,16 @@ function syncCanvasBackgrounds(cv, pages = 1) {
   if (!H || !W) return;
   const th = theme();
   const raw = bg?.classList.contains('cv-html-base') ? th.bgHtml.trim() : '';
+  cv._htmlBgSize = raw ? W + 'x' + H : null;
   const token = {};
   cv._htmlBgSync = token;
   delete cv.dataset.htmlBgError;
   let ready = Promise.resolve();
   if (raw) {
-    ready = htmlBackgroundAt(raw, W, H).then(({ base, top }) => {
+    ready = htmlBackgroundAt(raw, W, H).then(async ({ base, top }) => {
       if (cv._htmlBgSync !== token || bg.parentNode !== cv) return;
-      for (const layer of bgLayers) layer.firstElementChild.style.setProperty('--bgi', `url("${base}")`);
+      // 큰 PNG도 CSS 사용자 정의 속성의 길이 제한 없이 사용할 수 있게 이미지로 배치한다.
+      for (const layer of bgLayers) layer.firstElementChild.src = base;
       if (top) for (let i = 0; i < pages; i++) {
         const overlay = el('div', 'cv-bg cv-html-top');
         overlay.style.cssText = `top:${i * H}px;height:${H}px;bottom:auto`;
@@ -6859,13 +6909,14 @@ function syncCanvasBackgrounds(cv, pages = 1) {
         const image = el('img'); image.alt = ''; image.src = top;
         overlay.appendChild(image); cv.appendChild(overlay);
       }
+      if (!(await whenDrawable(bg.firstElementChild))) throw new Error('HTML 배경 이미지를 받지 못했습니다');
     }).catch(error => {
       if (cv._htmlBgSync !== token) return;
       cv.dataset.htmlBgError = 'true';
       console.warn('HTML 배경 생성 실패', error);
     });
   }
-  const scene = [W, H, th.bg, th.bgImage, th.bgRotation, th.bgSize, raw,
+  const scene = [W, H, th.bg, bg?.dataset.bgGradient, th.bgImage, th.bgRotation, th.bgSize, raw,
     th.bgX, th.bgY, th.bgBlur, th.bgOverlay, th.bgOverlayColor];
   if (scene.some((value, index) => value !== _glassScene[index])) {
     _glassScene = scene; _glassBackgrounds.clear();
@@ -6971,7 +7022,14 @@ function fitCanvas() {
   const avail = stage.clientWidth - parseFloat(cs.paddingLeft || 0) - parseFloat(cs.paddingRight || 0);
   /* offsetWidth/Height 는 transform 을 안 탄다 — 늘 축소 전 논리 크기다 */
   const w = cv.offsetWidth || 1, h = cv.offsetHeight || 1;
-  const fit = avail > 0 ? Math.min(1, avail / w) : 1;
+  const fitWidth = avail > 0 ? Math.min(1, avail / w) : 1;
+  const fitHeightMode = isWide() && S.ui.previewFit === 'height';
+  const toolbar = $('#previewZoom');
+  const top = parseFloat(cs.paddingTop) || 0;
+  const bottom = parseFloat(cs.paddingBottom) || 0;
+  const toolbarInset = toolbar.getBoundingClientRect().bottom - stage.getBoundingClientRect().top + 8;
+  const usableHeight = Math.max(1, stage.clientHeight - top - bottom - 2 * Math.max(0, toolbarInset - top));
+  const fit = fitHeightMode ? Math.min(fitWidth, usableHeight / h) : fitWidth;
   const zoom = clamp(Number(S.ui.previewZoom) || 1, PREVIEW_ZOOMS[0], PREVIEW_ZOOMS[PREVIEW_ZOOMS.length - 1]);
   const k = Math.min(4, fit * zoom);
   cv.style.transform = Math.abs(k - 1) > .001 ? `scale(${k})` : 'none';
@@ -6980,14 +7038,24 @@ function fitCanvas() {
   stage.style.alignItems = w * k > avail + 1 ? 'flex-start' : 'center';
   box.style.marginInline = w * k > avail + 1 ? '0' : 'auto';
   const label = $('#zoomReset');
-  if (label) label.textContent = Math.abs(zoom - 1) < .001 ? '맞춤' : Math.round(zoom * 100) + '%';
+  const atFit = Math.abs(zoom - 1) < .001;
+  label.textContent = atFit ? '맞춤' : Math.round(zoom * 100) + '%';
+  label.setAttribute('aria-pressed', String(atFit && !fitHeightMode));
+  $('#zoomFitHeight').setAttribute('aria-pressed', String(atFit && fitHeightMode));
 }
 /* '내용에 맞춤' 은 높이가 내용 따라 늘어난다 — 글꼴이 늦게 붙어 키가 달라져도 감싸개가
    따라오게 해 둔다. 감싸개 크기가 변해도 캔버스 크기는 안 변하므로 되먹이지 않는다. */
 let _canvasResizeObs = null;
 if (window.ResizeObserver && $('#canvas')) {
-  _canvasResizeObs = new ResizeObserver(() => fitCanvas());
+  _canvasResizeObs = new ResizeObserver(() => {
+    const cv = $('#canvas');
+    fitCanvas();
+    if (!exportBusy && isFit() && cv._htmlBgSize && cv._htmlBgSize !== cv.offsetWidth + 'x' + cv.offsetHeight) {
+      syncCanvasBackgrounds(cv);
+    }
+  });
   _canvasResizeObs.observe($('#canvas'));
+  _canvasResizeObs.observe($('#stage'));
 }
 
 /* 같은 사람이 연달아 말하는가 — 발화자가 없는(익명) 말풍선끼리도 같은 줄기로 본다.
@@ -7804,16 +7872,12 @@ function openDecorationEditor() {
       const ratio = config.photoRatio || '1:1';
       photo = cropField(valueOf(key), ratio);
       photo._maxPx = ratio === '4:3' ? 640 : 256;
-      const zoom = el('input', 'rng');
-      zoom.type = 'range'; zoom.step = '0.01';
-      zoom.setAttribute('aria-label', '사진 확대');
       const controls = el('div', 'decoration-photo');
       controls.setAttribute('role', 'group');
       controls.setAttribute('aria-label', label);
       const stage = el('div', 'crop-stage decoration-photo-stage');
       stage.appendChild(photo);
-      const zoomRow = el('div', 'slideh');
-      zoomRow.append(el('span', 'lab', '확대'), zoom);
+      const zoomRow = cropZoomSlider(photo, () => { if (pickedPhoto) photo._center(); });
       const actions = el('div', 'decoration-photo-actions');
       const pick = el('button', 'btn btn-quiet decoration-photo-pick');
       const remove = el('button', 'btn btn-quiet decoration-photo-remove', '사진 지우기');
@@ -7828,11 +7892,6 @@ function openDecorationEditor() {
         setValue(key, photo._src);
       };
       photo._onPick = onPick;
-      photo._onScale = scale => {
-        zoom.min = scale; zoom.max = scale * 3; zoom.value = scale;
-        if (pickedPhoto) photo._center();
-      };
-      zoom.oninput = () => photo._zoom(Number(zoom.value));
       pick.onclick = () => pickImage(src => {
         if (!panel.isConnected) return;
         photo._setSrc(src);
@@ -10771,15 +10830,9 @@ function buildImageEditor(host, block, initialSrc) {
     ratios.appendChild(b);
   });
 
-  const zoomWrap = el('div', 'slideh');
-  zoomWrap.appendChild(el('span', 'lab', '확대'));
-  const zoom = el('input', 'rng'); zoom.type = 'range'; zoom.step = '0.01';
-  zoomWrap.appendChild(zoom);
-  crop._onScale = (base, current) => {
-    zoom.min = base; zoom.max = Math.max(base * 3, current); zoom.value = current;
+  const zoomWrap = cropZoomSlider(crop, () => {
     if (draft.placement === 'side' && !draft.sideCrop) crop._center();
-  };
-  zoom.oninput = () => crop._zoom(parseFloat(zoom.value));
+  });
 
   /* 미리보기(자르기 틀)를 누르면 곧바로 이미지 선택으로 간다 — 별도 버튼을 두지 않는다 */
   const took = d => {
@@ -10825,13 +10878,7 @@ function buildImageEditor(host, block, initialSrc) {
 
   /* 본문 사이에서는 비율에 관계없이 틀 폭과 정렬을 조절한다. */
   const sizeField = el('div', 'field');
-  const szWrap = el('div', 'slideh');
-  const szLab = el('span', 'lab', '크기');
-  const szVal = el('span', 'lab-sub', draft.size + '%'); szVal.style.cssText = 'display:inline;margin-left:6px';
-  szLab.appendChild(szVal); szWrap.appendChild(szLab);
-  const sz = el('input', 'rng'); sz.type = 'range'; sz.min = 10; sz.max = 100; sz.step = 5; sz.value = draft.size;
   const applySize = () => {
-    szVal.textContent = draft.size + '%';
     sizer.style.width = draft.placement === 'side' ? '100%' : draft.size + '%';
     if (draft.placement === 'inline' && draft.ratio === 'fill') {
       fillPreviewRatio = fillEditorRatio() * draft.size / 100;
@@ -10841,9 +10888,9 @@ function buildImageEditor(host, block, initialSrc) {
     }
     preview();
   };
-  sz.oninput = () => { draft.size = +sz.value; draft.imageSizeMode = 'custom'; applySize(); };
-  szWrap.appendChild(sz);
-  sizeField.appendChild(szWrap);
+  sizeField.appendChild(sliderH('크기', draft.size, 10, 100, 5, value => {
+    draft.size = value; draft.imageSizeMode = 'custom'; applySize();
+  }, '%'));
   const syncSizeFields = () => {
     const side = draft.placement === 'side';
     ratioField.hidden = sizeField.hidden = alignField.hidden = side;
@@ -11273,15 +11320,7 @@ function openAvatarModal(cur, onDone, opts) {
   const crop = cropField(cur, R);
   let pickedNewImage = false;
   crop._maxPx = MAX;
-  const zoomWrap = el('div', 'slideh');
-  zoomWrap.appendChild(el('span', 'lab', '확대'));
-  const zoom = el('input', 'rng'); zoom.type = 'range'; zoom.step = '0.01';
-  zoomWrap.appendChild(zoom);
-  crop._onScale = base => {
-    zoom.min = base; zoom.max = base * 3; zoom.value = base;
-    if (pickedNewImage) crop._center();
-  };
-  zoom.oninput = () => crop._zoom(parseFloat(zoom.value));
+  const zoomWrap = cropZoomSlider(crop, () => { if (pickedNewImage) crop._center(); });
 
   const body = el('div', 'stack');
   const stage = el('div', 'crop-stage'); stage.style.position = 'relative';
@@ -11361,7 +11400,8 @@ function openBgImageModal(cur, onDone, t) {
   if (t) {
     /* ══ CSS 기반 미리보기 (캔버스와 동일한 렌더링) ══ */
     const stage = el('div', 'crop-stage bg-image-preview');
-    stage.style.cssText = 'position:relative;overflow:hidden;border-radius:var(--r-md);background:' + (t.bg || '#fff');
+    stage.style.cssText = 'position:relative;overflow:hidden;border-radius:var(--r-md)';
+    stage.style.background = t.bgColorMode === 'gradient' ? gradientCss(themeGradient(t)) : (t.bg || '#fff');
     const sizePreview = () => {
       const [w, h] = String(c.ratio || '9:16').split(':').map(Number);
       stage.style.aspectRatio = `${w} / ${h}`;
@@ -11503,8 +11543,7 @@ function openBgImageModal(cur, onDone, t) {
       overlayEnabled = enabled;
       if (enabled && overlayAmount === 0) overlayAmount = 30;
       t.bgOverlay = enabled ? overlayAmount : 0;
-      opacity.querySelector('.rng').value = overlayAmount;
-      opacity.querySelector('input[type="text"]').value = overlayAmount;
+      opacity._setValue(overlayAmount);
       overlay.hidden = !enabled;
       syncPreview(); up();
     });
@@ -11532,12 +11571,7 @@ function openBgImageModal(cur, onDone, t) {
       ratios.appendChild(b);
     });
 
-    const zoomWrap = el('div', 'slideh');
-    zoomWrap.appendChild(el('span', 'lab', '확대'));
-    const zoom = el('input', 'rng'); zoom.type = 'range'; zoom.step = '0.01';
-    zoomWrap.appendChild(zoom);
-    crop._onScale = base => { zoom.min = base; zoom.max = base * 3; zoom.value = base; crop._center(); };
-    zoom.oninput = () => crop._zoom(parseFloat(zoom.value));
+    const zoomWrap = cropZoomSlider(crop, () => crop._center());
 
     const stage = el('div', 'crop-stage'); stage.style.position = 'relative';
     const imgBtns = el('div');
@@ -12229,26 +12263,30 @@ function renderThemeGridV2() {
   const COPY_SVG = '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
   const previewFor = t => {
     const preview = el('div', 'preview');
-    preview.style.background = t.bgImage ? `url(${t.bgImage}) center/cover` : t.bg;
+    const base = t.bgColorMode === 'gradient' ? gradientCss(themeGradient(t)) : t.bg;
+    preview.style.background = t.bgMode !== 'html' && t.bgImage ? `url("${t.bgImage}") center/cover, ${base}` : base;
+    if (!t.bubbleStyle || t.bubbleStyle === 'bubble') {
+      preview.classList.add('is-dialog-preview');
+      const left = el('div', 'bubble-preview has-tail-left', '왼쪽');
+      const right = el('div', 'bubble-preview has-tail-right', '오른쪽');
+      left.style.background = t.bubbleBg;
+      left.style.color = t.bubbleFg;
+      right.style.background = t.myBubbleBg || t.bubbleBg;
+      right.style.color = t.myBubbleFg || t.bubbleFg;
+      preview.append(left, right);
+      return preview;
+    }
     /* 말풍선 미리보기 */
     const bs = t.bubbleStyle || 'bubble';
     let bubbleClass = 'bubble-preview';
-    if (bs === 'bubble') bubbleClass += ' has-tail-left';
-    else if (bs === 'quote') bubbleClass += ' is-quote';
+    if (bs === 'quote') bubbleClass += ' is-quote';
     else if (bs === 'notif') bubbleClass += ' is-notif';
     else if (bs === 'sns') bubbleClass += ' is-sns';
     else if (bs === 'script') bubbleClass += ' is-script';
     else bubbleClass += ' is-none';
     const bubble = el('div', bubbleClass);
-    if (bs === 'bubble') {
-      bubble.style.background = t.bubbleBg;
-      bubble.style.color = t.bubbleFg;
-    } else if (bs === 'notif') {
-      bubble.style.background = t.notifBg || 'rgba(255,255,255,0.5)';
-      bubble.style.color = t.fg;
-    } else {
-      bubble.style.color = t.bubbleFg || t.fg;
-    }
+    if (bs === 'notif') bubble.style.background = t.notifBg || 'rgba(255,255,255,0.5)';
+    bubble.style.color = t.fg;
     const bubbleLabels = { bubble: '대화문', quote: '인용문', notif: '알림', sns: 'SNS', script: '대사', plain: '텍스트' };
     bubble.textContent = bubbleLabels[bs] || '텍스트';
     preview.appendChild(bubble);
@@ -12262,7 +12300,7 @@ function renderThemeGridV2() {
     current.setAttribute('role', 'status');
     current.setAttribute('aria-label', '현재 적용 중인 테마: ' + (active.name || '이름'));
     const info = el('div', 'current-info');
-    info.append(el('span', 'current-label', '현재 적용 중'), el('div', 'nm', active.name || '이름'));
+    info.append(el('span', 'current-label', '적용 중'), el('div', 'nm', active.name || '이름'));
     current.append(previewFor(active), info);
     const editBtn = el('button', 'edit-btn');
     editBtn.type = 'button';
@@ -12329,7 +12367,7 @@ function renderThemeGridV2() {
   impBtn.textContent = '📥 가져오기';
   impBtn.onclick = () => $('#settingsPick').click();
   ioRow.append(expBtn, impBtn);
-  pinned.appendChild(ioRow);
+  pinned.prepend(ioRow);
 }
 
 let themeDragSuppressUntil = 0;
@@ -12759,23 +12797,12 @@ function syncThemeEditFormV2() {
     if (isFit()) {
       const widthField = el('div', 'field');
 
-      widthField.appendChild(el('label', 'lab', '너비'));
-      const slideh = el('div', 'slideh');
-      const rng = el('input', 'rng');
-      rng.type = 'range';
-      rng.min = 300; rng.max = 1000; rng.step = 10; rng.value = c.width ?? 560;
-      const valWrap = el('div', 'slideh-val');
-      const valInp = el('input', 'val');
-      valInp.type = 'text';
-      valInp.value = c.width ?? 560;
-      valWrap.appendChild(valInp);
-      valWrap.appendChild(el('span', 'unit', 'px'));
-      rng.oninput = () => { c.width = +rng.value; valInp.value = c.width; up(); };
-      rng.onchange = () => save();
-      valInp.oninput = () => { c.width = +valInp.value || 560; rng.value = c.width; up(); };
-      valInp.onchange = () => save();
-      slideh.append(rng, valWrap);
-      widthField.appendChild(slideh);
+      const widthSlider = sliderH('너비', c.width ?? 560, 300, 1000, 10, value => {
+        c.width = value;
+        up();
+      }, 'px');
+      widthSlider.querySelector('.rng').onchange = save;
+      widthField.appendChild(widthSlider);
       canvasBody.appendChild(widthField);
     } else {
       /* 페이지 분할: 비율 */
@@ -12861,10 +12888,44 @@ function syncThemeEditFormV2() {
   backgroundTabs.setAttribute('role', 'group');
   backgroundTabs.setAttribute('aria-label', '배경 방식');
   for (const button of backgroundTabs.children) button.setAttribute('aria-pressed', String(button.classList.contains('is-on')));
-  const bgGrid = el('div', 'setting-grid');
-  bgGrid.appendChild(colorField('배경색', t.bg, v => { t.bg = v; up(); }));
-  bgGrid.appendChild(colorField('글자색', t.fg, v => { t.fg = v; up(); }));
-  bgBody.append(backgroundTabs, bgGrid);
+  const gradientOn = t.bgColorMode === 'gradient';
+  const colorTabs = segment([['solid', '단색'], ['gradient', '그라데이션']], gradientOn ? 'gradient' : 'solid', mode => {
+    if (mode === 'gradient') {
+      t.bgColorMode = mode;
+      t.bgGradient = themeGradient(t);
+    } else delete t.bgColorMode;
+    rerender();
+  });
+  colorTabs.setAttribute('role', 'group');
+  colorTabs.setAttribute('aria-label', '배경색 방식');
+  bgBody.append(backgroundTabs, colorTabs);
+
+  if (gradientOn) {
+    const gradient = themeGradient(t);
+    const updateGradient = (key, value) => {
+      gradient[key] = value;
+      t.bgGradient = { ...gradient };
+      up();
+    };
+    const stops = el('div', 'setting-grid');
+    stops.append(colorField('시작 색', gradient.start, value => updateGradient('start', value)),
+      colorField('끝 색', gradient.end, value => updateGradient('end', value)));
+    const typeTabs = segment([['linear', '선형'], ['radial', '방사형']], gradient.type, value => {
+      t.bgGradient = { ...gradient, type: value };
+      rerender();
+    });
+    typeTabs.setAttribute('role', 'group');
+    typeTabs.setAttribute('aria-label', '그라데이션 형태');
+    bgBody.append(stops, typeTabs);
+    if (gradient.type === 'linear') bgBody.appendChild(sliderH('방향', gradient.angle, 0, 360, 5,
+      value => updateGradient('angle', value), '°'));
+    bgBody.appendChild(colorField('글자색', t.fg, value => { t.fg = value; up(); }));
+  } else {
+    const bgGrid = el('div', 'setting-grid');
+    bgGrid.append(colorField('배경색', t.bg, value => { t.bg = value; up(); }),
+      colorField('글자색', t.fg, value => { t.fg = value; up(); }));
+    bgBody.appendChild(bgGrid);
+  }
   if (t.bgMode === 'html') {
     const field = settingGroup();
     field.classList.add('theme-bg-source');
@@ -13862,29 +13923,38 @@ function stepH(label, val, min, max, step, on, dec) {
   s.append(minus, i, plus); r.appendChild(s);
   return r;
 }
-function sliderH(label, val, min, max, step, on, suffix) {
-  const r = el('div', 'slideh');
-  r.appendChild(el('span', 'lab', label));
-  const i = el('input', 'rng');
-  i.type = 'range'; i.min = min; i.max = max; i.step = step; i.value = val;
-  const valueWrap = el('div', 'slideh-val');
-  const v = el('input'); v.type = 'text'; v.inputMode = 'numeric';
-  v.setAttribute('aria-label', label + ' 값');
-  valueWrap.appendChild(v);
-  if (suffix) valueWrap.appendChild(el('span', 'unit', suffix));
-  const paint = n => { v.value = String(Math.round(Number(n) || 0)); };
-  i.oninput = () => {
-    const n = clamp(Number(i.value) || 0, min, max);
-    paint(n); on(n);
+function sliderH(label, val, min, max, step, on, suffix, format = Math.round) {
+  const row = el('div', 'slideh');
+  const caption = el('div', 'slideh-caption');
+  const value = el('span', 'slideh-value');
+  caption.append(el('span', 'lab', label), value);
+  const input = el('input', 'rng');
+  input.type = 'range'; input.min = min; input.max = max; input.step = step;
+  input.setAttribute('aria-label', label);
+  const paint = () => {
+    const shown = String(format(Number(input.value))) + (suffix || '');
+    value.textContent = shown;
+    input.setAttribute('aria-valuetext', shown);
   };
-  v.onchange = () => {
-    const entered = parseFloat(v.value);
-    const n = Number.isFinite(entered) ? clamp(min + Math.round((entered - min) / step) * step, min, max) : +i.value;
-    i.value = n; paint(n); on(n);
+  row._setValue = next => { input.value = next; paint(); };
+  input.oninput = () => { paint(); on(Number(input.value)); };
+  row._setValue(val);
+  row.append(caption, input);
+  return row;
+}
+function cropZoomSlider(crop, onScale) {
+  let base = 1;
+  const row = sliderH('확대', 1, 1, 3, 'any', value => crop._zoom(value), '%',
+    value => Math.round(value / base * 100));
+  const input = row.querySelector('.rng');
+  crop._onScale = (min, current = min) => {
+    base = min;
+    input.min = min;
+    input.max = Math.max(min * 3, current);
+    row._setValue(current);
+    onScale?.();
   };
-  paint(val);
-  r.append(i, valueWrap);
-  return r;
+  return row;
 }
 function colorField(label, val, on) {
   let current = val;
@@ -16245,7 +16315,13 @@ $('#canvas').addEventListener('keydown', e => {
   };
   $('#zoomOut').onclick = () => step(-1);
   $('#zoomIn').onclick = () => step(1);
-  $('#zoomReset').onclick = () => setZoom(1);
+  const setFit = mode => {
+    S.ui.previewFit = mode;
+    setZoom(1);
+    stage.scrollTo(0, 0);
+  };
+  $('#zoomReset').onclick = () => setFit('width');
+  $('#zoomFitHeight').onclick = () => setFit('height');
 
   stage.addEventListener('wheel', e => {
     if (!(e.ctrlKey || e.metaKey)) return;
