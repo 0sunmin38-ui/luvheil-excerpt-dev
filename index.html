@@ -10841,8 +10841,6 @@ function buildImageEditor(host, block, initialSrc) {
     placementChoices.appendChild(button);
   });
   placementField.appendChild(placementChoices);
-  if (!canSideLayout()) placementField.appendChild(el('div', 'lab-sub',
-    '글과 나란히 배치는 비율 지정·1단에서, 글을 놓을 폭이 충분할 때 사용할 수 있습니다.'));
 
   const sideField = el('div', 'field');
   sideField.appendChild(el('span', 'lab', '사진 위치'));
@@ -10964,7 +10962,7 @@ function buildImageEditor(host, block, initialSrc) {
   syncSizeFields();
 
   crop.style.borderRadius = draft.round ? '10px' : '0';
-  wrap.append(body, placementField, sideField, ratioField, sizeField, alignField, roundToggle);
+  wrap.append(roundToggle, body, placementField, sideField, ratioField, sizeField, alignField);
   host.appendChild(wrap);
   applySize();
 
