@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="color-scheme" content="light only">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>🚬🍏 발췌해주는 사과</title>
+<title>오천원 안 줘도 발췌해주는 사과🚬🍏</title>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
 <style>
@@ -123,39 +123,16 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .app{display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden}
 
 .topbar{
-  --header-shadow-color:color-mix(in srgb,var(--c-secondary-hover) 20%,transparent);
-  --header-shadow:0 2px 5px var(--header-shadow-color);
   flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;
-  padding:8px var(--pad);background:transparent;
+  padding:8px var(--pad);background:var(--c-surface);border-bottom:1px solid var(--c-border);
   padding-top:calc(8px + env(safe-area-inset-top));
 }
-.brand{
-  min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-  font-size:var(--fs-title);font-weight:700;letter-spacing:-.008em;
-  padding:6px 16px;background:var(--c-surface-raised);border-radius:var(--r-full);
-  box-shadow:var(--header-shadow);
-}
-.brand-accent{color:var(--c-primary-text)}
-.topbar-actions{display:flex;align-self:stretch;gap:6px;flex-shrink:0}
-.topbar-actions .btn{width:36px;height:auto;padding:6px;border-radius:var(--r-md);box-shadow:var(--header-shadow)}
-.topbar-actions .btn-primary{--header-button-fill:var(--c-primary-fill)}
-.topbar-actions .btn-primary:hover{--header-button-fill:var(--c-primary-fill-hover)}
-.topbar-actions .btn-quiet{--header-button-fill:var(--c-surface-sunken)}
-.topbar-actions .btn-quiet:hover{--header-button-fill:var(--c-border)}
-.topbar-actions :is(.btn-primary,.btn-quiet){
-  background:var(--header-button-fill);
-  border-color:color-mix(in srgb,var(--header-button-fill) 75%,#fff);
-}
-.topbar-actions .btn > svg{width:16px;height:16px;flex:none}
-.topbar-actions .btn{
-  transition:background-color 120ms ease,border-color 120ms ease,box-shadow 120ms ease,transform 120ms ease;
-}
-.topbar-actions .btn:active:not(:disabled){transform:translateY(1px);box-shadow:0 1px 2px var(--header-shadow-color)}
-@media (prefers-reduced-motion:reduce){
-  .topbar-actions .btn{transition:none}
-  .topbar-actions .btn:active:not(:disabled){transform:none}
-}
-@media (max-width:400px){ .brand{padding-inline:12px} }
+.brand{font-size:var(--fs-title);font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+.topbar-actions{display:flex;gap:6px;min-width:0}
+.topbar-actions .btn{height:30px;padding:0 11px}
+/* 이름을 붙이면 셋을 합쳐 300px 가까이 된다 — 좁은 화면에서는 기호만 남긴다 */
+@media (max-width:560px){ .topbar-actions .btn-word{display:none} }
+@media (max-width:400px){ .brand{font-size:1;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis} .topbar-actions{flex:none} }
 .stage{
   flex:1; min-height:0; overflow:auto; display:flex; flex-direction:column; align-items:center;
   /* 스크롤바 자리를 늘 비워 둔다.
@@ -1551,7 +1528,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .settings-panel{overflow:clip;max-height:0;transition:max-height var(--dur-normal) var(--ease-out)}
 .settings-panel.is-open{max-height:var(--sheet-settings-h,55dvh)}
 .tab-slider{display:flex;transition:transform var(--dur-normal) var(--ease-out)}
-.tab-slider.is-switching-tab{transition:none}
 #charListView{order:0}#charEditView{order:1}
 #signListView{order:2}#signEditView{order:3}
 #themeListView{order:4}#themeEditView{order:5}
@@ -2031,13 +2007,6 @@ body:has(.sheet.is-settling) .stage{transition:none}
 /* btn-danger */
 .btn-danger{background:var(--c-danger-bg);border:1px solid var(--c-danger);color:var(--c-danger)}
 .btn-danger:hover{background:rgba(199,91,88,0.2)}
-/* 투명 헤더에서도 선택 삭제 버튼의 옅은 빨강은 흰 바탕 위에 표시한다. */
-#btnBulkDel:not(.is-on){
-  background:#fff linear-gradient(var(--c-danger-bg),var(--c-danger-bg));
-}
-#btnBulkDel:not(.is-on):hover{
-  background-image:linear-gradient(rgba(199,91,88,.2),rgba(199,91,88,.2));
-}
 .btn-danger.btn-fill{background:var(--c-danger);color:var(--c-text-inverse);border-color:var(--c-danger)}
 .btn-danger.btn-fill:hover{background:#B54A47}
 /* btn-outline danger */
@@ -2624,8 +2593,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   transform:scale(var(--control-press-scale));
 }
 @media (min-width:900px){
-  .sheet{--panel-shadow:0 2px 20px color-mix(in srgb,var(--c-secondary-hover) 20%,transparent);--block-editor-surface:var(--editor-well);background:transparent;border-color:transparent;padding-top:0}
-  .sheet .dock{filter:drop-shadow(var(--panel-shadow))}
+  .sheet{--block-editor-surface:var(--editor-well);background:var(--editor-well);border-color:var(--editor-line);padding-top:0}
   #btnSettings,#btnAdd{display:none}
   #desktopInsertTabs{
     display:flex;flex:0 0 auto;gap:4px;margin:12px 8px 10px;padding:4px;
@@ -2655,8 +2623,8 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   .sheet.desktop-text-editor .inp-group:focus-within{box-shadow:var(--editor-focus)}
   .sheet.desktop-text-editor #ta{min-height:64px;max-height:min(26vh,240px);line-height:1.6}
   .sheet:not(.desktop-text-editor) .sheet-head{display:none}
-  .sheet .sheet-body{background:var(--c-surface);border-color:var(--editor-line)}
-  .sheet .settings-panel > .tabs-line{background:var(--c-surface);border-color:var(--editor-line)}
+  .sheet .sheet-body{background:#F9FBF9;border-color:var(--editor-line)}
+  .sheet .settings-panel > .tabs-line{background:#F9FBF9;border-color:var(--editor-line)}
   .sheet .settings-content > .settings-list{gap:10px}
   .theme-edit-fields > .section + .section{margin-top:8px}
   .theme-edit-fields > .section{
@@ -2693,15 +2661,13 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
     #themeEditContent .grid2{grid-template-columns:repeat(2,minmax(0,1fr))}
   }
 }
-@media (min-width:1500px){
-  .sheet .sheet-body{margin:12px 8px 8px 0;border:1px solid var(--editor-line);border-radius:14px;box-shadow:var(--panel-shadow)}
-}
 @media (900px <= width < 1500px){
+  .sheet .dock{flex:1 1 auto;max-height:100%;padding-bottom:56px}
   .sheet.is-tools :is(#desktopBlockIntro,.sheet-head,#formatWrap,#desktopSpeakerChips){display:none}
   .desktop-tools-pane{
-    order:2;flex:0 1 auto;display:flex;flex-direction:column;margin:0 8px 8px;
+    position:absolute;inset-inline:8px;bottom:8px;z-index:7;display:flex;flex-direction:column;
     height:48px;min-height:48px;overflow:hidden;border:1px solid var(--editor-line);border-radius:12px;
-    background:var(--c-surface);box-shadow:var(--panel-shadow);transition:height var(--dur-normal) var(--ease-out);
+    background:#F9FBF9;transition:height var(--dur-normal) var(--ease-out);
   }
   .sheet.is-tools .desktop-tools-pane{height:calc(100% - 76px)}
   .desktop-tools-pane .sheet-body{
@@ -2712,6 +2678,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
     padding:10px var(--pad);background:var(--c-surface);
     color:var(--editor-active);font-size:13px;font-weight:800;
   }
+  .desktop-tools-toggle[aria-expanded="true"]{background:#F9FBF9}
   .desktop-tools-toggle svg{
     width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
     transition:transform var(--dur-fast) var(--ease-out);
@@ -2750,13 +2717,13 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 
 <div class="shell">
 <header class="topbar">
-  <span class="brand">🚬🍏 <span class="brand-accent">발췌</span>해주는 <span class="brand-accent">사과</span></span>
+  <span class="brand">오천원 안 줘도 발췌해주는 사과🚬🍏</span>
   <div class="topbar-actions">
-    <button type="button" class="btn btn-icon btn-danger" id="btnBulkDel" title="선택 삭제" aria-label="선택 삭제">
+    <button type="button" class="btn btn-icon btn-danger" id="btnBulkDel" title="선택 삭제">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
     </button>
-    <button type="button" class="btn btn-quiet" id="btnReset" title="초기화할 항목 선택" aria-label="초기화할 항목 선택">↺</button>
-    <button type="button" class="btn btn-primary" id="btnSave" title="캔버스를 PNG 로 저장" aria-label="캔버스를 PNG로 저장">💾</button>
+    <button type="button" class="btn btn-quiet" id="btnReset" title="초기화할 항목 선택">↺<span class="btn-word"> 초기화</span></button>
+    <button type="button" class="btn btn-primary" id="btnSave" title="캔버스를 PNG 로 저장">💾<span class="btn-word"> 저장</span></button>
   </div>
 </header>
 <!-- 설정 불러오기/내보내기 (테마 안으로 이동 예정) -->
@@ -11790,20 +11757,9 @@ function syncSettingsViews() {
 const tabOfView = v => Math.floor(v / 2);
 const SETTINGS_LISTS = [renderCharListV2, renderThemeGridV2, renderSignListV2];
 const settingsEditReturn = { character: null, theme: null, sign: null };
-let settingsTabFade = null;
 function setSettingsView(index) {
-  const slider = $('#tabSlider');
-  const previous = Number(slider.dataset.active || 0);
-  if (index !== previous) {
-    const switchingTab = tabOfView(index) !== tabOfView(previous);
-    slider.classList.toggle('is-switching-tab', switchingTab);
-    if (settingsTabFade) settingsTabFade.cancel();
-    settingsTabFade = null;
-    slider.dataset.active = String(index);
-    if (switchingTab && !$('#settingsPanel').inert && !matchMedia('(prefers-reduced-motion:reduce)').matches) {
-      settingsTabFade = slider.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 150, easing: 'ease-out' });
-    }
-  }
+  const previous = Number($('#tabSlider').dataset.active || 0);
+  $('#tabSlider').dataset.active = String(index);
   /* 전환 중 포커스가 화면 밖 폼으로 이동해도 바깥 상자를 가로로 밀지 않는다. */
   $('#settingsPanel').scrollLeft = 0;
   $('#sheetBody').scrollLeft = 0;
@@ -15503,7 +15459,7 @@ async function exportPNG() {
   button.disabled = true;
   button.setAttribute('aria-busy', 'true');
   button.setAttribute('aria-label', '이미지 만드는 중');
-  button.innerHTML = '<span class="save-spinner" aria-hidden="true">◌</span>';
+  button.innerHTML = '<span class="save-spinner" aria-hidden="true">◌</span><span class="btn-word"> 만드는 중</span>';
   syncOverlayLocks();
   try { await buildPNG(); }
   catch (error) { console.error(error); reportExportWarning('저장에 실패했습니다 · 다시 저장을 눌러주세요'); }
@@ -15960,14 +15916,7 @@ function renderFoot() {
 }
 
 /* ── 렌더 ────────────────────────────────────────────────── */
-let desktopToolsMotion = null;
 function render() {
-  const sheet = $('#sheet');
-  const toolsOpen = S.ui.stage === 'tools';
-  const tools = isWide() && !is2Panel() && sheet.classList.contains('is-tools') !== toolsOpen
-    && !matchMedia('(prefers-reduced-motion:reduce)').matches ? sheet.querySelector('.desktop-tools-pane') : null;
-  const toolsTop = tools?.getBoundingClientRect().top;
-  if (tools && desktopToolsMotion) desktopToolsMotion.cancel();
   const settingsView = Number($('#tabSlider').dataset.active);
   if (settingsView % 2 === 0) SETTINGS_LISTS[tabOfView(settingsView)]?.();
   else if (settingsView === 5 && !S.ui.signDraft) { renderSignListV2(); setSettingsView(4); }
@@ -15979,17 +15928,10 @@ function render() {
   renderFoot();
   renderBulkBar();
   $('#sheet').classList.toggle('is-format', S.ui.stage === 'format');
-  sheet.classList.toggle('is-tools', toolsOpen);
+  $('#sheet').classList.toggle('is-tools', S.ui.stage === 'tools');
   $('#sheet').classList.toggle('is-compact', S.ui.panel === 'compact');
   $('#sheet').classList.toggle('is-full', S.ui.panel === 'full');
   applySnap();
-  if (tools) {
-    const offset = toolsTop - tools.getBoundingClientRect().top;
-    desktopToolsMotion = tools.animate(
-      [{ transform: `translateY(${offset}px)` }, { transform: 'translateY(0)' }],
-      { duration: 250, easing: getComputedStyle(tools).getPropertyValue('--ease-out').trim() }
-    );
-  }
   requestAnimationFrame(measureSheet);
 }
 
