@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="color-scheme" content="light only">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>오천원 안 줘도 발췌해주는 사과🚬🍏</title>
+<title>🚬🍏 발췌해주는 사과</title>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
 <style>
@@ -115,20 +115,47 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
    ═══════════════════════════════════════════════════════════════ */
 /* 헤더가 생기면서 높이의 주인이 .app 에서 .shell 로 옮겨졌다.
    .app 은 남은 높이를 받아 쓰고, PC 에서는 그 안이 가로 2단이 된다. */
-.shell{display:flex;flex-direction:column;height:100vh;height:var(--app-vh,100dvh);min-height:100vh;overflow:hidden;background:var(--surface-app)}
+.shell{display:flex;flex-direction:column;height:100vh;height:var(--app-vh,100dvh);min-height:100vh;overflow:hidden;
+  --app-shadow-color:color-mix(in srgb,var(--c-secondary-hover) 70%,transparent);
+  background-color:var(--surface-app);
+  background-image:linear-gradient(135deg,color-mix(in srgb,var(--c-primary) 27%,#fffff8) 0%,#f8fbef 52%,color-mix(in srgb,var(--c-secondary) 48%,#fffff8) 100%);
+}
 .app{display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden}
 
 .topbar{
+  --header-shadow-color:color-mix(in srgb,var(--c-secondary-hover) 20%,transparent);
+  --header-shadow:0 2px 5px var(--header-shadow-color);
   flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;
-  padding:8px var(--pad);background:var(--c-surface);border-bottom:1px solid var(--c-border);
+  padding:8px var(--pad);background:transparent;
   padding-top:calc(8px + env(safe-area-inset-top));
 }
-.brand{font-size:var(--fs-title);font-weight:700;letter-spacing:-.01em;white-space:nowrap}
-.topbar-actions{display:flex;gap:6px;min-width:0}
-.topbar-actions .btn{height:30px;padding:0 11px}
-/* 이름을 붙이면 셋을 합쳐 300px 가까이 된다 — 좁은 화면에서는 기호만 남긴다 */
-@media (max-width:560px){ .topbar-actions .btn-word{display:none} }
-@media (max-width:400px){ .brand{font-size:1;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis} .topbar-actions{flex:none} }
+.brand{
+  min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-size:var(--fs-title);font-weight:700;letter-spacing:-.008em;
+  padding:6px 16px;background:var(--c-surface-raised);border-radius:var(--r-full);
+  box-shadow:var(--header-shadow);
+}
+.brand-accent{color:var(--c-primary-text)}
+.topbar-actions{display:flex;align-self:stretch;gap:6px;flex-shrink:0}
+.topbar-actions .btn{width:36px;height:auto;padding:6px;border-radius:var(--r-md);box-shadow:var(--header-shadow)}
+.topbar-actions .btn-primary{--header-button-fill:var(--c-primary-fill)}
+.topbar-actions .btn-primary:hover{--header-button-fill:var(--c-primary-fill-hover)}
+.topbar-actions .btn-quiet{--header-button-fill:var(--c-surface-sunken)}
+.topbar-actions .btn-quiet:hover{--header-button-fill:var(--c-border)}
+.topbar-actions :is(.btn-primary,.btn-quiet){
+  background:var(--header-button-fill);
+  border-color:color-mix(in srgb,var(--header-button-fill) 75%,#fff);
+}
+.topbar-actions .btn > svg{width:16px;height:16px;flex:none}
+.topbar-actions .btn{
+  transition:background-color 120ms ease,border-color 120ms ease,box-shadow 120ms ease,transform 120ms ease;
+}
+.topbar-actions .btn:active:not(:disabled){transform:translateY(1px);box-shadow:0 1px 2px var(--header-shadow-color)}
+@media (prefers-reduced-motion:reduce){
+  .topbar-actions .btn{transition:none}
+  .topbar-actions .btn:active:not(:disabled){transform:none}
+}
+@media (max-width:400px){ .brand{padding-inline:12px} }
 .stage{
   flex:1; min-height:0; overflow:auto; display:flex; flex-direction:column; align-items:center;
   /* 스크롤바 자리를 늘 비워 둔다.
@@ -150,20 +177,28 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
    캔버스는 transform 으로 줄어드는데 transform 은 자리를 안 줄여 준다 — 줄어든 만큼의
    자리는 이 상자가 대신 잡는다(크기는 fitCanvas 가 넣어 준다). */
 .canvas-fit{position:relative;overflow:visible}
+.canvas-fit > .canvas{box-shadow:0 2px 12px var(--app-shadow-color)}
+.preview-corner{
+  position:absolute;width:10px;height:10px;pointer-events:none;
+  color:color-mix(in srgb,var(--c-primary-text) 40%,#fffff8);
+  background:linear-gradient(currentColor,currentColor) center/100% 1px no-repeat,
+    linear-gradient(currentColor,currentColor) center/1px 100% no-repeat;
+}
+.preview-corner.is-top{top:-9px}
+.preview-corner.is-bottom{bottom:-9px}
+.preview-corner.is-left{left:-9px}
+.preview-corner.is-right{right:-9px}
 .stage .canvas [data-decoration-edit]{
   pointer-events:auto;cursor:pointer;transform-origin:var(--decoration-hover-origin,50% 50%)
 }
 .stage .canvas [data-decoration-edit]:focus-visible{outline:2px solid var(--c-primary);outline-offset:2px}
 @media (hover:hover) and (pointer:fine){
-  .shell:not([inert]) .stage .canvas [data-decoration-edit]{transition:scale .14s ease}
-  .shell:not([inert]) .stage .canvas [data-decoration-edit]:hover:not([data-decoration-empty]){scale:1.045}
+  .shell:not([inert]) .stage .canvas [data-decoration-edit]:hover{
+    outline:1px solid color-mix(in srgb,var(--c-primary-text) 55%,transparent);outline-offset:2px
+  }
   .shell:not([inert]) .stage .canvas:not(.bulk) .blk:not(.is-sel):hover{
     outline:1px solid color-mix(in srgb,currentColor 32%,transparent);outline-offset:3px
   }
-}
-@media (prefers-reduced-motion:reduce){
-  .shell:not([inert]) .stage .canvas [data-decoration-edit]{transition:none}
-  .shell:not([inert]) .stage .canvas [data-decoration-edit]:hover{scale:none}
 }
 .decoration-fields{margin-top:12px;gap:12px}
 .decoration-fields .field{margin:0}
@@ -189,7 +224,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   border:1px dashed var(--c-border-strong);background:var(--c-surface)
 }
 .decoration-photo:not(.has-photo) .decoration-photo-pick:hover{background:var(--c-surface-sunken)}
-/* 미리보기 컨트롤 묶음: 선택 삭제 막대 + 줌 컨트롤 */
+/* 선택 작업 바는 미리보기 상단에 둔다. */
 .preview-controls{
   position:fixed;top:calc(env(safe-area-inset-top) + 54px);left:calc((100vw - var(--sheet-w,0px))/2);
   transform:translateX(-50%);z-index:12;display:flex;flex-direction:column;align-items:center;gap:6px;
@@ -203,11 +238,16 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .preview-controls .bulk-row-top .btn{height:var(--ctl);flex:1;font-size:12px}
 .preview-controls .bulk-row-top .btn-danger.btn-fill{border-radius:var(--r-sm);background:var(--c-danger);border-color:var(--c-danger);color:#fff}
 .preview-zoom{
+  position:fixed;bottom:calc(12px + env(safe-area-inset-bottom));left:calc((100vw - var(--sheet-w,0px))/2);
+  transform:translateX(-50%);z-index:12;
   display:flex;align-items:center;gap:3px;padding:3px;
   background:rgba(255,255,255,.94);border:1px solid var(--c-border);border-radius:var(--r-full);
   box-shadow:0 3px 14px rgba(0,0,0,.12);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)
 }
 .preview-zoom button{min-width:34px;height:30px;padding:0 8px;border-radius:var(--r-full);font-size:13px;font-weight:700;color:var(--text)}
+@media (prefers-reduced-motion:no-preference){
+  .preview-zoom button{transition:background-color var(--dur-fast),color var(--dur-fast)}
+}
 .preview-zoom button:hover{background:var(--c-surface-sunken)}
 .preview-zoom button[aria-pressed="true"]{background:var(--c-primary-muted);color:var(--c-primary-text)}
 .preview-zoom .zoom-label{min-width:52px;font-size:10.5px;color:var(--c-text-secondary)}
@@ -215,7 +255,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 @media (max-width:899.98px){
   .preview-controls{position:fixed;top:calc(env(safe-area-inset-top) + 54px);left:0;right:0;width:100%;padding:0 var(--pad);transform:none;}
   .preview-controls .bulk-row-top{width:100%;max-width:none;}
-  .preview-controls .preview-zoom{display:none}
+  .preview-zoom{display:none}
 }
 /* 배경을 끌어서도 옮길 수 있다 — 손가락은 그냥 쓸어도 스크롤되지만
    마우스에는 스크롤바 말고 잡을 것이 필요하다. */
@@ -230,7 +270,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
   transform-origin:top left;
   background:var(--cv-bg,#fff); color:var(--cv-fg,#1A1A1A);
   aspect-ratio:var(--cv-ratio,1/1);
-  border-radius:6px; box-shadow:0 2px 20px rgba(0,0,0,.10);
+  border-radius:6px;
   padding:var(--cv-pt,32px) var(--cv-pr,32px) var(--cv-pb,32px) var(--cv-pl,32px);
   overflow:hidden; position:relative;
   display:flex; flex-direction:column; gap:var(--cv-gap,10px);
@@ -1511,6 +1551,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .settings-panel{overflow:clip;max-height:0;transition:max-height var(--dur-normal) var(--ease-out)}
 .settings-panel.is-open{max-height:var(--sheet-settings-h,55dvh)}
 .tab-slider{display:flex;transition:transform var(--dur-normal) var(--ease-out)}
+.tab-slider.is-switching-tab{transition:none}
 #charListView{order:0}#charEditView{order:1}
 #signListView{order:2}#signEditView{order:3}
 #themeListView{order:4}#themeEditView{order:5}
@@ -1990,6 +2031,13 @@ body:has(.sheet.is-settling) .stage{transition:none}
 /* btn-danger */
 .btn-danger{background:var(--c-danger-bg);border:1px solid var(--c-danger);color:var(--c-danger)}
 .btn-danger:hover{background:rgba(199,91,88,0.2)}
+/* 투명 헤더에서도 선택 삭제 버튼의 옅은 빨강은 흰 바탕 위에 표시한다. */
+#btnBulkDel:not(.is-on){
+  background:#fff linear-gradient(var(--c-danger-bg),var(--c-danger-bg));
+}
+#btnBulkDel:not(.is-on):hover{
+  background-image:linear-gradient(rgba(199,91,88,.2),rgba(199,91,88,.2));
+}
 .btn-danger.btn-fill{background:var(--c-danger);color:var(--c-text-inverse);border-color:var(--c-danger)}
 .btn-danger.btn-fill:hover{background:#B54A47}
 /* btn-outline danger */
@@ -2307,7 +2355,7 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
    ═══════════════════════════════════════════════════════════════ */
 @media (min-width:900px){
   .app{flex-direction:row}
-  .stage{padding:32px}
+  .stage{padding:32px 32px calc(64px + env(safe-area-inset-bottom))}
   /* 미리보기는 창 크기나 옆 막대에 따라 커졌다 작아졌다 하면 안 된다 — 한 값으로 못 박는다.
      캔버스 폭은 화면과 무관하게 :root 의 --canvas-w 하나로만 정해진다. */
   :root{--sheet-w:clamp(400px,34vw,496px)}
@@ -2576,7 +2624,8 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   transform:scale(var(--control-press-scale));
 }
 @media (min-width:900px){
-  .sheet{--block-editor-surface:var(--editor-well);background:var(--editor-well);border-color:var(--editor-line);padding-top:0}
+  .sheet{--panel-shadow:0 2px 20px color-mix(in srgb,var(--c-secondary-hover) 20%,transparent);--block-editor-surface:var(--editor-well);background:transparent;border-color:transparent;padding-top:0}
+  .sheet .dock{filter:drop-shadow(var(--panel-shadow))}
   #btnSettings,#btnAdd{display:none}
   #desktopInsertTabs{
     display:flex;flex:0 0 auto;gap:4px;margin:12px 8px 10px;padding:4px;
@@ -2606,8 +2655,8 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
   .sheet.desktop-text-editor .inp-group:focus-within{box-shadow:var(--editor-focus)}
   .sheet.desktop-text-editor #ta{min-height:64px;max-height:min(26vh,240px);line-height:1.6}
   .sheet:not(.desktop-text-editor) .sheet-head{display:none}
-  .sheet .sheet-body{background:#F9FBF9;border-color:var(--editor-line)}
-  .sheet .settings-panel > .tabs-line{background:#F9FBF9;border-color:var(--editor-line)}
+  .sheet .sheet-body{background:var(--c-surface);border-color:var(--editor-line)}
+  .sheet .settings-panel > .tabs-line{background:var(--c-surface);border-color:var(--editor-line)}
   .sheet .settings-content > .settings-list{gap:10px}
   .theme-edit-fields > .section + .section{margin-top:8px}
   .theme-edit-fields > .section{
@@ -2644,13 +2693,15 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
     #themeEditContent .grid2{grid-template-columns:repeat(2,minmax(0,1fr))}
   }
 }
+@media (min-width:1500px){
+  .sheet .sheet-body{margin:12px 8px 8px 0;border:1px solid var(--editor-line);border-radius:14px;box-shadow:var(--panel-shadow)}
+}
 @media (900px <= width < 1500px){
-  .sheet .dock{flex:1 1 auto;max-height:100%;padding-bottom:56px}
   .sheet.is-tools :is(#desktopBlockIntro,.sheet-head,#formatWrap,#desktopSpeakerChips){display:none}
   .desktop-tools-pane{
-    position:absolute;inset-inline:8px;bottom:8px;z-index:7;display:flex;flex-direction:column;
+    order:2;flex:0 1 auto;display:flex;flex-direction:column;margin:0 8px 8px;
     height:48px;min-height:48px;overflow:hidden;border:1px solid var(--editor-line);border-radius:12px;
-    background:#F9FBF9;transition:height var(--dur-normal) var(--ease-out);
+    background:var(--c-surface);box-shadow:var(--panel-shadow);transition:height var(--dur-normal) var(--ease-out);
   }
   .sheet.is-tools .desktop-tools-pane{height:calc(100% - 76px)}
   .desktop-tools-pane .sheet-body{
@@ -2661,7 +2712,6 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
     padding:10px var(--pad);background:var(--c-surface);
     color:var(--editor-active);font-size:13px;font-weight:800;
   }
-  .desktop-tools-toggle[aria-expanded="true"]{background:#F9FBF9}
   .desktop-tools-toggle svg{
     width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
     transition:transform var(--dur-fast) var(--ease-out);
@@ -2700,13 +2750,13 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 
 <div class="shell">
 <header class="topbar">
-  <span class="brand">오천원 안 줘도 발췌해주는 사과🚬🍏</span>
+  <span class="brand">🚬🍏 <span class="brand-accent">발췌</span>해주는 <span class="brand-accent">사과</span></span>
   <div class="topbar-actions">
-    <button type="button" class="btn btn-icon btn-danger" id="btnBulkDel" title="선택 삭제">
+    <button type="button" class="btn btn-icon btn-danger" id="btnBulkDel" title="선택 삭제" aria-label="선택 삭제">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
     </button>
-    <button type="button" class="btn btn-quiet" id="btnReset" title="초기화할 항목 선택">↺<span class="btn-word"> 초기화</span></button>
-    <button type="button" class="btn btn-primary" id="btnSave" title="캔버스를 PNG 로 저장">💾<span class="btn-word"> 저장</span></button>
+    <button type="button" class="btn btn-quiet" id="btnReset" title="초기화할 항목 선택" aria-label="초기화할 항목 선택">↺</button>
+    <button type="button" class="btn btn-primary" id="btnSave" title="캔버스를 PNG 로 저장" aria-label="캔버스를 PNG로 저장">💾</button>
   </div>
 </header>
 <!-- 설정 불러오기/내보내기 (테마 안으로 이동 예정) -->
@@ -2716,20 +2766,24 @@ button:disabled:not(.tgl-text button){opacity:0.5;cursor:default}
 
 <div class="app">
   <main class="stage" id="stage">
-    <!-- 미리보기 컨트롤 묶음: 선택 삭제 막대 + 줌 컨트롤 (캔버스 영역에 한정) -->
+    <!-- 선택 작업 바와 PC 하단 배율 바 -->
     <div class="preview-controls" id="previewControls">
       <div class="bulk-row-top" id="bulkRowTop" hidden></div>
-      <div class="preview-zoom" id="previewZoom" aria-label="미리보기 확대 축소">
-        <button type="button" id="zoomOut" aria-label="미리보기 축소">−</button>
-        <button type="button" class="zoom-label" id="zoomReset" title="가로 맞춤" aria-pressed="true">맞춤</button>
-        <button type="button" class="zoom-label" id="zoomFitHeight" aria-pressed="false">세로 맞춤</button>
-        <button type="button" id="zoomIn" aria-label="미리보기 확대">＋</button>
-      </div>
+    </div>
+    <div class="preview-zoom" id="previewZoom" role="group" aria-label="미리보기 확대 축소">
+      <button type="button" id="zoomOut" aria-label="미리보기 축소">−</button>
+      <button type="button" class="zoom-label" id="zoomReset" title="가로 맞춤" aria-pressed="true">맞춤</button>
+      <button type="button" class="zoom-label" id="zoomFitHeight" aria-pressed="false">세로 맞춤</button>
+      <button type="button" id="zoomIn" aria-label="미리보기 확대">＋</button>
     </div>
     <!-- 캔버스는 늘 제 논리 폭(--canvas-w)으로 짜인다. 화면이 그보다 좁으면 이 감싸개가
          통째로 줄여 보여 준다 — 저장되는 그림은 어느 기기에서든 같다. [fitCanvas] -->
     <div class="canvas-fit" id="canvasFit">
       <div class="canvas is-empty" id="canvas"></div>
+      <span class="preview-corner is-top is-left" aria-hidden="true"></span>
+      <span class="preview-corner is-top is-right" aria-hidden="true"></span>
+      <span class="preview-corner is-bottom is-left" aria-hidden="true"></span>
+      <span class="preview-corner is-bottom is-right" aria-hidden="true"></span>
     </div>
   </main>
 
@@ -7024,11 +7078,9 @@ function fitCanvas() {
   const w = cv.offsetWidth || 1, h = cv.offsetHeight || 1;
   const fitWidth = avail > 0 ? Math.min(1, avail / w) : 1;
   const fitHeightMode = isWide() && S.ui.previewFit === 'height';
-  const toolbar = $('#previewZoom');
   const top = parseFloat(cs.paddingTop) || 0;
   const bottom = parseFloat(cs.paddingBottom) || 0;
-  const toolbarInset = toolbar.getBoundingClientRect().bottom - stage.getBoundingClientRect().top + 8;
-  const usableHeight = Math.max(1, stage.clientHeight - top - bottom - 2 * Math.max(0, toolbarInset - top));
+  const usableHeight = Math.max(1, stage.clientHeight - top - bottom);
   const fit = fitHeightMode ? Math.min(fitWidth, usableHeight / h) : fitWidth;
   const zoom = clamp(Number(S.ui.previewZoom) || 1, PREVIEW_ZOOMS[0], PREVIEW_ZOOMS[PREVIEW_ZOOMS.length - 1]);
   const k = Math.min(4, fit * zoom);
@@ -11740,9 +11792,20 @@ function syncSettingsViews() {
 const tabOfView = v => Math.floor(v / 2);
 const SETTINGS_LISTS = [renderCharListV2, renderThemeGridV2, renderSignListV2];
 const settingsEditReturn = { character: null, theme: null, sign: null };
+let settingsTabFade = null;
 function setSettingsView(index) {
-  const previous = Number($('#tabSlider').dataset.active || 0);
-  $('#tabSlider').dataset.active = String(index);
+  const slider = $('#tabSlider');
+  const previous = Number(slider.dataset.active || 0);
+  if (index !== previous) {
+    const switchingTab = tabOfView(index) !== tabOfView(previous);
+    slider.classList.toggle('is-switching-tab', switchingTab);
+    if (settingsTabFade) settingsTabFade.cancel();
+    settingsTabFade = null;
+    slider.dataset.active = String(index);
+    if (switchingTab && !$('#settingsPanel').inert && !matchMedia('(prefers-reduced-motion:reduce)').matches) {
+      settingsTabFade = slider.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 150, easing: 'ease-out' });
+    }
+  }
   /* 전환 중 포커스가 화면 밖 폼으로 이동해도 바깥 상자를 가로로 밀지 않는다. */
   $('#settingsPanel').scrollLeft = 0;
   $('#sheetBody').scrollLeft = 0;
@@ -15442,7 +15505,7 @@ async function exportPNG() {
   button.disabled = true;
   button.setAttribute('aria-busy', 'true');
   button.setAttribute('aria-label', '이미지 만드는 중');
-  button.innerHTML = '<span class="save-spinner" aria-hidden="true">◌</span><span class="btn-word"> 만드는 중</span>';
+  button.innerHTML = '<span class="save-spinner" aria-hidden="true">◌</span>';
   syncOverlayLocks();
   try { await buildPNG(); }
   catch (error) { console.error(error); reportExportWarning('저장에 실패했습니다 · 다시 저장을 눌러주세요'); }
@@ -15899,7 +15962,14 @@ function renderFoot() {
 }
 
 /* ── 렌더 ────────────────────────────────────────────────── */
+let desktopToolsMotion = null;
 function render() {
+  const sheet = $('#sheet');
+  const toolsOpen = S.ui.stage === 'tools';
+  const tools = isWide() && !is2Panel() && sheet.classList.contains('is-tools') !== toolsOpen
+    && !matchMedia('(prefers-reduced-motion:reduce)').matches ? sheet.querySelector('.desktop-tools-pane') : null;
+  const toolsTop = tools?.getBoundingClientRect().top;
+  if (tools && desktopToolsMotion) desktopToolsMotion.cancel();
   const settingsView = Number($('#tabSlider').dataset.active);
   if (settingsView % 2 === 0) SETTINGS_LISTS[tabOfView(settingsView)]?.();
   else if (settingsView === 5 && !S.ui.signDraft) { renderSignListV2(); setSettingsView(4); }
@@ -15911,10 +15981,17 @@ function render() {
   renderFoot();
   renderBulkBar();
   $('#sheet').classList.toggle('is-format', S.ui.stage === 'format');
-  $('#sheet').classList.toggle('is-tools', S.ui.stage === 'tools');
+  sheet.classList.toggle('is-tools', toolsOpen);
   $('#sheet').classList.toggle('is-compact', S.ui.panel === 'compact');
   $('#sheet').classList.toggle('is-full', S.ui.panel === 'full');
   applySnap();
+  if (tools) {
+    const offset = toolsTop - tools.getBoundingClientRect().top;
+    desktopToolsMotion = tools.animate(
+      [{ transform: `translateY(${offset}px)` }, { transform: 'translateY(0)' }],
+      { duration: 250, easing: getComputedStyle(tools).getPropertyValue('--ease-out').trim() }
+    );
+  }
   requestAnimationFrame(measureSheet);
 }
 

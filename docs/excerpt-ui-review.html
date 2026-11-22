@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>사과 발췌기 · 디자인 제안</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#fffff8;color:#253129;font:16px/1.65 system-ui,sans-serif}
+main{max-width:1130px;margin:auto;padding:44px 20px}
+h1{font-size:clamp(30px,5vw,52px);line-height:1.15;letter-spacing:-.06em;margin:0 0 14px}
+h2{margin:34px 0 10px;font-size:23px} p{margin:0 0 12px} a{color:#28543c}
+button,select{font:inherit;color:inherit}button{cursor:pointer}
+button:focus-visible,select:focus-visible{outline:2px solid #28543c;outline-offset:3px}
+.controls{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:18px 0 10px;font-size:14px}
+.demo{--c-primary:#84bf93;--c-secondary:#f3eeb6;--grid:#356344;--chrome:#28543c;position:relative;overflow:hidden;border:1px solid #b7c2aa;border-radius:22px;background:linear-gradient(135deg,color-mix(in srgb,var(--c-primary) 27%,#fffff8) 0%,#f8fbef 52%,color-mix(in srgb,var(--c-secondary) 48%,#fffff8) 100%)}
+.crosses{position:absolute;inset:0;width:100%;height:100%;color:var(--grid);pointer-events:none}
+.appbar{position:relative;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 18px;font-weight:750}
+.brand{min-width:0;line-height:1.4}
+.primary{background:var(--chrome);color:#fff;border:0;border-radius:9px;padding:6px 12px;font-weight:700;white-space:nowrap;box-shadow:0 2px 5px #23392a29}
+.primary:active{transform:translateY(1px)}
+.layout{position:relative;display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);min-height:340px}
+.stage{position:relative;display:grid;place-items:center;padding:28px 20px 86px}
+.art{position:relative;width:min(90%,calc(208px * var(--zoom,1)));aspect-ratio:var(--ratio,4/3);background:#fffdf7;box-shadow:0 8px 20px #25312920;display:grid;place-items:center;text-align:center;transition:width .17s ease-out}
+.art strong{font-family:Georgia,serif;font-size:22px}
+.crop{position:absolute;width:8px;height:8px;color:color-mix(in srgb,var(--grid) 40%,#fffff8);pointer-events:none;
+  background:linear-gradient(currentColor,currentColor) center/100% 1px no-repeat,
+    linear-gradient(currentColor,currentColor) center/1px 100% no-repeat}
+.tl{top:-8px;left:-8px}.tr{top:-8px;right:-8px}
+.br{bottom:-8px;right:-8px}.bl{bottom:-8px;left:-8px}
+.ratio{position:absolute;top:calc(100% + 11px);right:0;font-size:11px;font-variant-numeric:tabular-nums}
+.zoom{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:3px;align-items:center;white-space:nowrap;border-radius:999px;background:#fffff3d9;backdrop-filter:blur(8px);padding:4px;box-shadow:0 4px 14px #25312926;font-size:13px}
+.zoom button{border:0;background:transparent;padding:4px 9px;border-radius:999px;transition:background .14s}
+.zoom button:hover,.zoom button[aria-pressed=true]{background:#dce9cc}
+.zoom output{min-width:40px;text-align:center;font-variant-numeric:tabular-nums}
+.sheet{margin:0 8px 8px 0;padding:15px;background:#fffff8;border:1px solid #d1d9c8;border-radius:14px;font-size:14px}
+.sheet p{margin-top:12px}.sample{border:1px solid #d3dbcb;background:#fff;border-radius:10px;padding:12px}
+.chip{display:inline-block;padding:2px 8px;background:#dce9cc;border-radius:999px}
+table{border-collapse:collapse;width:100%;text-align:left}th,td{padding:9px;border-bottom:1px solid #dde4d3;vertical-align:top}
+th[scope=row]{min-width:110px}code{font-size:.82em;overflow-wrap:anywhere}
+.small{font-size:14px;color:#4b594d}
+@media(max-width:899.98px){.zoom{display:none}}
+@media(max-width:620px){.layout{grid-template-columns:1fr}.stage{padding-bottom:48px}.sheet{margin:0 8px 8px}.appbar{padding-inline:10px}th,td{padding:6px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+<h1>사과 발췌기 디자인 제안</h1>
+<p>기존 Mint와 Pear 컬러를 옅게 섞어 작업대의 대각선 그라데이션을 만든다. 뒷판에는 4px 십자를 깔고, 캔버스 네 모서리에는 옅은 십자 표시를 둔다. 투명한 앱 바에는 기존 이름이 그대로 보인다.</p>
+<div class="controls">
+<label>캔버스 비율 <select id="ratio"><option value="4 / 3">4:3</option><option value="1 / 1">1:1</option><option value="9 / 16">9:16</option></select></label>
+</div>
+<div class="demo" id="demo">
+  <svg class="crosses" aria-hidden="true"><defs>
+    <pattern id="cross" width="22" height="22" patternUnits="userSpaceOnUse"><path d="M11 9v4m-2-2h4" fill="none" stroke="currentColor" stroke-opacity=".24"/></pattern>
+    <linearGradient id="fade" x2="0" y2="1"><stop stop-color="white" stop-opacity=".16"/><stop offset=".35" stop-color="white"/></linearGradient>
+    <mask id="grid-fade"><rect width="100%" height="100%" fill="url(#fade)"/></mask>
+  </defs><g mask="url(#grid-fade)"><rect width="100%" height="100%" fill="url(#cross)"/></g></svg>
+  <header class="appbar"><span class="brand">오천원 안 줘도 발췌해주는 사과🚬🍏</span><button class="primary" id="save" type="button">이미지 저장</button></header>
+  <div class="layout">
+    <section class="stage" aria-label="미리보기 작업 영역">
+      <div class="art" id="art"><i class="crop tl"></i><i class="crop tr"></i><i class="crop br"></i><i class="crop bl"></i><strong>오늘의 한 문장</strong><span class="ratio" id="ratio-label">4:3</span></div>
+      <div class="zoom" aria-label="배율·맞춤 바">
+        <button type="button" aria-label="축소" data-zoom="-10">−</button><output id="percent">100%</output><button type="button" aria-label="확대" data-zoom="10">＋</button>
+        <button type="button" data-fit="100" aria-pressed="true">가로 맞춤</button><button type="button" data-fit="height" aria-pressed="false">세로 맞춤</button>
+      </div>
+    </section>
+    <aside class="sheet" aria-label="편집 패널">
+      <span class="chip">본문</span>　이미지　HTML　구분선
+      <p class="sample">오늘의 한 문장</p>
+      <p><strong>결과물 설정</strong></p>캐릭터　서명　테마
+    </aside>
+  </div>
+</div>
+<p class="small" id="demo-status" role="status">캔버스 비율을 바꿔 볼 수 있는 목업. 브라우저 너비가 900px 이상이면 하단 배율 바도 체험할 수 있다.</p>
+
+<h2>레퍼런스에서 가져올 원리</h2>
+<ul>
+<li>Shoong의 청회색 미리보기는 흰 편집 패널과 명확히 구분되고, 보기 도구는 하단에 모인다. 사과 발췌기에서는 Mint·Pear 그라데이션과 십자 표시로 작업 영역의 인상을 만든다. <a href="https://tbdtbdp0.github.io/shoong.chat_formatter/">Shoong</a></li>
+<li>Chat2Img는 떠 있는 둥근 툴바와 카드별 표면을 사용한다. 여기서는 배율 바에 반투명 표면을 쓰고, 글을 오래 읽는 설정 영역에는 불투명 표면을 쓴다. <a href="https://purewith.me/Chat2Img/">Chat2Img</a></li>
+<li>십자만 반복해도 격자가 읽힌다. 22px마다 같은 크기의 4px 십자를 놓고 선 색을 옅게 적용한다. 캔버스 모서리 표시는 실제 비율과 함께 움직이고, 뒷판의 그리드는 화면 기준으로 고정한다. <a href="https://www.parthjadhav.com/products/portfolio-kit/components/background-pattern">Portfolio Kit의 cross 패턴</a></li>
+<li>하단 툴바에 배율을 두면 조작 위치가 일정하다. 사과 발췌기에서는 미리보기 영역의 가로 중심에 바를 고정한다. <a href="https://www.framer.com/help/articles/how-to-use-the-canvas/">Framer 캔버스 도구</a></li>
+</ul>
+
+<h2>영역별 디자인 변경안</h2>
+<table>
+<thead><tr><th scope="col">영역</th><th scope="col">현재 코드</th><th scope="col">제안</th></tr></thead>
+<tbody>
+<tr><th scope="row">앱 바</th><td><code>.topbar</code>, <code>.brand</code></td><td>투명 배경에 현재 서비스 이름을 표시한다. 앱 바 근처에서 십자 밀도는 유지하고 색을 옅게 한다. 투명 표면에서도 저장 버튼은 진녹색으로 읽힌다.</td></tr>
+<tr><th scope="row">미리보기 작업 영역<br>미리보기 뒷판</th><td><code>#stage</code>, <code>.shell</code></td><td>현재 <code>index.html</code>의 Mint <code>--c-primary: #84BF93</code>와 Pear <code>--c-secondary: #F3EEB6</code>를 사용한다. 좌상단은 Mint 27%, 우하단은 Pear 48%를 아이보리에 섞어 적용한다.</td></tr>
+<tr><th scope="row">배율·맞춤 바<br>선택 작업 바</th><td><code>#previewZoom</code>, <code>#bulkRowTop</code></td><td>배율·맞춤 바만 PC 미리보기 하단에 고정한다. 기존 모바일 숨김 동작을 유지하고 선택 작업 바는 현재처럼 상단에서 나타난다. PC에서 바 높이만큼 스크롤 여백을 확보한다.</td></tr>
+<tr><th scope="row">배율 래퍼<br>출력 캔버스</th><td><code>#canvasFit</code>, <code>#canvas</code></td><td>옅은 십자 표시 네 개와 실제 비율을 래퍼의 화면 표시용 레이어에 둔다. 비율을 바꾸면 표시가 모서리를 따라간다. 투명한 PNG에도 출력 배경과 테마의 설정이 그대로 반영된다.</td></tr>
+<tr><th scope="row">출력 배경·장식·본문</th><td><code>.cv-bg</code>, <code>.cv-frame</code>, <code>.cv-head</code>, <code>.blk</code>, <code>.canvas-signature</code></td><td>출력 배경은 편집기 뒷판과 별개로 테마에서 설정한다. 직접 편집 가능한 장식과 블록은 가는 녹색 포커스 링으로 선택 상태를 보여준다.</td></tr>
+<tr><th scope="row">작성 카드·서식 바<br>결과물 설정</th><td><code>#sheet</code>, <code>#dock</code>, <code>#formatWrap</code>, <code>#settingsPanel</code></td><td>아이보리 표면, 1px 테두리, 10~14px 모서리. 활성 탭에 연녹색을 쓰고 글 입력과 서식 바를 하나의 카드처럼 붙인다.</td></tr>
+<tr><th scope="row">저장 버튼·알림</th><td><code>#btnSave</code>, <code>#saveSheet</code>, <code>#toast</code></td><td>진녹색 단색 표면에 얕은 바깥 그림자를 적용한다. 누르면 버튼이 1px 내려간다. <a href="https://developer.apple.com/design/human-interface-guidelines/buttons">Apple 버튼 가이드</a> · <a href="https://developer.apple.com/design/human-interface-guidelines/materials">Apple 소재 가이드</a></td></tr>
+</tbody>
+</table>
+
+<h2>SVG와 움직임</h2>
+<ul>
+<li><strong>아이콘</strong>은 20~24px 그리드로 맞춘다. 가로·세로 맞춤 아이콘은 각진 ㄱ자 모서리와 방향 표시를 사용한다.</li>
+<li><strong>호버·선택</strong>은 약 140ms 동안 배경색을 바꾼다. 그리드는 스크롤과 확대 중에도 고정한다.</li>
+<li><strong>보기 전환</strong>은 맞춤 버튼을 눌렀을 때 약 170ms로 적용한다. 드래그·휠·연속 확대에는 동작을 지연시키지 않고, 모션 감소 설정에서는 즉시 반영한다.</li>
+</ul>
+</main>
+<script>
+const art = document.querySelector('#art');
+const zoomButtons = document.querySelectorAll('.zoom button');
+let zoom = 100;
+document.querySelector('#ratio').addEventListener('change', event => {
+  art.style.setProperty('--ratio', event.target.value);
+  document.querySelector('#ratio-label').textContent = event.target.selectedOptions[0].text;
+});
+for (const button of zoomButtons) {
+  button.addEventListener('click', () => {
+    const fit = button.dataset.fit;
+    const [width, height] = document.querySelector('#ratio').value.split('/').map(Number);
+    zoom = fit === 'height' ? Math.round(170 * width / height / 208 * 100) : fit ? 100 : Math.max(35, Math.min(140, zoom + Number(button.dataset.zoom)));
+    art.style.setProperty('--zoom', zoom / 100);
+    document.querySelector('#percent').value = zoom + '%';
+    for (const choice of document.querySelectorAll('[data-fit]')) {
+      choice.setAttribute('aria-pressed', String(choice === button));
+    }
+  });
+}
+document.querySelector('#save').addEventListener('click', () => {
+  document.querySelector('#demo-status').textContent = '목업에서 저장 버튼의 눌림 동작을 확인했습니다. 실제 저장은 발췌기에서 할 수 있습니다.';
+});
+</script>
+</body>
+</html>
