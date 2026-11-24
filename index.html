@@ -8863,18 +8863,17 @@ function renderPageMarks() {
   const footReserve = dmFoot ? dmh : foot ? fh + SIGNATURE_EDGE : decorFootHeight ? decorFootHeight + gap : 0;
   const hold = headHold + footReserve;
   pageRangeHold = hold;
-  /* 장을 세기 «전에» 쪼개 둔다 — 한 단에 안 들어가는 글은 여기서 여러 블록이 되고,
-     그다음부터는 pageRanges 가 그 사이를 끊을 수 있다 [splitTallRows]. */
-  /* 엔진별 Range 줄 위치·문자 수 추정보다 실제 조각 높이를 공통 기준으로 쓴다. */
-  const splitBudget = pageBox().inner - hold, splitAt = performance.now();
-  diag('split:start', { budget: Math.round(splitBudget), rows: flowRows().length });
-  try {
-    splitTallRowsMeasured(splitBudget, hold);
-    diag('split:done', { ms: Math.round(performance.now() - splitAt), rows: flowRows().length });
-  } catch (e) {
-    diag('split:error', { name: e && e.name || 'Error', message: String(e && e.message || '').slice(0, 180) });
-    /* 분할 실패 시 원본 유지 — 저장 자체는 진행한다 */
-  }
+  /* 긴 서술 자동 분할은 임시 중지했다. 원래는 장을 세기 전에 글을 쪼갰다. */
+  const splitBudget = pageBox().inner - hold;
+  // 긴 서술 자동 분할 임시 중지. 다시 켤 때 측정·진단 호출도 함께 복원한다.
+  // const splitAt = performance.now();
+  // diag('split:start', { budget: Math.round(splitBudget), rows: flowRows().length });
+  // try {
+  //   splitTallRowsMeasured(splitBudget, hold);
+  //   diag('split:done', { ms: Math.round(performance.now() - splitAt), rows: flowRows().length });
+  // } catch (e) {
+  //   diag('split:error', { name: e && e.name || 'Error', message: String(e && e.message || '').slice(0, 180) });
+  // }
   const oversizedProse = flowRows().find(row => row.querySelector('.blk-text') && row.offsetHeight > splitBudget);
   if (oversizedProse) cv.dataset.paginationOverflow = oversizedProse.dataset.id || 'text';
   const rangeAt = performance.now();
@@ -10298,7 +10297,8 @@ function groupSidePages(cv, blocks) {
       body.appendChild(row);
       if (body.scrollHeight > body.clientHeight + 1) {
         cv.insertBefore(row, following);
-        splitProseForSide(row, body);
+        // 사진 옆 긴 서술 분할 임시 중지. 글 블록 전체를 다음 자리로 보낸다.
+        // splitProseForSide(row, body);
         break;
       }
       row = following;
